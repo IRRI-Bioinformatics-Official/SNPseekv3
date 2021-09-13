@@ -1,0 +1,753 @@
+<zk>
+	<n:div xmlns:n="native">
+		<n:script src="assets/js/jquery.min.js" />
+		<n:script src="assets/bootstrap/js/bootstrap.min.js" />
+		<n:script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js" />
+
+		<n:script src="assets/js/Collapsible-Sidebar.js" />
+		<n:script src="assets/js/Material-Text-Input.js" />
+		<style src="assets/bootstrap/css/bootstrap.min.css" />
+		<style
+			src="https://fonts.googleapis.com/css?family=Nunito+Sans" />
+		<style src="https://fonts.googleapis.com/css?family=Poppins" />
+		<style src="https://fonts.googleapis.com/css?family=Roboto" />
+		<style src="https://fonts.googleapis.com/css?family=Rubik" />
+		<style src="assets/fonts/fontawesome-all.min.css" />
+		<style src="assets/fonts/font-awesome.min.css" />
+		<style src="assets/fonts/fontawesome5-overrides.min.css" />
+		<style src="assets/css/Footer-Dark.css" />
+		<style src="assets/css/styles.css" />
+		<style src="assets/css/styles_genotype.css" />
+		<style src="assets/css/Collapsible-Sidebar.css" />
+		<style
+			src="assets/css/Vertical-Left-SideBar-by-Jigar-Mistry.css" />
+
+
+
+		<window id="genWin" border="none"
+			apply="demo.DemoWindowComposer" width="100%" height="100%">
+
+			<n:div id="bodyContent">
+				<n:div class="wrapper">
+					<!-- Sidebar Holder -->
+					<n:nav id="genotypeSearchSidebar">
+						<n:div class="container">
+							<n:form style="margin: 10px;">
+								<n:br />
+								<n:br />
+
+								<div class="form-row"
+									style="width: 500px;">
+									<div
+										class="col-xl-3 offset-xl-0 text-left">
+										<div class="form-group">
+											<div class="text-left">
+												<label
+													class="text-right"
+													style="color: rgb(0,0,0);font-size: 14px;">
+													Reference Genome
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col offset-xl-0">
+										<div class="form-group">
+											<n:input type="text"
+												class="form-control" />
+										</div>
+									</div>
+								</div>
+								<div class="form-row"
+									style="width: 500px;">
+									<div class="col-xl-3 offset-xl-0">
+										<div class="form-group">
+											<div class="text-left">
+												<label
+													class="text-right"
+													style="color: rgb(0,0,0);font-size: 14px;">
+													Search By
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col offset-xl-0">
+										<div class="form-group">
+											<n:input type="text"
+												class="form-control" />
+										</div>
+									</div>
+								</div>
+								<div class="form-row"
+									style="width: 500px;">
+									<div class="col-xl-3 offset-xl-0">
+										<div class="form-group">
+											<div class="text-left">
+												<label
+													class="text-right"
+													style="color: rgb(0,0,0);font-size: 14px;">
+													Gene Model
+
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col offset-xl-0">
+										<div class="form-group">
+											<n:input type="text"
+												class="form-control" />
+										</div>
+									</div>
+								</div>
+								
+								<n:br />
+								<n:br />
+								<n:div class="form-row"
+									style="width: 500px;">
+									<n:div class="col">
+
+										<n:div class="text-right">
+											<button id="searchButton3"
+												label="Search" />
+										</n:div>
+									</n:div>
+									<n:div class="col">
+										<n:div class="text-left">
+											<button label="Reset"
+												onClick="" />
+										</n:div>
+
+									</n:div>
+								</n:div>
+							</n:form>
+						</n:div>
+
+					</n:nav>
+
+
+					<n:div id="content">
+						<n:div id="topNav">
+							<n:nav
+								class="sidebar_navbar navbar-expand-lg navbar-light bg-light">
+								<n:div class="container-fluid"
+									style="background-color: #cadfd1ab;">
+
+									<n:button type="button"
+										id="sidebarCollapse" class="sidebar_navbar-btn">
+										<n:span></n:span>
+										<n:span></n:span>
+										<n:span></n:span>
+									</n:button>
+									<button id="showDashboard"
+										iconSclass="z-icon-th-large" hflex="1" label="Dashboard"
+										visible="false" style="margin-left:10px;" />
+									<n:div
+										class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+										style="flex-grow: 100;margin-left:50px;width:80%;">
+										<n:input type="text"
+											id="FormInput" class="mdl-textfield__input"
+											style="border-radius: 0px;border-bottom-color: rgba(0,0,0,0.5);" />
+										<n:label
+											class="mdl-textfield__label" for="emailFormInput"
+											style="color: rgba(0,0,0,0.5);font-size:12px">
+											RESULT: 0 varieties x 0
+											SNPS 
+										</n:label>
+									</n:div>
+								</n:div>
+
+							</n:nav>
+						</n:div>
+
+						<n:div>
+							<n:div class="mainDiv-Sidebar" >
+								<div id="sideBarDiv" visible="false">
+									<n:div class="main-leftsidebar-div"
+										data-component="leftsidebar">
+										<n:div class="leftsidebar"
+											style="z-index:3000">
+											<n:ul
+												class="nav list-group flex-column d-inline-block first-menu scrollbar-indigo thin first-main-menu">
+												<div id="resultDiv"
+													style="z-index:40001">
+													<checkbox
+														id="resultPanelBox" visible="false" />
+													<n:li
+														class="nav-item list-group-item pl-1 py-2">
+														<a
+															class="nav-link" href="#"
+															style="border-color: rgb(82, 154, 111);color: rgb(82, 154, 111);">
+															<n:i
+																class="fa fa-table">
+																<span
+																	id="resultSpan" class="ml-2 align-middle">
+																	Result
+																</span>
+															</n:i>
+														</a>
+													</n:li>
+												</div>
+												<div id="resultDiv2"
+													style="z-index:40001">
+													<checkbox
+														id="resultPanelBox2" visible="false" />
+													<n:li
+														class="nav-item list-group-item pl-1 py-2">
+														<a
+															class="nav-link" href="#"
+															style="color: rgb(82, 154, 111);">
+															<n:i
+																class="fa fa-pie-chart">
+
+																<span
+																	id="resultSpan2" class="ml-2 align-middle">
+																	Allele
+																	Frequency
+																</span>
+															</n:i>
+														</a>
+
+													</n:li>
+												</div>
+												<div id="resultDiv3"
+													style="z-index:40001">
+													<checkbox
+														id="resultPanelBox3" visible="false" />
+													<n:li
+														class="nav-item list-group-item pl-1 py-2">
+														<a
+															class="nav-link" href="#"
+															style="color: rgb(82, 154, 111);">
+															<n:i
+																class="fa fa-pie-chart">
+
+																<span
+																	id="resultSpan3" class="ml-2 align-middle">
+																	SNP-effects
+																</span>
+															</n:i>
+														</a>
+
+													</n:li>
+												</div>
+												<div id="resultDiv4"
+													style="z-index:40001">
+													<checkbox
+														id="resultPanelBox4" visible="false" />
+													<n:li
+														class="nav-item list-group-item pl-1 py-2">
+														<a
+															class="nav-link" href="#"
+															style="color: rgb(82, 154, 111);">
+															<n:i
+																class="fa fa-align-left">
+																<span
+																	id="resultSpan4" class="ml-2 align-middle">
+																	Jbrowse
+																</span>
+															</n:i>
+														</a>
+
+													</n:li>
+												</div>
+												<div id="resultDiv5"
+													style="z-index:40001">
+													<checkbox
+														id="resultPanelBox5" visible="false" />
+													<n:li
+														class="nav-item list-group-item pl-1 py-2">
+														<a
+															class="nav-link" href="#"
+															style="color: rgb(82, 154, 111);">
+															<n:i
+																class="fa fa-sliders">
+																<span
+																	id="resultSpan5" class="ml-2 align-middle">
+																	Haplotype
+																	View
+																</span>
+															</n:i>
+														</a>
+
+													</n:li>
+												</div>
+												<div id="resultDiv6"
+													style="z-index:40001">
+													<checkbox
+														id="resultPanelBox6" visible="false" />
+													<n:li
+														class="nav-item list-group-item pl-1 py-2">
+														<a
+															class="nav-link" href="#"
+															style="color: rgb(82, 154, 111);">
+															<n:i
+																class="fa fa-file">
+																<span
+																	id="resultSpan6" class="ml-2 align-middle">
+																	Compare
+																	Genomes
+																</span>
+															</n:i>
+														</a>
+
+													</n:li>
+												</div>
+												<div id="resultDiv7"
+													style="z-index:40001">
+													<checkbox
+														id="resultPanelBox7" visible="false" />
+													<n:li
+														class="nav-item list-group-item pl-1 py-2">
+														<a
+															class="nav-link" href="#"
+															style="color: rgb(82, 154, 111);">
+															<n:i
+																class="fa fa-line-chart">
+																<span
+																	id="resultSpan7" class="ml-2 align-middle">
+																	MDS
+																	Plot
+																</span>
+															</n:i>
+														</a>
+
+													</n:li>
+												</div>
+												<div id="resultDiv8"
+													style="z-index:40001">
+													<checkbox
+														id="resultPanelBox8" visible="false" />
+													<n:li
+														class="nav-item list-group-item pl-1 py-2">
+														<a
+															class="nav-link" href="#"
+															style="color: rgb(82, 154, 111);">
+															<n:i
+																class="fa fa-wrench">
+																<span
+																	id="resultSpan8" class="ml-2 align-middle">
+																	Galaxy
+																	Tools
+																</span>
+															</n:i>
+														</a>
+													</n:li>
+												</div>
+												<n:li
+													class="nav-item list-group-item pl-1 py-2">
+													<a class="nav-link"
+														href="#" style="color: rgb(82, 154, 111);">
+														<n:i
+															class="fa fa-window-restore">
+															<span
+																id="resultSpan9" class="ml-2 align-middle">
+																Cascade
+																Windows
+															</span>
+														</n:i>
+													</a>
+												</n:li>
+											</n:ul>
+										</n:div>
+									</n:div>
+								</div>
+								<div id="initDiv">
+									<n:div id="stepsDiv"
+										style="height: 144px;">
+										<n:div
+											class="container steps-container">
+											<n:div class="row"
+												style="height: 100%;">
+												<n:div
+													class="col-6 col-sm-4 col-md-2 col-lg-3 process-step"
+													style="width: 350px;height: 100%;">
+													<n:div
+														class="primary-color primary-background-color step-base">
+														<n:strong
+															class="step-title">
+															Step 1
+														</n:strong>
+														<n:p
+															class="step-short-desc"
+															style="font-size: 12px;color: rgb(255,255,255);">
+															Select two varieties to compare.
+															<n:br />
+														</n:p>
+													</n:div>
+													<n:div
+														class="step-caption"
+														style="width: 550px;height: 950px;">
+														<n:div
+															class="secondary-color secondary-background-color caption-content"
+															style="width: 550px;height: 450px;">
+															<n:img
+																class="rounded" src="assets/img/genotype_query1.png" />
+														</n:div>
+													</n:div>
+												</n:div>
+												<n:div
+													class="col-6 col-sm-4 col-md-2 col-lg-3 process-step"
+													style="width: 350px;">
+													<n:div
+														class="primary-color primary-background-color step-base"
+														style="width: 250px;">
+														<n:strong
+															class="step-title">
+															Step 2
+														</n:strong>
+														<n:p
+															class="step-short-desc"
+															style="font-size: 12px;color: rgb(255,255,255);">
+															Specify region
+															<n:br />
+														</n:p>
+													</n:div>
+													<n:div
+														class="step-caption" style="width: 350px;">
+														<n:div
+															class="secondary-color secondary-background-color caption-content"
+															style="width: 225px;">
+															<n:p
+																style="font-size: 12px;width: 250px;color: rgb(0,0,0);">
+																Select
+																chromosome, start and end
+																<n:br />
+																<n:br />
+																OR 
+																<n:br />
+																<n:br />
+																Select
+																Gene LOC_Os 
+																<n:br />
+																(MSU locus name)
+																<n:br />
+																<n:br />
+															</n:p>
+														</n:div>
+													</n:div>
+												</n:div>
+												<n:div
+													class="col-6 col-sm-4 col-md-2 col-lg-3 process-step"
+													style="width: 350px;">
+													<n:div
+														class="primary-color primary-background-color step-base"
+														style="width: 250px;">
+														<n:strong
+															class="step-title">
+															Step 3
+														</n:strong>
+														<n:p
+															class="step-short-desc"
+															style="font-size: 12px;color: rgb(255,255,255);">
+															Set options and click action button
+															<n:br />
+															<n:br />
+														</n:p>
+													</n:div>
+													<n:div
+														class="step-caption" style="width: 350px;">
+														<n:div
+															class="secondary-color secondary-background-color caption-content"
+															style="width: 225px;height: 250px;">
+															<n:p
+																style="font-size: 14px;width: 350px;color: rgb(0,0,0);">
+																<n:br />
+																(Optional)
+																Select
+																Advance
+																or other
+																options.
+															</n:p>
+														</n:div>
+													</n:div>
+												</n:div>
+												<n:div
+													class="col-6 col-sm-4 col-md-2 col-lg-3 process-step"
+													style="width: 350px;">
+													<n:div
+														class="primary-color primary-background-color step-base"
+														style="width: 250px;">
+														<n:strong
+															class="step-title">
+															Results
+														</n:strong>
+														<n:p
+															class="step-short-desc"
+															style="font-size: 12px;color: rgb(255,255,255);">
+															Set options and click action button
+															<n:br />
+															<n:br />
+														</n:p>
+													</n:div>
+													<n:div
+														class="step-caption" style="width: 350px;">
+														<n:div
+															class="secondary-color secondary-background-color caption-content"
+															style="width: 250px;height: 400px;">
+															<n:p
+																style="font-size: 12px;width: 350px;color: rgb(0,0,0);">
+																Table: 
+																<n:br />
+																Allele for Varieties x SNP positions   
+																<n:br />
+																<n:br />
+																JBrowse: SNPs plot in genome   
+																<n:br />
+																<n:br />
+																Tree: Phylogenetic tree based on the 
+																<n:br />
+																number
+																of allele mismatches in 
+																<n:br />
+																the region
+																<n:br />
+																   
+																<n:br />
+																PhyloJBrowse: SNPs in JBrowse with 
+																<n:br />
+																varieties
+																ordered using phylotree 
+																<n:br />
+																clustering result.
+																<n:br />
+																<n:br />
+																<n:br />
+															</n:p>
+														</n:div>
+													</n:div>
+												</n:div>
+											</n:div>
+										</n:div>
+									</n:div>
+								</div>
+								<n:div
+									style="padding-left:100px;padding-top:25px;display:block;height:1500px">
+									<panel id="panelBox"
+										class="panelGenotype" title="Table Result" framable="true"
+										width="400px" height="400px" maximizable="true"
+										minimizable="false" border="rounded" collapsible="true"
+										sizable="true" movable="true" floatable="true"
+										closable="false"
+										style="background-color:rgb(90,181, 109);font-size:12px;top:100px; left:35%;position:absolute;"
+										visible="false">
+
+										<panelchildren>
+											<vlayout width="100%"
+												height="100%">
+												<biglistbox id="myComp"
+													hflex="1" vflex="1" xmlns:w="client"
+													w:onScroll="jq('$tip').fadeOut();"
+													style="font-size:10px">
+
+												</biglistbox>
+											</vlayout>
+											<div id="tip"
+												class="tooltip" visible="false" width="280px">
+												<div
+													class="tooltip-anchor">
+													<div
+														class="tooltip-anchor-inner">
+													</div>
+												</div>
+												<div
+													class="tooltip-content">
+													<hlayout
+														valign="bottom">
+														<label
+															value="Edit Data:" style="font-size: 14px" />
+														<textbox
+															id="content" />
+														<button
+															id="update" label="Update" mold="trendy"
+															style="text-shadow: none;" />
+													</hlayout>
+												</div>
+											</div>
+										</panelchildren>
+									</panel>
+									<panel id="panel2"
+										title="Allele Frequency" framable="true" width="400px"
+										sizable="true" height="400px" maximizable="true"
+										minimizable="false" border="rounded" collapsible="true"
+										closable="false"
+										style="background-color:rgb(90, 181, 109);font-size:12px;top:160px;left:38%; position:absolute;"
+										movable="true" floatable="true" class="panelGenotype"
+										visible="false">
+
+										<panelchildren>
+											<hbox
+												id="hboxAlleleFrequency">
+												<vbox width="200px">
+
+													<radiogroup
+														id="radiogroupAllelefreqcount" />
+													<radiogroup
+														id="radiogroupMajorminor" />
+													<hbox height="30px" />
+													<radio
+														id="radioShowAlleleFrequency"
+														label="Show allele frequency"
+														radiogroup="radiogroupAllelefreqcount" selected="true"
+														style="font-size:12px;" />
+													<radio
+														id="radioShowAlleleCount" label="Show allele count"
+														radiogroup="radiogroupAllelefreqcount"
+														style="font-size:12px;" />
+													<radio
+														id="radioShowGenotypeFrequency"
+														label="Show genotype frequency"
+														radiogroup="radiogroupAllelefreqcount"
+														style="font-size:12px;" />
+													<radio
+														id="radioShowGenotypeCount" label="Show genotype count"
+														radiogroup="radiogroupAllelefreqcount"
+														style="font-size:12px;" />
+													<hbox height="10px" />
+													<radio
+														id="radioMajorAlleles" label="Major alleles"
+														radiogroup="radiogroupMajorminor" selected="true"
+														style="font-size:12px;" />
+													<radio
+														id="radioMinorAlleles" label="Minor alleles"
+														radiogroup="radiogroupMajorminor" style="font-size:12px;" />
+													<radio
+														id="radio3rdAlleles" label="3rd alleles"
+														radiogroup="radiogroupMajorminor" style="font-size:12px;" />
+													<radio
+														id="radio4thAlleles" label="4th alleles"
+														radiogroup="radiogroupMajorminor" visible="false"
+														style="font-size:12px;" />
+													<hbox height="10px" />
+													<label
+														value="Click in legend to hide/show series"
+														style="font-size:12px;" />
+													<button
+														id="buttonResetzoom" label="Reset Zoom" visible="false" />
+												</vbox>
+
+												<charts
+													id="chartAlleleFrequency" type="line"
+													title="Allele frequency" width="1000" height="400"
+													zoomType="xy" />
+											</hbox>
+										</panelchildren>
+									</panel>
+									<panel id="panel3"
+										title="SNP effects" framable="true" width="400px"
+										height="400px" maximizable="true" minimizable="false"
+										border="rounded+" collapsible="true" closable="false"
+										sizable="true"
+										style="background-color:rgb(90, 181, 109);font-size:12px;top:220px; left:41%;position:absolute;"
+										movable="true" floatable="true" class="panelGenotype"
+										visible="false">
+
+										<panelchildren>
+
+
+										</panelchildren>
+									</panel>
+
+									<panel id="panel4" title="Jbrowse"
+										framable="true" width="400px" height="400px"
+										maximizable="true" minimizable="false" border="rounded+"
+										collapsible="true" closable="false" sizable="true"
+										style="background-color:rgb(90, 181, 109);font-size:12px;top:280px; left:45%;position:absolute;"
+										movable="true" floatable="true" class="panelGenotype"
+										visible="false">
+
+										<panelchildren>
+											<iframe id="iframeJbrowse"
+												align="left" visible="true"
+												style="width:100%;height:100%;border:0px inset;"
+												src="${jbrowsestart}" />
+
+										</panelchildren>
+									</panel>
+									<panel id="panel5"
+										title="Haplotype View" framable="true" width="400px"
+										height="400px" maximizable="true" minimizable="false"
+										border="rounded+" collapsible="true" closable="false"
+										sizable="true"
+										style="background-color:rgb(90, 181, 109);font-size:12px;top:100px; left:70%;position:absolute;"
+										movable="true" floatable="true" class="panelGenotype"
+										visible="false">
+
+										<panelchildren>
+
+
+										</panelchildren>
+									</panel>
+									<panel id="panel6"
+										title="Compare Genomes" framable="true" width="400px"
+										height="400px" maximizable="true" minimizable="false"
+										border="rounded+" collapsible="true" closable="false"
+										sizable="true"
+										style="background-color:rgb(90, 181, 109);font-size:12px;top:160px; left:73%;position:absolute;"
+										movable="true" floatable="true" class="panelGenotype"
+										visible="false">
+
+										<panelchildren>
+
+
+										</panelchildren>
+									</panel>
+									<panel id="panel7" title="MDS Plot"
+										framable="true" width="400px" height="400px"
+										maximizable="true" minimizable="false" border="rounded+"
+										collapsible="true" closable="false" sizable="true"
+										style="background-color:rgb(90, 181, 109);font-size:12px;top:220px; left:76%;position:absolute;"
+										movable="true" floatable="true" class="panelGenotype"
+										visible="false">
+
+										<panelchildren>
+
+
+										</panelchildren>
+									</panel>
+									<panel id="panel8"
+										title="Galaxy Tools" framable="true" width="400px"
+										height="400px" maximizable="true" minimizable="false"
+										border="rounded+" collapsible="true" closable="false"
+										sizable="true"
+										style="background-color:rgb(90, 181, 109);font-size:12px;top:280px; left:79%;position:absolute;"
+										movable="true" floatable="true" class="panelGenotype"
+										visible="false">
+
+										<panelchildren>
+
+
+										</panelchildren>
+									</panel>
+
+
+
+
+								</n:div>
+							</n:div>
+
+						</n:div>
+
+					</n:div>
+				</n:div>
+			</n:div>
+			<n:footer class="footer-dark"
+				style="padding: 19px;padding-top: 5px;">
+				<n:div class="text-center">
+					<n:label class="text-center"
+						style="font-size: 12px;">
+						<n:br />
+						2014 International Rice Research Institute. Los
+						Banos, Laguna, Philippines. This site is under
+						development. We schedule maintenance every
+						Monday, 8-9:00 GMT (4-5PM Manila)
+						<n:br />
+					</n:label>
+				</n:div>
+			</n:footer>
+		</window>
+	</n:div>
+
+
+
+
+</zk>

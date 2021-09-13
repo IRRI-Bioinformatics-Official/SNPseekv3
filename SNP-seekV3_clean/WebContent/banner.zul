@@ -1,0 +1,302 @@
+
+<zk xmlns:h="native">
+
+	<style src="assets/bootstrap/css/bootstrap.min.css" />
+	<style src="https://fonts.googleapis.com/css?family=Poppins" />
+	<style src="https://fonts.googleapis.com/css?family=Roboto" />
+	<style src="https://fonts.googleapis.com/css?family=Rubik" />
+	<style src="assets/fonts/fontawesome-all.min.css" />
+	<style src="assets/fonts/font-awesome.min.css" />
+	<style src="assets/fonts/fontawesome5-overrides.min.css" />
+	<style src="assets/css/Footer-Dark.css" />
+	<style src="assets/css/Ludens-Users---1-Login.css" />
+	<style src="assets/css/Material-Text-Input.css" />
+	<style src="assets/css/Parallax-Effect-Template-Landing-Page-Bootstrap-4.css" />
+	<style src="assets/css/Pricing-Table.css" />
+	<style src="assets/css/Process-Steps.css" />
+	<style src="assets/css/styles.css" />
+	
+	<div xmlns:n="native">
+
+
+		<div style="background-color:white">
+			<n:nav class="navbar navbar-light navbar-expand-md">
+				<div class="container-fluid">
+					<n:a class="navbar-brand" href="#"
+						style="color: rgba(247,239,239,0.9);font-size: 25px;">
+						&#160;
+						<n:img class="rounded-circle"
+							src="assets/img/c7tx0SIy_400x400.jpg"
+							style="width: 30px;height: 30px;" />
+						&#160; Rice SNP-seek Database
+						<n:br></n:br>
+					</n:a>
+
+
+					<n:button data-toggle="collapse"
+						class="navbar-toggler" data-target="#navcol-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="navbar-toggler-icon"></span>
+					</n:button>
+					<div>
+						<div class="collapse navbar-collapse"
+							id="navcol-1"
+							style="/*background: var(--light);*//*align-items: right;*/">
+							<n:ul class="navbar-nav">
+								<n:li class="nav-item">
+									<n:a class="nav-link
+		active"
+										href="index.zul"
+										style="color: #efefef;font-size:
+		14px;">
+										Home
+									</n:a>
+								</n:li>
+								<n:li class="nav-item"
+									style="/*background:
+		#185f0c;*/">
+									<n:a class="nav-link active"
+										href="pricing.zul" style="color: #efefef;font-size: 14px;">
+										Pricing
+									</n:a>
+								</n:li>
+								<n:li
+									class="nav-item dropdown search">
+									<n:a
+										class="dropdown-toggle
+		nav-link" aria-expanded="false"
+										data-toggle="dropdown" href="#"
+										style="color: #efefef;font-size: 14px;">
+										Search
+									</n:a>
+									<div class="dropdown-menu">
+										<n:a
+											class="dropdown-item genotypeItem" href="genotype.zul"
+											style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/gene1.png"
+												style="width:
+		20px;height: 20px;" />
+											  Genotype
+										</n:a>
+										<n:a class="dropdown-item"
+											href="varieties.zul" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/var5.png"
+												style="width: 20px;height:
+		20px;" />
+											 Varieties
+										</n:a>
+										<n:a class="dropdown-item"
+											href="geneLoci.zul" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/genelocus.png"
+												style="width:
+		20px;height: 20px;" />
+											 Gene Loci
+										</n:a>
+									</div>
+								</n:li>
+								<n:li
+									class="nav-item dropdown browse">
+									<n:a
+										class="dropdown-toggle
+		nav-link" aria-expanded="false"
+										data-toggle="dropdown" href="#"
+										style="color: #efefef;font-size: 14px;">
+										Browse
+									</n:a>
+									<div class="dropdown-menu">
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/genome1.png"
+												style="width:
+		20px;height: 20px;" />
+											 Genome
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/tree1.png"
+												style="width:
+		20px;height: 20px;" />
+											 Phylogenetic Tree
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/mds_plot.png"
+												style="width:
+		20px;height: 20px;" />
+											 MDS Plots
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/synteny.png"
+												style="width:
+		20px;height: 20px;" />
+											 Genome Alignments
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/traitgenes.png"
+												style="width:
+		20px;height: 20px;" />
+											 Trait Genes
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/manhattan-icon.png"
+												style="width:
+		20px;height: 20px;" />
+											 GWAS Results
+										</n:a>
+									</div>
+								</n:li>
+								<n:li class="nav-item">
+									<n:a class="nav-link active"
+										href="#" style="color: #efefef;font-size: 14px;">
+										My List
+									</n:a>
+								</n:li>
+								<n:li class="nav-item">
+									<n:a class="nav-link active"
+										href="#" style="color: #efefef;font-size: 14px;">
+										Order Seeds
+									</n:a>
+								</n:li>
+								<n:li class="nav-item">
+									<n:a class="nav-link active"
+										href="download.zul" style="color: #efefef;font-size: 14px;">
+										Downloads
+									</n:a>
+								</n:li>
+								<n:li class="nav-item dropdown help">
+									<n:a
+										class="dropdown-toggle
+		nav-link" aria-expanded="false"
+										data-toggle="dropdown" href="#"
+										style="color: #efefef;font-size: 14px;">
+										Help
+									</n:a>
+									<div class="dropdown-menu help">
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/users_manual.png"
+												style="width:
+		20px;height: 20px;" />
+											 User's Manual
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/srccode.png"
+												style="width:
+		20px;height: 20px;" />
+											 Development
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/users_manual.png"
+												style="width:
+		20px;height: 20px;" />
+											 NAR Supplementary Materials
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/users_manual.png"
+												style="width:
+		20px;height: 20px;" />
+											 Legacy Web Services
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/users_manual.png"
+												style="width:
+		20px;height: 20px;" />
+											 BrAPI v1 Web Services
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/email3.png"
+												style="width:
+		20px;height: 20px;" />
+											 Report Bugs
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/email3.png"
+												style="width:
+		20px;height: 20px;" />
+											 Contact Us
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/about.png"
+												style="width:
+		20px;height: 20px;" />
+											 Publications / Updates
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/bannerIcons/about.png"
+												style="width:
+		20px;height: 20px;" />
+											 FAQs
+										</n:a>
+									</div>
+								</n:li>
+								<n:li class="nav-item dropdown user">
+									<n:a
+										class="dropdown-toggle
+		nav-link" aria-expanded="false"
+										data-toggle="dropdown" href="#" style="color: #efefef;">
+										<n:img
+											src="assets/img/login-icon-3048.png"
+											style="width: 30px;height:
+		25px;" />
+									</n:a>
+									<div class="dropdown-menu user">
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/settings.png"
+												style="width: 20px;height:
+		20px;" />
+											 Settings
+										</n:a>
+										<n:a class="dropdown-item"
+											href="#" style="padding: 4px 10px;">
+											<n:img
+												src="assets/img/images.png"
+												style="width: 20px;height: 20px;" />
+											 Account
+										</n:a>
+										<n:a class="dropdown-item"
+											href="login.html">
+											Logout
+										</n:a>
+									</div>
+								</n:li>
+							</n:ul>
+						</div>
+					</div>
+				</div>
+			</n:nav>
+		</div>
+	</div>
+
+
+</zk>
