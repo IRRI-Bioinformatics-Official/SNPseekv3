@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	   http://www.springframework.org/schema/tx 
+	   http://www.springframework.org/schema/tx/spring-tx-3.2.xsd   
+	   http://www.springframework.org/schema/context 
+	   http://www.springframework.org/schema/context/spring-context-3.2.xsd   
+	   http://www.springframework.org/schema/jee 
+	   http://www.springframework.org/schema/jee/spring-jee-3.1.xsd	   
+	   http://www.springframework.org/schema/lang
+	   http://www.springframework.org/schema/lang/spring-lang-3.1.xsd
+	   http://www.springframework.org/schema/security 
+	   http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+
+
+	<!-- ******************************************************************** -->
+	<!-- Mark bean transactions as annotation driven -->
+	<!-- ******************************************************************** -->
+	<tx:annotation-driven
+		transaction-manager="transactionManagerIRICProduction" />
+
+	<!-- ******************************************************************** -->
+	<!-- PropertyConfigurer for the DAO -->
+	<!-- ******************************************************************** -->
+	<context:property-placeholder
+		location="classpath:iric_prod_crud-dao.properties,classpath:swagger.properties" />
+
+	<context:component-scan
+		base-package="org.irri.iric.portal.config" />
+
+
+	<!-- ******************************************************************** -->
+	<!-- Setup the transaction manager -->
+	<!-- ******************************************************************** -->
+	<bean id="transactionManagerIRICProduction"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="IRIC_Production" />
+	</bean>
+
+
+	<!-- ******************************************************************** -->
+	<!-- Setup a data source -->
+	<!-- ******************************************************************** -->
+
+
+	<!-- comment/uncomment based on which web-server this will be deployed -->
+
+<!-- LOCAL -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" name="IRIC_ProductionDS_PG">
+		<property name="driverClassName"
+			value="org.postgresql.Driver" />
+		<property name="username" value="username" />
+		<property name="password" value="password" />
+		<property name="url"
+			value="jdbc:postgresql://hostname:port/dbName" />
+		<property name="maxIdle" value="1" />
+		<property name="maxActive" value="10" />
+	</bean>
+
+
+	<bean
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+		id="IRIC_ProductionJPAVendorAdapter_PG">
+		<property name="showSql" value="true" />
+		<property name="generateDdl" value="false" />
+		<property name="databasePlatform"
+			value="org.hibernate.dialect.PostgreSQLDialect" />
+	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		id="IRIC_Production">
+		<property name="dataSource" ref="IRIC_ProductionDS_PG" />
+		<property name="persistenceUnitName" value="IRIC_Production" />
+		<property name="jpaVendorAdapter"
+			ref="IRIC_ProductionJPAVendorAdapter_PG" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+				<prop key="hibernate.default_schema">public</prop>
+			</props>
+		</property>
+
+	</bean>
+
+
+
+
+</beans>

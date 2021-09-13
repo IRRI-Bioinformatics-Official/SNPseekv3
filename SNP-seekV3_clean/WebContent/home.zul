@@ -1,0 +1,270 @@
+<zk>
+	<n:div xmlns:n="native">
+		<n:script src="assets/js/jquery.min.js" />
+		<n:script src="assets/bootstrap/js/bootstrap.min.js" />
+		<n:script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js" />
+		<n:script src="assets/js/Material-Text-Input.js" />
+
+		<style src="assets/bootstrap/css/bootstrap.min.css" />
+		<style src="assets/bootstrap/css/bootstrap.min2.css" />
+		<style src="assets/fonts/simple-line-icons.min.css" />
+
+		<style
+			src="https://fonts.googleapis.com/css?family=Nunito+Sans" />
+		<style src="https://fonts.googleapis.com/css?family=Poppins" />
+		<style src="https://fonts.googleapis.com/css?family=Roboto" />
+		<style src="https://fonts.googleapis.com/css?family=Rubik" />
+		<style src="assets/fonts/fontawesome-all.min.css" />
+		<style src="assets/fonts/font-awesome.min.css" />
+		<style src="assets/fonts/fontawesome5-overrides.min.css" />
+
+		<style src="assets/css/Footer-Dark.css" />
+		<style
+			src="assets/css/Parallax-Effect-Template-Landing-Page-Bootstrap-4.css" />
+		<style src="assets/css/styles.css" />
+
+
+
+
+		<n:div id="bodyContent">
+			<n:div id="bodyContent1">
+				<n:div>
+					<n:div class="ParalaxImage1">
+
+					</n:div>
+					<n:section class="mySection section-light">
+						<n:div class="container">
+							<n:div class="Row">
+								<n:div class="columnContent">
+									<n:br />
+									<n:br />
+									<n:h2 style="font-size: 1rem;">About the Site</n:h2>
+									<n:br />
+									<n:p style="font-size: 13px;">
+										This site provides Genotype,
+										Phenotype, and Variety
+										Information for rice (Oryza
+										sativa L.). SNP genotyping data
+										(called against Nipponbare
+										reference
+										Os-Nipponbare-Reference-IRGSP-1.0)
+										came from 3,000 Rice Genomes
+										Project . Phenotype and passport
+										data for the 3,000 rice
+										varieties came from the
+										International Rice Genebank
+										Collection Information System
+										(IRGCIS). We are a part of an
+										ongoing effort by the
+										International Rice Informatics
+										Consortium (IRIC) to centralize
+										information access to rice
+										research data and provide
+										computational tools to
+										facilitate rice improvement via
+										discovery of new gene-trait
+										associations and accelerated
+										breeding.
+									</n:p>
+									<n:br />
+								</n:div>
+							</n:div>
+						</n:div>
+					</n:section>
+					
+					<n:main class="page">
+						<n:section class="clean-block features">
+							<n:div class="container">
+								<n:div class="block-heading"
+									style="text-align:center;">
+									<n:h2 class="text-info" style="font-size: 1rem;margin-top:-50px;">
+										Features
+									</n:h2>
+								</n:div>
+								<n:div
+									class="row justify-content-center">
+									<n:div
+										class="col-md-5 feature-box">
+										<n:i
+											class="icon-magnifier icon">
+										</n:i>
+										<n:h4 style="font-size: 1rem;">
+											<n:a href="genotype.zul">
+												Search By Genotype
+											</n:a>
+										</n:h4>
+										<n:p style="font-size: 13px;">
+											Query for SNPs from the 3000
+											genome project
+										</n:p>
+									</n:div>
+
+									<n:div
+										class="col-md-5 feature-box">
+										<n:i
+											class="icon-magnifier icon">
+										</n:i>
+										<n:h4 style="font-size: 1rem;">Varieties</n:h4>
+										<n:p style="font-size: 13px;">
+											Query for Variety passport
+											and phenotypes
+										</n:p>
+									</n:div>
+									<n:div
+										class="col-md-5 feature-box">
+										<n:i
+											class="icon-screen-smartphone icon">
+										</n:i>
+										<n:h4 style="font-size: 1rem;">Jbrowse</n:h4>
+										<n:p style="font-size: 13px;">Rice Genome Browser</n:p>
+									</n:div>
+									<n:div
+										class="col-md-5 feature-box">
+										<n:i
+											class="icon-refresh icon">
+										</n:i>
+										<n:h4 style="font-size: 1rem;">Gwas</n:h4>
+										<n:p style="font-size: 13px;">
+											GWAS Results and tools
+										</n:p>
+									</n:div>
+								</n:div>
+							</n:div>
+						</n:section>
+					</n:main>
+					
+					<n:div class="ParalaxImage2">
+						<n:div class="ptext">
+							<span class="border ">Publication</span>
+						</n:div>
+					</n:div>
+
+					<n:section class="section section-light ">
+						<n:div class="container">
+							<n:div class="row">
+								<n:div class="col-md-12">
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:b>
+										<n:h2>How To cite</n:h2>
+									</n:b>
+									<n:ul>
+										<n:li>
+											Mansueto, et al. Rice
+											SNP-seek database update:
+											new SNPs, indels, and
+											queries.Nucl. Acids
+											Res.(2017) 45 (D1):
+											D1075-D1081. doi:
+											10.1093/nar/gkw1135
+											<n:br />
+											This paper describes new
+											features and datasets added
+											to SNP-Seek in 2015-2017 as
+											well as software and
+											database updates.
+										</n:li>
+										<n:br />
+										<n:li>
+											Mansueto, et al. SNP-Seek
+											II: A resource for allele
+											mining and analysis of big
+											genomic data in Oryza
+											sativa.Current Plant
+											Biology(2016). 7-8:16-25
+											doi:
+											10.1016/j.cpb.2016.12.003
+											<n:br />
+											This paper contains details
+											on variant calling for 5
+											references, integration of
+											additional genomic data, web
+											interface, database schema,
+											use cases, web services API.
+										</n:li>
+										<n:br />
+										<n:li>
+											Alexandrov, et al. SNP-Seek
+											database of SNPs derived
+											from 3000 rice genomes.Nucl.
+											Acids Res.(2015).
+											43(D1):D1023-D1027 doi:
+											10.1093/nar/gku1039
+											<n:br />
+											This is the first
+											publication introducing
+											SNP-Seek database, data
+											generation for Nipponbare
+											reference,and common use
+											cases.
+										</n:li>
+										<n:br />
+										<n:li>
+											Wang W, Mauleon R, Hu Z,
+											Chebotarov D, Tai S, et al.
+											Genomic variation in 3,010
+											diverse accessions of Asian
+											cultivated rice..
+											Nature.(2018). 557:43-49
+											doi:
+											10.1038/s41586-018-0063-9
+											<n:br />
+											The main scientific paper
+											for the 3K RGP.
+										</n:li>
+									</n:ul>
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+									<n:br />
+								</n:div>
+							</n:div>
+						</n:div>
+					</n:section>
+
+				</n:div>
+			</n:div>
+		</n:div>
+		<n:footer class="footer-dark">
+			<n:div class="text-center">
+				<n:label class="text-center" style="font-size: 12px;">
+					<n:br />
+					2014 International Rice Research Institute. Los
+					Banos, Laguna, Philippines. This site is under
+					development. We schedule maintenance every Monday,
+					8-9:00 GMT (4-5PM Manila)
+					<n:br />
+				</n:label>
+			</n:div>
+		</n:footer>
+
+	</n:div>
+
+</zk>
