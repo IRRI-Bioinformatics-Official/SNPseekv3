@@ -159,7 +159,7 @@
 								</n:li>
 								<n:li class="nav-item">
 									<n:a class="nav-link active"
-										href="#" style="color: #efefef;font-size: 14px;">
+										href="MyList.zul" style="color: #efefef;font-size: 14px;">
 										My List
 									</n:a>
 								</n:li>

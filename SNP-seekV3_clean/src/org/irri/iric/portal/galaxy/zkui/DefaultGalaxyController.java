@@ -61,7 +61,7 @@ public class DefaultGalaxyController implements GalaxyCustomController {
 
 		ipProp = (IpAddressesConfig) AppContext.checkBean(ipProp, "ipAddressesConfig");
 		
-		return "http://"+ipProp.getGalaxyIp()+":8080";
+		return "http://54.169.139.117:8080";
 		
 	}
 

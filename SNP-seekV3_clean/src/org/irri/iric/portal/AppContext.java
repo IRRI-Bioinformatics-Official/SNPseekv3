@@ -1425,7 +1425,9 @@ public class AppContext {
 		 * + timedif); if (msg == null || msg.replaceAll("\\s+", "").isEmpty()) {
 		 * logger.info("empty/null msg"); } }
 		 */
-		logger.info(msg);
+		
+		//logger.info(msg);
+		System.out.println(msg);
 	}
 
 	// display in debug mode
