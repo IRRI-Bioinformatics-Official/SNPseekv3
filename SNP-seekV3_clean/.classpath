@@ -67,30 +67,31 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/timelinez.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/timeplotz.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xmlbeans-5.0.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkcharts.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkcharts-sources.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zsoup.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zuljsp.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarfitsobj.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarh5obj.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarhdf5-2.10.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarhdfobj.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarnc2obj.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/za11y.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zcommon.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zel.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zhtml.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zk.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkbind.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkcharts.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkcharts-sources.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkex.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkmax.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkplus.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkplus-legacy.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkwebfragment.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zml.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zsoup.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zul.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zuljsp.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zuti.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zweb.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zweb-dsp.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarfitsobj.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarh5obj.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarhdf5-2.10.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarhdfobj.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarnc2obj.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/snpseek-datasource.0.0.3-4.LOCAL.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>

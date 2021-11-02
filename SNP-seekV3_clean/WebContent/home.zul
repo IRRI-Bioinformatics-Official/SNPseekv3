@@ -39,7 +39,9 @@
 								<n:div class="columnContent">
 									<n:br />
 									<n:br />
-									<n:h2 style="font-size: 1rem;">About the Site</n:h2>
+									<n:h2 style="font-size: 1rem;">
+										About the Site
+									</n:h2>
 									<n:br />
 									<n:p style="font-size: 13px;">
 										This site provides Genotype,
@@ -72,13 +74,14 @@
 							</n:div>
 						</n:div>
 					</n:section>
-					
+
 					<n:main class="page">
 						<n:section class="clean-block features">
 							<n:div class="container">
 								<n:div class="block-heading"
 									style="text-align:center;">
-									<n:h2 class="text-info" style="font-size: 1rem;margin-top:-50px;">
+									<n:h2 class="text-info"
+										style="font-size: 1rem;margin-top:-50px;">
 										Features
 									</n:h2>
 								</n:div>
@@ -89,7 +92,8 @@
 										<n:i
 											class="icon-magnifier icon">
 										</n:i>
-										<n:h4 style="font-size: 1rem;">
+										<n:h4
+											style="font-size: 1rem;">
 											<n:a href="genotype.zul">
 												Search By Genotype
 											</n:a>
@@ -105,7 +109,12 @@
 										<n:i
 											class="icon-magnifier icon">
 										</n:i>
-										<n:h4 style="font-size: 1rem;">Varieties</n:h4>
+										<n:h4
+											style="font-size: 1rem;">
+											<n:a href="varieties.zul">
+												Varieties
+											</n:a>
+										</n:h4>
 										<n:p style="font-size: 13px;">
 											Query for Variety passport
 											and phenotypes
@@ -116,15 +125,23 @@
 										<n:i
 											class="icon-screen-smartphone icon">
 										</n:i>
-										<n:h4 style="font-size: 1rem;">Jbrowse</n:h4>
-										<n:p style="font-size: 13px;">Rice Genome Browser</n:p>
+										<n:h4
+											style="font-size: 1rem;">
+											Jbrowse
+										</n:h4>
+										<n:p style="font-size: 13px;">
+											Rice Genome Browser
+										</n:p>
 									</n:div>
 									<n:div
 										class="col-md-5 feature-box">
 										<n:i
 											class="icon-refresh icon">
 										</n:i>
-										<n:h4 style="font-size: 1rem;">Gwas</n:h4>
+										<n:h4
+											style="font-size: 1rem;">
+											Gwas
+										</n:h4>
 										<n:p style="font-size: 13px;">
 											GWAS Results and tools
 										</n:p>
@@ -133,7 +150,7 @@
 							</n:div>
 						</n:section>
 					</n:main>
-					
+
 					<n:div class="ParalaxImage2">
 						<n:div class="ptext">
 							<span class="border ">Publication</span>

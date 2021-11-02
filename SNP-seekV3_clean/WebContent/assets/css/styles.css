@@ -164,6 +164,30 @@ body {
 	height: 760px;
 }
 
+.variety_panelDataStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 380px;
+}
+
+.variety_panelPassportResultStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 500px;
+}
+
+.variety_panelPhenotypeResultStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 700px;
+}
+
 .aFreqPanelStyle {
 	background-color: rgb(90, 181, 109);
 	font-size: 11px;
@@ -181,8 +205,74 @@ body {
 	height: 760px;
 }
 
+.jbrowsePanelStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 760px;
+}
+
+.haplotypePanelStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 840px;
+}
+
+.mdsPlotPanelStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 760px;
+}
+
+.variety_MDSResultStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 620px;
+}
+
+.galaxyPanelStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 760px;
+}
+
+.cGenomePanelStyle {
+	background-color: rgb(90, 181, 109);
+	font-size: 11px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 760px;
+}
+
+.z-tab-text {
+	font-size: 11px !important;
+}
+
+.z-tab-selected .z-tab-text {
+	background-color: #529a6f;
+	color: #ffffff;
+}
+
+.z-tab-selected:hover {
+	background-color: #3a6b35 !important;
+}
+
+.z-tab-selected {
+	background-color: #529a6f;
+	border-bottom: 2px solid #677571 !important;
+}
+
 .max {
-	height: 770px !important;
+	height: 840px !important;
 }
 
 .min {
@@ -225,7 +315,7 @@ body {
 }
 
 .z-select {
-	font-size: 12px !important;
+	font-size: 11px !important;
 	border-radius: 8px !important;
 	height: 30px !important;
 	font: 11px !important;
@@ -235,15 +325,17 @@ body {
 
 .z-intbox {
 	width: 100px !important;
-	font-size: 12px !important;
+	font-size: 11px !important;
+	height: 30px;
 }
 
 .z-combobox-input {
-	font-size: 12px !important;
+	font-size: 11px !important;
+	height: 30px;
 }
 
 .z-comboitem-text {
-	font-size: 12px;
+	font-size: 11px;
 }
 
 .z-window-header {
@@ -256,7 +348,7 @@ body {
 }
 
 .z-listheader-content {
-	font-size: 12px;
+	font-size: 11px;
 	background-color: #51796a;
 }
 
@@ -293,7 +385,31 @@ body {
 	background-color: #92c3a5 !important;
 }
 
-
-.btn{
+.btn {
 	color: #529a6f !important;
+}
+
+.z-north-header {
+	font-size: 12px;
+	background-color: #ececec;
+	padding-left: 10px;
+}
+
+.z-east-title, .z-west-title, .z-north-title, .z-south-title {
+	font-size: 12px;
+	background-color: #ececec;
+	padding-left: 10px;
+}
+
+.inputTextLong {
+	width: 235px;
+}
+
+.z-temp, .z-modal-mask {
+    background: #3b3c3e !important;
+    
+}
+
+.z-listitem.z-listitem-selected>.z-listcell {
+    background: #77c99c !important;
 }
