@@ -191,7 +191,8 @@ WorkspaceFacade workspace = (WorkspaceFacade)SpringUtil.getBean("WorkspaceFacade
 								</groupbox>
 								<groupbox id="varietyListGrpBx"
 									open="true" width="520px" mold="3d" closable="false">
-									<caption id="captionListId" label="Variety List"
+									<caption id="captionListId"
+										label="Variety List"
 										style="font-size:13px;background-color:#3a6b35;">
 										<div id="datasetIcon"
 											class="fas fa-chevron-down">

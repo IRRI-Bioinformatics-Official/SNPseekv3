@@ -406,10 +406,17 @@ body {
 }
 
 .z-temp, .z-modal-mask {
-    background: #3b3c3e !important;
-    
+	background: #3b3c3e !important;
 }
 
 .z-listitem.z-listitem-selected>.z-listcell {
-    background: #77c99c !important;
+	background: #77c99c !important;
+}
+
+.z-combobox-button {
+	height: 30px !important;
+}
+
+.z-datebox-button, .z-bandbox-button, .z-combobox-button{
+	font-size:16px !important;
 }
