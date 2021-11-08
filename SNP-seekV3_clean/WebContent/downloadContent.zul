@@ -1,6 +1,28 @@
 <?page title="Download page" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<n:div xmlns:n="native">
+		<n:script src="assets/js/jquery.min.js" />
+		<n:script src="assets/bootstrap/js/bootstrap.min.js" />
+		<n:script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js" />
+
+		<n:script src="assets/js/Collapsible-Sidebar.js" />
+		<n:script src="assets/js/Material-Text-Input.js" />
+		<style src="assets/bootstrap/css/bootstrap.min.css" />
+		<style
+			src="https://fonts.googleapis.com/css?family=Nunito+Sans" />
+		<style src="https://fonts.googleapis.com/css?family=Poppins" />
+		<style src="https://fonts.googleapis.com/css?family=Roboto" />
+		<style src="https://fonts.googleapis.com/css?family=Rubik" />
+		<style src="assets/fonts/fontawesome-all.min.css" />
+		<style src="assets/fonts/font-awesome.min.css" />
+		<style src="assets/fonts/fontawesome5-overrides.min.css" />
+		<style src="assets/css/Footer-Dark.css" />
+		<style src="assets/css/styles.css" />
+		<style src="assets/css/styles_genotype.css" />
+		<style src="assets/css/Collapsible-Sidebar.css" />
+		<style
+			src="assets/css/Vertical-Left-SideBar-by-Jigar-Mistry.css" />
 
 		<!--  *********************   INITIALIZE DISPLAY VARIABLES  *********************************************************************************** -->
 
@@ -62,457 +84,472 @@
 		<window border="none"
 			apply="user.ui.module.DownloadController">
 
-			<hbox height="15px" />
+			<div style="margin:15px;">
+				<hbox height="15px" />
 
-			<div align="center">
-				<label value="Bulk Download Page"
-					style="font-size:20px;font-weight:bold;color:green;" />
-			</div>
+				<div style="margin:15px;">
+					<div align="center">
+						<label value="Bulk Download Page"
+							style="font-size:20px;font-weight:bold;color:green;" />
+					</div>
 
-			<hbox height="15px" />
+					<hbox height="15px" />
+					<div></div>
+					<tabbox><!-- width="100%" -->
+						<tabs>
+							<tab label="SNPs and Phenotypes Data"
+								selected="true" />
+							<tab id="tabRawfiles"
+								label="SNPs Analysis Files" visible="true" />
+							<tab label="FastQC Reports" />
+							<tab id="tabSequence" label="Sequence" />
 
-			<tabbox><!-- width="100%" -->
-				<tabs>
-					<tab label="SNPs and Phenotypes Data"
-						selected="true" />
-					<tab id="tabRawfiles" label="SNPs Analysis Files"
-						visible="true" />
-					<tab label="FastQC Reports" />
-					<tab id="tabSequence" label="Sequence" />
+						</tabs>
+						<tabpanels>
 
-				</tabs>
-				<tabpanels>
+							<!--  *********************   SNPS DATA DOWNLOAD TAB  *********************************************************************************** -->
 
-					<!--  *********************   SNPS DATA DOWNLOAD TAB  *********************************************************************************** -->
+							<tabpanel>
+								<iframe align="left" visible="true"
+									style="width:95%;height:4000px;border:0px inset;"
+									src="3kRgDownload.html" />
+							</tabpanel>
 
-					<tabpanel>
-						<iframe align="left" visible="true"
-							style="width:95%;height:4000px;border:0px inset;"
-							src="3kRgDownload.html" />
-					</tabpanel>
+							<tabpanel>
 
-					<tabpanel>
-
-						<!--  *********************   SNPS ANALYSIS RAW FILES DOWNLOAD TAB  *********************************************************************************** -->
-						<hbox height="20px" />
-						<hbox>
-							<label value="Move to variety:"
-								style="font-size:12px;font-weight:bold;color:gray;" />
-							<listbox id="listboxVarlist" mold="select" />
-							<zscript><![CDATA[
+								<!--  *********************   SNPS ANALYSIS RAW FILES DOWNLOAD TAB  *********************************************************************************** -->
+								<hbox height="20px" />
+								<hbox>
+									<label value="Move to variety:"
+										style="font-size:12px;font-weight:bold;color:gray;" />
+									<listbox id="listboxVarlist"
+										mold="select" />
+									<zscript><![CDATA[
 	listboxVarlist.setModel(new SimpleListModel(listVarNames));
 ]]></zscript>
-						</hbox>
+								</hbox>
 
-						<div visible="false">
-							<hbox>
-								<label value="Mark from variety list:"
-									style="font-size:12px;font-weight:bold;color:gray;" />
-								<hbox width="15px" />
-								<label value="Multi-file download:"
-									style="font-size:12px;font-weight:bold;color:gray;" />
-								<hbox width="6px" />
-								<checkbox id="checkboxFastq"
-									label="FastQ" />
-								<hbox width="6px" />
-								<checkbox id="checkboxBAM" label="BAM" />
-								<hbox width="6px" />
-								<checkbox id="checkboxVCF" label="VCF" />
+								<div visible="false">
+									<hbox>
+										<label
+											value="Mark from variety list:"
+											style="font-size:12px;font-weight:bold;color:gray;" />
+										<hbox width="15px" />
+										<label
+											value="Multi-file download:"
+											style="font-size:12px;font-weight:bold;color:gray;" />
+										<hbox width="6px" />
+										<checkbox id="checkboxFastq"
+											label="FastQ" />
+										<hbox width="6px" />
+										<checkbox id="checkboxBAM"
+											label="BAM" />
+										<hbox width="6px" />
+										<checkbox id="checkboxVCF"
+											label="VCF" />
 
-								<hbox height="15px" />
-								<label value="Preferred download site:"
-									style="font-size:12px;font-weight:bold;color:gray;" />
-								<listbox id="listboxSite"
-									mold="select">
-									<listitem label="AWS HTTP"
-										selected="true" />
-									<listitem label="ASTI HTTP" />
-									<listitem label="ASTI FTP" />
-								</listbox>
-							</hbox>
-							<hbox>
-								<button id="buttonUnmarkAll"
-									label="Unmark All" />
-								<hbox width="20px" />
-								<button id="buttonDownloadMarked"
-									label="Download Marked" />
-							</hbox>
-						</div>
+										<hbox height="15px" />
+										<label
+											value="Preferred download site:"
+											style="font-size:12px;font-weight:bold;color:gray;" />
+										<listbox id="listboxSite"
+											mold="select">
+											<listitem label="AWS HTTP"
+												selected="true" />
+											<listitem label="ASTI HTTP" />
+											<listitem label="ASTI FTP" />
+										</listbox>
+									</hbox>
+									<hbox>
+										<button id="buttonUnmarkAll"
+											label="Unmark All" />
+										<hbox width="20px" />
+										<button
+											id="buttonDownloadMarked" label="Download Marked" />
+									</hbox>
+								</div>
 
-						<grid id="gridRawVarietyFiles" mold="paging"
-							pageSize="100">
-							<columns>
-								<!--  column width="40px" label="Mark" align="left" / -->
-								<column hflex="3" label="Variety"
-									align="center" />
-								<column hflex="3"
-									label="IRIS ID/BoxCode" align="center" />
-								<column hflex="2" label="FastQ Files"
-									align="center" />
-								<column hflex="2" label="BAM Files"
-									align="center" />
-								<column hflex="2" label="VCF Files"
-									align="center" />
-							</columns>
-						</grid>
+								<grid id="gridRawVarietyFiles"
+									mold="paging" pageSize="100">
+									<columns>
+										<!--  column width="40px" label="Mark" align="left" / -->
+										<column hflex="3"
+											label="Variety" align="center" />
+										<column hflex="3"
+											label="IRIS ID/BoxCode" align="center" />
+										<column hflex="2"
+											label="FastQ Files" align="center" />
+										<column hflex="2"
+											label="BAM Files" align="center" />
+										<column hflex="2"
+											label="VCF Files" align="center" />
+									</columns>
+								</grid>
 
-						<zscript><![CDATA[
+								<zscript><![CDATA[
 	gridRawVarietyFiles.pagingChild.mold = "os";
 	gridRawVarietyFiles.pagingPosition = "both";
 ]]></zscript>
 
 
-					</tabpanel>
+							</tabpanel>
 
-					<!--  *********************   FASTQC REPORTS TAB  *********************************************************************************** -->
+							<!--  *********************   FASTQC REPORTS TAB  *********************************************************************************** -->
 
-					<tabpanel>
+							<tabpanel>
 
-						<iframe align="left" visible="true"
-							style="width:95%;height:1000px;border:0px inset;"
-							src="https://snp-seek.irri.org/3kfastqc/" />
+								<iframe align="left" visible="true"
+									style="width:95%;height:1000px;border:0px inset;"
+									src="https://snp-seek.irri.org/3kfastqc/" />
 
-					</tabpanel>
-
-
-					<!--  *********************   VCF2FASTA GENERATOR  TAB  *********************************************************************************** -->
-
-					<tabpanel>
+							</tabpanel>
 
 
-						<hbox height="20px" />
+							<!--  *********************   VCF2FASTA GENERATOR  TAB  *********************************************************************************** -->
 
-						<n:nav id="genotypeSearchSidebar2">
-							<n:div class="container2">
-								<vbox>
-									<n:div
-										style="width:620px !important;margin-left: 10px;margin-top: 15px;background-color:rgb(164 201 168);padding:10px">
-
-										<label
-											value="Generate sequence from the VCF file for the selected varieties and regions."
-											style="font-size:12px;font-weight:bold" />
-											<n:br/>
-										<label
-											value="This module executes these commands for each variety:"
-											style="font-size:12px" />
-											<n:br/>
-										<label
-											value="tabix -h http://s3.amazonaws.com/3kricegenome/{reference}/{variety_vcf_file} [contig:start-stop]  > temp.vcf"
-											style="font-size:12px" />
-											<n:br/>
-										<label
-											value="output is temp.vcf" style="font-size:12px" />
-											<n:br/>
-										<label
-											value="java GenomeAnalysisTK.jar -T FastaAlternateReferenceMaker -R path/to/refseq.fa -L temp.vcf -V:VCF temp.vcf -o output.fas --use_IUPAC_sample variety_name"
-											style="font-size:12px" />
-											<n:br/>
-										<label
-											value="output is Fasta file for every variety with all loci"
-											style="font-size:12px" />
-											<n:br/>
-										<label
-											value="Collate all variety fasta into a one Fasta file for every locus with all varieties"
-											style="font-size:12px" />
-									</n:div>
-								</vbox>
-
+							<tabpanel>
 								<hbox height="20px" />
+								<n:nav id="genotypeSearchSidebar">
+									<n:div class="container2"
+										style="background-color:#d9dcbb;width:645px;height:650px;">
+										<vbox>
+											<n:div
+												style="width:620px !important;margin-left: 10px;margin-top: 15px;background-color:rgb(164 201 168);padding:10px">
 
-								<n:form style="margin: 10px;">
-									<groupbox id="ListTypeGroup"
-										open="true" width="620px" mold="3d" closable="false">
-										<caption label="Varieties"
-											style="font-size:13px;background-color:#3a6b35;">
-											<div id="ListTypeIcon"
-												class="fas fa-chevron-down">
-											</div>
-										</caption>
-										<n:div id="varitiesListbox"
-											style="width:500px;">
-											<div class="form-row"
-												style="width: 600px;height:35px;">
-												<div
-													class="col-xl-3 offset-xl-0">
+												<label
+													value="Generate sequence from the VCF file for the selected varieties and regions."
+													style="font-size:12px;font-weight:bold" />
+												<n:br />
+												<label
+													value="This module executes these commands for each variety:"
+													style="font-size:12px" />
+												<n:br />
+												<label
+													value="tabix -h http://s3.amazonaws.com/3kricegenome/{reference}/{variety_vcf_file} [contig:start-stop]  > temp.vcf"
+													style="font-size:12px" />
+												<n:br />
+												<label
+													value="output is temp.vcf" style="font-size:12px" />
+												<n:br />
+												<label
+													value="java GenomeAnalysisTK.jar -T FastaAlternateReferenceMaker -R path/to/refseq.fa -L temp.vcf -V:VCF temp.vcf -o output.fas --use_IUPAC_sample variety_name"
+													style="font-size:12px" />
+												<n:br />
+												<label
+													value="output is Fasta file for every variety with all loci"
+													style="font-size:12px" />
+												<n:br />
+												<label
+													value="Collate all variety fasta into a one Fasta file for every locus with all varieties"
+													style="font-size:12px" />
+											</n:div>
+										</vbox>
+
+										<hbox height="20px" />
+
+										<n:form style="margin: 10px;">
+											<groupbox id="ListTypeGroup"
+												open="true" width="620px" mold="3d" closable="false">
+												<caption
+													label="Varieties"
+													style="font-size:13px;background-color:#3a6b35;">
 													<div
-														class="form-group">
+														id="ListTypeIcon" class="fas fa-chevron-down">
+													</div>
+												</caption>
+												<n:div
+													id="varitiesListbox" style="width:500px;">
+													<div
+														class="form-row" style="width: 600px;height:35px;">
 														<div
-															class="text-left">
-															<label
-																value="Varieties:" style="font-size:12px;" />
+															class="col-xl-3 offset-xl-0">
+															<div
+																class="form-group">
+																<div
+																	class="text-left">
+																	<label
+																		value="Varieties:" style="font-size:12px;" />
+																</div>
+															</div>
+														</div>
+														<div
+															class="col offset-xl-0">
+															<div
+																class="form-group">
+																<listbox
+																	id="listboxQueryvar" mold="select" rows="1"
+																	style="width:300px!important;">
+																</listbox>
+
+															</div>
 														</div>
 													</div>
-												</div>
-												<div
-													class="col offset-xl-0">
 													<div
-														class="form-group">
-														<listbox
-															id="listboxQueryvar" mold="select" rows="1" style="width:300px!important;">
-														</listbox>
-
-													</div>
-												</div>
-											</div>
-											<div class="form-row"
-												style="width: 600px;height:35px;">
-												<div
-													class="col-xl-3 offset-xl-0">
-													<div
-														class="form-group">
+														class="form-row" style="width: 600px;height:35px;">
 														<div
-															class="text-left">
-															<label
-																value="Variety list:" style="font-size:12px;" />
+															class="col-xl-3 offset-xl-0">
+															<div
+																class="form-group">
+																<div
+																	class="text-left">
+																	<label
+																		value="Variety list:" style="font-size:12px;" />
+																</div>
+															</div>
 														</div>
-													</div>
-												</div>
-												<div
-													class="col offset-xl-0">
-													<div
-														class="form-group">
-														<listbox
-															id="listboxVarlistSeq" mold="select" rows="1" style="width:300px!important;"/>
+														<div
+															class="col offset-xl-0">
+															<div
+																class="form-group">
+																<listbox
+																	id="listboxVarlistSeq" mold="select" rows="1"
+																	style="width:300px!important;" />
 
-														<zscript><![CDATA[
+																<zscript><![CDATA[
 	listboxQueryvar.setModel(new SimpleListModel(listVarNames));
 	listboxQueryvar.setSelectedIndex(0);
 	listboxVarlistSeq.setModel(new SimpleListModel(listVarlistNames));
 	listboxVarlistSeq.setSelectedIndex(0);
 ]]></zscript>
 
-													</div>
-												</div>
-											</div>
-
-										</n:div>
-
-									</groupbox>
-									<groupbox id="RegionGroup"
-										open="true" width="620px" mold="3d" closable="false">
-										<caption label="Region"
-											style="font-size:13px;background-color:#3a6b35;">
-											<div id="RegionIcon"
-												class="fas fa-chevron-down">
-											</div>
-										</caption>
-										<n:div id="regionGrpbox"
-											style="width:500px;">
-											<div class="form-row"
-												style="width: 600px;height:35px;">
-												<div
-													class="col-xl-3 offset-xl-0">
-													<div
-														class="form-group">
-														<div
-															class="text-left">
-															<label
-																value="Reference genome: " style="font-size:12px;"
-																pre="true" />
+															</div>
 														</div>
 													</div>
-												</div>
-												<div
-													class="col offset-xl-0">
-													<div
-														class="form-group">
-														<listbox
-															id="listboxReference" mold="select" rows="1" style="width:300px!important;">
-															<listitem
-																value="Nipponbare" label="Japonica nipponbare" />
-															<listitem
-																value="9311" label="93-11" />
-															<listitem
-																value="DJ123" label="DJ123" />
-															<listitem
-																value="Kasalath" label="Kasalath" />
-														</listbox>
 
-														<zscript><![CDATA[
+												</n:div>
+
+											</groupbox>
+											<groupbox id="RegionGroup"
+												open="true" width="620px" mold="3d" closable="false">
+												<caption label="Region"
+													style="font-size:13px;background-color:#3a6b35;">
+													<div id="RegionIcon"
+														class="fas fa-chevron-down">
+													</div>
+												</caption>
+												<n:div id="regionGrpbox"
+													style="width:500px;">
+													<div
+														class="form-row" style="width: 600px;height:35px;">
+														<div
+															class="col-xl-3 offset-xl-0">
+															<div
+																class="form-group">
+																<div
+																	class="text-left">
+																	<label
+																		value="Reference genome: " style="font-size:12px;"
+																		pre="true" />
+																</div>
+															</div>
+														</div>
+														<div
+															class="col offset-xl-0">
+															<div
+																class="form-group">
+																<listbox
+																	id="listboxReference" mold="select" rows="1"
+																	style="width:300px!important;">
+																	<listitem
+																		value="Nipponbare" label="Japonica nipponbare" />
+																	<listitem
+																		value="9311" label="93-11" />
+																	<listitem
+																		value="DJ123" label="DJ123" />
+																	<listitem
+																		value="Kasalath" label="Kasalath" />
+																</listbox>
+
+																<zscript><![CDATA[
 	listboxReference.setSelectedIndex(0);
 ]]></zscript>
 
-													</div>
-												</div>
-											</div>
-											<div class="form-row"
-												style="width: 600px;height:35px;">
-												<div
-													class="col-xl-3 offset-xl-0">
-													<div
-														class="form-group">
-														<div
-															class="text-left">
-															<label
-																value="Chromosome/Contig: " style="font-size:12px;"
-																pre="true" />
+															</div>
 														</div>
 													</div>
-												</div>
-												<div style="margin-left:5px;">
-													<hbox
-														width="400px">
-														<combobox
-															id="comboQuerychr" buttonVisible="true" readonly="false"
-															width="90px">
-															<comboitem
-																label=" " />
-															<comboitem
-																label="chr01" />
-															<comboitem
-																label="chr02" />
-															<comboitem
-																label="chr03" />
-															<comboitem
-																label="chr04" />
-															<comboitem
-																label="chr05" />
-															<comboitem
-																label="chr06" />
-															<comboitem
-																label="chr07" />
-															<comboitem
-																label="chr08" />
-															<comboitem
-																label="chr09" />
-															<comboitem
-																label="chr10" />
-															<comboitem
-																label="chr11" />
-															<comboitem
-																label="chr12" />
-														</combobox>
+													<div
+														class="form-row" style="width: 600px;height:35px;">
 														<div
-															width="100px">
-															<intbox
-																id="intboxStart" />
-															<label
-																value="start  bp:"
-																style="color: rgb(0,0,0);font-size: 10px;" width="110px"
-																pre="true" />
+															class="col-xl-3 offset-xl-0">
+															<div
+																class="form-group">
+																<div
+																	class="text-left">
+																	<label
+																		value="Chromosome/Contig: " style="font-size:12px;"
+																		pre="true" />
+																</div>
+															</div>
+														</div>
+														<div
+															style="margin-left:5px;">
+															<hbox
+																width="400px">
+																<combobox
+																	id="comboQuerychr" buttonVisible="true"
+																	readonly="false" width="90px">
+																	<comboitem
+																		label=" " />
+																	<comboitem
+																		label="chr01" />
+																	<comboitem
+																		label="chr02" />
+																	<comboitem
+																		label="chr03" />
+																	<comboitem
+																		label="chr04" />
+																	<comboitem
+																		label="chr05" />
+																	<comboitem
+																		label="chr06" />
+																	<comboitem
+																		label="chr07" />
+																	<comboitem
+																		label="chr08" />
+																	<comboitem
+																		label="chr09" />
+																	<comboitem
+																		label="chr10" />
+																	<comboitem
+																		label="chr11" />
+																	<comboitem
+																		label="chr12" />
+																</combobox>
+																<div
+																	width="100px">
+																	<intbox
+																		id="intboxStart" />
+																	<label
+																		value="start  bp:"
+																		style="color: rgb(0,0,0);font-size: 10px;"
+																		width="110px" pre="true" />
 
-														</div>
-														<div
-															width="100px">
-															<intbox
-																id="intboxEnd" />
-															<label
-																value="end bp:"
-																style="color: rgb(0,0,0);font-size: 10px;" width="110px"
-																pre="true" />
-														</div>
-													</hbox>
-												</div>
-											</div>
-											<n:br />
-											<div class="form-row"
-												style="width: 600px;height:35px;">
-												<div
-													class="col-xl-3 offset-xl-0">
-													<div
-														class="form-group">
-														<div
-															class="text-left">
-															<label
-																value="Locus: " pre="true" style="font-size:12px;" />
+																</div>
+																<div
+																	width="100px">
+																	<intbox
+																		id="intboxEnd" />
+																	<label
+																		value="end bp:"
+																		style="color: rgb(0,0,0);font-size: 10px;"
+																		width="110px" pre="true" />
+																</div>
+															</hbox>
 														</div>
 													</div>
-												</div>
-												<div
-													class="col offset-xl-0">
+													<n:br />
 													<div
-														class="form-group">
-														<combobox
-															id="comboboxLocus" buttonVisible="true" readonly="false"
-															width="300px" autodrop="true" fulfill="onOpen" />
+														class="form-row" style="width: 600px;height:35px;">
+														<div
+															class="col-xl-3 offset-xl-0">
+															<div
+																class="form-group">
+																<div
+																	class="text-left">
+																	<label
+																		value="Locus: " pre="true" style="font-size:12px;" />
+																</div>
+															</div>
+														</div>
+														<div
+															class="col offset-xl-0">
+															<div
+																class="form-group">
+																<combobox
+																	id="comboboxLocus" buttonVisible="true"
+																	readonly="false" width="300px" autodrop="true"
+																	fulfill="onOpen" />
 
 
-													</div>
-												</div>
-											</div>
-											<div class="form-row"
-												style="width: 600px;height:35px;">
-												<div
-													class="col-xl-3 offset-xl-0">
-													<div
-														class="form-group">
-														<div
-															class="text-left">
-															<label
-																value="Locus list: " style="font-size:12px;" pre="true" />
+															</div>
 														</div>
 													</div>
-												</div>
-												<div
-													class="col offset-xl-0">
 													<div
-														class="form-group">
-														<listbox
-															id="listboxLocuslist" mold="select" rows="1"
-															style="width:300px!important;" />
-														<zscript><![CDATA[
+														class="form-row" style="width: 600px;height:35px;">
+														<div
+															class="col-xl-3 offset-xl-0">
+															<div
+																class="form-group">
+																<div
+																	class="text-left">
+																	<label
+																		value="Locus list: " style="font-size:12px;"
+																		pre="true" />
+																</div>
+															</div>
+														</div>
+														<div
+															class="col offset-xl-0">
+															<div
+																class="form-group">
+																<listbox
+																	id="listboxLocuslist" mold="select" rows="1"
+																	style="width:300px!important;" />
+																<zscript><![CDATA[
 	listboxLocuslist.setModel(new org.irri.iric.portal.SimpleListModelExt(listLocuslistNames));
 	comboboxLocus.setModel(new org.irri.iric.portal.SimpleListModelExt(listLocusNames));
 	listboxLocuslist.setSelectedIndex(0);
 ]]></zscript>
 
-													</div>
-												</div>
-											</div>
-											<div class="form-row"
-												style="width: 600px;height:35px;">
-												<div
-													class="col-xl-3 offset-xl-0">
-													<div
-														class="form-group">
-														<div
-															class="text-left">
-
+															</div>
 														</div>
 													</div>
-												</div>
-												<div
-													class="col offset-xl-0">
 													<div
-														class="form-group">
-														<button
-															id="buttonDownloadSequence" style="font-size:12px;">
-															Download
-															Sequence
-														</button>
+														class="form-row" style="width: 600px;height:35px;">
+														<div
+															class="col-xl-3 offset-xl-0">
+															<div
+																class="form-group">
+																<div
+																	class="text-left">
+
+																</div>
+															</div>
+														</div>
+														<div
+															class="col offset-xl-0">
+															<div
+																class="form-group">
+																<button
+																	id="buttonDownloadSequence" style="font-size:12px;">
+																	Download
+																	Sequence
+																</button>
 
 
+															</div>
+														</div>
 													</div>
-												</div>
-											</div>
 
 
-										</n:div>
+												</n:div>
 
-									</groupbox>
-								</n:form>
-							</n:div>
-						</n:nav>
+											</groupbox>
+										</n:form>
+									</n:div>
+								</n:nav>
 
-						<hbox height="20px" />
-						<hbox>
-							<label id="labelDownloadProgressMsg"
-								style="font-weight:bold;font-size:12px" />
-							<vbox width="10px" />
-							<a id="aDownloadProgressURL" target="_job" />
-						</hbox>
+								<hbox height="20px" />
+								<hbox>
+									<label id="labelDownloadProgressMsg"
+										style="font-weight:bold;font-size:12px" />
+									<vbox width="10px" />
+									<a id="aDownloadProgressURL"
+										target="_job" />
+								</hbox>
 
-					</tabpanel>
+							</tabpanel>
 
 
-				</tabpanels>
-			</tabbox>
+						</tabpanels>
+					</tabbox>
+				</div>
 
-			<zscript><![CDATA[
+				<zscript><![CDATA[
 	tabSequence.setVisible(!AppContext.isUsingsharedData());
 ]]></zscript>
 
-
+			</div>
 		</window>
 	</n:div>
 </zk>
