@@ -1,5 +1,5 @@
 <window id="createWindow" border="none" width="820px" height="830px"
-	apply="user.ui.module.workspace.CreateListController">
+	apply="user.ui.module.workspace.CreateVarietyListController">
 	<div style="height:40px; background-color:#6fa379;padding:10px;">
 		<label>Add Custom List</label>
 	</div>

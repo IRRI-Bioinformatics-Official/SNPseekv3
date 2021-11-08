@@ -42,17 +42,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.HtmlNativeComponent;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.OpenEvent;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Composition;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Caption;
@@ -133,12 +130,10 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	private Button buttonDelete;
 	@Wire
 	private Vbox vboxEditNewList;
-	@Wire
-	private Textbox resultBox;
 
 	@Wire
 	private Button buttonDownload;
-	
+
 	@Wire
 	private Caption captionListId;
 
@@ -182,10 +177,6 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	@Wire
 	private Textbox textboxFrom;
 
-	@Wire
-	private Checkbox checkboxSNPAlelle;
-	@Wire
-	private Checkbox checkboxSNPPValue;
 	@Wire
 	private Label labelMsgFormat;
 	@Wire
@@ -302,9 +293,9 @@ public class WorkspaceController extends SelectorComposer<Component> {
 			labelMsgFormat.setValue("Format: position");
 		}
 
-		if (this.checkboxSNPAlelle.isChecked())
+		if (input.isSnpAllele())
 			labelMsgFormat.setValue(labelMsgFormat.getValue() + "  allele");
-		if (this.checkboxSNPPValue.isChecked())
+		if (input.isSnpPvalue())
 			labelMsgFormat.setValue(labelMsgFormat.getValue() + "  -log(p)");
 
 	}
@@ -372,6 +363,10 @@ public class WorkspaceController extends SelectorComposer<Component> {
 		radioVariety.setSelected(true);
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 
+		listboxVarieties.setVisible(false);
+		listboxPositions.setVisible(false);
+		listboxLocus.setVisible(false);
+
 		List listVarlistNames = new ArrayList();
 		listVarlistNames.addAll(workspace.getVarietylistNames());
 		SimpleListModel model = new SimpleListModel(listVarlistNames);
@@ -382,16 +377,9 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 			AppContext.debug(listboxListnames.getSelectedItem().getLabel() + "  selected");
 			Events.sendEvent("onSelect", listboxListnames, null);
+			listboxVarieties.setVisible(true);
 		} else
 			labelNItems.setVisible(false);
-		listboxPositions.setVisible(false);
-		listboxVarieties.setVisible(true);
-		listboxLocus.setVisible(false);
-
-		// divMsgVariety.setVisible(true);
-		// divMsgSNP.setVisible(false);
-		// divMsgLocus.setVisible(false);
-		//hboxDataset.setVisible(true);
 
 	}
 
@@ -399,7 +387,11 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	public void onclickLocus() {
 
 		captionListId.setLabel("Locus List ");
-		
+
+		listboxPositions.setVisible(false);
+		listboxVarieties.setVisible(false);
+		listboxLocus.setVisible(false);
+
 		radioLocus.setSelected(true);
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 
@@ -413,24 +405,16 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 			AppContext.debug(listboxListnames.getSelectedItem().getLabel() + "  selected");
 			Events.sendEvent("onSelect", listboxListnames, null);
+			listboxLocus.setVisible(true);
 		} else
 			labelNItems.setVisible(false);
-		listboxPositions.setVisible(false);
-		listboxVarieties.setVisible(false);
-		listboxLocus.setVisible(true);
-
-//		divMsgVariety.setVisible(false);
-//		divMsgSNP.setVisible(false);
-//		divMsgLocus.setVisible(true);
-//
-//		hboxDataset.setVisible(false);
 	}
 
 	@Listen("onClick = #radioSNP")
 	public void onclickSNP() {
 
 		captionListId.setLabel("SNP List ");
-		
+
 		radioSNP.setSelected(true);
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 
@@ -456,7 +440,7 @@ public class WorkspaceController extends SelectorComposer<Component> {
 //		divMsgSNP.setVisible(true);
 //		divMsgLocus.setVisible(false);
 
-		//updateSNPFormatMsg();
+		// updateSNPFormatMsg();
 
 //		hboxDataset.setVisible(true);
 	}
@@ -701,7 +685,12 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	@Listen("onClick =#buttonCreate")
 	public void onbuttonCreate() {
 
-		window = (Window) Executions.createComponents("CreateListDialog.zul", null, null);
+		if (radioVariety.isSelected())
+			window = (Window) Executions.createComponents("CreateVarietyListDialog.zul", null, null);
+		else if (radioSNP.isSelected())
+			window = (Window) Executions.createComponents("CreateSNPListDialog.zul", null, null);
+		else if (radioLocus.isSelected())
+			window = (Window) Executions.createComponents("CreateLocusDialog.zul", null, null);
 
 		window.addEventListener(Events.ON_CLOSE, new EventListener<Event>() {
 
@@ -942,16 +931,16 @@ public class WorkspaceController extends SelectorComposer<Component> {
 		genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
 
 		String organism = AppContext.getDefaultOrganism();
-		if (selectChromosome.getSelectedItem() == null)
+		if (input.getChromosome() == null)
 			return;
-		String selchr = selectChromosome.getSelectedItem().getLabel();
+		String selchr = input.getChromosome();
 
-		boolean hasAllele = this.checkboxSNPAlelle.isChecked();
-		boolean hasPvalue = this.checkboxSNPPValue.isChecked();
+		boolean hasAllele = input.isSnpAllele();
+		boolean hasPvalue = input.isSnpPvalue();
 
 		if (selchr.equals("ANY")) {
 
-			String lines[] = input.getVarietyList().trim().split("\n");
+			String lines[] = input.getSnpList().trim().split("\n");
 
 			Map<String, Map> mapChr2Pos2Pvalue = new HashMap();
 			Map<String, Map> mapChr2Pos2Allele = new HashMap();
@@ -1054,7 +1043,7 @@ public class WorkspaceController extends SelectorComposer<Component> {
 					}
 
 				} else {
-					if (this.checkboxVerifySNP.isChecked()) {
+					if (input.isVerifySnp()) {
 						Iterator<SnpsAllvarsPos> itSnpsDB = genotype.checkSNPInChromosome(chr, setSNP, getVariantSets())
 								.iterator();
 						while (itSnpsDB.hasNext()) {
@@ -1071,7 +1060,7 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 			}
 
-			if (this.checkboxVerifySNP.isChecked())
+			if (input.isVerifySnp())
 				onbuttonSaveSNPInChr(setChrSNP, setSNPDBPos, null, hasAllele, hasPvalue);
 			else
 				onbuttonSaveSNPInChr(setChrSNP, null, null, hasAllele, hasPvalue);
@@ -1097,7 +1086,7 @@ public class WorkspaceController extends SelectorComposer<Component> {
 		isMsgboxEventSuccess = false;
 		isDoneModal = false;
 
-		final String chr = selectChromosome.getSelectedItem().getLabel();
+		final String chr = input.getChromosome();
 		final String newlistname = input.getListname().replaceAll(":", "").trim();
 
 		if (setSNPDBPos == null && setCoreSNPDBPos == null) {
@@ -1105,10 +1094,10 @@ public class WorkspaceController extends SelectorComposer<Component> {
 			if (workspace.addSnpPositionList(chr, newlistname, setSNP, hasAllele, hasPvalue)) {
 
 				AppContext.debug(newlistname + " added with " + setSNP.size() + " items");
-				resultBox.setValue("");
+
 				// txtboxEditListname.setValue("");
 				listboxVarieties.setVisible(false);
-				vboxEditNewList.setVisible(false);
+
 				buttonCreate.setVisible(true);
 				buttonDelete.setVisible(true);
 				buttonSave.setVisible(false);
@@ -1179,10 +1168,9 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 						AppContext.debug(newlistname + " added with " + setMatched.size() + " items");
 
-						resultBox.setValue("");
 						// txtboxEditListname.setValue("");
 						listboxVarieties.setVisible(false);
-						vboxEditNewList.setVisible(false);
+
 						buttonCreate.setVisible(true);
 						buttonDelete.setVisible(true);
 						buttonSave.setVisible(false);
@@ -1235,7 +1223,6 @@ public class WorkspaceController extends SelectorComposer<Component> {
 												AppContext.debug(
 														newlistname + " added with " + setMatched.size() + " items");
 
-												resultBox.setValue("");
 												// txtboxEditListname.setValue("");
 												listboxVarieties.setVisible(false);
 												vboxEditNewList.setVisible(false);
@@ -1278,7 +1265,6 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 				AppContext.debug(newlistname + " added with " + setMatched.size() + " items");
 
-				resultBox.setValue("");
 				// txtboxEditListname.setValue("");
 				listboxVarieties.setVisible(false);
 				vboxEditNewList.setVisible(false);
@@ -1345,32 +1331,27 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 			AppContext.debug("Adding locus list");
 
-			/**
-			 * TODO CHECK INPUT
-			 */
-			/*
-			 * if (txtboxEditListname.getValue().trim().isEmpty()) {
-			 * Messagebox.show("Provide unique list name", "INVALID VALUE", Messagebox.OK,
-			 * Messagebox.EXCLAMATION); return; } if
-			 * (workspace.getLoci(txtboxEditListname.getValue().trim()) != null &&
-			 * !workspace.getLoci(txtboxEditListname.getValue().trim()).isEmpty()) {
-			 * Messagebox.show("Listname already exists", "INVALID VALUE", Messagebox.OK,
-			 * Messagebox.EXCLAMATION); return; } if
-			 * (workspace.addLocusList(txtboxEditListname.getValue().trim(), setMatched)) {
-			 * 
-			 * AppContext.debug(txtboxEditListname.getValue().trim() + " added with " +
-			 * setMatched.size() + " items");
-			 * 
-			 * resultBox.setValue(""); txtboxEditListname.setValue("");
-			 * listboxLocus.setVisible(true); vboxEditNewList.setVisible(false);
-			 * buttonCreate.setVisible(true); buttonDelete.setVisible(true);
-			 * buttonSave.setVisible(false); buttonCancel.setVisible(false);
-			 * 
-			 * Events.sendEvent("onClick", radioLocus, null);
-			 * 
-			 * } else { Messagebox.show("Failed to add list", "OPERATION FAILED",
-			 * Messagebox.OK, Messagebox.EXCLAMATION); }
-			 */
+			if (input.getListname().trim().isEmpty()) {
+				Messagebox.show("Provide unique list name", "INVALID VALUE", Messagebox.OK, Messagebox.EXCLAMATION);
+				return;
+			}
+			if (workspace.getLoci(input.getListname().trim()) != null
+					&& !workspace.getLoci(input.getListname().trim()).isEmpty()) {
+				Messagebox.show("Listname already exists", "INVALID VALUE", Messagebox.OK, Messagebox.EXCLAMATION);
+				return;
+			}
+			if (workspace.addLocusList(input.getListname().trim(), setMatched)) {
+
+				AppContext.debug(input.getListname().trim() + " added with " + setMatched.size() + " items");
+
+				listboxLocus.setVisible(true);
+
+				Events.sendEvent("onClick", radioLocus, null);
+
+			} else {
+				Messagebox.show("Failed to add list", "OPERATION FAILED", Messagebox.OK, Messagebox.EXCLAMATION);
+			}
+
 		}
 	}
 
@@ -1408,7 +1389,7 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 		List listNoMatch = new ArrayList();
 		final Set setMatched = new TreeSet(new LocusComparator());
-		String lines[] = resultBox.getValue().trim().split("\n");
+		String lines[] = input.getLocusList().trim().split("\n");
 		for (int i = 0; i < lines.length; i++) {
 
 			Locus locus = null;
@@ -1455,7 +1436,7 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 		List listNoMatch = new ArrayList();
 		final Set setMatched = new TreeSet(new LocusComparator());
-		String lines[] = resultBox.getValue().trim().split("\n");
+		String lines[] = input.getLocusList().trim().split("\n");
 		for (int i = 0; i < lines.length; i++) {
 
 			Locus locus = null;
@@ -1733,50 +1714,41 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 			init();
 
-			listitemsdao = (ListItemsDAO) AppContext.checkBean(listitemsdao, "ListItems");
-			List listVS = new ArrayList();
-			listVS.addAll(listitemsdao.getSnpsets());
+//			listitemsdao = (ListItemsDAO) AppContext.checkBean(listitemsdao, "ListItems");
+//			List listVS = new ArrayList();
+//			listVS.addAll(listitemsdao.getSnpsets());
 
-			variety = (VarietyFacade) AppContext.checkBean(variety, "VarietyFacade");
-			List listDatasets = variety.getDatasets();
+//			variety = (VarietyFacade) AppContext.checkBean(variety, "VarietyFacade");
+//			List listDatasets = variety.getDatasets();
 
 			workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 			List listVarlistNames = new ArrayList();
 			listVarlistNames.addAll(workspace.getVarietylistNames());
 			AppContext.debug("listVarlistNames=" + listVarlistNames.size());
 
-			List listContigs = new ArrayList();
-			listContigs.add("");
-			listContigs.add("chr01");
-			listContigs.add("chr02");
-			listContigs.add("chr03");
-			listContigs.add("chr04");
-			listContigs.add("chr05");
-			listContigs.add("chr06");
-			listContigs.add("chr07");
-			listContigs.add("chr08");
-			listContigs.add("chr09");
-			listContigs.add("chr10");
-			listContigs.add("chr11");
-			listContigs.add("chr12");
-			listContigs.add("ANY");
+//			List listContigs = new ArrayList();
+//			listContigs.add("");
+//			listContigs.add("chr01");
+//			listContigs.add("chr02");
+//			listContigs.add("chr03");
+//			listContigs.add("chr04");
+//			listContigs.add("chr05");
+//			listContigs.add("chr06");
+//			listContigs.add("chr07");
+//			listContigs.add("chr08");
+//			listContigs.add("chr09");
+//			listContigs.add("chr10");
+//			listContigs.add("chr11");
+//			listContigs.add("chr12");
+//			listContigs.add("ANY");
 
 			SimpleListModel listmodel = new SimpleListModel(listVarlistNames);
 			listmodel.setMultiple(true);
 			listboxListnames.setModel(listmodel);
 
-			// listboxPositions.setItemRenderer(new SNPChrPositionListitemRenderer());
+			listboxPositions.setItemRenderer(new SNPChrPositionListitemRenderer());
 			listboxVarieties.setItemRenderer(new VarietyListItemRenderer());
 			listboxLocus.setItemRenderer(new LocusListItemRenderer());
-
-//			selectChromosome.setModel(new SimpleListModel(listContigs));
-//			selectChromosome.setSelectedIndex(listContigs.size() - 1);
-
-//			if (listVS.size() < 4)
-//				listboxVariantset.setRows(listVS.size());
-//			SimpleListModel listmodelvs = new SimpleListModel(listVS);
-//			listmodelvs.setMultiple(true);
-//			listboxVariantset.setModel(listmodelvs);
 
 			String from = Executions.getCurrent().getParameter("from");
 			String src = Executions.getCurrent().getParameter("src");
@@ -1797,7 +1769,7 @@ public class WorkspaceController extends SelectorComposer<Component> {
 					String hasallele = Executions.getCurrent().getParameter("hasallele");
 					if (hasallele != null) {
 						textboxFrom.setValue("snpallele");
-						Events.postEvent("onCheck", checkboxSNPAlelle, null);
+						// Events.postEvent("onCheck", checkboxSNPAlelle, null);
 
 					}
 				} else if (from.equals("locus")) {
