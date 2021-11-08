@@ -61,7 +61,7 @@ import org.zkoss.zul.Window;
 
 @Controller
 @Scope("session")
-public class CreateListController extends SelectorComposer<Component> {
+public class CreateVarietyListController extends SelectorComposer<Component> {
 
 	CookieController cookieController = new CookieController();
 	SessionController sessionController = new SessionController();
@@ -207,7 +207,7 @@ public class CreateListController extends SelectorComposer<Component> {
 	@Wire
 	private Window createWindow;
 
-	public CreateListController() {
+	public CreateVarietyListController() {
 		super();
 		AppContext.debug("created WorkspaceController:" + this);
 	}

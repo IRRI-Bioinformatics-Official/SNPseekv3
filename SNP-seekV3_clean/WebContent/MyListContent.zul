@@ -319,23 +319,7 @@ WorkspaceFacade workspace = (WorkspaceFacade)SpringUtil.getBean("WorkspaceFacade
 													</div>
 												</div>
 											</div>
-											<!-- <div
-												class="col offset-xl-0">
-												<div
-												class="form-group">
-												<hbox>
-												<textbox
-												id="textboxResultSet" value="" style="font-size:11px;" />
-												
-												<button
-												id="buttonUnion" label="Union" style="font-size:11px;" />
-												<button
-												id="buttonIntersect" label="Intersect"
-												style="font-size:11px;" />
-												</hbox>
-												
-												</div>
-												</div> -->
+											
 										</div>
 									</n:div>
 								</groupbox>
