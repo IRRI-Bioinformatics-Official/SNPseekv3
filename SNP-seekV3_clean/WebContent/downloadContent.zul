@@ -209,12 +209,13 @@
 
 							<tabpanel>
 								<hbox height="20px" />
-								<n:nav id="genotypeSearchSidebar">
+								<n:nav id="genotypeSearchSidebar"
+									style="width:645px !important">
 									<n:div class="container2"
-										style="background-color:#d9dcbb;width:645px;height:650px;">
+										style="background-color:#d9dcbb;width:645px !important;height:650px;">
 										<vbox>
 											<n:div
-												style="width:620px !important;margin-left: 10px;margin-top: 15px;background-color:rgb(164 201 168);padding:10px">
+												style="width:620px !important;margin-left: 10px;margin-top: 15px;background-color:rgb(164 201 168);padding:10px; color:black;">
 
 												<label
 													value="Generate sequence from the VCF file for the selected varieties and regions."

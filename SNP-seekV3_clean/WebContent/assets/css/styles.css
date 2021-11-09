@@ -67,7 +67,7 @@ body {
 }
 
 .dropdown-menu {
-	background-color: #a0f8b5;
+	background-color: #075207;
 }
 
 .nav-item:hover {
@@ -80,7 +80,7 @@ body {
 
 .dropdown-item {
 	font-size: 12px;
-	background-color: #87f5a18a;
+	background-color: #e9ecef;
 }
 
 .z-center .z-center-noborder {
@@ -417,6 +417,17 @@ body {
 	height: 30px !important;
 }
 
-.z-datebox-button, .z-bandbox-button, .z-combobox-button{
-	font-size:16px !important;
+.z-datebox-button, .z-bandbox-button, .z-combobox-button {
+	font-size: 16px !important;
+}
+
+.z-menu-content, .z-menuitem-content {
+	border-top: 1px solid #075207 !important;
+	border-bottom: 1px solid #075207 !important;
+	background: #075207 !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+.z-menupopup {
+	background: #075207 !important;
 }
