@@ -218,6 +218,10 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox listboxPtocoterm;
+	
+	@Wire
+	private Div backQueryDiv;
+
 
 	@Wire
 	private A aCO;
@@ -279,6 +283,12 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 		// TODO Auto-generated constructor stub
 		AppContext.debug("VarietyQueryController created");
 	}
+	
+	@Listen("onClick=#backQueryDiv")
+	public void onClick$backQueryDiv() {
+		Clients.evalJavaScript("myFunction();");
+	}
+
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {

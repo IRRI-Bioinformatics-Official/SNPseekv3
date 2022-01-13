@@ -144,6 +144,14 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	private A aNCBI;
 	@Wire
 	private A aIC4RLit;
+	
+	@Wire
+	private Label msgResult;
+	
+	@Wire
+	private Label nmResult;
+	
+	
 
 	@Wire
 	private Grid gridLocusInfo;
@@ -164,9 +172,6 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Div divGeneModel;
-
-	@Wire
-	private Div sideBarDiv;
 
 	@Wire
 	Label labelChrExample;
@@ -205,6 +210,9 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	private Grid gridGOTerms;
 	@Wire
 	private Row rowCountGOTermLoci;
+	
+	@Wire
+	private Div backQueryDiv;
 
 	@Wire
 	private Listbox listboxOrganism;
@@ -537,8 +545,6 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 	private void initResults() {
 
-		sideBarDiv.setVisible(true);
-
 		locus_Result.setVisible(false);
 		listboxAlignment.setVisible(false);
 		listboxLocus.setVisible(false);
@@ -719,6 +725,12 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 		}
 
 	}
+	
+	@Listen("onClick=#backQueryDiv")
+	public void onClick$backQueryDiv() {
+		Clients.evalJavaScript("closeQueryForm();");
+	}
+
 
 	class SubmitWebsiteFuture {
 		private List<Button> listButtons;
@@ -1116,6 +1128,8 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	public void searchByRegion() {
 
 		AppContext.debug("searching region in " + listboxContig.getValue());
+		
+		Clients.evalJavaScript("closeQueryForm();");
 
 		if (this.listboxContig.getValue() == null || this.listboxContig.getValue().trim().isEmpty()
 				|| this.intboxContigStart.getValue() == null || this.intboxContigEnd.getValue() == null) {
@@ -1153,9 +1167,10 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 				hboxAddtolist.setVisible(false);
 			}
 
-			this.msgbox.setValue("Search by region " + listboxContig.getValue().trim() + " ["
+			this.msgResult.setValue("Search by region " + listboxContig.getValue().trim() + " ["
 					+ intboxContigStart.getValue().intValue() + "-" + intboxContigEnd.getValue().intValue()
-					+ "] ... RESULT:" + locusresult.size() + " loci");
+					+ "]");
+			this.nmResult.setValue( locusresult.size() + " loci");
 			
 			variety_panelPassportResult.setVisible(true);
 
@@ -2019,6 +2034,10 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	public void onclickSearchGenename() {
 		initResults();
 		try {
+			
+			Clients.evalJavaScript("closeQueryForm();");
+			
+			
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
 
 			System.out.println("Searching..." + textboxGenename.getValue());
@@ -2059,8 +2078,10 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 				hboxDownload.setVisible(false);
 			}
 
-			this.msgbox.setValue(
-					"Search by name '" + textboxGenename.getValue() + "' ... RESULT:" + locusresult.size() + " loci");
+			this.msgResult.setValue(
+					"Search by name " + textboxGenename.getValue());
+			
+			this.nmResult.setValue(locusresult.size() + " loci");
 
 			if (locusresult.size() == 1) {
 				show_locus(locusresult.get(0));
@@ -2080,6 +2101,9 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	public void onclickSearchGO() {
 		initResults();
 		try {
+			
+			Clients.evalJavaScript("closeQueryForm();");
+			
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
 
 			locusresult = new ArrayList();
@@ -2119,6 +2143,9 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	public void onclickSearchPato() {
 		initResults();
 		try {
+			Clients.evalJavaScript("closeQueryForm();");
+			
+			
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
 
 			locusresult = new ArrayList();
@@ -2145,8 +2172,8 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			listboxLocus.setItemRenderer(new LocusListItemRenderer(prefixDesc));
 			listboxLocus.setModel(new SimpleListModel(locusresult));
 
-			this.msgbox.setValue("Search by PATO term '" + listboxPatoTerm.getSelectedItem().getLabel()
-					+ "' ... RESULT:" + locusresult.size() + " loci");
+			this.msgResult.setValue("Search by PATO term '" + listboxPatoTerm.getSelectedItem().getLabel());
+			this.nmResult.setValue(locusresult.size() + " loci");
 
 			listboxLocus.setVisible(true);
 			
