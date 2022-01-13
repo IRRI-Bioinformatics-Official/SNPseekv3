@@ -74,6 +74,16 @@
 
 		</style>
 
+		<script>
+			function closeQueryForm() {
+
+			var element =
+			document.getElementById("genotypeSearchSidebar");
+			element.classList.toggle("active");
+
+			}
+		</script>
+
 		<window id="genWin" border="none"
 			apply="user.ui.module.GeneLociQueryController" width="100%"
 			height="100%">
@@ -92,17 +102,17 @@
 								</n:div>
 								<n:div class="col"
 									style="padding-left: 10px;margin-top: 5px;">
-									<n:div class="text-right"
-										style="display:none;">
-										<n:button id="sidebarCollapse"
-											class="btn" alt="This is hello world!" visible="false">
-											<n:i
-												class="fa fa-chevron-left">
+									<n:div class="text-right">
+										<n:button id="closeSidebar"
+											class="btn" visible="true">
+											<n:i class="fas fa-times">
 											</n:i>
 										</n:button>
 									</n:div>
 
 								</n:div>
+
+
 							</n:div>
 							<n:div class="form-row">
 								<n:div
@@ -1058,144 +1068,92 @@
 
 					<n:div id="content">
 						<n:div>
-							<n:div class="mainDiv-Sidebar">
-								<div id="sideBarDiv" visible="false">
-									<n:div class="main-leftsidebar-div"
-										data-component="leftsidebar">
-										<n:div class="leftsidebar"
-											style="z-index:3000;position:sticky;top:0;">
+							<div id="resultHeader"
+								style="width:100%;background-color:white;padding:10px 20px 10px 20px;border-radius: 20px; margin-left: 20px; margin-right: 20px;"
+								visible="true">
 
-											<n:ul
-												class="nav list-group flex-column d-inline-block first-menu scrollbar-indigo thin first-main-menu">
+								<n:div class="form-row">
+									<n:div class="col">
 
-												<n:div id="queryDiv"
-													style="z-index:40001">
-													<n:button
-														id="sidebarCollapse3" alt="This is hello world!"
-														onclick="myFunction()" class="btn"
-														style="margin-left:10px;">
-														<n:i
-															class="fa fa-bars">
-
-														</n:i>
-
-													</n:button>
-												</n:div>
-												<div id="resultDiv"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="resultLink" class="nav-link" href="#"
-															style="border-color: rgb(82, 154, 111);color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-table">
-																<span
-																	id="resultSpan" class="ml-2 align-middle">
-																	Result
-																</span>
-															</n:i>
-														</a>
-													</n:li>
-												</div>
-												<div id="resultDiv2"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox2" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="alleleLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-pie-chart">
-
-																<span
-																	id="resultSpan2" class="ml-2 align-middle">
-																	Passport
-																	Data
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv3"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox3" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a id="seLink"
-															class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-pie-chart">
-
-																<span
-																	id="resultSpan3" class="ml-2 align-middle">
-																	Phenotypes
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv4"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox4" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="jbrowseLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-align-left">
-																<span
-																	id="resultSpan4" class="ml-2 align-middle">
-																	MDS
-																	Plot
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-
-												<div id="collapseDiv">
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<checkbox
-															id="collapseCheckbox" visible="false" />
-														<a
-															id="collapseLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-window-restore">
-																<span
-																	id="collapseSpan" class="ml-2 align-middle">
-																	Collapse
-																	Windows
-																</span>
-															</n:i>
-														</a>
-													</n:li>
-												</div>
-											</n:ul>
-										</n:div>
+										<div id="backQueryDiv"
+											style="border: 4px; border-style: solid; width: 150px; padding: 15px;  border-radius: 25px;  border-color: #55a569; 
+    												margin-left: 20px;cursor:pointer;"
+											class="divBtn">
+											<hlayout>
+												<n:i
+													class="fas fa-share-square"
+													style="font-size: 40px; color: #33a952">
+												</n:i>
+												<vbox>
+													<label
+														value="Back to"
+														style="padding-left:10px;color: #03a103;font-size:14px;" />
+													<label
+														style="padding-left:10px;color: #03a103;font-size:16px;"
+														value="query" />
+												</vbox>
+											</hlayout>
+										</div>
 									</n:div>
-								</div>
+									<n:div
+										style="margin-left:auto;margin-right:0px;padding-left: 10px;margin-top: 5px;">
+										<n:div class="text-right">
+											<div style="width:100%">
+												<hbox align="end">
+													<div
+														style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
+														<hlayout>
+															<n:i
+																class="fas fa-seedling"
+																style="font-size: 40px; color: #33a952">
+															</n:i>
+															<vbox>
+																<label
+																	value="INFO"
+																	style="padding-left:10px;color: #03a103;font-size:14px;" />
+																<label
+																	id="msgResult"
+																	style="padding-left:10px;color: #03a103;font-size:16px;"
+																	value="0" />
+															</vbox>
+														</hlayout>
+													</div>
+
+													<div
+														style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
+														<hlayout>
+															<n:i
+																class="fas fa-poll-h"
+																style="font-size: 40px; color: #33a952">
+															</n:i>
+															<vbox>
+																<label
+																	value="RESULT"
+																	style="padding-left:10px;color: #03a103;font-size:14px;" />
+																<label
+																	id="nmResult" value="0"
+																	style="padding-left:10px;color: #03a103;font-size:16px;" />
+															</vbox>
+														</hlayout>
+													</div>
+												</hbox>
+											</div>
+										</n:div>
+
+									</n:div>
+								</n:div>
+
+							</div>
+							<n:div class="mainDiv-Sidebar">
 								<n:div
-									style="margin-left:100px;margin-top:10px">
+									style="margin-left:20px;margin-top:10px">
 									<portallayout id="portalLayout"
 										maximizedMode="whole">
-										<portalchildren width="1050px">
+										<portalchildren
+											width="100%">
 											<panel id="locus_Result"
 												class="locus_resultStyle" title="Data" border="normal"
-												collapsible="true" closable="false" maximizable="true"
+												collapsible="true" closable="false" maximizable="true" maximized="true"
 												visible="false">
 												<panelchildren>
 													<vbox>
@@ -1310,7 +1268,7 @@
 												id="variety_panelPassportResult" title="Passport"
 												class="variety_panelPassportResultStyle" border="normal"
 												collapsible="true" closable="false" maximizable="true"
-												visible="false">
+												visible="false" maximized="true" width="100%">
 
 												<panelchildren>
 													<vbox
@@ -1378,20 +1336,20 @@
 
 														<!--  *********************   GENE LOCUS QUERY RESULTS DISPLAY  *********************************************************************************** -->
 														<zscript>
-															import org.irri.iric.portal.genomics.zkui.LocusListItemComparator;
-															Comparator lasc0 = new LocusListItemComparator(true, 0, 0);
-															Comparator ldsc0 = new LocusListItemComparator(false, 0, 0);
-															Comparator lasc1 = new LocusListItemComparator(true, 1, 0);
-															Comparator ldsc1 = new LocusListItemComparator(false, 1, 0);
-															Comparator lasc2 = new LocusListItemComparator(true, 2, 1);
-															Comparator ldsc2 = new LocusListItemComparator(false, 2, 1);
-															Comparator lasc3 = new LocusListItemComparator(true, 3, 1);
-															Comparator ldsc3 = new LocusListItemComparator(false, 3, 1);
-															Comparator lasc4 = new LocusListItemComparator(true, 4, 1);
-															Comparator ldsc4 = new LocusListItemComparator(false, 4, 1);
-															Comparator lasc6 = new LocusListItemComparator(true, 6, 0);
-															Comparator ldsc6 = new LocusListItemComparator(false, 6, 0);
-														</zscript>
+	import org.irri.iric.portal.genomics.zkui.LocusListItemComparator;
+	Comparator lasc0 = new LocusListItemComparator(true, 0, 0);
+	Comparator ldsc0 = new LocusListItemComparator(false, 0, 0);
+	Comparator lasc1 = new LocusListItemComparator(true, 1, 0);
+	Comparator ldsc1 = new LocusListItemComparator(false, 1, 0);
+	Comparator lasc2 = new LocusListItemComparator(true, 2, 1);
+	Comparator ldsc2 = new LocusListItemComparator(false, 2, 1);
+	Comparator lasc3 = new LocusListItemComparator(true, 3, 1);
+	Comparator ldsc3 = new LocusListItemComparator(false, 3, 1);
+	Comparator lasc4 = new LocusListItemComparator(true, 4, 1);
+	Comparator ldsc4 = new LocusListItemComparator(false, 4, 1);
+	Comparator lasc6 = new LocusListItemComparator(true, 6, 0);
+	Comparator ldsc6 = new LocusListItemComparator(false, 6, 0);
+</zscript>
 
 
 														<listbox
@@ -1656,7 +1614,7 @@
 					</n:div>
 				</n:div>
 			</n:div>
-		
+
 		</window>
 	</n:div>
 
