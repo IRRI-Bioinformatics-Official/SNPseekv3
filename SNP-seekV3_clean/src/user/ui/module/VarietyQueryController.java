@@ -73,7 +73,6 @@ import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Panel;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.SimpleListModel;
 import org.zkoss.zul.Splitter;
@@ -114,9 +113,6 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 	private WorkspaceFacade workspace;
 
 	// hold form components
-
-	@Wire
-	private Div sideBarDiv;
 
 	@Wire
 	private Window winVariety;
@@ -224,18 +220,6 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 	private Button buttonDownloadVCF;
 
 	@Wire
-	private Panel variety_DataResult;
-
-	@Wire
-	private Panel variety_panelPassportResult;
-
-	@Wire
-	private Panel variety_panelPhenotypeResult;
-
-	@Wire
-	private Panel variety_MDSResult;
-
-	@Wire
 	private Listbox listboxPtocoterm;
 
 	@Wire
@@ -252,7 +236,17 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 
 	@Wire
 	private Grid gridQuery;
-
+	
+	@Wire
+	private Div resultContentDiv;
+	
+	@Wire
+	private Div resultHeader;
+	
+	@Wire
+	private Div backQueryDiv;
+	
+	
 	@Wire
 	private Label labelExampleSubpop;
 	@Wire
@@ -260,6 +254,13 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 	@Wire
 	private Label labelExampleAccession;
 
+	@Wire
+	private Label nmResult;
+	
+	@Wire
+	private Label nmAcession;
+	
+	
 	@Wire
 	private Label labelExampleIrisId;
 
@@ -1417,6 +1418,8 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 	public void searchList3k() {
 		try {
 
+			Clients.evalJavaScript("myFunction();");
+			
 			AppContext.resetTimer("variety query start");
 			// tabboxDisplay.setVisible(false);
 
@@ -1621,17 +1624,23 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 			isdonePhylo = false;
 			istreebrowser = false;
 
-			sideBarDiv.setVisible(true);
-			variety_DataResult.setVisible(true);
-			variety_panelPassportResult.setVisible(true);
-			variety_panelPhenotypeResult.setVisible(true);
 			showMDSNeighbors();
-			variety_MDSResult.setVisible(true);
+			
+			resultContentDiv.setVisible(true);
+			resultHeader.setVisible(true);
+			//nmResult.setValue(""+varsresult.size()+ "rows");
+			nmAcession.setValue(msgbox.getValue());
+			
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw ex;
 		}
+	}
+	
+	@Listen("onClick=#backQueryDiv")
+	public void onClick$backQueryDiv() {
+		Clients.evalJavaScript("myFunction();");
 	}
 
 	/**

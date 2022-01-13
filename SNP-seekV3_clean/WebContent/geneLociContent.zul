@@ -20,9 +20,7 @@
 		<style src="assets/css/styles.css" />
 		<style src="assets/css/styles_genotype.css" />
 		<style src="assets/css/Collapsible-Sidebar.css" />
-		<style
-			src="assets/css/Vertical-Left-SideBar-by-Jigar-Mistry.css" />
-
+		<style src="assets/css/sidebar_home.css" />
 		<style>
 			.z-loading { background-color:#808080; border:1px outset
 			#A0A0A0; font-weight: bold; padding:2px;
@@ -1658,20 +1656,7 @@
 					</n:div>
 				</n:div>
 			</n:div>
-			<n:footer class="footer-dark"
-				style="padding: 19px;padding-top: 5px;">
-				<n:div class="text-center">
-					<n:label class="text-center"
-						style="font-size: 12px;">
-						<n:br />
-						2014 International Rice Research Institute. Los
-						Banos, Laguna, Philippines. This site is under
-						development. We schedule maintenance every
-						Monday, 8-9:00 GMT (4-5PM Manila)
-						<n:br />
-					</n:label>
-				</n:div>
-			</n:footer>
+		
 		</window>
 	</n:div>
 

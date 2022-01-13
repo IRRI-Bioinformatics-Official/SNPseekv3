@@ -10,19 +10,25 @@ body {
 	padding: 0px !important;
 }
 
+.divBtn:hover{
+	cursor: pointer; 
+}
 .navbar.navbar-light.navbar-expand-md {
 	background: rgb(7, 82, 7);
 }
 
 .z-panel-header {
-	font-size: 12px;
+	font-size: 11px;
 	font-style: inherit;
-	font-weight: bold;
-	background-color: #90a58ac2 !important;
+	background-color: #e1e1e0c2 !important;
 	color: #504d4d;
-	padding: 10px !important;
+	padding: 5px !important;
 	line-height: 30px !important;
-	height: 50px !important;
+	height: 40px !important;
+}
+
+.z-panel {
+	border: 0px !important;
 }
 
 .z-biglistbox-header-content {
@@ -44,6 +50,7 @@ body {
 	padding-top: 0px;
 	position: relative;
 	z-index: 1;
+	background: #ededed !important;
 }
 
 .nav-link.active.tabbedPane {
@@ -136,7 +143,6 @@ body {
 
 .z-window {
 	padding: 0px;
-	height: 100%;
 }
 
 .panelGenotype {
@@ -152,7 +158,7 @@ body {
 }
 
 .z-biglistbox-header {
-	background: #517967 !important;
+	background: #57b58b !important;
 	color: white !important;
 }
 
@@ -191,7 +197,7 @@ body {
 .aFreqPanelStyle {
 	background-color: rgb(90, 181, 109);
 	font-size: 11px;
-	height: 480px;
+	height: 450px;
 	margin-bottom: 20px;
 	margin-right: 20px;
 }
@@ -287,16 +293,13 @@ body {
 	font-size: 12px !important;
 }
 
-.z-panel {
-	border: 1px solid #004e01 !important;
-}
-
 .z-biglistbox-body td {
 	font-size: 12px !important;
 }
 
 .z-panelchildren {
-	background-color: beige !important;
+	background-color: #ffffff !important;
+	padding: 5px !important;
 }
 
 * /
@@ -385,20 +388,25 @@ body {
 	background-color: #92c3a5 !important;
 }
 
-.btn {
-	color: #529a6f !important;
-}
-
 .z-north-header {
 	font-size: 12px;
-	background-color: #ececec;
+	background-color: #95c5a8;
 	padding-left: 10px;
 }
+
+.z-toolbar {
+    background: #ededed !important;
+ }
 
 .z-east-title, .z-west-title, .z-north-title, .z-south-title {
 	font-size: 12px;
-	background-color: #ececec;
+	background-color: #95c5a8;
 	padding-left: 10px;
+}
+
+.z-north-collapsed, .z-south-collapsed, .z-west-collapsed,
+	.z-center-collapsed, .z-east-collapsed {
+	background: #95c5a8 !important;
 }
 
 .inputTextLong {
@@ -422,12 +430,50 @@ body {
 }
 
 .z-menu-content, .z-menuitem-content {
-	border-top: 1px solid #075207 !important;
-	border-bottom: 1px solid #075207 !important;
-	background: #075207 !important;
+	border-top: 1px solid #07520700 !important;
+	border-bottom: 1px solid #07520700 !important;
+	background: #07520700 !important;
 	color: rgb(255, 255, 255) !important;
 }
 
 .z-menupopup {
 	background: #075207 !important;
+}
+
+.footer-dark {
+	z-index: 4001 !important;
+}
+
+.ml-2, .mx-2 {
+	margin-left: 0.0rem !important;
+}
+
+.z-combobox-input:focus {
+	border-color: #3a6b35;
+}
+
+.z-comboitem-selected {
+	color: #075207;
+}
+
+.z-comboitem:hover {
+	background-color: rgb(197, 235, 205);
+}
+
+.z-combobox-popup, .z-bandbox-popup, .z-datebox-popup, .z-timebox-popup
+	{
+	border: 1px solid #075207;
+}
+
+.z-window-content{
+	    background: #ededed;
+}
+
+.tipboxGwas > div > div > div{
+	height:430px !important;
+	width:280px !important;
+}
+
+.my_goldenStyle{
+	    background: #d9dcbb !important;
 }

@@ -21,8 +21,8 @@
 		<style src="assets/css/styles.css" />
 		<style src="assets/css/styles_genotype.css" />
 		<style src="assets/css/Collapsible-Sidebar.css" />
-		<style
-			src="assets/css/Vertical-Left-SideBar-by-Jigar-Mistry.css" />
+		<style src="assets/css/sidebar_home.css" />
+		
 
 		<!--  *********************   INITIALIZE DISPLAY VARIABLES  *********************************************************************************** -->
 
@@ -84,10 +84,10 @@
 		<window border="none"
 			apply="user.ui.module.DownloadController">
 
-			<div style="margin:15px;">
+			<div style="background: #ededed;margin-left: 25px;">
 				<hbox height="15px" />
 
-				<div style="margin:15px;">
+				<div>
 					<div align="center">
 						<label value="Bulk Download Page"
 							style="font-size:20px;font-weight:bold;color:green;" />
@@ -207,7 +207,7 @@
 
 							<!--  *********************   VCF2FASTA GENERATOR  TAB  *********************************************************************************** -->
 
-							<tabpanel>
+							<tabpanel style="height:800px;">
 								<hbox height="20px" />
 								<n:nav id="genotypeSearchSidebar"
 									style="width:645px !important">

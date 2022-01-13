@@ -8,7 +8,7 @@
 
 		ga('create', 'UA-84565607-1', 'auto'); ga('send', 'pageview');
 
-		
+
 
 	</script>
 
@@ -16,17 +16,22 @@
 		body { padding: 0 0; }
 
 	</style>
-	<borderlayout hflex="1" vflex="1" style="padding=0px!important">
+	<borderlayout hflex="1" vflex="1" style="padding:0px!important">
 		<north height="50px" border="none"
-			style="padding=0px!important">
+			style="padding:0px!important">
 			<include src="/banner.zul" />
 		</north>
+		<west id="leftsidebarTemplate"
+			style="margin-left:0px!important;width:60px!important;">
+			<include src="/sidebar.zul" style="padding:0px!important;" />
+		</west>
 		<center id="mainContent" autoscroll="true" border="none"
 			flex="true" self="@insert(content)">
 		</center>
-		<!-- <south height="30px" border="none">
-			<include src="/footer.zul"/>
-			</south>
-		-->
+		<south height="25px" border="none"
+			style="padding:0px!important">
+			<include src="/footer.zul" />
+		</south>
+
 	</borderlayout>
 </zk>

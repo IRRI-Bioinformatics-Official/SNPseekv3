@@ -20,8 +20,8 @@
 		<style src="assets/css/styles.css" />
 		<style src="assets/css/styles_genotype.css" />
 		<style src="assets/css/Collapsible-Sidebar.css" />
-		<style
-			src="assets/css/Vertical-Left-SideBar-by-Jigar-Mistry.css" />
+		<style src="assets/css/sidebar_home.css" />
+		<style src="assets/css/genotypeSearch.css" />
 
 		<style>
 
@@ -47,10 +47,20 @@
 
 		</style>
 
+
 		<style>
 			<!-- cut/hide the vertical borders in the grid rows -->
 			tr.z-row td.z-row-inner { border-right: 0px #CCC; }
 		</style>
+		<script>
+			function myFunction() {
+
+			var element =
+			document.getElementById("genotypeSearchSidebar");
+			element.classList.toggle("active");
+
+			}
+		</script>
 		<window id="genWin" border="none"
 			apply="user.ui.module.VarietyQueryController" width="100%"
 			height="100%">
@@ -58,7 +68,8 @@
 			<n:div id="bodyContent">
 				<n:div class="wrapper">
 					<!-- Sidebar Holder -->
-					<n:nav id="genotypeSearchSidebar">
+					<n:nav id="genotypeSearchSidebar" tabindex="-1"
+						role="dialog">
 						<n:div class="container">
 							<n:div class="form-row">
 								<n:div class="col"
@@ -67,8 +78,20 @@
 									<label value="Search By Variety"
 										style="font-size:16px;color:#3b4e36;" />
 								</n:div>
+								<n:div class="col"
+									style="padding-left: 10px;margin-top: 5px;">
+									<n:div class="text-right">
+										<n:button id="closeSidebar"
+											class="btn" visible="true">
+											<n:i class="fas fa-times">
+											</n:i>
+										</n:button>
+									</n:div>
 
 							</n:div>
+
+							</n:div>
+							
 							<n:div class="form-row">
 								<n:div class="col"
 									style="margin-left: 10px;margin-top: 15px;">
@@ -581,343 +604,273 @@
 					</n:nav>
 					<n:div id="content">
 						<n:div>
-							<n:div class="mainDiv-Sidebar">
-								<div id="sideBarDiv" visible="false">
-									<n:div class="main-leftsidebar-div"
-										data-component="leftsidebar">
-										<n:div class="leftsidebar"
-											style="z-index:3000;position:sticky;top:0;">
+							<div id="resultHeader"
+								style="width:100%;background-color:white;padding:10px 20px 10px 20px;border-radius: 20px; margin-left: 20px; margin-right: 20px;"
+								visible="false">
 
-											<n:ul
-												class="nav list-group flex-column d-inline-block first-menu scrollbar-indigo thin first-main-menu">
+								<n:div class="form-row">
+									<n:div class="col">
 
-												<n:div id="queryDiv"
-													style="z-index:40001">
-													<n:button
-														id="sidebarCollapse3" alt="This is hello world!"
-														onclick="myFunction()" class="btn"
-														style="margin-left:10px;">
-														<n:i
-															class="fa fa-bars">
-
-														</n:i>
-
-													</n:button>
-												</n:div>
-												<div id="resultDiv"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="resultLink" class="nav-link" href="#"
-															style="border-color: rgb(82, 154, 111);color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-table">
-																<span
-																	id="resultSpan" class="ml-2 align-middle">
-																	Result
-																</span>
-															</n:i>
-														</a>
-													</n:li>
-												</div>
-												<div id="resultDiv2"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox2" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="alleleLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-pie-chart">
-
-																<span
-																	id="resultSpan2" class="ml-2 align-middle">
-																	Passport
-																	Data
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv3"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox3" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a id="seLink"
-															class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-pie-chart">
-
-																<span
-																	id="resultSpan3" class="ml-2 align-middle">
-																	Phenotypes
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv4"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox4" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="jbrowseLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-align-left">
-																<span
-																	id="resultSpan4" class="ml-2 align-middle">
-																	MDS
-																	Plot
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-
-												<div id="collapseDiv">
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<checkbox
-															id="collapseCheckbox" visible="false" />
-														<a
-															id="collapseLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-window-restore">
-																<span
-																	id="collapseSpan" class="ml-2 align-middle">
-																	Collapse
-																	Windows
-																</span>
-															</n:i>
-														</a>
-													</n:li>
-												</div>
-											</n:ul>
-										</n:div>
+										<div id="backQueryDiv"
+											style="border: 4px; border-style: solid; width: 150px; padding: 15px;  border-radius: 25px;  border-color: #55a569; 
+    												margin-left: 20px;cursor:pointer;"
+											class="divBtn">
+											<hlayout>
+												<n:i
+													class="fas fa-share-square"
+													style="font-size: 40px; color: #33a952">
+												</n:i>
+												<vbox>
+													<label
+														value="Back to"
+														style="padding-left:10px;color: #03a103;font-size:14px;" />
+													<label
+														style="padding-left:10px;color: #03a103;font-size:16px;"
+														value="query" />
+												</vbox>
+											</hlayout>
+										</div>
 									</n:div>
-								</div>
-								<n:div
-									style="margin-left:100px;margin-top:10px">
-									<portallayout id="portalLayout"
-										maximizedMode="whole">
-
-										<portalchildren width="850px">
-											<panel
-												id="variety_DataResult" class="variety_panelDataStyle"
-												title="Data" border="normal" collapsible="true"
-												closable="false" maximizable="true" visible="false">
-												<panelchildren>
-													<grid>
-														<rows
-															height="40px">
-															<row
-																style="font-size:11px !important; height:40px !important">
-																Designation
-																<textbox
-																	id="textboxGermDesignation" class="designation-content"
-																	readonly="true" style="font-size:11px !important;" />
-															</row>
-															<row
-																style="font-size:11px !important; height:40px !important">
-																Accession
-																<textbox
-																	id="textboxGermAccession" class="accession-content"
-																	readonly="true" style="font-size:11px !important;" />
-															</row>
-															<row
-																style="font-size:11px !important; height:40px !important">
-																<label
-																	id="labelIRISId" value="IRIS ID" />
-																<textbox
-																	id="textboxIRISId" class="irisidcontent"
-																	readonly="true" style="font-size:11px !important;" />
-															</row>
-															<row
-																style="font-size:11px !important; height:40px !important">
-																Subpopulation
-																<textbox
-																	id="textboxGermSubpopulation" readonly="true"
-																	style="font-size:11px !important;" />
-															</row>
-															<row
-																style="font-size:11px !important; height:40px !important">
-																Country
-																<textbox
-																	id="textboxGermCountry" readonly="true"
-																	style="font-size:11px !important;" />
-															</row>
-														</rows>
-													</grid>
-												</panelchildren>
-											</panel>
-											<panel
-												id="variety_panelPassportResult" title="Passport"
-												class="variety_panelPassportResultStyle" border="normal"
-												collapsible="true" closable="false" maximizable="true"
-												visible="false">
-
-												<panelchildren>
-													<vbox>
-														<tabbox
-															style="height:620px;">
-															<tabs>
-																<tab
-																	id="tabPassportIRGCIS" label="IRGCIS" />
-																<tab
-																	id="tabPassportGenesys" label="Genesys" />
-															</tabs>
-															<tabpanels>
-																<tabpanel
-																	style="height:620px;">
-																	<a
-																		target="_blank" href="/passport_dict.pdf"
-																		label="Passport data dictionary" />
-																	<listbox
-																		id="listboxGermPassport">
-																		<listhead>
-																			<listheader>
-																				DEFINITION
-																			</listheader>
-																			<listheader>
-																				FIELD
-																			</listheader>
-																			<listheader>
-																				VALUE
-																			</listheader>
-																		</listhead>
-																	</listbox>
-																</tabpanel>
-																<tabpanel>
-																	<listbox
-																		id="listboxGermPassportGenesys">
-																		<listhead>
-																			<listheader>
-																				DEFINITION
-																			</listheader>
-																			<listheader>
-																				FIELD
-																			</listheader>
-																			<listheader>
-																				VALUE
-																			</listheader>
-																		</listhead>
-																	</listbox>
-																</tabpanel>
-															</tabpanels>
-														</tabbox>
-													</vbox>
-
-												</panelchildren>
-											</panel>
-
-
-
-										</portalchildren>
-										<portalchildren width="850px">
-											<panel
-												id="variety_MDSResult" title="MDS Plot"
-												class="variety_MDSResultStyle" border="normal"
-												collapsible="true" closable="false" maximizable="true"
-												visible="false">
-
-												<panelchildren>
+									<n:div
+										style="margin-left:auto;margin-right:0px;padding-left: 10px;margin-top: 5px;">
+										<n:div class="text-right">
+											<div style="width:100%">
+												<hbox align="end">
 													<div
-														id="divMDSNeighbors">
-														<label
-															value="CLOSE RELATIVES (MDS Plot)"
-															style="font-size:14;font-weight:bold" />
-														<label
-															value="Drag area to zoom." />
-														<charts
-															id="chartMDSNeighbors" type="scatter" zoomType="xy"
-															title="Neighboring varieties" width="500" height="500" />
-														<hbox
-															height="100%" />
+														style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
+														<hlayout>
+															<n:i
+																class="fas fa-seedling"
+																style="font-size: 40px; color: #33a952">
+															</n:i>
+															<vbox>
+																<label
+																	value="ACCESSION"
+																	style="padding-left:10px;color: #03a103;font-size:14px;" />
+																<label
+																	id="nmAcession"
+																	style="padding-left:10px;color: #03a103;font-size:16px;"
+																	value="0" />
+															</vbox>
+														</hlayout>
 													</div>
 
+													<div
+														style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
+														<hlayout>
+															<n:i
+																class="fas fa-poll-h"
+																style="font-size: 40px; color: #33a952">
+															</n:i>
+															<vbox>
+																<label
+																	value="RESULT"
+																	style="padding-left:10px;color: #03a103;font-size:14px;" />
+																<label
+																	id="nmResult" value="0"
+																	style="padding-left:10px;color: #03a103;font-size:16px;" />
+															</vbox>
+														</hlayout>
+													</div>
+												</hbox>
+											</div>
+										</n:div>
 
-												</panelchildren>
-											</panel>
-
-											<panel
-												id="variety_panelPhenotypeResult" title="Phenotype"
-												class="variety_panelPhenotypeResultStyle" border="normal"
-												collapsible="true" closable="false" maximizable="true"
-												visible="false">
-
-												<panelchildren>
-													<a target="_blank"
-														href="/phenotype_dict.pdf"
-														label="Phenotype data dictionary" />
-													<listbox
-														id="listboxGermPhenotypes" style="height:620px;">
-														<listhead>
-															<listheader>
-																DEFINITION
-															</listheader>
-															<listheader>
-																FIELD
-															</listheader>
-															<listheader>
-																VALUE
-															</listheader>
-														</listhead>
-													</listbox>
-												</panelchildren>
-											</panel>
-
-											<panel
-												id="variety_panelResult" class="variety_panelResultStyle"
-												title="Table Result" framable="true" width="400px"
-												height="400px" maximizable="true" minimizable="false"
-												border="rounded" collapsible="true" sizable="true"
-												movable="true" floatable="true" closable="false"
-												style="background-color:rgb(90,181, 109);font-size:12px;top:100px; left:35%;position:absolute;"
-												visible="false">
-
-												<panelchildren></panelchildren>
-											</panel>
-
-										</portalchildren>
-
-									</portallayout>
+									</n:div>
 								</n:div>
-							</n:div>
+
+							</div>
+							<div id="resultContentDiv" visible="false"
+								style="margin-left:20px;margin-top:10px;margin-bottom:20px;height:100%;width:100%;">
+
+								<goldenlayout id="resultGoldenLayout"
+									height="1300px" hflex="1"
+									style="margin-top: 10px;border:0px;">
+									<attribute name="areas">
+										A A A A B B B 
+										A A A A B B B 
+										A A A A B B B 
+										A A A A B B B 
+										A A A A B B B 
+										A A A A B B B 
+										C C C D D D D 
+										C C C D D D D 
+										C C C D D D D 
+										C C C D D D D 
+										C C C D D D D
+									</attribute>
+									<goldenpanel area="B" title="Data"
+										closable="false" style="height:750px;" popup="true">
+										<menubar id="download_menubar"
+											width="100%" style="background:#e9ecef">
+											<menu label="Download"
+												id="menu_download"
+												style="background:#e9ecef;color: black !important;"
+												class="menu_style">
+												<menupopup
+													style="background: #e9ecef !important;color: black !important;"
+													class="menupopup_style">
+													<menuitem
+														label="CSV" iconSclass="z-icon-file-o"
+														class="menuitem_style" />
+													<menuitem
+														label="Tab" iconSclass="z-icon-file-o"
+														class="menuitem_style" />
+													<menuitem
+														label="PLINK" iconSclass="z-icon-file-o"
+														class="menuitem_style" />
+													<menuitem
+														label="Flapjack" iconSclass="z-icon-file-o"
+														class="menuitem_style" />
+												</menupopup>
+											</menu>
+										</menubar>
+										<grid>
+											<rows height="40px">
+												<row
+													style="font-size:11px !important; height:40px !important">
+													Designation
+													<textbox
+														id="textboxGermDesignation" class="designation-content"
+														readonly="true" style="font-size:11px !important;" />
+												</row>
+												<row
+													style="font-size:11px !important; height:40px !important">
+													Accession
+													<textbox
+														id="textboxGermAccession" class="accession-content"
+														readonly="true" style="font-size:11px !important;" />
+												</row>
+												<row
+													style="font-size:11px !important; height:40px !important">
+													<label
+														id="labelIRISId" value="IRIS ID" />
+													<textbox
+														id="textboxIRISId" class="irisidcontent" readonly="true"
+														style="font-size:11px !important;" />
+												</row>
+												<row
+													style="font-size:11px !important; height:40px !important">
+													Subpopulation
+													<textbox
+														id="textboxGermSubpopulation" readonly="true"
+														style="font-size:11px !important;" />
+												</row>
+												<row
+													style="font-size:11px !important; height:40px !important">
+													Country
+													<textbox
+														id="textboxGermCountry" readonly="true"
+														style="font-size:11px !important;" />
+												</row>
+											</rows>
+										</grid>
+									</goldenpanel>
+									<goldenpanel area="A"
+										title="Passport" closable="false" popup="true">
+
+										<vbox>
+											<tabbox
+												style="height:620px;">
+												<tabs>
+													<tab
+														id="tabPassportIRGCIS" label="IRGCIS" />
+													<tab
+														id="tabPassportGenesys" label="Genesys" />
+												</tabs>
+												<tabpanels>
+													<tabpanel
+														style="height:620px;">
+														<a
+															target="_blank" href="/passport_dict.pdf"
+															label="Passport data dictionary" />
+														<listbox
+															id="listboxGermPassport">
+															<listhead>
+																<listheader>
+																	DEFINITION
+																</listheader>
+																<listheader>
+																	FIELD
+																</listheader>
+																<listheader>
+																	VALUE
+																</listheader>
+															</listhead>
+														</listbox>
+													</tabpanel>
+													<tabpanel>
+														<listbox
+															id="listboxGermPassportGenesys">
+															<listhead>
+																<listheader>
+																	DEFINITION
+																</listheader>
+																<listheader>
+																	FIELD
+																</listheader>
+																<listheader>
+																	VALUE
+																</listheader>
+															</listhead>
+														</listbox>
+													</tabpanel>
+												</tabpanels>
+											</tabbox>
+										</vbox>
+
+
+									</goldenpanel>
+									<goldenpanel area="C"
+										title="MDS Plot" closable="false" style="height:750px;"
+										popup="true">
+
+										<div id="divMDSNeighbors">
+											<label
+												value="CLOSE RELATIVES (MDS Plot)"
+												style="font-size:14;font-weight:bold" />
+											<label
+												value="Drag area to zoom." />
+											<charts
+												id="chartMDSNeighbors" type="scatter" zoomType="xy"
+												title="Neighboring varieties" width="500" height="500" />
+											<hbox height="100%" />
+										</div>
+									</goldenpanel>
+
+									<goldenpanel area="D"
+										title="Phenotype" closable="false" popup="true">
+
+										<a target="_blank"
+											href="/phenotype_dict.pdf" label="Phenotype data dictionary" />
+										<listbox
+											id="listboxGermPhenotypes" style="height:620px;">
+											<listhead>
+												<listheader>
+													DEFINITION
+												</listheader>
+												<listheader>
+													FIELD
+												</listheader>
+												<listheader>
+													VALUE
+												</listheader>
+											</listhead>
+										</listbox>
+									</goldenpanel>
+
+									<goldenpanel area="D"
+										title="Table Result" closable="false" popup="true">
+									</goldenpanel>
+								</goldenlayout>
+							</div>
 
 						</n:div>
 
 					</n:div>
 				</n:div>
 			</n:div>
-			<n:footer class="footer-dark"
-				style="padding: 19px;padding-top: 5px;">
-				<n:div class="text-center">
-					<n:label class="text-center"
-						style="font-size: 12px;">
-						<n:br />
-						2014 International Rice Research Institute. Los
-						Banos, Laguna, Philippines. This site is under
-						development. We schedule maintenance every
-						Monday, 8-9:00 GMT (4-5PM Manila)
-						<n:br />
-					</n:label>
-				</n:div>
-			</n:footer>
+
 		</window>
 	</n:div>
 

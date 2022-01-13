@@ -1,24 +1,297 @@
 $(document).ready(function() {
+	var active = 1;
+	var result_active = 1;
 
-	$('#sidebarCollapse').on('click', function() {
-		$('#genotypeSearchSidebar').toggleClass('active');
-		$(this).toggleClass('active');
+	$('#mainSidebar').on('click', function() {
 
-		if ($(this).find('i').attr('class') == 'fa fa-chevron-left') {
-			$(this).find('i').removeClass('fa fa-chevron-left').addClass('fa fa-chevron-right');
-			$("#sidebarCollapse1").show();
+
+		if (active == 1) {
+			$("#sidebarId").css({
+				'width': '70px'
+			});
+
+			$("#leftsidebarTemplate").css({
+				'width': '70px'
+			});
+
+			$("#genotypeDiv").css({
+				'height': '40px'
+			});
+			$("#genotypeLink").css({
+				'height': '50px'
+			});
+
+			$("#genotypeIcon").css({
+				'font-size': '24px'
+			});
+			$("#genotypeSpan").css({
+				'opacity': '0',
+				'visibility': 'hidden',
+			});
+
+
+			$("#varietyDiv").css({
+				'height': '40px'
+			});
+			$("#varietyLink").css({
+				'height': '50px'
+			});
+
+			$("#varietyIcon").css({
+				'font-size': '24px'
+			});
+			$("#varietySpan").css({
+				'opacity': '0',
+				'visibility': 'hidden'
+			});
+
+			$("#geneLociDiv").css({
+				'height': '40px'
+			});
+			$("#geneLociLink").css({
+				'height': '50px'
+			});
+
+			$("#geneLociIcon").css({
+				'font-size': '24px'
+			});
+			$("#geneLociSpan").css({
+				'opacity': '0',
+				'visibility': 'hidden'
+			});
+
+			$("#jbrowseDiv").css({
+				'height': '40px'
+			});
+			$("#jbrowseLink").css({
+				'height': '50px'
+			});
+
+			$("#jbrowseIcon").css({
+				'font-size': '24px'
+			});
+			$("#jbrowseSpan").css({
+				'opacity': '0',
+				'visibility': 'hidden'
+			});
+
+			$("#gwasDiv").css({
+				'height': '40px'
+			});
+			$("#gwasLink").css({
+				'height': '50px'
+			});
+
+			$("#gwasIcon").css({
+				'font-size': '24px'
+			});
+			$("#gwasSpan").css({
+				'opacity': '0',
+				'visibility': 'hidden',
+
+			});
+
+			$("#myListDiv").css({
+				'height': '40px'
+			});
+			$("#myListLink").css({
+				'height': '50px'
+			});
+
+			$("#myListIcon").css({
+				'font-size': '24px'
+			});
+			$("#myListSpan").css({
+				'opacity': '0',
+				'visibility': 'hidden'
+			});
+
+			$("#downloadDiv").css({
+				'height': '40px'
+			});
+
+			$("#downloadLink").css({
+				'height': '50px'
+			});
+
+			$("#downloadIcon").css({
+				'font-size': '24px'
+			});
+			$("#downloadSpan").css({
+				'opacity': '0',
+				'visibility': 'hidden'
+			});
+
+			$("#helpDiv").css({
+				'height': '40px'
+			});
+
+			$("#helpLink").css({
+				'height': '50px'
+			});
+
+			$("#helpIcon").css({
+				'font-size': '24px'
+			});
+			$("#helpSpan").css({
+				'opacity': '0',
+				'visibility': 'hidden'
+			});
+
+
+			active = 0;
+
 		} else {
-			$(this).find('i').removeClass('fa fa-chevron-right').addClass('fa fa-chevron-left');
-			$("#sidebarCollapse1").hide();
+			$("#sidebarId").css({
+				'width': '90px'
+			});
+
+			$("#leftsidebarTemplate").css({
+				'width': '90px'
+			});
+
+			$("#genotypeDiv").css({
+				'height': '70px'
+			});
+			$("#genotypeLink").css({
+				'height': '70px'
+			});
+			$("#genotypeIcon").css({
+				'font-size': '30px',
+				'margin-left': '10px'
+			});
+			$("#genotypeSpan").css({
+				'opacity': '1',
+				'visibility': 'visible',
+				'padding-left': '-5px'
+			});
+
+			$("#varietyDiv").css({
+				'height': '70px'
+			});
+			$("#varietyLink").css({
+				'height': '70px'
+			});
+			$("#varietyIcon").css({
+				'font-size': '30px',
+				'margin-left': '10px'
+			});
+			$("#varietySpan").css({
+				'opacity': '1',
+				'visibility': 'visible',
+				'padding-left': '3px'
+			});
+
+			$("#geneLociDiv").css({
+				'height': '70px'
+			});
+			$("#geneLociLink").css({
+				'height': '70px'
+			});
+			$("#geneLociIcon").css({
+				'font-size': '30px',
+				'margin-left': '10px'
+			});
+			$("#geneLociSpan").css({
+				'opacity': '1',
+				'visibility': 'visible'
+			});
+
+			$("#jbrowseDiv").css({
+				'height': '70px'
+			});
+			$("#jbrowseLink").css({
+				'height': '70px'
+			});
+			$("#jbrowseIcon").css({
+				'font-size': '30px',
+				'margin-left': '10px'
+			});
+			$("#jbrowseSpan").css({
+				'opacity': '1',
+				'visibility': 'visible',
+				'padding-left': '3px'
+			});
+
+			$("#gwasDiv").css({
+				'height': '70px'
+			});
+			$("#gwasLink").css({
+				'height': '70px'
+			});
+			$("#gwasIcon").css({
+				'font-size': '30px',
+				'margin-left': '10px'
+			});
+			$("#gwasSpan").css({
+				'opacity': '1',
+				'visibility': 'visible',
+				'padding-left': '7px'
+			});
+
+			$("#myListDiv").css({
+				'height': '70px'
+			});
+			$("#myListLink").css({
+				'height': '70px'
+			});
+			$("#myListIcon").css({
+				'font-size': '30px',
+				'margin-left': '10px'
+			});
+			$("#myListSpan").css({
+				'opacity': '1',
+				'visibility': 'visible',
+				'padding-left': '7px '
+			});
+
+			$("#downloadDiv").css({
+				'height': '70px'
+			});
+			$("#downloadLink").css({
+				'height': '70px'
+			});
+			$("#downloadIcon").css({
+				'font-size': '30px',
+				'margin-left': '10px'
+			});
+			$("#downloadSpan").css({
+				'opacity': '1',
+				'visibility': 'visible'
+				
+			});
+
+			$("#helpDiv").css({
+				'height': '70px'
+			});
+			$("#helpLink").css({
+				'height': '70px'
+			});
+			$("#helpIcon").css({
+				'font-size': '30px',
+				'margin-left': '10px'
+			});
+			$("#helpSpan").css({
+				'opacity': '1',
+				'visibility': 'visible',
+				'padding-left': '9px '
+			});
+
+
+			active = 1;
 		}
 
 	});
-	
-	
-	
+
 	$('#sidebarCollapse3').on('click', function() {
-		alert('test3');
-		
+		$('#genotypeSearchSidebar').removeClass('active');
+	});
+
+	$('#queryDiv2').on('click', function() {
+
+		alert("toggle Div active");
+
+
 	});
 
 	$('#step1Div').hover(function() {
@@ -124,22 +397,11 @@ $(document).ready(function() {
 	});
 
 
-	$('#sidebarCollapse1').on('click', function() {
-		$('#genotypeSearchSidebar').toggleClass('active');
-		$(this).toggleClass('active');
 
-		if ($('#sidebarCollapse').find('i').attr('class') == 'fa fa-chevron-left') {
-			$('#sidebarCollapse').find('i').removeClass('fa fa-chevron-left').addClass('fa fa-chevron-right');
-		} else {
-			$('#sidebarCollapse').find('i').removeClass('fa fa-chevron-right').addClass('fa fa-chevron-left');
-		}
-		$("#sidebarCollapse1").hide();
-
-
-
-
-
+	$('#closeSidebar').on('click', function() {
+		$('#genotypeSearchSidebar').addClass('active');
 	});
+
 
 	$("#bodyContent").scroll(function() {
 		alert("test");
@@ -149,18 +411,150 @@ $(document).ready(function() {
 });
 
 $(window).on("load", function() {
-	window.open("http://localhost:8080/SNP-seekV3_clean/ads.html","ads", "width=650", "height=200");
-	$("#sidebarCollapse1").hide();
+	window.open("http://localhost:8080/SNP-seekV3_clean/ads.html", "ads", "width=650", "height=200");
+
+
+	$("#leftsidebarTemplate").css({
+		'width': '90px'
+	});
+
+
+	$("#sidebarId").css({
+		'width': '90px'
+	});
+	$("#genotypeDiv").css({
+		'height': '70px'
+	});
+	$("#genotypeLink").css({
+		'height': '70px'
+	});
+	$("#genotypeIcon").css({
+		'font-size': '30px',
+		'margin-left': '10px'
+	});
+	$("#genotypeSpan").css({
+		'opacity': '1',
+		'visibility': 'visible',
+		'padding-left': '-5px'
+	});
+
+
+	$("#varietyDiv").css({
+		'height': '70px'
+	});
+	$("#varietyLink").css({
+		'height': '70px'
+	});
+	$("#varietyIcon").css({
+		'font-size': '30px',
+		'margin-left': '10px'
+	});
+	$("#varietySpan").css({
+		'opacity': '1',
+		'visibility': 'visible',
+		'padding-left': '3px'
+	});
+
+	$("#geneLociDiv").css({
+		'height': '70px'
+	});
+	$("#geneLociLink").css({
+		'height': '70px'
+	});
+	$("#geneLociIcon").css({
+		'font-size': '30px',
+		'margin-left': '10px'
+	});
+	$("#geneLociSpan").css({
+		'opacity': '1',
+		'visibility': 'visible'
+	});
+
+	$("#jbrowseDiv").css({
+		'height': '70px'
+	});
+	$("#jbrowseLink").css({
+		'height': '70px'
+	});
+	$("#jbrowseIcon").css({
+		'font-size': '30px',
+		'margin-left': '10px'
+	});
+	$("#jbrowseSpan").css({
+		'opacity': '1',
+		'visibility': 'visible',
+		'padding-left': '3px'
+	});
+
+	$("#gwasDiv").css({
+		'height': '70px'
+	});
+	$("#gwasLink").css({
+		'height': '70px'
+	});
+	$("#gwasIcon").css({
+		'font-size': '30px',
+		'margin-left': '10px'
+	});
+	$("#gwasSpan").css({
+		'opacity': '1',
+		'visibility': 'visible',
+		'padding-left': '7px'
+	});
+
+	$("#myListDiv").css({
+		'height': '70px'
+	});
+	$("#myListLink").css({
+		'height': '70px'
+	});
+	$("#myListIcon").css({
+		'font-size': '30px',
+		'margin-left': '10px'
+	});
+	$("#myListSpan").css({
+		'opacity': '1',
+		'visibility': 'visible',
+		'padding-left': '7px'
+	});
+
+	$("#downloadDiv").css({
+		'height': '70px'
+	});
+	$("#downloadLink").css({
+		'height': '70px'
+	});
+	$("#downloadIcon").css({
+		'font-size': '30px',
+		'margin-left': '10px'
+	});
+	$("#downloadSpan").css({
+		'opacity': '1',
+		'visibility': 'visible'
+		
+	});
+
+	$("#helpDiv").css({
+		'height': '70px'
+	});
+	$("#helpLink").css({
+		'height': '70px'
+	});
+	$("#helpIcon").css({
+		'font-size': '45px',
+		'margin-left': '10px'
+	});
+	$("#helpSpan").css({
+		'opacity': '1',
+		'visibility': 'visible',
+		'padding-left': '9px'
+	});
+
+	active = 1;
+
+
 
 });
 
 
 
-$(document).on('click', '.sidebarCollapse3', function(){ 
-     alert('testCollapse');
-});
-
-function myFunction() {
- 	var element = document.getElementById("genotypeSearchSidebar");
- 	element.classList.toggle("active");
-}

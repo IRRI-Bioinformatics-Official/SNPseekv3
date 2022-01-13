@@ -1408,6 +1408,8 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 	@Listen("onClick = #buttonSearch")
 	public void searchList3k() {
 		try {
+			
+			Clients.evalJavaScript("myFunction();");
 
 			AppContext.resetTimer("variety query start");
 			tabboxDisplay.setVisible(false);
