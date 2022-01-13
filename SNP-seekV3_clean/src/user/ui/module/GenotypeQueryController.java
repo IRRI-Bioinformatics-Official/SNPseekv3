@@ -83,8 +83,9 @@ import org.zkoss.zk.ui.event.OpenEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Notification;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkmax.zul.Biglistbox;
+import org.zkoss.zkmax.zul.GoldenPanel;
 import org.zkoss.zkmax.zul.MatrixComparatorProvider;
 import org.zkoss.zkmax.zul.Portallayout;
 import org.zkoss.zul.A;
@@ -121,7 +122,6 @@ import org.zkoss.zul.Window;
 
 import user.ui.module.util.FakerMatrixModel;
 import user.ui.module.util.Object2StringMatrixComparatorProvider;
-import user.ui.module.util.constants.GenotypeQuery.ResultPanels;
 
 /**
  * A demo of Big listbox to handle 1 trillion data.
@@ -229,7 +229,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	// START RESULT PANELS
 	@Wire
-	private Div sideBarDiv;
+	private Div result_sideBarDiv;
 	// unused
 	// @Wire
 	// private Listbox listboxSNPListAlleles;
@@ -341,6 +341,20 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	@Wire
 	private Include includeGalaxy;
 
+	@Wire
+	private GoldenPanel goldenPA_snpeffect;
+	
+	@Wire
+	private GoldenPanel goldenPanel_mdsPlot;
+	
+	
+
+	@Wire
+	private Label nmVarietyResult;
+
+	@Wire
+	private Label nmPosResult;
+
 	// VARIABLE
 	private int nAllelefreqLabels = 25;
 	// data for allele and genotype frequence chart
@@ -357,6 +371,9 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Div tip;
+	
+	@Wire
+	private Div backQueryDiv;
 
 	@Wire
 	private Div regionIcon;
@@ -366,6 +383,9 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Div initDiv;
+
+	@Wire
+	private Div resultContentDiv;
 
 	@Wire
 	private Div resultDiv;
@@ -437,17 +457,12 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	private A galaxyLink;
 
 	@Wire
-	private Checkbox resultPanelBox8;
-
-	@Wire
 	private Div collapseDiv;
 
 	@Wire
 	private A collapseLink;
 
-	@Wire
-	private Checkbox collapseCheckbox;
-
+	
 	@Wire
 	private Textbox content;
 
@@ -456,30 +471,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Button searchButton;
-
-	@Wire
-	private Panel resultPanel;
-
-	@Wire
-	private Panel aFrequencyPanel;
-
-	@Wire
-	private Panel sePanel;
-
-	@Wire
-	private Panel jbrowsePanel;
-
-	@Wire
-	private Panel haplotypePanel;
-
-	@Wire
-	private Panel cGenomePanel;
-
-	@Wire
-	private Panel mdsPlotPanel;
-
-	@Wire
-	private Panel galaxyPanel;
 
 	@Wire
 	private Span resultSpan;
@@ -521,6 +512,11 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Div divDownloadOnlyMsg;
+	
+	@Wire
+	private Div resultHeader;
+	
+	
 	@Wire
 	private Label labelDownloadOnlyMsg;
 	@Wire
@@ -609,11 +605,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		iframeJbrowse
 				.setSrc("https://snp-seek.irri.org/jbrowse/?loc=chr01%3A2901..10815&tracks=DNA%2Cmsu7gff&highlight=");
 		System.out.println("setting div");
-		resultDiv.addEventListener("onClick", new EventListener() {
-			public void onEvent(Event e) throws Exception {
-				System.out.println("test Click");
-			}
-		});
+		
 
 	}
 
@@ -1024,9 +1016,102 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		return params;
 
 	}
+	
+	@Listen("onClick=#backQueryDiv")
+	public void onClick$backQueryDiv() {
+		Clients.evalJavaScript("myFunction();");
+	}
+
+	@Listen("onActive=#goldenPA_snpeffect")
+	public void onClick$goldenPA_sePanel() {
+		if (!sePanelLoaded) {
+			if (queryResult == null)
+				return;
+
+			genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
+			List listSnpeffs = genotype.getSnpEffects(queryResult.getListPos());
+			listboxSnpeff.setItemRenderer(new SNPEffListitemRenderer());
+			this.listboxSnpeff.setModel(new SimpleListModel(listSnpeffs));
+			sePanelLoaded = true;
+		}
+	}
+
+	@Listen("onActive=#goldenPA_galaxy")
+	public void onClick$goldenPA_galaxy() {
+		System.out.println("galaxy");
+		if (false) {
+			GenotypeQueryParams p = fillGenotypeQueryParams();
+			String filename = "snp3kvars-" + queryFilename();
+			Object2StringMultirefsMatrixModel matrixmodel = (Object2StringMultirefsMatrixModel) biglistboxArray
+					.getModel();
+			VariantAlignmentTableArraysImpl table = (VariantAlignmentTableArraysImpl) matrixmodel.getData();
+			haplofilename = "snp3kvars-" + queryFilename();
+
+			Map mapParamvals = new HashMap();
+			mapParamvals.put("filename", filename);
+			mapParamvals.put("query", p);
+			mapParamvals.put("table", table);
+			mapParamvals.put("reference", this.listboxReference.getSelectedItem().getLabel());
+
+			if (listboxPhenotype.getSelectedIndex() > 0) {
+				String sPhenotype = listboxPhenotype.getSelectedItem().getLabel();
+				mapParamvals.put("sample2pheno", varietyfacade.getPhenotypeValues(sPhenotype, getDataset()));
+				mapParamvals.put("phenoname", sPhenotype);
+			}
+
+			AppContext.debug("update galaxy page");
+
+			getSession().removeAttribute("param_vals");
+			getSession().putValue("param_vals", mapParamvals);
+
+			if (refreshgalaxy) {
+				// new query parameters
+				includeGalaxy.setSrc("galaxy.zul?embed=genotype&refresh=1");
+				includeGalaxy.setSrc("galaxy.zul?embed=genotype");
+			} else
+				includeGalaxy.setSrc("galaxy.zul?embed=genotype");
+
+			refreshgalaxy = false;
+
+			galaxyPanelLoaded = true;
+
+		}
+	}
+
+	@Listen("onActive=#goldenPanel_mdsPlot")
+	public void onClick$goldenPanel_mdsPlot() {
+		
+		if (!mdsPLotPanelLoaded) {
+			AppContext.debug("selected index: " + listboxPhenotype.getSelectedIndex());
+			if (listboxPhenotype.getSelectedIndex() == 0)
+				show_mds_fromtable(chartMDS);
+			else {
+
+				List listvarnames = new ArrayList();
+				Set varnames = new TreeSet();
+				// listvarnames.add("");
+				java.util.Iterator<BigDecimal> itvars = queryResult.getMapVariety2Order().keySet().iterator();
+				while (itvars.hasNext()) {
+					BigDecimal varid = itvars.next();
+					varnames.add(((Variety) varietyfacade.getMapId2Variety(getDataset()).get(varid)).getName()
+							.toUpperCase());
+				}
+				listvarnames.addAll(varnames);
+				listboxHighlightVariety.setModel(new SimpleListModel(listvarnames));
+
+				onSelect$Phenotype();
+
+			}
+
+			mdsPLotPanelLoaded = true;
+
+		}
+	}
 
 	@Listen("onClick=#searchButton")
 	public void onClick$searchButton() {
+
+		Clients.evalJavaScript("myFunction();");
 
 		try {
 			refreshgalaxy = true;
@@ -1103,14 +1188,15 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			}
 
 			// SET RESULT PANELS
+			nmVarietyResult.setValue("" + queryResult.getListVariantsString().size());
+			nmPosResult.setValue("" + queryResult.getListPos().size());
+			resultHeader.setVisible(true);
 			initDiv.setVisible(false);
-			sideBarDiv.setVisible(true);
-			resultPanel.setVisible(true);
-			aFrequencyPanel.setVisible(true);
-			resultPanelBox.setChecked(true);
-			collapseCheckbox.setChecked(false);
-			resultDiv.setStyle("background-color:rgb(184 224 198);");
-			resultDiv2.setStyle("background-color:rgb(184 224 198);");
+			//result_sideBarDiv.setVisible(true);
+			// resultPanel.setVisible(true);
+//			aFrequencyPanel.setVisible(true);
+			//resultPanelBox.setChecked(true);
+			resultContentDiv.setVisible(true);
 
 			updateAlleleFrequencyChart();
 			calculateAlleleFrequencies();
@@ -1170,397 +1256,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	 * Result Eventhandler
 	 * 
 	 ***/
-
-	private void showResultPanel() {
-		if (resultPanelBox.isChecked()) {
-			resultDiv.setStyle("background-color:rgb(184 224 198);");
-			resultPanel.setVisible(true);
-			resultPanelBox.setChecked(false);
-			Notification.show("Added Result Panel to workspace", true);
-
-		} else {
-			resultPanel.setVisible(false);
-			resultDiv.setStyle("background-color:#f4ffe5;");
-			resultPanelBox.setChecked(true);
-
-		}
-	}
-
-	@Listen("onClick=#resultSpan")
-	public void onClick$sidebarResult1() {
-		showResultPanel();
-		openPanelsOnMaximized(ResultPanels.RESULT, false);
-	}
-
-	@Listen("onClick=#resultDiv")
-	public void onClick$sidebarResult2() {
-		showResultPanel();
-		openPanelsOnMaximized(ResultPanels.RESULT, false);
-
-	}
-
-	@Listen("onClick=#resultLink")
-	public void onClick$sidebarResult3() {
-		showResultPanel();
-		openPanelsOnMaximized(ResultPanels.RESULT, false);
-	}
-
-	/**
-	 * END RESULT
-	 */
-
-	private void showAllelePanel() {
-		if (resultPanelBox2.isChecked()) {
-			resultDiv2.setStyle("background-color:rgb(184 224 198);");
-			aFrequencyPanel.setVisible(true);
-			resultPanelBox2.setChecked(false);
-			Notification.show("Added Allele Frequency Panel to workspace", true);
-
-		} else {
-			aFrequencyPanel.setVisible(false);
-			resultDiv2.setStyle("background-color:#f4ffe5;");
-			resultPanelBox2.setChecked(true);
-
-		}
-	}
-
-	@Listen("onClick=#resultSpan2")
-	public void onClick$sidebarAllele1() {
-		showAllelePanel();
-		openPanelsOnMaximized(ResultPanels.ALLELE, false);
-	}
-
-	@Listen("onClick=#resultDiv2")
-	public void onClick$sidebarAllele2() {
-		showAllelePanel();
-		openPanelsOnMaximized(ResultPanels.ALLELE, false);
-	}
-
-	@Listen("onClick=#alleleLink")
-	public void onClick$sidebarAllele3() {
-		showAllelePanel();
-		openPanelsOnMaximized(ResultPanels.ALLELE, false);
-	}
-
-	private void showSNPeffectPanel() {
-		if (resultPanelBox3.isChecked()) {
-			resultDiv3.setStyle("background-color:rgb(184 224 198);");
-			sePanel.setVisible(true);
-			resultPanelBox3.setChecked(false);
-
-			if (!sePanelLoaded) {
-				if (queryResult == null)
-					return;
-
-				genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
-				List listSnpeffs = genotype.getSnpEffects(queryResult.getListPos());
-				listboxSnpeff.setItemRenderer(new SNPEffListitemRenderer());
-				this.listboxSnpeff.setModel(new SimpleListModel(listSnpeffs));
-				sePanelLoaded = true;
-			}
-
-			Notification.show("Added Snp Effect Panel to workspace", true);
-
-		} else {
-			sePanel.setVisible(false);
-			resultDiv3.setStyle("background-color:#f4ffe5;");
-			resultPanelBox3.setChecked(true);
-
-		}
-	}
-
-	@Listen("onClick=#resultSpan3")
-	public void onClick$sidebarSNPeffect1() {
-		showSNPeffectPanel();
-		openPanelsOnMaximized(ResultPanels.SNP_EFFECT, false);
-	}
-
-	@Listen("onClick=#resultDiv3")
-	public void onClick$sidebarSNPeffect2() {
-		showSNPeffectPanel();
-		openPanelsOnMaximized(ResultPanels.SNP_EFFECT, false);
-
-	}
-
-	@Listen("onClick=#seLink")
-	public void onClick$sidebarSNPeffect3() {
-		showSNPeffectPanel();
-		openPanelsOnMaximized(ResultPanels.SNP_EFFECT, false);
-	}
-
-	private void showJbrowsePanel() {
-		if (resultPanelBox4.isChecked()) {
-			resultDiv4.setStyle("background-color:rgb(184 224 198);");
-			jbrowsePanel.setVisible(true);
-			resultPanelBox4.setChecked(false);
-			Notification.show("Added Jbrowse Panel to workspace", true);
-		} else {
-			jbrowsePanel.setVisible(false);
-			resultDiv4.setStyle("background-color:#f4ffe5;");
-			resultPanelBox4.setChecked(true);
-		}
-	}
-
-	@Listen("onClick=#resultSpan4")
-	public void onClick$sidebarJbrowse1() {
-		showJbrowsePanel();
-		openPanelsOnMaximized(ResultPanels.JBROWSE, false);
-	}
-
-	@Listen("onClick=#resultDiv4")
-	public void onClick$sidebarJbrowse2() {
-		showJbrowsePanel();
-		openPanelsOnMaximized(ResultPanels.JBROWSE, false);
-	}
-
-	@Listen("onClick=#jbrowseLink")
-	public void onClick$sidebarJbrowse3() {
-		showJbrowsePanel();
-		openPanelsOnMaximized(ResultPanels.JBROWSE, false);
-	}
-
-	private void showHaplotypePanel() {
-		if (resultPanelBox5.isChecked()) {
-			resultDiv5.setStyle("background-color:rgb(184 224 198);");
-			haplotypePanel.setVisible(true);
-			resultPanelBox5.setChecked(false);
-
-			if (!haplotypePanelLoaded) {
-				try {
-					onselectTabHaplotype(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				haplotypePanelLoaded = true;
-			}
-			Notification.show("Added Haplotype Panel to workspace", true);
-		} else {
-			haplotypePanel.setVisible(false);
-			resultDiv5.setStyle("background-color:#f4ffe5;");
-			resultPanelBox5.setChecked(true);
-
-		}
-	}
-
-	@Listen("onClick=#resultSpan5")
-	public void onClick$sidebarHaplotype1() {
-		showHaplotypePanel();
-		openPanelsOnMaximized(ResultPanels.HAPLOTYPE, false);
-	}
-
-	@Listen("onClick=#resultDiv5")
-	public void onClick$sidebarHaplotype2() {
-		showHaplotypePanel();
-		openPanelsOnMaximized(ResultPanels.HAPLOTYPE, false);
-	}
-
-	@Listen("onClick=#haplotypeLink")
-	public void onClick$sidebarHaplotype3() {
-		showHaplotypePanel();
-		openPanelsOnMaximized(ResultPanels.HAPLOTYPE, false);
-	}
-
-	private void showCompareGenomes() {
-		if (resultPanelBox6.isChecked()) {
-			resultDiv6.setStyle("background-color:rgb(184 224 198);");
-			cGenomePanel.setVisible(true);
-			resultPanelBox6.setChecked(false);
-		} else {
-			cGenomePanel.setVisible(false);
-			resultDiv6.setStyle("background-color:rgb(255 255 255);");
-			resultPanelBox6.setChecked(true);
-
-		}
-
-	}
-
-	@Listen("onClick=#resultSpan6")
-	public void onClick$sidebarCompareGenome() {
-		showCompareGenomes();
-		openPanelsOnMaximized(ResultPanels.CGENOME, false);
-	}
-
-	@Listen("onClick=#resultDiv6")
-	public void onClick$sidebarCompareGenome2() {
-		showCompareGenomes();
-		openPanelsOnMaximized(ResultPanels.CGENOME, false);
-	}
-
-	@Listen("onClick=#compareGenomesLink")
-	public void onClick$sidebarCompareGenome3() {
-		showCompareGenomes();
-		openPanelsOnMaximized(ResultPanels.CGENOME, false);
-	}
-
-	private void showMDSplot() {
-		if (resultPanelBox7.isChecked()) {
-			resultDiv7.setStyle("background-color:rgb(184 224 198);");
-			mdsPlotPanel.setVisible(true);
-
-			if (!mdsPLotPanelLoaded) {
-				AppContext.debug("selected index: " + listboxPhenotype.getSelectedIndex());
-				if (listboxPhenotype.getSelectedIndex() == 0)
-					show_mds_fromtable(chartMDS);
-				else {
-
-					List listvarnames = new ArrayList();
-					Set varnames = new TreeSet();
-					// listvarnames.add("");
-					java.util.Iterator<BigDecimal> itvars = queryResult.getMapVariety2Order().keySet().iterator();
-					while (itvars.hasNext()) {
-						BigDecimal varid = itvars.next();
-						varnames.add(((Variety) varietyfacade.getMapId2Variety(getDataset()).get(varid)).getName()
-								.toUpperCase());
-					}
-					listvarnames.addAll(varnames);
-					listboxHighlightVariety.setModel(new SimpleListModel(listvarnames));
-
-					onSelect$Phenotype();
-
-				}
-
-				mdsPLotPanelLoaded = true;
-
-			}
-
-			Notification.show("Added MDS Plot Panel to workspace", true);
-		} else {
-			mdsPlotPanel.setVisible(false);
-			resultDiv7.setStyle("background-color:rgb(255 255 255);");
-			resultPanelBox7.setChecked(true);
-
-		}
-	}
-
-	@Listen("onClick=#resultSpan7")
-	public void onClick$sidebarMDSPlot() {
-		showMDSplot();
-		openPanelsOnMaximized(ResultPanels.MDS_PLOT, false);
-	}
-
-	@Listen("onClick=#resultDiv7")
-	public void onClick$sidebarMDSPlot2() {
-		showMDSplot();
-		openPanelsOnMaximized(ResultPanels.MDS_PLOT, false);
-	}
-
-	@Listen("onClick=#mdsplotLink")
-	public void onClick$sidebarMDSPlot3() {
-		showMDSplot();
-		openPanelsOnMaximized(ResultPanels.MDS_PLOT, false);
-	}
-
-	private void showGalaxy() {
-		if (resultPanelBox8.isChecked()) {
-			resultDiv8.setStyle("background-color:rgb(184 224 198);");
-			galaxyPanel.setVisible(true);
-			resultPanelBox8.setChecked(false);
-
-			if (!galaxyPanelLoaded) {
-				GenotypeQueryParams p = fillGenotypeQueryParams();
-				String filename = "snp3kvars-" + queryFilename();
-				Object2StringMultirefsMatrixModel matrixmodel = (Object2StringMultirefsMatrixModel) biglistboxArray
-						.getModel();
-				VariantAlignmentTableArraysImpl table = (VariantAlignmentTableArraysImpl) matrixmodel.getData();
-				haplofilename = "snp3kvars-" + queryFilename();
-
-				Map mapParamvals = new HashMap();
-				mapParamvals.put("filename", filename);
-				mapParamvals.put("query", p);
-				mapParamvals.put("table", table);
-				mapParamvals.put("reference", this.listboxReference.getSelectedItem().getLabel());
-
-				if (listboxPhenotype.getSelectedIndex() > 0) {
-					String sPhenotype = listboxPhenotype.getSelectedItem().getLabel();
-					mapParamvals.put("sample2pheno", varietyfacade.getPhenotypeValues(sPhenotype, getDataset()));
-					mapParamvals.put("phenoname", sPhenotype);
-				}
-
-				AppContext.debug("update galaxy page");
-
-				getSession().removeAttribute("param_vals");
-				getSession().putValue("param_vals", mapParamvals);
-
-				if (refreshgalaxy) {
-					// new query parameters
-					includeGalaxy.setSrc("galaxy.zul?embed=genotype&refresh=1");
-					includeGalaxy.setSrc("galaxy.zul?embed=genotype");
-				} else
-					includeGalaxy.setSrc("galaxy.zul?embed=genotype");
-
-				refreshgalaxy = false;
-
-				galaxyPanelLoaded = true;
-
-			}
-
-			Notification.show("Added Galaxy Panel to workspace", true);
-		} else {
-			galaxyPanel.setVisible(false);
-			resultDiv8.setStyle("background-color:rgb(255 255 255);");
-			resultPanelBox8.setChecked(true);
-
-		}
-	}
-
-	@Listen("onClick=#resultSpan8")
-	public void onClick$sidebarGalaxy() {
-		showGalaxy();
-		openPanelsOnMaximized(ResultPanels.GALAXY, false);
-	}
-
-	@Listen("onClick=#resultDiv8")
-	public void onClick$sidebarGalaxy2() {
-		showGalaxy();
-		openPanelsOnMaximized(ResultPanels.GALAXY, false);
-	}
-
-	@Listen("onClick=#galaxyLink")
-	public void onClick$sidebarGalaxy3() {
-		showGalaxy();
-		openPanelsOnMaximized(ResultPanels.GALAXY, false);
-	}
-
-	private void setPanelCollapsed(boolean open) {
-		resultPanel.setOpen(open);
-		aFrequencyPanel.setOpen(open);
-		sePanel.setOpen(open);
-		jbrowsePanel.setOpen(open);
-		haplotypePanel.setOpen(open);
-		cGenomePanel.setOpen(open);
-		galaxyPanel.setOpen(open);
-		mdsPlotPanel.setOpen(open);
-
-	}
-
-	private void collapsePanel() {
-		if (collapseCheckbox.isChecked()) {
-			collapseDiv.setStyle("background-color:rgb(184 224 198);");
-			collapseCheckbox.setChecked(false);
-			setPanelCollapsed(false);
-		} else {
-			collapseDiv.setStyle("background-color:#f4ffe5;");
-			collapseCheckbox.setChecked(true);
-			setPanelCollapsed(true);
-		}
-
-	}
-
-	@Listen("onClick=#collapseSpan")
-	public void onClick$sidebarCollapse() {
-		collapsePanel();
-	}
-
-	@Listen("onClick=#collapseDiv")
-	public void onClick$sidebarCollapse2() {
-		collapsePanel();
-	}
-
-	@Listen("onClick=#collapseLink")
-	public void onClick$sidebarCollapse3() {
-		collapsePanel();
-	}
 
 	public static Map orderMap(Map orig) {
 		Map map = new TreeMap();
@@ -3296,82 +2991,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		return (HttpSession) Executions.getCurrent().getSession().getNativeSession();
 	}
 
-	private void openPanelsOnMaximized(String panelName, boolean open) {
-		resultPanel.setOpen(panelName.equals(ResultPanels.RESULT) ? true : open);
-		aFrequencyPanel.setOpen(panelName.equals(ResultPanels.ALLELE) ? true : open);
-		jbrowsePanel.setOpen(panelName.equals(ResultPanels.JBROWSE) ? true : open);
-		haplotypePanel.setOpen(panelName.equals(ResultPanels.HAPLOTYPE) ? true : open);
-		mdsPlotPanel.setOpen(panelName.equals(ResultPanels.MDS_PLOT) ? true : open);
-		galaxyPanel.setOpen(panelName.equals(ResultPanels.GALAXY) ? true : open);
-		cGenomePanel.setOpen(panelName.equals(ResultPanels.CGENOME) ? true : open);
-		sePanel.setOpen(panelName.equals(ResultPanels.SNP_EFFECT) ? true : open);
-
-	}
-
-	private void setPanel(String panelName, Panel panel, String panelStyle) {
-		if (panel.isMaximized()) {
-			panel.setSclass("max");
-			openPanelsOnMaximized(panelName, false);
-
-		} else {
-			panel.setSclass(panelStyle);
-			openPanelsOnMaximized(panelName, true);
-		}
-	}
-
-	@Listen("onMaximize=#panelBox")
-	public void onMaximizeResultBox() {
-		setPanel("result", resultPanel, "resultPanelStyle");
-
-	}
-
-	@Listen("onMaximize=#aFrequencyPanel")
-	public void onMaximize$AlellePanel() {
-		setPanel("allele", aFrequencyPanel, "aFreqPanelStyle");
-	}
-
-	@Listen("onMaximize=#sePanel")
-	public void onMaximize$SNPeffectPanel() {
-		setPanel("snpeffect", sePanel, "sePanelStyle");
-
-	}
-
-	@Listen("onMaximize=#jbrowsePanel")
-	public void onMaximize$JbrowsePanel() {
-		setPanel("jbrowse", jbrowsePanel, "jbrowsePanelStyle");
-
-	}
-
-	@Listen("onMaximize=#haplotypePanel")
-	public void onMaximize$HaplotypePanel() {
-		setPanel("haplotype", haplotypePanel, "haplotypePanelStyle");
-
-	}
-
-	@Listen("onMaximize=#mdsPlotPanel")
-	public void onMaximize$MDSPlotPanel() {
-		setPanel("mdsPlot", mdsPlotPanel, "mdsPlotPanelStyle");
-
-	}
-
-	@Listen("onMaximize=#galaxyPanel")
-	public void onMaximize$GalaxyPanel() {
-		setPanel("galaxy", galaxyPanel, "galaxyPanelStyle");
-
-	}
-
-	@Listen("onMaximize=#cGenomePanel")
-	public void onMaximize$CGenomePanel() {
-		setPanel("cGenome", cGenomePanel, "cGenomePanelStyle");
-
-	}
-
-	@Listen("onClick=#minResult")
-	public void onMaximize$PanelBox() {
-		resultPanel.setVisible(true);
-		minResult.setVisible(false);
-	}
-
 	@Listen("onOpen=#datasetGroup")
 	public void onOpen$DatasetGroup() {
 		if (datasetGroup.isOpen())
@@ -3673,7 +3292,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		listboxVarietyset.setModel(listmodel2);
 		listboxVarietyset.setSelectedIndex(0);
-		
+
 		String str = "";
 		for (Object li : s) {
 			if (!str.isEmpty()) {

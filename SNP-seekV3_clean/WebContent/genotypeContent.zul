@@ -1,4 +1,4 @@
-<zk>
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client">
 	<n:div xmlns:n="native">
 		<n:script src="assets/js/jquery.min.js" />
 		<n:script src="assets/bootstrap/js/bootstrap.min.js" />
@@ -20,8 +20,8 @@
 		<style src="assets/css/styles.css" />
 		<style src="assets/css/styles_genotype.css" />
 		<style src="assets/css/Collapsible-Sidebar.css" />
-		<style
-			src="assets/css/Vertical-Left-SideBar-by-Jigar-Mistry.css" />
+		<style src="assets/css/sidebar_home.css" />
+		<style src="assets/css/genotypeSearch.css" />
 
 		<style>
 			.z-loading { background-color:#808080; border:1px outset
@@ -75,6 +75,13 @@
 			sans-serif; height: 8px; }
 
 		</style>
+		<script>
+			function myFunction() {
+
+			var element =
+			document.getElementById("genotypeSearchSidebar");
+			element.classList.toggle("active"); }
+		</script>
 
 		<window id="genWin" border="none"
 			apply="user.ui.module.GenotypeQueryController" width="100%"
@@ -84,23 +91,24 @@
 			<n:div id="bodyContent">
 				<n:div class="wrapper">
 					<!-- Sidebar Holder -->
-					<n:nav id="genotypeSearchSidebar">
+					<n:nav id="genotypeSearchSidebar"
+						style="position:absolute !important; width:550px !important;"
+						tabindex="-1" role="dialog">
+
 						<n:div class="container">
 							<n:div class="form-row">
 								<n:div class="col"
-									style="margin-left: 10px;margin-top: 15px;">
+									style="margin-left: 5px;margin-top: 10px;">
 
 									<label value="Search By Genotype"
 										style="font-size:16px;color:#3b4e36;" />
 								</n:div>
 								<n:div class="col"
 									style="padding-left: 10px;margin-top: 5px;">
-									<n:div class="text-right"
-										style="display:none;">
-										<n:button id="sidebarCollapse"
-											class="btn" alt="This is hello world!" visible="false">
-											<n:i
-												class="fa fa-chevron-left">
+									<n:div class="text-right">
+										<n:button id="closeSidebar"
+											class="btn" visible="true">
+											<n:i class="fas fa-times">
 											</n:i>
 										</n:button>
 									</n:div>
@@ -642,8 +650,7 @@
 
 										<n:div class="text-right">
 											<button id="searchButton"
-												label="Search" xmlns:w="http://www.zkoss.org/2005/zk/client"
-												style="font-size:11px;" />
+												label="Search" style="font-size:11px;" />
 
 										</n:div>
 									</n:div>
@@ -694,260 +701,10 @@
 
 
 					<n:div id="content">
-
-						<n:div id="topNav"
-							style="margin-left:100px;display:none;">
-							<n:nav
-								class="sidebar_navbtabar navbar-expand-lg navbar-light bg-light">
-								<n:div class="container-fluid"
-									style="background-color: #cadfd1ab;padding:5px;">
-
-									<n:div id="imageAd1" class="btn"
-										style="alignment:right;">
-										<n:i
-											class="fas fa-plus-circle">
-											Inquire for Advertisement
-										</n:i>
-									</n:div>
-									<n:div id="imageAd2" class="btn"
-										style="alignment:right;">
-										<n:img class="rounded"
-											src="assets/img/banner-ads-examples-usa-today.jpg" />
-									</n:div>
-
-									<n:div
-										class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
-										style="flex-grow: 100;margin-left:50px;width:80%;display:none;">
-										<n:input type="text"
-											id="FormInput" class="mdl-textfield__input"
-											style="border-radius: 0px;border-bottom-color: rgba(0,0,0,0.5);" />
-										<n:label
-											class="mdl-textfield__label" for="emailFormInput"
-											style="color: rgba(0,0,0,0.5);font-size:11px">
-											RESULT: 0 varieties x 0
-											SNPS 
-										</n:label>
-									</n:div>
-								</n:div>
-
-							</n:nav>
-						</n:div>
-
 						<n:div>
-							<n:div class="mainDiv-Sidebar">
-								<div id="sideBarDiv" visible="false">
-									<n:div class="main-leftsidebar-div"
-										data-component="leftsidebar">
-
-										<n:div class="leftsidebar"
-											style="z-index:3000;position:sticky;top:0;">
-
-											<n:ul
-												class="nav list-group flex-column d-inline-block first-menu scrollbar-indigo thin first-main-menu">
-
-												<n:div id="queryDiv"
-													style="z-index:40001">
-													<n:button
-														id="sidebarCollapse3" alt="This is hello world!"
-														onclick="myFunction()" class="btn"
-														style="margin-left:10px;">
-														<n:i
-															class="fa fa-bars">
-
-														</n:i>
-
-													</n:button>
-												</n:div>
-												<div id="resultDiv"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="resultLink" class="nav-link" href="#"
-															style="border-color: rgb(82, 154, 111);color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-table">
-																<span
-																	id="resultSpan" class="ml-2 align-middle">
-																	Result
-																</span>
-															</n:i>
-														</a>
-													</n:li>
-												</div>
-												<div id="resultDiv2"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox2" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="alleleLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-pie-chart">
-
-																<span
-																	id="resultSpan2" class="ml-2 align-middle">
-																	Allele
-																	Frequency
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv3"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox3" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a id="seLink"
-															class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-pie-chart">
-
-																<span
-																	id="resultSpan3" class="ml-2 align-middle">
-																	SNP-effects
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv4"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox4" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="jbrowseLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-align-left">
-																<span
-																	id="resultSpan4" class="ml-2 align-middle">
-																	Jbrowse
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv5"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox5" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="haplotypeLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-sliders">
-																<span
-																	id="resultSpan5" class="ml-2 align-middle">
-																	Haplotype
-																	View
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv6"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox6" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="compareGenomesLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-file">
-																<span
-																	id="resultSpan6" class="ml-2 align-middle">
-																	Compare
-																	Genomes
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv7"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox7" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="mdsplotLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-line-chart">
-																<span
-																	id="resultSpan7" class="ml-2 align-middle">
-																	MDS
-																	Plot
-																</span>
-															</n:i>
-														</a>
-
-													</n:li>
-												</div>
-												<div id="resultDiv8"
-													style="z-index:40001">
-													<checkbox
-														id="resultPanelBox8" visible="false" />
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<a
-															id="galaxyLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-wrench">
-																<span
-																	id="resultSpan8" class="ml-2 align-middle">
-																	Galaxy
-																	Tools
-																</span>
-															</n:i>
-														</a>
-													</n:li>
-												</div>
-												<div id="collapseDiv">
-													<n:li
-														class="nav-item list-group-item pl-1 py-2">
-														<checkbox
-															id="collapseCheckbox" visible="false" />
-														<a
-															id="collapseLink" class="nav-link" href="#"
-															style="color: rgb(82, 154, 111);">
-															<n:i
-																class="fa fa-window-restore">
-																<span
-																	id="collapseSpan" class="ml-2 align-middle">
-																	Collapse
-																	Windows
-																</span>
-															</n:i>
-														</a>
-													</n:li>
-												</div>
-											</n:ul>
-										</n:div>
-									</n:div>
-								</div>
-								<div id="initDiv"
-									style="height:500px">
+							<div>
+								<div id="initDiv" style="height:500px"
+									visible="false">
 									<n:div id="stepsDiv"
 										style="height: 144px;">
 										<n:div
@@ -963,6 +720,8 @@
 															class="step-title">
 															Step 1
 														</n:strong>
+
+
 														<n:p
 															class="step-short-desc"
 															style="font-size: 12px;color: rgb(255,255,255);">
@@ -1128,722 +887,717 @@
 										</n:div>
 									</n:div>
 								</div>
-								<n:div
-									style="margin-left:100px;margin-top:10px">
-									<portallayout id="portalLayout"
-										maximizedMode="whole">
-										<portalchildren
-											width="1250px">
-											<panel id="aFrequencyPanel"
-												title="Allele Frequency" border="normal" collapsible="true"
-												class="aFreqPanelStyle" closable="false" maximizable="true"
-												sizable="true" visible="false">
-												<panelchildren>
-													<hbox
-														id="hboxAlleleFrequency">
-														<vbox
-															width="100%">
+								<div id="resultHeader"
+									style="width:100%;background-color:white;padding:10px 20px 10px 20px;border-radius: 20px; margin-left: 20px; margin-right: 20px;" visible="false">
 
-															<radiogroup
-																id="radiogroupAllelefreqcount" />
-															<radiogroup
-																id="radiogroupMajorminor" />
-															<hbox
-																height="30px" />
-															<radio
-																id="radioShowAlleleFrequency"
-																label="Show allele frequency"
-																radiogroup="radiogroupAllelefreqcount" selected="true"
-																style="font-size:11px;" />
-															<radio
-																id="radioShowAlleleCount" label="Show allele count"
-																radiogroup="radiogroupAllelefreqcount"
-																style="font-size:11px;" />
-															<radio
-																id="radioShowGenotypeFrequency"
-																label="Show genotype frequency"
-																radiogroup="radiogroupAllelefreqcount"
-																style="font-size:11px;" />
-															<radio
-																id="radioShowGenotypeCount" label="Show genotype count"
-																radiogroup="radiogroupAllelefreqcount"
-																style="font-size:11px;" />
-															<hbox
-																height="10px" />
-															<radio
-																id="radioMajorAlleles" label="Major alleles"
-																radiogroup="radiogroupMajorminor" selected="true"
-																style="font-size:11px;" />
-															<radio
-																id="radioMinorAlleles" label="Minor alleles"
-																radiogroup="radiogroupMajorminor"
-																style="font-size:11px;" />
-															<radio
-																id="radio3rdAlleles" label="3rd alleles"
-																radiogroup="radiogroupMajorminor"
-																style="font-size:11px;" />
-															<radio
-																id="radio4thAlleles" label="4th alleles"
-																radiogroup="radiogroupMajorminor" visible="false"
-																style="font-size:11px;" />
-															<hbox
-																height="10px" />
+									<n:div class="form-row">
+										<n:div class="col">
+
+											<div id="backQueryDiv"
+												style="border: 4px; border-style: solid; width: 150px; padding: 15px;  border-radius: 25px;  border-color: #55a569; 
+    												margin-left: 20px;cursor:pointer;" class="divBtn">
+												<hlayout>
+															<n:i
+																class="fas fa-share-square"
+																style="font-size: 40px; color: #33a952">
+															</n:i>
+															<vbox>
 															<label
-																value="Click in legend to hide/show series"
-																style="font-size:11px;" />
-															<button
-																id="buttonResetzoom" label="Reset Zoom" visible="false" />
-														</vbox>
+																	 value="Back to" style="padding-left:10px;color: #03a103;font-size:14px;"/>
+																<label
+																	 style="padding-left:10px;color: #03a103;font-size:16px;" value="query" />
+															</vbox>
+												</hlayout>
+											</div>
+										</n:div>
+										<n:div 
+											style="margin-left:auto;margin-right:0px;padding-left: 10px;margin-top: 5px;">
+											<n:div class="text-right">
+												<div
+													style="width:100%">
+													<hbox align="end">
+														<div
+															style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
+															<hlayout>
+															<n:i
+																class="fas fa-seedling"
+																style="font-size: 40px; color: #33a952">
+															</n:i>
+															<vbox>
+															<label
+																	 value="VARIETIES" style="padding-left:10px;color: #03a103;font-size:14px;"/>
+																<label
+																	id="nmVarietyResult" style="padding-left:10px;color: #03a103;font-size:16px;" value="0" />
+															</vbox>
+															</hlayout>
+														</div>
 
-														<charts
-															id="chartAlleleFrequency" type="line"
-															title="Allele frequency" width="1000" height="400"
-															zoomType="xy" />
+														<div
+															style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
+															<hlayout>
+															<n:i
+																class="fas fa-poll-h"
+																style="font-size: 40px; color: #33a952">
+															</n:i>
+															<vbox>
+															<label
+																	 value="SNP POSITION" style="padding-left:10px;color: #03a103;font-size:14px;"/>
+															<label
+																id="nmPosResult" value="0" style="padding-left:10px;color: #03a103;font-size:16px;"/>
+																</vbox>
+																</hlayout>
+														</div>
 													</hbox>
+												</div>
+											</n:div>
 
-												</panelchildren>
-											</panel>
+										</n:div>
+									</n:div>
 
-											<panel id="jbrowsePanel"
-												title="Jbrowse" border="normal" collapsible="true"
-												closable="false" maximizable="true"
-												style="background-color:rgb(90,181, 109);font-size:11px;height:500px;margin-bottom:20px;margin-right:20px;"
-												visible="false">
-												<panelchildren>
-													<iframe
-														id="iframeJbrowse" align="left" visible="true"
-														style="width:100%;height:100%;border:0px inset;"
-														src="${jbrowsestart}" />
-												</panelchildren>
-											</panel>
-											<panel id="haplotypePanel"
-												title="Haplotype View" border="normal" collapsible="true"
-												closable="false" maximizable="true"
-												class="haplotypePanelStyle" visible="false">
-												<panelchildren>
-													<borderlayout
-														height="760px">
-														<north
-															id="HaplotypeViewHeader" title="Haplotype View Options"
-															maxsize="200" size="20%" splittable="true"
-															collapsible="true">
-															<toolbar>
-																<hbox>
-																	<label
-																		value="Resolution " pre="true" />
-																	<listbox
-																		id="listboxHaploResolution" mold="select"
-																		width="100px" tooltip="test1" tooltiptext="Test2">
-																		<listitem
-																			value="SNP" label="per SNP" selected="true" />
-																		<listitem
-																			value="100" label="per 100bp" />
-																		<listitem
-																			value="10" label="per 10bp" />
-																	</listbox>
-																	<hbox
-																		width="20px" />
-																	<label
-																		value="Clustering distance weight " pre="true" />
-																	<label
-																		id="labelGlobal" value="Global 0.15" />
-																	<slider
-																		id="sliderClusterWieght" mode="decimal" step="0.05"
-																		maxpos="1.0" minpos="0.0" curpos="0.85" width="150px" />
-																	<label
-																		id="labelLocal" value="Local 0.85" />
-																	<hbox
-																		width="20px" />
-																	<button
-																		id="buttonHaploUpdate" label="Update" />
-																	<hbox
-																		width="20px" />
-																	<label
-																		value="Download" />
-																	<button
-																		id="buttonHaploOrder" class="z-variety-order"
-																		label="Variety order" disabled="true" />
-																	<hbox
-																		width="10px" />
-																	<button
-																		id="buttonHaploImage" class="z-image" label="Image"
-																		disabled="true" />
-																</hbox>
-																<vbox
-																	height="10px" />
-																<hbox>
-																	<label
-																		value="Group varieties (by haplotypes) using"
-																		pre="true" />
-																	<hbox
-																		width="20px" />
-																	<listbox
-																		id="listboxKgroupMethod" mold="select"
-																		width="230px">
-																		<!--  listitem value="kmeans" label="K-means"  -->
-																		<listitem
-																			value="nogroups" label="no grouping" />
-																		<listitem
-																			value="autogroup" label="auto-group" />
-																		<listitem
-																			value="cuttreegroup" label="cuttree: groups"
-																			selected="true" />
-																		<!--  listitem value="cuttreegroup_norm" label="cuttree: groups (relative # of groups)"/ -->
-																		<listitem
-																			value="cuttreeheight" label="cuttree: height" />
-																		<listitem
-																			value="cuttreeheight_norm"
-																			label="cuttree: height (normalized log)" />
-																	</listbox>
-																	<hbox
-																		width="10px" />
-																	<decimalbox
-																		id="intboxKgroupThreshold" value="0" visible="false" />
-																	<!--  slider id="sliderCuttreeThreshold" mode="decimal" step="1.0" maxpos="100.0" minpos="0.0" curpos="75.0" visible="false" width="150px"/ -->
-																	<!--  textbox id="textboxCuttreeThreshold" value="75.0" readonly="true" width="60px" visible="false"/ -->
-																	<slider
-																		id="sliderCuttreeThreshold" mode="decimal" step="1.0"
-																		maxpos="15.0" minpos="1.0" curpos="3.0" visible="true"
-																		width="150px" />
-																	<textbox
-																		id="textboxCuttreeThreshold" value="3.0"
-																		readonly="true" width="60px" visible="true" />
-																	<listbox
-																		id="listboxAutogroup" mold="select" width="150px"
-																		visible="false">
-																		<listitem
-																			value="pamk" label="pamk" />
-																		<listitem
-																			value="calinski" label="calinski" selected="true" />
-																	</listbox>
-																	<hbox
-																		width="60px" />
-																	<label
-																		value="Image resolution" />
-																	<listbox
-																		id="listboxImagesize" mold="select" width="150px"
-																		visible="true">
-																		<listitem
-																			value="0" label="low (72dpi)" />
-																		<listitem
-																			value="2" label="medium (300dpi)" selected="true" />
-																		<listitem
-																			value="1" label="high (800dpi)" />
-																	</listbox>
-																</hbox>
-															</toolbar>
-														</north>
-														<center
-															border="0">
-															<vlayout
-																height="620px">
-																<tabbox>
-																	<tabs>
-																		<tab
-																			id="tabHaploHaploview" label="Haplotype"
-																			selected="true" />
-																		<tab
-																			id="tabHaploGroupAlleles" label="Group alleles" />
-																		<tab
-																			id="tabHaploAutogroups"
-																			label="Autogroup calculations" />
-																		<tab
-																			id="tabHaploTree" label="Phylogenetic tree" />
-																	</tabs>
-																	<tabpanels>
-																		<tabpanel>
-																			<iframe
-																				id="iframeHaplotype" width="90%" height="1000px" />
-																		</tabpanel>
-																		<tabpanel>
-																			<vbox
-																				id="vboxGroupAlleleFrequency" visible="false">
-																				<label
-																					value="Group major alleles"
-																					style="font-size:18px;font-weight:bold" />
-																				<button
-																					id="buttonDownloadGroupMatrix"
-																					class="z-download-alleles"
-																					label="Download group alleles" width="200px" />
-																				<div
-																					style="overflow:auto;position:relative">
-																					<listbox
-																						id="listboxGroupAlleleMatrix" width="80%">
-																						<listhead
-																							id="listheadGroupAlleleMatrix" sizable="true">
-																							<listheader
-																								label="KGROUP" sort="auto" />
-																							<!--  listheader label="SAMPLES"/ -->
-																							<listheader
-																								label="SUBPOP:COUNT" />
-																							<listheader
-																								label="SAMPLES" sort="auto" />
-																							<listheader
-																								label="FREQUEMCY" sort="auto" />
-																						</listhead>
-																					</listbox>
-																				</div>
-																				<hbox
-																					height="30px" />
-																				<label
-																					value="Select a Phenotype to display value distribution for each group"
-																					style="font-size:12px;font-weight:bold" />
-																				<button
-																					id="buttonAddPhenValuesToMatrix"
-																					label="Append values to table" visible="false" />
-																				<hbox
-																					width="100%">
+								</div>
+								<div id="resultContentDiv"
+									visible="false"
+									style="margin-left:20px;margin-top:10px;margin-bottom:20px;height:100%;width:100%;">
 
-																					<vbox
-																						width="700px">
-																						<div
-																							id="divGroupPhenoQuant" visible="false">
-																							<hbox>
-																								<label>
-																									Type
-																								</label>
-																								<vbox
-																									width="20px" />
-																								<radiogroup
-																									id="rgPhenochartType">
-																									<hbox>
-																										<radio
-																											id="radioGroupPhenotypeBox" label="box plot"
-																											radiogroup="rgPhenochartType"
-																											selected="true" />
-																										<vbox
-																											width="30px" />
-																										<radio
-																											id="radioGroupPhenotypeErrorbars"
-																											label="error bars"
-																											radiogroup="rgPhenochartType" />
-																									</hbox>
-																								</radiogroup>
-																							</hbox>
+									<goldenlayout
+										id="resultGoldenLayout" height="1300px" hflex="1"
+										style="margin-top: 10px;border:0px;">
+										<attribute name="areas">
+											A A A A B 
+											A A A A B 
+											A A A A B 
+											A A A A B 
+											A A A A B 
+											A A A A B 
+											C C C C D 
+											C C C C D 
+											C C C C D 
+											C C C C D
+										</attribute>
+										<goldenpanel area="A"
+											title="Result" closable="false" style="height:750px;"
+											popup="true">
 
-																							<div
-																								id="divGroupPhenoQuantBox">
-																								<hbox>
-																									<checkbox
-																										id="checkboxOutlierGroupPhenotypeBox"
-																										label="Show 1.5xIQR outliers" />
-																									<vbox
-																										width="100px" />
-																									<label
-																										value="(select region to show varieties)" />
-																								</hbox>
-																								<charts
-																									id="chartGroupPhenotypeBox" type="boxplot"
-																									title="Group phenotype quartiles"
-																									visible="false" zoomType="xy" />
-																							</div>
-																							<charts
-																								id="chartGroupPhenotypeErrorbars"
-																								title="Group phenotype mean+stddev"
-																								zoomType="xy" visible="false" />
-																						</div>
+											<vlayout width="100%"
+												height="100%">
+												<menubar
+													id="download_menubar" width="100%"
+													style="background:#e9ecef">
+													<menu
+														label="Download" id="menu_download"
+														style="background:#e9ecef;color: black !important;"
+														class="menu_style">
+														<menupopup
+															style="background: #e9ecef !important;color: black !important;"
+															class="menupopup_style">
+															<menuitem
+																label="CSV" iconSclass="z-icon-file-o"
+																class="menuitem_style" />
+															<menuitem
+																label="Tab" iconSclass="z-icon-file-o"
+																class="menuitem_style" />
+															<menuitem
+																label="PLINK" iconSclass="z-icon-file-o"
+																class="menuitem_style" />
+															<menuitem
+																label="Flapjack" iconSclass="z-icon-file-o"
+																class="menuitem_style" />
+														</menupopup>
+													</menu>
 
-																						<div
-																							id="divGroupPhenoCat">
-																							<hbox>
-																								<checkbox
-																									id="checkboxNormalizeStackedCategories"
-																									label="Normalize category count" />
-																								<vbox
-																									width="100px" />
-																								<label
-																									value="(click region to show varieties)" />
-																							</hbox>
-																							<charts
-																								id="chartGroupPhenotypeStacked" type="column"
-																								title="Group phenotype value" visible="false"
-																								zoomType="y" />
-																						</div>
-																					</vbox>
-																					<vbox>
-																						<label
-																							id="labelGroupVarietyPhenotype" visible="false" />
-																						<listbox
-																							id="listboxGroupVarietyPhenotypeStacked"
-																							visible="false" mold="paging" pageSize="20">
-																							<listhead>
-																								<listheader
-																									label="VARIETY" sort="auto" />
-																								<listheader
-																									label="ACCESSION" sort="auto" />
-																								<listheader
-																									label="SUBPOP" sort="auto" />
-																								<listheader
-																									id="listheaderGroupVarietyPhenotypeStackedPhenotype"
-																									sort="auto" />
-																							</listhead>
-																						</listbox>
-																					</vbox>
-																				</hbox>
-																				<vbox
-																					height="30px" />
-																				<hbox>
-																					<vbox
-																						width="200px">
-																						<radiogroup
-																							id="radiogroupGroupAllelefreqcount" />
-																						<radiogroup
-																							id="radiogroupGroupMajorminor" />
-																						<hbox
-																							height="30px" />
-																						<radio
-																							id="radioGroupShowAlleleFrequency"
-																							label="Show allele frequency"
-																							radiogroup="radiogroupGroupAllelefreqcount"
-																							selected="true" />
-																						<radio
-																							id="radioGroupShowAlleleCount"
-																							label="Show allele count"
-																							radiogroup="radiogroupGroupAllelefreqcount" />
-																						<radio
-																							id="radioGroupShowGenotypeFrequency"
-																							label="Show genotype frequency"
-																							radiogroup="radiogroupGroupAllelefreqcount" />
-																						<radio
-																							id="radioGroupShowGenotypeCount"
-																							label="Show genotype count"
-																							radiogroup="radiogroupGroupAllelefreqcount" />
-																						<hbox
-																							height="10px" />
-																						<radio
-																							id="radioGroupMajorAlleles" label="Major alleles"
-																							radiogroup="radiogroupGroupMajorminor"
-																							selected="true" />
-																						<radio
-																							id="radioGroupMinorAlleles" label="Minor alleles"
-																							radiogroup="radiogroupGroupMajorminor" />
-																						<radio
-																							id="radioGroup3rdAlleles" label="3rd alleles"
-																							radiogroup="radiogroupGroupMajorminor" />
-																						<radio
-																							id="radioGroup4thAlleles" label="4th alleles"
-																							radiogroup="radiogroupGroupMajorminor"
-																							visible="false" />
-																						<hbox
-																							height="10px" />
-																						<label
-																							value="Click in legend to hide/show series" />
-																						<button
-																							id="buttonGroupResetzoom" label="Reset Zoom"
-																							visible="false" />
-																					</vbox>
-
-																					<charts
-																						id="chartGroupAlleleFrequency" type="line"
-																						title="Group Allele frequency" width="1000"
-																						height="400" zoomType="xy" />
-																				</hbox>
-																			</vbox>
-																		</tabpanel>
-																		<tabpanel>
-																			<iframe
-																				id="iframeAutogroups" width="100%" height="1000px" />
-																		</tabpanel>
-																		<tabpanel>
-																			<vbox>
-																				<hbox>
-																					<button
-																						id="buttonHaploDownloadNewick"
-																						label="Download Newick" />
-																					<vbox
-																						width="20px" />
-																					<button
-																						id="buttonHaploDisplayTree" label="Display Tree" />
-																				</hbox>
-																				<iframe
-																					id="iframeHaplotypeTree" width="100%"
-																					height="1000px" />
-																			</vbox>
-																		</tabpanel>
-																	</tabpanels>
-																</tabbox>
-															</vlayout>
-														</center>
-													</borderlayout>
+													<menu label="Filter"
+														style="background:#e9ecef;color: black !important;"
+														class="menu_style">
+														<menupopup
+															style="background:#e9ecef !important;color: black !important;"
+															class="menupopup_style">
+															<menuitem
+																label="Add Filter"
+																image="/widgets/menu/drop-down_menu/img/file_open.png"
+																class="menuitem_style" />
+														</menupopup>
+													</menu>
 
 
-												</panelchildren>
-											</panel>
-											<panel id="mdsPlotPanel"
-												title="MDS Plot" framable="true" height="1000px"
-												maximizable="true" minimizable="false" border="rounded+"
-												collapsible="true" closable="false" sizable="true"
-												style="background-color:rgb(90,181, 109);font-size:11px;margin-bottom:20px;margin-right:20px;"
-												class="panelGenotype" visible="false">
+												</menubar>
+												<biglistbox
+													height="630px" id="biglistboxArray" hflex="1"
+													xmlns:w="client" w:onScroll="jq('$tip').fadeOut();"
+													style="font-size:10px">
 
-												<panelchildren>
+												</biglistbox>
+											</vlayout>
+										</goldenpanel>
+										<goldenpanel
+											id="goldenPA_snpeffect" area="A" title="Snp Effect"
+											closable="false">
+											<vlayout width="100%"
+												height="680px">
+												<listbox
+													id="listboxSnpeff" mold="paging" pageSize="15"
+													sizedByContent="true" span="true">
+													<listhead
+														sizable="true">
 
-													<vbox>
+														<listheader
+															label="POSITION" sort="auto" width="10%" />
+														<listheader
+															label="&quot;DELETERIOUSNESS&quot;" sort="auto"
+															width="10%" sortAscending="${snpeffasc1}"
+															sortDescending="${snpeffdsc1}" />
+														<listheader
+															label="Alt (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Effect (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Putative_impact (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Gene Name (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Gene ID (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Feature type (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Feature ID (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Transcript Biotype (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Rank/Total (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="HGV S.c (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="HGV S.p (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="cDNA position (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="cDS position (ANN)" sort="auto" width="10%" />
+														<listheader
+															label="Protein position" sort="auto" width="10%" />
+														<listheader
+															label="Distance to feature (ANN)" sort="auto"
+															width="10%" />
+														<listheader
+															label="Errors,Warnings Info msgs (ANN)" sort="auto"
+															width="10%" />
+														<listheader
+															label="LOF" sort="auto" width="10%" />
+														<listheader
+															label="NMD" sort="auto" width="10%" />
+													</listhead>
+												</listbox>
 
+											</vlayout>
+
+										</goldenpanel>
+										<goldenpanel area="A"
+											title="Jbrowse" closable="false">
+											<iframe id="iframeJbrowse"
+												align="left" visible="true"
+												style="width:100%;height:100%;border:0px inset;"
+												src="${jbrowsestart}" />
+
+										</goldenpanel>
+										<goldenpanel area="C"
+											title="Allele Frequency" closable="false">
+											<hbox
+												id="hboxAlleleFrequency">
+												<vbox width="250px">
+
+													<radiogroup
+														id="radiogroupAllelefreqcount" />
+													<radiogroup
+														id="radiogroupMajorminor" />
+													<hbox height="30px" />
+													<radio
+														id="radioShowAlleleFrequency"
+														label="Show allele frequency"
+														radiogroup="radiogroupAllelefreqcount" selected="true"
+														style="font-size:11px;" />
+													<radio
+														id="radioShowAlleleCount" label="Show allele count"
+														radiogroup="radiogroupAllelefreqcount"
+														style="font-size:11px;" />
+													<radio
+														id="radioShowGenotypeFrequency"
+														label="Show genotype frequency"
+														radiogroup="radiogroupAllelefreqcount"
+														style="font-size:11px;" />
+													<radio
+														id="radioShowGenotypeCount" label="Show genotype count"
+														radiogroup="radiogroupAllelefreqcount"
+														style="font-size:11px;" />
+													<hbox height="10px" />
+													<radio
+														id="radioMajorAlleles" label="Major alleles"
+														radiogroup="radiogroupMajorminor" selected="true"
+														style="font-size:11px;" />
+													<radio
+														id="radioMinorAlleles" label="Minor alleles"
+														radiogroup="radiogroupMajorminor" style="font-size:11px;" />
+													<radio
+														id="radio3rdAlleles" label="3rd alleles"
+														radiogroup="radiogroupMajorminor" style="font-size:11px;" />
+													<radio
+														id="radio4thAlleles" label="4th alleles"
+														radiogroup="radiogroupMajorminor" visible="false"
+														style="font-size:11px;" />
+													<hbox height="10px" />
+													<label
+														value="Click in legend to hide/show series"
+														style="font-size:11px;" />
+													<button
+														id="buttonResetzoom" label="Reset Zoom" visible="false" />
+												</vbox>
+
+												<charts
+													id="chartAlleleFrequency" type="line"
+													title="Allele frequency" width="1000" height="400"
+													zoomType="xy" />
+											</hbox>
+										</goldenpanel>
+										<goldenpanel area="C"
+											id="goldenPanel_mdsPlot" title="MDS Plot" closable="false">
+											<vbox>
+
+												<hbox>
+													<label
+														value="Drag area to zoom." />
+													<vbox width="400px" />
+													<label
+														value="Highlight variety:  " pre="true" />
+													<listbox
+														id="listboxHighlightVariety" mold="select" width="200px" />
+													<vbox width="50px" />
+													<label
+														value="list:  " pre="true" />
+													<listbox
+														id="listboxHighlightVarietyList" mold="select"
+														width="150px" />
+													<button
+														id="buttonHighlight" label="Highlight variety"
+														visible="false" />
+
+
+
+												</hbox>
+												<hbox>
+													<!-- label value="Size by phenotype value: " pre="true"/>
+														<listbox id="listboxMDSPhenotype"   mold="select" width="200px"/ -->
+													<label
+														id="labelMDSPhenotype" />
+
+													<!-- zscript><![CDATA[			
+														listboxMDSPhenotype.setModel(new SimpleListModel(listPhenotype));
+														listboxMDSPhenotype.setSelectedIndex(0);
+														]]></zscript -->
+
+												</hbox>
+												<charts id="chartMDS"
+													type="scatter" zoomType="xy" title="Varieties MDS plot"
+													width="800" height="800" />
+
+												<label
+													value="Variety distance based on pairwise allele mismatch among queried variants." />
+												<label
+													value="MDS coordinates computed using MDSJ (http://algo.uni-konstanz.de/software/mdsj)" />
+
+											</vbox>
+										</goldenpanel>
+										<goldenpanel area="A"
+											title="Haplotype" closable="false">
+											<borderlayout
+												height="760px">
+												<north
+													id="HaplotypeViewHeader" title="Haplotype View Options"
+													maxsize="200" size="20%" splittable="true"
+													collapsible="true">
+													<toolbar>
 														<hbox>
 															<label
-																value="Drag area to zoom." />
-															<vbox
-																width="400px" />
-															<label
-																value="Highlight variety:  " pre="true" />
+																value="Resolution " pre="true" />
 															<listbox
-																id="listboxHighlightVariety" mold="select"
-																width="200px" />
-															<vbox
-																width="50px" />
+																id="listboxHaploResolution" mold="select"
+																style="width:80px!important;" tooltip="test1"
+																tooltiptext="Test2">
+																<listitem
+																	value="SNP" label="per SNP" selected="true" />
+																<listitem
+																	value="100" label="per 100bp" />
+																<listitem
+																	value="10" label="per 10bp" />
+															</listbox>
+															<hbox
+																width="20px" />
 															<label
-																value="list:  " pre="true" />
-															<listbox
-																id="listboxHighlightVarietyList" mold="select"
-																width="150px" />
+																value="Clustering distance weight " pre="true" />
+															<label
+																id="labelGlobal" value="Global 0.15" />
+															<slider
+																id="sliderClusterWieght" mode="decimal" step="0.05"
+																maxpos="1.0" minpos="0.0" curpos="0.85" width="150px" />
+															<label
+																id="labelLocal" value="Local 0.85" />
+															<hbox
+																width="20px" />
 															<button
-																id="buttonHighlight" label="Highlight variety"
-																visible="false" />
-
-
-
-														</hbox>
-														<hbox>
-															<!-- label value="Size by phenotype value: " pre="true"/>
-																<listbox id="listboxMDSPhenotype"   mold="select" width="200px"/ -->
+																id="buttonHaploUpdate" label="Update" />
+															<hbox
+																width="20px" />
 															<label
-																id="labelMDSPhenotype" />
-
-															<!-- zscript><![CDATA[			
-																listboxMDSPhenotype.setModel(new SimpleListModel(listPhenotype));
-																listboxMDSPhenotype.setSelectedIndex(0);
-																]]></zscript -->
-
+																value="Download" />
+															<button
+																id="buttonHaploOrder" class="z-variety-order"
+																label="Variety order" disabled="true" />
+															<hbox
+																width="10px" />
+															<button
+																id="buttonHaploImage" class="z-image" label="Image"
+																disabled="true" />
 														</hbox>
-														<charts
-															id="chartMDS" type="scatter" zoomType="xy"
-															title="Varieties MDS plot" width="800" height="800" />
-
-														<label
-															value="Variety distance based on pairwise allele mismatch among queried variants." />
-														<label
-															value="MDS coordinates computed using MDSJ (http://algo.uni-konstanz.de/software/mdsj)" />
-
-													</vbox>
-
-
-												</panelchildren>
-											</panel>
-										</portalchildren>
-										<portalchildren width="530px">
-											<panel id="resultPanel"
-												class="resultPanelStyle" title="Result Table"
-												border="normal" collapsible="true" closable="false"
-												maximizable="true" visible="false">
-												<panelchildren>
+														<vbox
+															height="10px" />
+														<hbox>
+															<label
+																value="Group varieties (by haplotypes) using"
+																pre="true" />
+															<hbox
+																width="20px" />
+															<listbox
+																id="listboxKgroupMethod" mold="select"
+																style="width:200px !important">
+																<!--  listitem value="kmeans" label="K-means"  -->
+																<listitem
+																	value="nogroups" label="no grouping" />
+																<listitem
+																	value="autogroup" label="auto-group" />
+																<listitem
+																	value="cuttreegroup" label="cuttree: groups"
+																	selected="true" />
+																<!--  listitem value="cuttreegroup_norm" label="cuttree: groups (relative # of groups)"/ -->
+																<listitem
+																	value="cuttreeheight" label="cuttree: height" />
+																<listitem
+																	value="cuttreeheight_norm"
+																	label="cuttree: height (normalized log)" />
+															</listbox>
+															<hbox
+																width="10px" />
+															<decimalbox
+																id="intboxKgroupThreshold" value="0" visible="false" />
+															<!--  slider id="sliderCuttreeThreshold" mode="decimal" step="1.0" maxpos="100.0" minpos="0.0" curpos="75.0" visible="false" width="150px"/ -->
+															<!--  textbox id="textboxCuttreeThreshold" value="75.0" readonly="true" width="60px" visible="false"/ -->
+															<slider
+																id="sliderCuttreeThreshold" mode="decimal" step="1.0"
+																maxpos="15.0" minpos="1.0" curpos="3.0" visible="true"
+																width="150px" />
+															<textbox
+																id="textboxCuttreeThreshold" value="3.0" readonly="true"
+																width="60px" visible="true" />
+															<listbox
+																id="listboxAutogroup" mold="select" width="150px"
+																visible="false">
+																<listitem
+																	value="pamk" label="pamk" />
+																<listitem
+																	value="calinski" label="calinski" selected="true" />
+															</listbox>
+															<hbox
+																width="60px" />
+															<label
+																value="Image resolution" />
+															<listbox
+																id="listboxImagesize" mold="select"
+																style="width:110px!important;" visible="true">
+																<listitem
+																	value="0" label="low (72dpi)" />
+																<listitem
+																	value="2" label="medium (300dpi)" selected="true" />
+																<listitem
+																	value="1" label="high (800dpi)" />
+															</listbox>
+														</hbox>
+													</toolbar>
+												</north>
+												<center border="0">
 													<vlayout
-														width="100%" height="680px">
-														<menubar
-															id="menubar" width="100%">
-															<menu
-																label="Download">
-																<menupopup>
-																	<menuitem
-																		label="CSV" iconSclass="z-icon-file-o" />
-																	<menuitem
-																		label="Tab" iconSclass="z-icon-file-o" />
-																	<menuitem
-																		label="PLINK" iconSclass="z-icon-file-o" />
-																	<menuitem
-																		label="Flapjack" iconSclass="z-icon-file-o" />
+														height="620px">
+														<tabbox>
+															<tabs>
+																<tab
+																	id="tabHaploHaploview" label="Haplotype"
+																	selected="true" />
+																<tab
+																	id="tabHaploGroupAlleles" label="Group alleles" />
+																<tab
+																	id="tabHaploAutogroups" label="Autogroup calculations" />
+																<tab
+																	id="tabHaploTree" label="Phylogenetic tree" />
+															</tabs>
+															<tabpanels>
+																<tabpanel>
+																	<iframe
+																		id="iframeHaplotype" width="90%" height="1000px" />
+																</tabpanel>
+																<tabpanel>
+																	<vbox
+																		id="vboxGroupAlleleFrequency" visible="false">
+																		<label
+																			value="Group major alleles"
+																			style="font-size:18px;font-weight:bold" />
+																		<button
+																			id="buttonDownloadGroupMatrix"
+																			class="z-download-alleles"
+																			label="Download group alleles" width="200px" />
+																		<div
+																			style="overflow:auto;position:relative">
+																			<listbox
+																				id="listboxGroupAlleleMatrix" width="80%">
+																				<listhead
+																					id="listheadGroupAlleleMatrix" sizable="true">
+																					<listheader
+																						label="KGROUP" sort="auto" />
+																					<!--  listheader label="SAMPLES"/ -->
+																					<listheader
+																						label="SUBPOP:COUNT" />
+																					<listheader
+																						label="SAMPLES" sort="auto" />
+																					<listheader
+																						label="FREQUEMCY" sort="auto" />
+																				</listhead>
+																			</listbox>
+																		</div>
+																		<hbox
+																			height="30px" />
+																		<label
+																			value="Select a Phenotype to display value distribution for each group"
+																			style="font-size:12px;font-weight:bold" />
+																		<button
+																			id="buttonAddPhenValuesToMatrix"
+																			label="Append values to table" visible="false" />
+																		<hbox
+																			width="100%">
 
-																</menupopup>
-															</menu>
+																			<vbox
+																				width="700px">
+																				<div
+																					id="divGroupPhenoQuant" visible="false">
+																					<hbox>
+																						<label>
+																							Type
+																						</label>
+																						<vbox
+																							width="20px" />
+																						<radiogroup
+																							id="rgPhenochartType">
+																							<hbox>
+																								<radio
+																									id="radioGroupPhenotypeBox" label="box plot"
+																									radiogroup="rgPhenochartType" selected="true" />
+																								<vbox
+																									width="30px" />
+																								<radio
+																									id="radioGroupPhenotypeErrorbars"
+																									label="error bars"
+																									radiogroup="rgPhenochartType" />
+																							</hbox>
+																						</radiogroup>
+																					</hbox>
 
-															<menu
-																label="Filter">
-																<menupopup>
-																	<menuitem
-																		id="tableResultFilter" label="Add Filter"
-																		image="/widgets/menu/drop-down_menu/img/file_open.png" />
-																</menupopup>
-															</menu>
+																					<div
+																						id="divGroupPhenoQuantBox">
+																						<hbox>
+																							<checkbox
+																								id="checkboxOutlierGroupPhenotypeBox"
+																								label="Show 1.5xIQR outliers" />
+																							<vbox
+																								width="100px" />
+																							<label
+																								value="(select region to show varieties)" />
+																						</hbox>
+																						<charts
+																							id="chartGroupPhenotypeBox" type="boxplot"
+																							title="Group phenotype quartiles" visible="false"
+																							zoomType="xy" />
+																					</div>
+																					<charts
+																						id="chartGroupPhenotypeErrorbars"
+																						title="Group phenotype mean+stddev" zoomType="xy"
+																						visible="false" />
+																				</div>
 
+																				<div
+																					id="divGroupPhenoCat">
+																					<hbox>
+																						<checkbox
+																							id="checkboxNormalizeStackedCategories"
+																							label="Normalize category count" />
+																						<vbox
+																							width="100px" />
+																						<label
+																							value="(click region to show varieties)" />
+																					</hbox>
+																					<charts
+																						id="chartGroupPhenotypeStacked" type="column"
+																						title="Group phenotype value" visible="false"
+																						zoomType="y" />
+																				</div>
+																			</vbox>
+																			<vbox>
+																				<label
+																					id="labelGroupVarietyPhenotype" visible="false" />
+																				<listbox
+																					id="listboxGroupVarietyPhenotypeStacked"
+																					visible="false" mold="paging" pageSize="20">
+																					<listhead>
+																						<listheader
+																							label="VARIETY" sort="auto" />
+																						<listheader
+																							label="ACCESSION" sort="auto" />
+																						<listheader
+																							label="SUBPOP" sort="auto" />
+																						<listheader
+																							id="listheaderGroupVarietyPhenotypeStackedPhenotype"
+																							sort="auto" />
+																					</listhead>
+																				</listbox>
+																			</vbox>
+																		</hbox>
+																		<vbox
+																			height="30px" />
+																		<hbox>
+																			<vbox
+																				width="200px">
+																				<radiogroup
+																					id="radiogroupGroupAllelefreqcount" />
+																				<radiogroup
+																					id="radiogroupGroupMajorminor" />
+																				<hbox
+																					height="30px" />
+																				<radio
+																					id="radioGroupShowAlleleFrequency"
+																					label="Show allele frequency"
+																					radiogroup="radiogroupGroupAllelefreqcount"
+																					selected="true" />
+																				<radio
+																					id="radioGroupShowAlleleCount"
+																					label="Show allele count"
+																					radiogroup="radiogroupGroupAllelefreqcount" />
+																				<radio
+																					id="radioGroupShowGenotypeFrequency"
+																					label="Show genotype frequency"
+																					radiogroup="radiogroupGroupAllelefreqcount" />
+																				<radio
+																					id="radioGroupShowGenotypeCount"
+																					label="Show genotype count"
+																					radiogroup="radiogroupGroupAllelefreqcount" />
+																				<hbox
+																					height="10px" />
+																				<radio
+																					id="radioGroupMajorAlleles" label="Major alleles"
+																					radiogroup="radiogroupGroupMajorminor"
+																					selected="true" />
+																				<radio
+																					id="radioGroupMinorAlleles" label="Minor alleles"
+																					radiogroup="radiogroupGroupMajorminor" />
+																				<radio
+																					id="radioGroup3rdAlleles" label="3rd alleles"
+																					radiogroup="radiogroupGroupMajorminor" />
+																				<radio
+																					id="radioGroup4thAlleles" label="4th alleles"
+																					radiogroup="radiogroupGroupMajorminor"
+																					visible="false" />
+																				<hbox
+																					height="10px" />
+																				<label
+																					value="Click in legend to hide/show series" />
+																				<button
+																					id="buttonGroupResetzoom" label="Reset Zoom"
+																					visible="false" />
+																			</vbox>
 
-														</menubar>
-														<biglistbox
-															height="630px" id="biglistboxArray" hflex="1"
-															xmlns:w="client" w:onScroll="jq('$tip').fadeOut();"
-															style="font-size:10px">
-
-														</biglistbox>
+																			<charts
+																				id="chartGroupAlleleFrequency" type="line"
+																				title="Group Allele frequency" width="1000"
+																				height="400" zoomType="xy" />
+																		</hbox>
+																	</vbox>
+																</tabpanel>
+																<tabpanel>
+																	<iframe
+																		id="iframeAutogroups" width="100%" height="1000px" />
+																</tabpanel>
+																<tabpanel>
+																	<vbox>
+																		<hbox>
+																			<button
+																				id="buttonHaploDownloadNewick"
+																				label="Download Newick" />
+																			<vbox
+																				width="20px" />
+																			<button
+																				id="buttonHaploDisplayTree" label="Display Tree" />
+																		</hbox>
+																		<iframe
+																			id="iframeHaplotypeTree" width="100%"
+																			height="1000px" />
+																	</vbox>
+																</tabpanel>
+															</tabpanels>
+														</tabbox>
 													</vlayout>
+												</center>
+											</borderlayout>
 
-												</panelchildren>
-											</panel>
-											<panel id="sePanel"
-												title="SNP Effects" border="normal" collapsible="true"
-												class="sePanelStyle" closable="false" maximizable="true"
-												visible="false">
-												<panelchildren>
-
-													<vlayout
-														width="100%" height="680px">
-														<menubar
-															id="menubar2" width="100%">
-															<menu
-																label="Download">
-																<menupopup>
-																	<menuitem
-																		label="CSV" iconSclass="z-icon-file-o" />
-																	<menuitem
-																		label="Tab" iconSclass="z-icon-file-o" />
-																	<menuitem
-																		label="PLINK" iconSclass="z-icon-file-o" />
-																	<menuitem
-																		label="Flapjack" iconSclass="z-icon-file-o" />
-
-																</menupopup>
-															</menu>
-															<menu
-																label="Filter">
-																<menupopup>
-																	<menuitem
-																		label="Add Filter" onClick="alert(self.label)"
-																		image="/widgets/menu/drop-down_menu/img/file_open.png" />
-																</menupopup>
-															</menu>
-														</menubar>
-														<listbox
-															id="listboxSnpeff" mold="paging" pageSize="8"
-															sizedByContent="true" span="true">
-															<listhead
-																sizable="true">
-
-																<listheader
-																	label="POSITION" sort="auto" width="10%" />
-																<listheader
-																	label="&quot;DELETERIOUSNESS&quot;" sort="auto"
-																	width="10%" sortAscending="${snpeffasc1}"
-																	sortDescending="${snpeffdsc1}" />
-																<listheader
-																	label="Alt (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="Effect (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="Putative_impact (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="Gene Name (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="Gene ID (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="Feature type (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="Feature ID (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="Transcript Biotype (ANN)" sort="auto"
-																	width="10%" />
-																<listheader
-																	label="Rank/Total (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="HGV S.c (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="HGV S.p (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="cDNA position (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="cDS position (ANN)" sort="auto" width="10%" />
-																<listheader
-																	label="Protein position" sort="auto" width="10%" />
-																<listheader
-																	label="Distance to feature (ANN)" sort="auto"
-																	width="10%" />
-																<listheader
-																	label="Errors,Warnings Info msgs (ANN)" sort="auto"
-																	width="10%" />
-																<listheader
-																	label="LOF" sort="auto" width="10%" />
-																<listheader
-																	label="NMD" sort="auto" width="10%" />
-															</listhead>
-														</listbox>
-
-													</vlayout>
-
-												</panelchildren>
-											</panel>
+										</goldenpanel>
 
 
-											<panel id="galaxyPanel"
-												title="Galaxy Tools" framable="true" height="800px"
-												maximizable="true" minimizable="false" border="rounded+"
-												collapsible="true" closable="false" sizable="true"
-												style="background-color:rgb(90,181, 109);font-size:11px;height:500px;margin-bottom:20px;margin-right:20px;"
-												class="panelGenotype" visible="false">
+										
+										<goldenpanel area="D"
+											title="Compare Genome" closable="false">
+											<vlayout>
+												<tabbox>
+													<tabs>
+														<tab
+															label="Japonica nipponbare vs 93-11" />
+														<tab
+															label="Japonica nipponbare vs IR64-21" />
+														<tab
+															label="Japonica nipponbare vs Kasalath" />
+														<tab
+															label="Japonica nipponbare vs DJ123" />
+													</tabs>
+													<tabpanels>
+														<tabpanel></tabpanel>
+														<tabpanel></tabpanel>
+														<tabpanel></tabpanel>
+														<tabpanel></tabpanel>
+													</tabpanels>
+												</tabbox>
+											</vlayout>
+										</goldenpanel>
+										<goldenpanel area="B" id="goldenPA_galaxy"
+											title="Galaxy" closable="false">
+											<vlayout>
+												<include
+													id="includeGalaxy" />
 
-												<panelchildren>
-													<include
-														id="includeGalaxy" />
+											</vlayout>
+										</goldenpanel>
 
-												</panelchildren>
-											</panel>
-
-											<panel id="cGenomePanel"
-												title="Compare Genomes" framable="true" height="400px"
-												maximizable="true" minimizable="false" border="normal"
-												collapsible="true" closable="false" sizable="true"
-												style="background-color:rgb(90,181, 109);font-size:11px;height:500px;margin-bottom:20px;margin-right:20px;margin-bottom:20px;"
-												class="panelGenotype" visible="false">
-
-												<panelchildren>
-													<tabbox>
-														<tabs>
-															<tab
-																label="Japonica nipponbare vs 93-11" />
-															<tab
-																label="Japonica nipponbare vs IR64-21" />
-															<tab
-																label="Japonica nipponbare vs Kasalath" />
-															<tab
-																label="Japonica nipponbare vs DJ123" />
-														</tabs>
-														<tabpanels>
-															<tabpanel></tabpanel>
-															<tabpanel></tabpanel>
-															<tabpanel></tabpanel>
-															<tabpanel></tabpanel>
-														</tabpanels>
-													</tabbox>
-
-
-												</panelchildren>
-											</panel>
-
-
-										</portalchildren>
-
-									</portallayout>
+									</goldenlayout>
 
 
 
-								</n:div>
-							</n:div>
+
+								</div>
+							</div>
 
 						</n:div>
 
 					</n:div>
 				</n:div>
 			</n:div>
-			<n:footer class="footer-dark"
-				style="padding: 19px;padding-top: 5px;">
-				<n:div class="text-center">
-					<n:label class="text-center"
-						style="font-size: 12px;">
-						<n:br />
-						2014 International Rice Research Institute. Los
-						Banos, Laguna, Philippines. This site is under
-						development. We schedule maintenance every
-						Monday, 8-9:00 GMT (4-5PM Manila)
-						<n:br />
-					</n:label>
-				</n:div>
-			</n:footer>
+
 		</window>
 	</n:div>
 

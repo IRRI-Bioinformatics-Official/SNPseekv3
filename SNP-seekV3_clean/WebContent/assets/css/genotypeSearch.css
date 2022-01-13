@@ -1,0 +1,24 @@
+.z-goldenlayout .lm_header .lm_tab .lm_title {
+	font-size:11px;
+}
+
+.menu_style > a {
+	color: black !important;
+}
+
+.menupopup_style > ul > li > a {
+	color: black !important;
+}
+
+.z-goldenlayout .lm_header .lm_tab.lm_active{
+	background: #eaefec;
+    color: #14830c;
+}
+
+.z-goldenlayout .lm_header .lm_tab.lm_active:hover {
+    color: #075207;
+}
+
+.z-goldenlayout .lm_header {
+	background: #a8d1a6 !important;	
+}

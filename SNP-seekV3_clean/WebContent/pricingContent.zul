@@ -1,11 +1,13 @@
 <zk>
 	<n:div xmlns:n="native">
+		
 		<n:script src="assets/js/jquery.min.js" />
 		<n:script src="assets/bootstrap/js/bootstrap.min.js" />
 		<n:script
 			src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js" />
+
+		<n:script src="assets/js/Collapsible-Sidebar.js" />
 		<n:script src="assets/js/Material-Text-Input.js" />
-		
 		<style src="assets/bootstrap/css/bootstrap.min.css" />
 		<style
 			src="https://fonts.googleapis.com/css?family=Nunito+Sans" />
@@ -17,6 +19,9 @@
 		<style src="assets/fonts/fontawesome5-overrides.min.css" />
 		<style src="assets/css/Footer-Dark.css" />
 		<style src="assets/css/styles.css" />
+		<style src="assets/css/styles_genotype.css" />
+		<style src="assets/css/Collapsible-Sidebar.css" />
+		<style src="assets/css/sidebar_home.css" />
 
 
 
@@ -147,18 +152,7 @@
 				</n:section>
 			</n:div>
 		</n:div>
-		<n:footer class="footer-dark">
-			<n:div class="text-center">
-				<n:label class="text-center" style="font-size: 12px;">
-					<n:br />
-					2014 International Rice Research Institute. Los
-					Banos, Laguna, Philippines. This site is under
-					development. We schedule maintenance every Monday,
-					8-9:00 GMT (4-5PM Manila)
-					<n:br />
-				</n:label>
-			</n:div>
-		</n:footer>
+		
 
 	</n:div>
 
