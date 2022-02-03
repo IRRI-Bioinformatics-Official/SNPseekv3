@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,7 +38,12 @@ import org.irri.iric.ds.chado.domain.StockSample;
 import org.irri.iric.ds.chado.domain.Variety;
 import org.irri.iric.ds.utils.TextSearchOptions;
 import org.irri.iric.portal.AppContext;
+import org.irri.iric.portal.CreateZipMultipleFiles;
 import org.irri.iric.portal.SimpleListModelExt;
+import org.irri.iric.portal.admin.AsyncJob;
+import org.irri.iric.portal.admin.AsyncJobImpl;
+import org.irri.iric.portal.admin.AsyncJobReport;
+import org.irri.iric.portal.admin.JobsFacade;
 import org.irri.iric.portal.admin.WorkspaceFacade;
 import org.irri.iric.portal.genomics.GenomicsFacade;
 import org.irri.iric.portal.genotype.GenotypeFacade;
@@ -77,8 +84,8 @@ import org.zkoss.json.JavaScriptValue;
 import org.zkoss.lang.Objects;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.OpenEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -89,13 +96,17 @@ import org.zkoss.zkmax.zul.GoldenPanel;
 import org.zkoss.zkmax.zul.MatrixComparatorProvider;
 import org.zkoss.zkmax.zul.Portallayout;
 import org.zkoss.zul.A;
+import org.zkoss.zul.Auxhead;
 import org.zkoss.zul.Auxheader;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Cell;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Column;
+import org.zkoss.zul.Columns;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Include;
@@ -108,6 +119,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Radio;
@@ -132,6 +144,14 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	// INPUT FORM ELEMENTS
 	// Dataset Group
+	@Wire
+	private Menuitem buttonDownloadCsv;
+	@Wire
+	private Menuitem buttonDownloadTab;
+	@Wire
+	private Menuitem buttonDownloadPlink;
+	@Wire
+	private Menuitem buttonDownloadFlapjack;
 	@Wire
 	private Groupbox datasetGroup;
 	@Wire
@@ -343,11 +363,12 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private GoldenPanel goldenPA_snpeffect;
-	
+
+	@Wire
+	private GoldenPanel goldenPA_haplotype;
+
 	@Wire
 	private GoldenPanel goldenPanel_mdsPlot;
-	
-	
 
 	@Wire
 	private Label nmVarietyResult;
@@ -371,7 +392,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Div tip;
-	
+
 	@Wire
 	private Div backQueryDiv;
 
@@ -462,7 +483,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	@Wire
 	private A collapseLink;
 
-	
 	@Wire
 	private Textbox content;
 
@@ -512,15 +532,26 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Div divDownloadOnlyMsg;
-	
+
 	@Wire
 	private Div resultHeader;
-	
-	
+
 	@Wire
 	private Label labelDownloadOnlyMsg;
 	@Wire
 	private Auxheader auxheader3Phenotype;
+	@Wire
+	private Radio radioWait;
+	@Wire
+	private Radio radioAsync;
+	@Wire
+	private Label labelDownloadProgressMsg;
+	@Wire
+	private A aDownloadProgressURL;
+	@Wire
+	private Listbox listboxSnpresult;
+	@Wire
+	private Div divPairwise;
 
 	private Object2StringMultirefsMatrixModel biglistboxModel = null;
 
@@ -570,6 +601,10 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	@Autowired
 	@Qualifier("VarietyFacade")
 	private VarietyFacade varietyfacade;
+	
+	@Autowired
+	@Qualifier("JobsFacade")
+	private JobsFacade jobsfacade_orig;
 
 	Map<BigDecimal, Object> mapVarid2Phenotype;
 
@@ -605,7 +640,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		iframeJbrowse
 				.setSrc("https://snp-seek.irri.org/jbrowse/?loc=chr01%3A2901..10815&tracks=DNA%2Cmsu7gff&highlight=");
 		System.out.println("setting div");
-		
 
 	}
 
@@ -1016,7 +1050,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		return params;
 
 	}
-	
+
 	@Listen("onClick=#backQueryDiv")
 	public void onClick$backQueryDiv() {
 		Clients.evalJavaScript("myFunction();");
@@ -1080,7 +1114,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Listen("onActive=#goldenPanel_mdsPlot")
 	public void onClick$goldenPanel_mdsPlot() {
-		
+
 		if (!mdsPLotPanelLoaded) {
 			AppContext.debug("selected index: " + listboxPhenotype.getSelectedIndex());
 			if (listboxPhenotype.getSelectedIndex() == 0)
@@ -1109,7 +1143,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	}
 
 	@Listen("onClick=#searchButton")
-	public void onClick$searchButton() {
+	public void queryVariants() {
 
 		Clients.evalJavaScript("myFunction();");
 
@@ -1192,10 +1226,10 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			nmPosResult.setValue("" + queryResult.getListPos().size());
 			resultHeader.setVisible(true);
 			initDiv.setVisible(false);
-			//result_sideBarDiv.setVisible(true);
+			// result_sideBarDiv.setVisible(true);
 			// resultPanel.setVisible(true);
 //			aFrequencyPanel.setVisible(true);
-			//resultPanelBox.setChecked(true);
+			// resultPanelBox.setChecked(true);
 			resultContentDiv.setVisible(true);
 
 			updateAlleleFrequencyChart();
@@ -1543,6 +1577,14 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+
+	}
+
+	@Listen("onActive=#goldenPA_haplotype")
+	public void tabDisplayHaloptypeimage() throws Exception {
+		onselectTabHaplotype(false);
+
+		System.out.println("testHaplotype");
 
 	}
 
@@ -4198,6 +4240,918 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		Map<String, List> mapPos2Alleles;
 		Map<String, Map<String, String>> mapPos2Subpop2AllelesCountPercentStr;
 		public Map<String, List> mapPop2Majoralleles;
+
+	}
+
+	private void downloadBigListboxFlapjackZip(VariantAlignmentTableArraysImpl table, String filename) {
+
+		try {
+			String chr = this.selectChr.getValue();
+			String refs[] = table.getReference();
+			String markernames[] = null;
+
+			StringBuffer buff = new StringBuffer();
+			buff.append("# fjfile = MAP\n");
+			// buff.append("POSITION").append(delimiter).append("MISMATCH").append(delimiter);
+			Position[] positions = table.getPosition();
+			String contigs[] = table.getContigs();
+
+			markernames = new String[positions.length];
+
+			for (int i = 0; i < positions.length; i++) {
+				if (!refs[i].equals("-")) {
+					int pos = positions[i].getPosition().intValue();
+					chr = positions[i].getChr().toString();
+					String contigname = null;
+					if (contigs != null)
+						contigname = contigs[i];
+					else {
+						try {
+							Integer.valueOf(chr.toLowerCase().replace("chr", ""));
+							contigname = "chr"
+									+ String.format("%02d", Integer.valueOf(chr.toLowerCase().replace("chr", "")));
+						} catch (Exception ex) {
+							contigname = chr.toLowerCase();
+						}
+
+					}
+					markernames[i] = "snp-" + contigname + "-" + String.format("%08d", pos);
+					buff.append(markernames[i]).append("\t").append(contigname).append("\t").append(pos).append("\n");
+				} else {
+					// snpid="1" + String.format("%02d",
+					// Integer.valueOf(AppContext.guessChrFromString(contig))) +
+					// String.format("%08d", pos.intValue()) + "." +
+					// pos.subtract(BigDecimal.valueOf(pos.longValue())).multiply(BigDecimal.valueOf(100)).intValue();
+					BigDecimal pos = positions[i].getPosition();
+					chr = positions[i].getChr().toString();
+					String contigname = null;
+					if (contigs != null)
+						contigname = contigs[i];
+					else {
+						try {
+							Integer.valueOf(chr.toLowerCase().replace("chr", ""));
+							contigname = "chr"
+									+ String.format("%02d", Integer.valueOf(chr.toLowerCase().replace("chr", "")));
+						} catch (Exception ex) {
+							contigname = chr.toLowerCase();
+						}
+
+					}
+					markernames[i] = "snp-" + contigname + "-" + String.format("%08d", pos.intValue()) + "." + pos
+							.subtract(BigDecimal.valueOf(pos.longValue())).multiply(BigDecimal.valueOf(100)).intValue(); // String.format("%08d",
+																															// pos);
+					buff.append(markernames[i]).append("\t").append(contigname).append("\t").append(pos).append("\n");
+				}
+			}
+
+			// String filetype = "text/plain";
+			// Filedownload.save( buff.toString(), filetype , filename + ".map");
+
+			FileWriter writer = new FileWriter(filename + ".map");
+			writer.append(buff.toString());
+			writer.flush();
+			writer.close();
+
+			// AppContext.debug("map: "+ buff.toString() );
+			// AppContext.debug("File download complete! Saved to: "+filename);
+			org.zkoss.zk.ui.Session zksession = Sessions.getCurrent();
+			AppContext.debug("snpallvars download complete!" + filename + ".map Downloaded to:"
+					+ zksession.getRemoteHost() + "  " + zksession.getRemoteAddr());
+
+			buff = new StringBuffer();
+
+			buff.append("# fjFile = GENOTYPE\n\t");
+
+			for (int i = 0; i < markernames.length; i++) {
+				buff.append(markernames[i]);
+				if (i < markernames.length - 1)
+					buff.append("\t");
+			}
+			buff.append("\n");
+
+			Object[][] varalleles = table.getVaralleles();
+			varietyfacade = (VarietyFacade) AppContext.checkBean(varietyfacade, "VarietyFacade");
+			// <BigDecimal,Variety> mapVarId2Var =
+			// varietyfacade.getMapId2Variety(getDataset());
+			Set ds = getDataset();
+			Map<String, Map<BigDecimal, StockSample>> mapDs = varietyfacade.getMapId2Sample(ds);
+
+			Map<String, Integer> mapVarid2Count = new HashMap();
+
+			for (int i = 0; i < table.getVarid().length; i++) {
+				Map<BigDecimal, StockSample> mapVarId2Sample = mapDs.get(table.getDataset()[i]);
+
+				StockSample var = mapVarId2Sample.get(BigDecimal.valueOf(table.getVarid()[i]));
+
+				String indvid = AppContext.createSampleUniqueName(var, ds);
+
+				Integer varidcnt = mapVarid2Count.get(indvid);
+				if (varidcnt == null) {
+					mapVarid2Count.put(indvid, 1);
+				} else {
+					indvid = indvid + "-" + (varidcnt + 1);
+					mapVarid2Count.put(indvid, (varidcnt + 1));
+				}
+
+				// if(mapVarId2Var.get(table.getVarid()[i])==null) throw new
+				// RuntimeException("null variety with id=" + table.getVarid()[i])
+				// String indvid= mapVarId2Var.get( BigDecimal.valueOf(table.getVarid()[i])
+				// ).getIrisId().replaceAll(" ","_");
+				// String indvid= ((mapVarId2Var.get( BigDecimal.valueOf(table.getVarid()[i])
+				// ).getIrisId()==null)? mapVarId2Var.get(
+				// BigDecimal.valueOf(table.getVarid()[i]) ).getAccession():
+				// mapVarId2Var.get( BigDecimal.valueOf(table.getVarid()[i])
+				// ).getIrisId()).replaceAll(" ","_");
+				buff.append(indvid).append("\t");
+
+				// Family ID
+				// Sample ID
+				// Paternal ID
+				// Maternal ID
+				// Sex (1=male; 2=female; other=unknown)
+				// Affection (0=unknown; 1=unaffected; 2=affected)
+				// Genotypes (space or tab separated, 2 for each marker. 0=missing)
+
+				for (int j = 0; j < refs.length; j++) {
+					String allele1 = (String) varalleles[i][j];
+					if (allele1.isEmpty() || allele1.equals("?"))
+						buff.append("-");
+					else
+						buff.append(allele1);
+					if (j < refs.length - 1)
+						buff.append("\t");
+				}
+				buff.append("\n");
+			}
+
+			writer = new FileWriter(filename + ".genotype");
+			writer.append(buff.toString());
+			writer.flush();
+			writer.close();
+
+			String allzipfilenames[] = new String[] { filename + ".map", filename + ".genotype" };
+			new CreateZipMultipleFiles(filename + "-flapjack-" + ".zip", allzipfilenames).create();
+			Filedownload.save(new File(filename + "-flapjack-" + ".zip"), "application/zip");
+
+			zksession = Sessions.getCurrent();
+			AppContext.debug("snpallvars download complete!" + filename + ".ped Downloaded to:"
+					+ zksession.getRemoteHost() + "  " + zksession.getRemoteAddr());
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+	private void downloadBigListboxFlapjackZip(String filename) {
+		Object2StringMultirefsMatrixModel matrixmodel = (Object2StringMultirefsMatrixModel) biglistboxArray.getModel();
+		VariantAlignmentTableArraysImpl table = (VariantAlignmentTableArraysImpl) matrixmodel.getData();
+		downloadBigListboxFlapjackZip(table, filename);
+	}
+	
+	public Callable<AsyncJobReport> callableDownloadBigListbox(final String filename, final String delimiter,
+			final String format) {
+		return new Callable<AsyncJobReport>() {
+			@Override
+			public AsyncJobReport call() throws Exception {
+				String msg = "";
+				String jobid = "";
+				String url = "";
+				Future future = null;
+				try {
+
+					GenotypeQueryParams params = fillGenotypeQueryParams();
+
+					if (format.equals("plink"))
+						params.setFilename(filename + ".plink");
+					else if (format.equals("flapjack"))
+						params.setFilename(filename + ".flapjack");
+					else {
+						params.setFilename(filename);
+						params.setDelimiter(delimiter);
+					}
+
+					// Object req = Executions.getCurrent().getNativeRequest();
+					// String reqstr="";
+					// if(req !=null && req instanceof HttpServletRequest) {
+					// HttpServletRequest servreq= (HttpServletRequest)req;
+					// String forwardedfor= servreq.getHeader("x-forwarded-for");
+					// if(forwardedfor!=null) reqstr=forwardedfor;
+					// else reqstr= servreq.getRemoteAddr() + "-" + servreq.getRemoteHost();
+					//
+					// /*
+					// String forwardedfor= servreq.getHeader("x-forwarded-for");
+					// if(forwardedfor!=null) reqstr+="-" + forwardedfor;
+					// */
+					// }
+					// String submitter=( (AppContext.isIRRILAN() ||
+					// reqstr.contains(AppContext.getIRRIIp()))?reqstr+"-"+AppContext.createTempFilename():reqstr);
+
+					params.setSubmitter(AppContext.getSubmitter());
+
+					/*
+					 * params.setSubmitter( Sessions.getCurrent().getLocalAddr() +"-"+
+					 * Sessions.getCurrent().getLocalName() + "-" +
+					 * Sessions.getCurrent().getRemoteAddr() + "-" +
+					 * Sessions.getCurrent().getRemoteHost() + "-" +
+					 * Sessions.getCurrent().getServerName() + reqstr );
+					 */
+
+					// report = genotype.querydownloadGenotypeAsync(params);
+
+					jobsfacade_orig = (JobsFacade) AppContext.checkBean(jobsfacade_orig, "JobsFacade");
+					JobsFacade jobsfacade = jobsfacade_orig;
+					if (params.getSubmitter() == null) {
+						msg = "Submitter ID required for long jobs.";
+					} else if (jobsfacade.checkSubmitter(params.getSubmitter())) {
+						msg = "You have a running long job. Please try again when that job is done.";
+					} else {
+						AsyncJob job = new AsyncJobImpl(new File(params.getFilename()).getName(), params.toString(),
+								params.getSubmitter());
+						if (jobsfacade.addJob(job)) {
+							Future futureReportjob = genotype.querydownloadGenotypeAsync(params);
+							// AsyncJobReport rep=(AsyncJobReport)futureReportjob.get();
+							// AppContext.debug( (rep==null? "rep=null":rep.getMessage() ));
+							// rep.
+							job.setFuture(futureReportjob);
+							future = futureReportjob;
+							msg = jobsfacade.JOBSTATUS_SUBMITTED;
+							jobid = job.getJobId();
+							url = job.getUrl();
+						} else {
+							msg = jobsfacade.JOBSTATUS_REFUSED;
+						}
+					}
+					AppContext.debug("callableDownloadBigListbox.. submitted");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					// Messagebox.show("call():" + ex.getMessage());
+					msg = ex.getMessage();
+
+				}
+				return new AsyncJobReport(jobid, msg, url, future);
+			}
+		};
+	}
+	
+	private void downloadBigListbox(String filename, String delimiter) {
+		Object2StringMultirefsMatrixModel matrixmodel = (Object2StringMultirefsMatrixModel) biglistboxArray.getModel();
+		VariantAlignmentTableArraysImpl table = (VariantAlignmentTableArraysImpl) matrixmodel.getData();
+		downloadBigListbox(table, filename, delimiter);
+	}
+	
+	// private void downloadBigListbox(String filename, String delimiter) {
+	private void downloadBigListbox(VariantAlignmentTableArraysImpl table, String filename, String delimiter) {
+		downloadBigListbox(table, filename, delimiter, false, false);
+	}
+	
+	private void downloadBigListbox(VariantAlignmentTableArraysImpl table, String filename, String delimiter,
+			boolean isAppend, boolean isAppendFirst) {
+
+		try {
+
+			// Object2StringMultirefsMatrixModel matrixmodel =
+			// (Object2StringMultirefsMatrixModel)biglistboxArray.getModel();
+			// VariantAlignmentTableArraysImpl table =
+			// (VariantAlignmentTableArraysImpl)matrixmodel.getData();
+
+			StringBuffer buff = new StringBuffer();
+			String refs[] = table.getReference();
+
+			varietyfacade = (VarietyFacade) AppContext.checkBean(varietyfacade, "VarietyFacade");
+			Map<BigDecimal, Object> mapVarid2Phenotype = null;
+			String sPhenotype = null;
+			String phenlabel = "";
+			String phenfiller = "";
+			String columnfillers = delimiter + delimiter + delimiter + delimiter + delimiter;
+			if (listboxPhenotype.getSelectedIndex() > 0) {
+				sPhenotype = listboxPhenotype.getSelectedItem().getLabel();
+				mapVarid2Phenotype = varietyfacade.getPhenotypeValues(sPhenotype, getDataset());
+				phenlabel = sPhenotype + delimiter;
+				columnfillers += delimiter;
+				phenfiller = delimiter;
+			}
+
+			if (!isAppend || isAppendFirst) {
+
+				String strmismatch = "MISMATCH";
+				if (this.listboxAlleleFilter.getSelectedIndex() > 0) {
+					strmismatch = "MATCH";
+				}
+
+				String stririsgsor = "ASSAY ID";
+				// if(this.listboxDataset.getSelectedItem().getValue().equals("hdra")) {
+				// stririsgsor="GSOR ID";
+				// }
+
+				buff.append(this.listboxReference.getSelectedItem().getLabel().toUpperCase() + " POSITIONS")
+						.append(delimiter).append(stririsgsor).append(delimiter).append("ACCESSION").append(delimiter)
+						.append("SUBPOPULATION").append(delimiter).append(strmismatch).append(delimiter)
+						.append(phenlabel);
+
+				/*
+				 * if(this.checkboxShowNPBPosition.isChecked())
+				 * buff.append(this.listboxReference.getSelectedItem().getLabel().toUpperCase()
+				 * + " POSITIONS").append(delimiter).append("IRIS ID").append(delimiter).append(
+				 * "SUBPOPULATION").append(delimiter).append("MISMATCH").append(delimiter); else
+				 * buff.append("VARIETY").append(delimiter).append("IRIS ID").append(delimiter).
+				 * append("SUBPOPULATION").append(delimiter).append("MISMATCH").append(delimiter
+				 * );
+				 */
+
+				String[] contigs = table.getContigs();
+				// BigDecimal[] positions = table.getPosition();
+				Position[] positions = table.getPosition();
+				StringBuffer buffPos = new StringBuffer();
+
+				// check if multiple contig
+
+				boolean isMulticontig = false;
+				String contig0 = positions[0].getContig();
+				for (int i = 2; i < positions.length; i++) {
+					if (!contig0.equals(positions[i].getContig())) {
+						isMulticontig = true;
+						break;
+					}
+				}
+
+				for (int i = 0; i < positions.length; i++) {
+					if (isMulticontig)
+						buff.append(positions[i].getContig()).append("-");
+					buff.append(positions[i].getPosition());
+					if (i < positions.length - 1)
+						buff.append(delimiter);
+				}
+
+				buff.append("\n" + listboxReference.getSelectedItem().getLabel().toUpperCase() + " ALLELES")
+						.append(columnfillers); // .append(delimiter).append(delimiter).append(delimiter).append(delimiter).append(delimiter);
+
+				/*
+				 * if(this.checkboxShowNPBPosition.isChecked()) buff.append("\n" +
+				 * listboxReference.getSelectedItem().getLabel().toUpperCase() +
+				 * " ALLELES").append(delimiter).append(delimiter).append(delimiter).append(
+				 * delimiter); else
+				 * buff.append("\nREFERENCE").append(delimiter).append(delimiter).append(
+				 * delimiter).append(delimiter);
+				 */
+
+				for (int i = 0; i < refs.length; i++) {
+
+					String refnuc = refs[i];
+					if (refnuc == null || refnuc.isEmpty()) {
+						// tabledata.getIndelstringdata().getMapIndelIdx2Refnuc().get(colIndex-frozenCols);
+						BigDecimal pos = table.getVariantStringData().getListPos().get(i).getPosition();
+						if (table.getVariantStringData().getIndelstringdata() != null
+								&& table.getVariantStringData().getIndelstringdata().getMapIndelpos2Refnuc() != null)
+							refnuc = table.getVariantStringData().getIndelstringdata().getMapIndelpos2Refnuc().get(pos);
+					}
+
+					if (refnuc == null)
+						buff.append("");
+					else {
+						refnuc = refnuc.substring(0, 1);
+						buff.append(refnuc);
+					}
+
+					if (i < refs.length - 1)
+						buff.append(delimiter);
+				}
+				buff.append("\n");
+
+				Double refsmatch[] = table.getAllrefallelesmatch();
+
+				if (checkboxShowNPBPosition.isChecked()) {
+					buff.append("NIPPONBARE POSITION").append(columnfillers); // .append(delimiter).append(delimiter).append(delimiter).append(delimiter).append(delimiter);
+					positions = table.getPositionNPB();
+					for (int i = 0; i < positions.length; i++) {
+						buff.append(positions[i]);
+						if (i < positions.length - 1)
+							buff.append(delimiter);
+					}
+
+					buff.append("\nNIPPONBARE ALLELES").append(delimiter).append(delimiter).append(delimiter)
+							.append(delimiter); // .append(delimiter);
+					// buff.append("REF " +
+					// refnames[iref]).append(delimiter).append(delimiter).append(delimiter);
+					if (refsmatch != null) {
+						buff.append(refsmatch[0]);
+					}
+					buff.append(phenfiller);
+					buff.append(delimiter);
+
+					refs = table.getReferenceNPB();
+					for (int i = 0; i < refs.length; i++) {
+
+						String refnuc = refs[i];
+						if (refnuc.isEmpty()) {
+							// tabledata.getIndelstringdata().getMapIndelIdx2Refnuc().get(colIndex-frozenCols);
+							BigDecimal pos = table.getVariantStringData().getListPos().get(i).getPosition();
+							if (table.getVariantStringData().getIndelstringdata() != null && table
+									.getVariantStringData().getIndelstringdata().getMapIndelpos2Refnuc() != null)
+								refnuc = table.getVariantStringData().getIndelstringdata().getMapIndelpos2Refnuc()
+										.get(pos).substring(0, 1);
+						}
+
+						if (refnuc == null)
+							buff.append("");
+						else {
+							refnuc = refnuc.substring(0, 1);
+							buff.append(refnuc);
+						}
+
+						if (i < refs.length - 1)
+							buff.append(delimiter);
+					}
+					buff.append("\n");
+
+				}
+
+				if (this.checkboxShowAllRefAlleles.isChecked()) {
+					String allrefsalleles[][] = table.getAllrefalleles();
+					String refnames[] = table.getAllrefallelesnames();
+					for (int iref = 0; iref < refnames.length; iref++) {
+
+						buff.append("REF " + refnames[iref]).append(delimiter).append(delimiter).append(delimiter)
+								.append(delimiter);
+
+						if (refsmatch != null) {
+							buff.append(refsmatch[iref]);
+						}
+						buff.append(phenfiller);
+						buff.append(delimiter);
+
+						String irefs[] = allrefsalleles[iref];
+						for (int i = 0; i < refs.length; i++) {
+
+							String refnuc = irefs[i];
+							/*
+							 * if(refnuc.isEmpty()) {
+							 * //tabledata.getIndelstringdata().getMapIndelIdx2Refnuc().get(colIndex-
+							 * frozenCols); BigDecimal pos =
+							 * table.getVariantStringData().getListPos().get(i).getPos();
+							 * if(table.getVariantStringData().getIndelstringdata()!=null &&
+							 * table.getVariantStringData().getIndelstringdata().getMapIndelpos2Refnuc()!=
+							 * null) refnuc =
+							 * table.getVariantStringData().getIndelstringdata().getMapIndelpos2Refnuc().get
+							 * (pos); }
+							 */
+							if (refnuc == null)
+								buff.append("-");
+							else
+								buff.append(refnuc);
+							if (i < refs.length - 1)
+								buff.append(delimiter);
+						}
+						buff.append("\n");
+					}
+
+				}
+
+				/*
+				 * 
+				 * REMOVED FIRST LINE IN THE CSV DOWNLOADABLE
+				 * 
+				 * String annots[] = table.getSNPGenomicAnnotation(fillGenotypeQueryParams());
+				 * if (annots != null) { buff.append(
+				 * "MSU7 EFFECTS (cds-Non-synonymous/cds-Synonymous/Cds/3'UTR/5'UTR/Exon/splice Acceptor/splice Donor/Gene-intron/Promoter)"
+				 * ) .append(columnfillers); //
+				 * .append(delimiter).append(delimiter).append(delimiter).append(delimiter).
+				 * append(delimiter); for (int i = 0; i < annots.length; i++) {
+				 * buff.append(annots[i]); if (i < annots.length - 1) buff.append(delimiter); }
+				 * buff.append("\n"); }
+				 *	
+				 */
+
+				String queryallele[] = table.getQueryallele();
+				if (queryallele != null) {
+
+					if (this.listboxVarietyAlleleFilter.getSelectedIndex() > 0) {
+						buff.append("Query ");
+						buff.append((String) listboxVarietyAlleleFilter.getSelectedItem().getValue());
+					} else {
+						buff.append("Query alleles");
+					}
+					buff.append(delimiter).append(delimiter).append(delimiter).append(delimiter).append(delimiter);
+					for (int ia = 0; ia < queryallele.length; ia++) {
+						buff.append(queryallele[ia]);
+						if (ia + 1 < queryallele.length)
+							buff.append(delimiter);
+					}
+					buff.append("\n");
+				}
+
+			}
+
+			Object varalleles[][] = table.getVaralleles();
+			AppContext.debug("mxn=" + varalleles.length + "x" + varalleles[0].length);
+			AppContext.debug("positions = " + refs.length);
+			AppContext.debug("varids = " + table.getVarname().length);
+
+			Set ds = getDataset();
+			Map<String, Map<BigDecimal, StockSample>> mapDs = varietyfacade.getMapId2Sample(ds);
+
+			if (!isAppend) {
+
+				for (int i = 0; i < table.getVarid().length; i++) {
+					String varname = table.getVarname()[i];
+
+					// if(delimiter.equals(",") && varname.contains(","))
+					// varname = "\"" + varname + "\"";
+					Map<BigDecimal, StockSample> mapVarId2Var = mapDs.get(table.getDataset()[i]);
+
+					Variety var = mapVarId2Var.get(BigDecimal.valueOf(table.getVarid()[i]));
+					String phenvalue = "";
+					if (mapVarid2Phenotype != null) {
+						phenvalue = delimiter;
+						Object phenval = mapVarid2Phenotype.get(var.getVarietyId());
+						if (phenval != null) {
+							if (phenval instanceof String)
+								phenvalue = (String) phenval + delimiter;
+							else {
+								phenvalue = String.format("%.2f", (Number) phenval);
+								phenvalue = phenvalue.replace(".00", "");
+								phenvalue += delimiter;
+							}
+						}
+					}
+
+					buff.append("\"").append(varname).append("\"").append(delimiter)
+							.append((var.getIrisId() != null ? var.getIrisId() : "")).append(delimiter)
+							.append((var.getAccession() != null ? var.getAccession() : "")).append(delimiter)
+							.append((var.getSubpopulation() != null ? var.getSubpopulation() : "")).append(delimiter)
+							.append(table.getVarmismatch()[i]).append(delimiter).append(phenvalue);
+					for (int j = 0; j < refs.length; j++) {
+						Object allele = varalleles[i][j];
+						if (allele == null)
+							buff.append("");
+						else
+							buff.append(varalleles[i][j]);
+						if (j < refs.length - 1)
+							buff.append(delimiter);
+					}
+					buff.append("\n");
+				}
+
+				String filetype = "text/plain";
+				if (delimiter.equals(","))
+					filetype = "text/csv";
+				Filedownload.save(buff.toString(), filetype, filename);
+				// AppContext.debug("File download complete! Saved to: "+filename);
+				org.zkoss.zk.ui.Session zksession = Sessions.getCurrent();
+				AppContext.debug("snpallvars download complete!" + filename + " Downloaded to:"
+						+ zksession.getRemoteHost() + "  " + zksession.getRemoteAddr());
+
+			} else {
+				BufferedWriter bw = null;
+				if (isAppendFirst) {
+					bw = new BufferedWriter(new FileWriter(filename));
+					bw.append(buff);
+					bw.flush();
+				} else
+					bw = new BufferedWriter(new FileWriter(filename, true));
+
+				buff = new StringBuffer();
+				for (int i = 0; i < table.getVarid().length; i++) {
+					String varname = table.getVarname()[i];
+
+					// if(delimiter.equals(",") && varname.contains(","))
+					// varname = "\"" + varname + "\"";
+					Map<BigDecimal, StockSample> mapVarId2Var = mapDs.get(table.getDataset()[i]);
+					StockSample var = mapVarId2Var.get(BigDecimal.valueOf(table.getVarid()[i]));
+					String phenvalue = "";
+					if (mapVarid2Phenotype != null) {
+						phenvalue = delimiter;
+						Object phenval = mapVarid2Phenotype.get(var.getVarietyId());
+						if (phenval != null) {
+							if (phenval instanceof String)
+								phenvalue = (String) phenval + delimiter;
+							else {
+								phenvalue = String.format("%.2f", (Number) phenval);
+								phenvalue = phenvalue.replace(".00", "");
+								phenvalue += delimiter;
+							}
+						}
+					}
+
+					buff.append("\"").append(varname).append("\"").append(delimiter)
+							.append((var.getAssay() != null ? var.getAssay() : "")).append(delimiter)
+							.append((var.getAccession() != null ? var.getAccession() : "")).append(delimiter)
+							.append(var.getSubpopulation()).append(delimiter).append(table.getVarmismatch()[i])
+							.append(delimiter).append(phenvalue);
+					for (int j = 0; j < refs.length; j++) {
+						Object allele = varalleles[i][j];
+						if (allele == null)
+							buff.append("");
+						else
+							buff.append(varalleles[i][j]);
+						if (j < refs.length - 1)
+							buff.append(delimiter);
+					}
+					buff.append("\n");
+					bw.append(buff);
+					bw.flush();
+					buff = new StringBuffer();
+				}
+				bw.close();
+
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
+	
+	private void download2VarsList(String filename, String delimiter) {
+		AppContext.debug("downloading from 2vars table...");
+		StringBuffer buff = new StringBuffer();
+
+		// buff.append("CONTIG").append(delimiter).append("POSITION").append(delimiter).append("REFERENCE").append(delimiter);
+
+		Iterator itHead = listboxSnpresult.getHeads().iterator();
+		while (itHead.hasNext()) {
+			Component comp = (Component) itHead.next();
+			if (!comp.isVisible())
+				continue;
+			if (comp instanceof Listhead) {
+				Listhead cols = (Listhead) comp;
+				Iterator itHeadcol = cols.getChildren().iterator();
+				while (itHeadcol.hasNext()) {
+					Listheader header = (Listheader) itHeadcol.next();
+					if (!header.isVisible())
+						continue;
+					buff.append(header.getLabel());
+					if (itHeadcol.hasNext())
+						buff.append(delimiter);
+				}
+			}
+			if (comp instanceof Auxhead) {
+				Auxhead cols = (Auxhead) comp;
+				Iterator itHeadcol = cols.getChildren().iterator();
+				while (itHeadcol.hasNext()) {
+					Auxheader header = (Auxheader) itHeadcol.next();
+					if (!header.isVisible())
+						continue;
+					buff.append(header.getLabel());
+					if (itHeadcol.hasNext())
+						buff.append(delimiter);
+				}
+			}
+			if (comp instanceof Columns) {
+				Columns cols = (Columns) comp;
+				Iterator itCol = cols.getChildren().iterator();
+				while (itCol.hasNext()) {
+					Column col = (Column) itCol.next();
+					if (!col.isVisible())
+						continue;
+					buff.append(col.getLabel());
+					if (itCol.hasNext())
+						buff.append(delimiter);
+				}
+			}
+			buff.append("\n");
+		}
+
+		ListModel model = listboxSnpresult.getModel();
+
+		for (int i = 0; i < model.getSize(); i++) {
+			Object[] row = (Object[]) model.getElementAt(i);
+
+			for (int j = 0; j < row.length; j++) {
+
+				// AppContext.debug(j + " " + row[j]);
+
+				if (j == 0)
+					continue;
+				if (j == 1) {
+					buff.append(((Position) row[j]).getContig());
+					buff.append(delimiter);
+					buff.append(((Position) row[j]).getPosition().toString().replaceAll(".00", ""));
+					buff.append(delimiter);
+					continue;
+				}
+				if (row[j] != null)
+					buff.append(row[j].toString());
+				else
+					buff.append("");
+				if (j < row.length - 1)
+					buff.append(delimiter);
+			}
+			buff.append("\n");
+		}
+
+		try {
+			String filetype = "text/plain";
+			if (delimiter.equals(","))
+				filetype = "text/csv";
+			Filedownload.save(buff.toString(), filetype, filename);
+			// AppContext.debug("File download complete! Saved to: "+filename);
+			org.zkoss.zk.ui.Session zksession = Sessions.getCurrent();
+			AppContext.debug("snp2vars downlaod complete!" + filename + " Downloaded to:" + zksession.getRemoteHost()
+					+ "  " + zksession.getRemoteAddr());
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+	private void enableDownloadButtons(boolean enable) {
+		this.buttonDownloadCsv.setDisabled(!enable);
+		this.buttonDownloadTab.setDisabled(!enable);
+
+		if (this.checkboxIndel.isChecked()) {
+			// this.buttonDownloadPlink.setDisabled(false);
+			// this.buttonDownloadFlapjack.setDisabled(false);
+		} else {
+			this.buttonDownloadPlink.setDisabled(!enable);
+			this.buttonDownloadFlapjack.setDisabled(!enable);
+		}
+	}
+	
+	private void downloadBigListboxPlinkZip(String filename) {
+		Object2StringMultirefsMatrixModel matrixmodel = (Object2StringMultirefsMatrixModel) biglistboxArray.getModel();
+		VariantAlignmentTableArraysImpl table = (VariantAlignmentTableArraysImpl) matrixmodel.getData();
+		downloadBigListboxPlinkZip(table, filename);
+	}
+	
+	private void downloadBigListboxPlinkZip(VariantAlignmentTableArraysImpl table, String filename) {
+
+		generateBigListboxPlink((VarietyFacade) AppContext.checkBean(varietyfacade, "VarietyFacade"),
+				fillGenotypeQueryParams(), selectChr.getValue(), getDataset(), table, filename);
+
+		try {
+			String allzipfilenames[] = new String[] { filename + ".map", filename + ".ped" };
+			new CreateZipMultipleFiles(filename + "-plink-" + ".zip", allzipfilenames).create();
+			Filedownload.save(new File(filename + "-plink-" + ".zip"), "application/zip");
+
+			org.zkoss.zk.ui.Session zksession = Sessions.getCurrent();
+			zksession = Sessions.getCurrent();
+			AppContext.debug("snpallvars download complete!" + filename + ".ped Downloaded to:"
+					+ zksession.getRemoteHost() + "  " + zksession.getRemoteAddr());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+
+	@Listen("onClick = #buttonDownloadFlapjack")
+	public void downloadFlapjack() {
+		// downloadDelimited("snpfile.txt", "\t");
+		if (biglistboxArray.isVisible())
+			downloadBigListboxFlapjackZip(AppContext.getTempDir() + "snp3kvars-" + queryFilename());
+		else if (this.divDownloadOnlyMsg.isVisible()) {
+			if (this.radioWait.isSelected()) {
+				if (varianttable == null)
+					queryVariants();
+				downloadBigListboxFlapjackZip((VariantAlignmentTableArraysImpl) this.varianttable,
+						AppContext.getTempDir() + "snp3kvars-" + queryFilename());
+				AppContext.resetTimer("to download");
+			} else {
+				try {
+					Callable<AsyncJobReport> callreport = callableDownloadBigListbox(
+							AppContext.getTempDir() + "snp3kvars-" + queryFilename(), null, "flapjack");
+					AsyncJobReport report = callreport.call();
+					if (report != null) {
+						if (report.getMessage().equals(JobsFacade.JOBSTATUS_SUBMITTED)) {
+							this.labelDownloadProgressMsg.setValue("Job is submitted. Please monitor progress at ");
+							this.aDownloadProgressURL.setLabel(report.getUrlProgress());
+							this.aDownloadProgressURL.setHref(report.getUrlProgress());
+							enableDownloadButtons(false);
+						} else
+							this.labelDownloadProgressMsg.setValue(report.getMessage());
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					Messagebox.show(ex.getMessage());
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Download Tab format
+	 */
+	@Listen("onClick = #buttonDownloadTab")
+	public void downloadTab() {
+		if (biglistboxArray.isVisible())
+			downloadBigListbox(AppContext.getTempDir() + "snp3kvars-" + queryFilename() + ".txt", "\t");
+		else if (divPairwise.isVisible())
+			download2VarsList(AppContext.getTempDir() + "snp2vars-" + queryFilename() + ".txt", "\t");
+		else if (this.divDownloadOnlyMsg.isVisible()) {
+			if (this.radioWait.isSelected()) {
+				if (varianttable == null)
+					queryVariants();
+				downloadBigListbox((VariantAlignmentTableArraysImpl) this.varianttable,
+						AppContext.getTempDir() + "snp3kvars-" + queryFilename() + ".txt", "\t");
+				AppContext.resetTimer("to download");
+			} else {
+				try {
+					Callable<AsyncJobReport> callreport = callableDownloadBigListbox(
+							AppContext.getTempDir() + "snp3kvars-" + queryFilename() + ".txt", "\t", "tab");
+					AsyncJobReport report = callreport.call();
+					// AsyncJobReport report=null;
+					if (report != null) {
+						if (report.getMessage().equals(JobsFacade.JOBSTATUS_SUBMITTED)) {
+							this.labelDownloadProgressMsg.setValue("Job is submitted. Please monitor progress at ");
+							this.aDownloadProgressURL.setLabel(report.getUrlProgress());
+							this.aDownloadProgressURL.setHref(report.getUrlProgress());
+							enableDownloadButtons(false);
+						} else {
+							this.labelDownloadProgressMsg.setValue(report.getMessage());
+						}
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					Messagebox.show(ex.getMessage());
+				}
+			}
+		}
+	}
+
+	@Listen("onClick = #buttonDownloadPlink")
+	public void downloadPlink() {
+		// downloadDelimited("snpfile.txt", "\t");
+		if (biglistboxArray.isVisible())
+			downloadBigListboxPlinkZip(AppContext.getTempDir() + "snp3kvars-" + queryFilename());
+		else if (this.divDownloadOnlyMsg.isVisible()) {
+			if (this.radioWait.isSelected()) {
+				if (varianttable == null)
+					queryVariants();
+				downloadBigListboxPlinkZip((VariantAlignmentTableArraysImpl) this.varianttable,
+						AppContext.getTempDir() + "snp3kvars-" + queryFilename());
+				AppContext.resetTimer("to download");
+			} else {
+				try {
+					// Callable<AsyncJobReport> callreport =
+					// callableDownloadBigListbox(AppContext.getTempDir() + "snp3kvars-" +
+					// queryFilename() + ".txt" ,"\t");
+					Callable<AsyncJobReport> callreport = callableDownloadBigListbox(
+							AppContext.getTempDir() + "snp3kvars-" + queryFilename(), null, "plink");
+					AsyncJobReport report = callreport.call();
+					// AsyncJobReport report=null;
+					if (report != null) {
+						if (report.getMessage().equals(JobsFacade.JOBSTATUS_SUBMITTED)) {
+							this.labelDownloadProgressMsg.setValue("Job is submitted. Please monitor progress at ");
+							this.aDownloadProgressURL.setLabel(report.getUrlProgress());
+							this.aDownloadProgressURL.setHref(report.getUrlProgress());
+							enableDownloadButtons(false);
+						} else
+							this.labelDownloadProgressMsg.setValue(report.getMessage());
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					Messagebox.show(ex.getMessage());
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Download CSV format
+	 */
+	@Listen("onClick = #buttonDownloadCsv")
+	public void downloadCsv() {
+
+		if (this.biglistboxArray.isVisible())
+			downloadBigListbox(AppContext.getTempDir() + "snp3kvars-" + queryFilename() + ".csv", ",");
+		else if (divPairwise.isVisible())
+			download2VarsList(AppContext.getTempDir() + "snp2vars-" + queryFilename() + ".csv", ",");
+		else if (this.divDownloadOnlyMsg.isVisible()) {
+			AppContext.debug(radioWait.isSelected() + " " + radioWait.isChecked() + " " + this.radioAsync.isSelected()
+					+ " " + radioAsync.isChecked());
+			if (this.radioWait.isSelected() || radioWait.isChecked()) {
+				if (varianttable == null)
+					queryVariants();
+				downloadBigListbox((VariantAlignmentTableArraysImpl) this.varianttable,
+						AppContext.getTempDir() + "snp3kvars-" + queryFilename() + ".csv", ",");
+				AppContext.resetTimer("to download");
+			} else {
+				try {
+					Callable<AsyncJobReport> callreport = callableDownloadBigListbox(
+							AppContext.getTempDir() + "snp3kvars-" + queryFilename() + ".csv", ",", "csv");
+					AsyncJobReport report = callreport.call();
+					// AsyncJobReport report=null;
+
+					if (report != null) {
+						if (report.getMessage().equals(JobsFacade.JOBSTATUS_SUBMITTED)) {
+							this.labelDownloadProgressMsg.setValue("Job is submitted. Please monitor progress at ");
+							this.aDownloadProgressURL.setLabel(report.getUrlProgress());
+							this.aDownloadProgressURL.setHref(report.getUrlProgress());
+							enableDownloadButtons(false);
+						} else
+							this.labelDownloadProgressMsg.setValue(report.getMessage());
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					Messagebox.show("downloadCsv():" + ex.getMessage());
+				}
+			}
+		}
+
 	}
 
 	// END CHART

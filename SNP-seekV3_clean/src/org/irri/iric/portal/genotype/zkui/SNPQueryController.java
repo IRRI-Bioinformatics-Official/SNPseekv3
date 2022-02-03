@@ -8735,44 +8735,7 @@ public class SNPQueryController extends SelectorComposer<Window> {
 
 	private void downloadBigListboxFlapjackZip(VariantAlignmentTableArraysImpl table, String filename) {
 
-		// MAP files
-		// The fields in a MAP file are:
-		// Chromosome
-		// Marker ID
-		// Genetic distance
-		// Physical position
-		//
-		// PED files
-		// The fields in a PED file are
-		// Family ID
-		// Sample ID
-		// Paternal ID
-		// Maternal ID
-		// Sex (1=male; 2=female; other=unknown)
-		// Affection (0=unknown; 1=unaffected; 2=affected)
-		// Genotypes (space or tab separated, 2 for each marker. 0=missing)
-		//
-
-		// -HapMap file format:
-		// The current release consists of text-table files only, with the following
-		// columns:
-		//
-		// Col1: refSNP rs# identifier at the time of release (NB: it might merge
-		// with another rs# in the future)
-		// Col2: SNP alleles according to dbSNP
-		// Col3: chromosome that SNP maps to
-		// Col4: chromosome position of SNP, in basepairs on reference sequence
-		// Col5: strand of reference sequence that SNP maps to
-		// Col6: version of reference sequence assembly (currently NCBI build36)
-		// Col7: HapMap genotyping center that produced the genotypes
-		// Col8: LSID for HapMap protocol used for genotyping
-		// Col9: LSID for HapMap assay used for genotyping
-		// Col10: LSID for panel of individuals genotyped
-		// Col11: QC-code, currently 'QC+' for all entries (for future use)
-		// Col12 and on: observed genotypes of samples, one per column, sample
-		// identifiers in column headers (Coriell catalog numbers, example:
-		// NA10847).
-
+		
 		try {
 			String chr = this.selectChr.getValue();
 			String refs[] = table.getReference();

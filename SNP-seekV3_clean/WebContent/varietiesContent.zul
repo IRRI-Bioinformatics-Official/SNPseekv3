@@ -771,7 +771,7 @@
 
 										<vbox>
 											<tabbox
-												style="height:620px;">
+												style="height:8000px;">
 												<tabs>
 													<tab
 														id="tabPassportIRGCIS" label="IRGCIS" />

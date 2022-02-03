@@ -1,5 +1,12 @@
-<zk>
+<?script rel="javascript" type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"?>
+<?link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css"?>
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client">
 	<n:div xmlns:n="native">
+		<n:script
+			src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js" />
+		<style
+			src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" />
+
 		<n:script src="assets/js/jquery.min.js" />
 		<n:script src="assets/bootstrap/js/bootstrap.min.js" />
 		<n:script
@@ -22,181 +29,476 @@
 		<style src="assets/css/Collapsible-Sidebar.css" />
 		<style src="assets/css/sidebar_home.css" />
 
-		
+
 
 		<n:div id="bodyContent">
 
-			<n:div id="bodyContent1">
-				<n:div>
-					<n:div class="ParalaxImage1">
-
-					</n:div>
-					<n:section class="mySection section-light">
-						<n:div class="container">
-							<n:div class="Row">
-								<n:div class="columnContent">
-									<n:br />
-									<n:br />
-									<n:h2 style="font-size: 1rem;">
-										About the Site
-									</n:h2>
-									<n:br />
-									<n:p style="font-size: 13px;">
-										This site provides Genotype,
-										Phenotype, and Variety
-										Information for rice (Oryza
-										sativa L.). SNP genotyping data
-										(called against Nipponbare
-										reference
-										Os-Nipponbare-Reference-IRGSP-1.0)
-										came from 3,000 Rice Genomes
-										Project . Phenotype and passport
-										data for the 3,000 rice
-										varieties came from the
-										International Rice Genebank
-										Collection Information System
-										(IRGCIS). We are a part of an
-										ongoing effort by the
-										International Rice Informatics
-										Consortium (IRIC) to centralize
-										information access to rice
-										research data and provide
-										computational tools to
-										facilitate rice improvement via
-										discovery of new gene-trait
-										associations and accelerated
-										breeding.
-									</n:p>
-									<n:br />
+			<n:div id="bodyContent1"
+				style="margin-left: 30px;margin-right: 10px;margin-top:50px;background:#b4d6c1;">
+				<n:div class="row"
+					style="width: 80%;margin-left: auto;margin-right: auto;margin-top:20px;margin-bottom:20px;">
+					<n:div class="col-md-6 col-xl-3 mb-4">
+						<n:div
+							class="card shadow border-start-primary py-2 home_div">
+							<n:div class="card-body">
+								<n:div
+									class="row align-items-center no-gutters">
+									<n:div class="col me-2">
+										<n:div
+											class="text-uppercase text-primary fw-bold text-xs mb-1">
+											<n:span>
+												Dataset Available
+											</n:span>
+										</n:div>
+										<n:div
+											class="text-dark fw-bold h5 mb-0">
+											<n:span>6</n:span>
+										</n:div>
+									</n:div>
+									<n:div class="home_icons"
+										style="width: 90px;text-align: center;">
+										<n:i
+											class="fas fa-clipboard-list fa-2x text-gray-300">
+										</n:i>
+									</n:div>
 								</n:div>
 							</n:div>
 						</n:div>
-					</n:section>
-
-					<n:main class="page">
-						<n:section class="clean-block features">
-							<n:div class="container">
-
-							</n:div>
-						</n:section>
-					</n:main>
-
-					<n:div class="ParalaxImage2">
-						<n:div class="ptext">
-							<span class="border ">Publication</span>
-						</n:div>
 					</n:div>
-
-					<n:section class="section section-light ">
-						<n:div class="container">
-							<n:div class="row">
-								<n:div class="col-md-12">
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:b>
-										<n:h2>How To cite</n:h2>
-									</n:b>
-									<n:ul>
-										<n:li>
-											Mansueto, et al. Rice
-											SNP-seek database update:
-											new SNPs, indels, and
-											queries.Nucl. Acids
-											Res.(2017) 45 (D1):
-											D1075-D1081. doi:
-											10.1093/nar/gkw1135
-											<n:br />
-											This paper describes new
-											features and datasets added
-											to SNP-Seek in 2015-2017 as
-											well as software and
-											database updates.
-										</n:li>
-										<n:br />
-										<n:li>
-											Mansueto, et al. SNP-Seek
-											II: A resource for allele
-											mining and analysis of big
-											genomic data in Oryza
-											sativa.Current Plant
-											Biology(2016). 7-8:16-25
-											doi:
-											10.1016/j.cpb.2016.12.003
-											<n:br />
-											This paper contains details
-											on variant calling for 5
-											references, integration of
-											additional genomic data, web
-											interface, database schema,
-											use cases, web services API.
-										</n:li>
-										<n:br />
-										<n:li>
-											Alexandrov, et al. SNP-Seek
-											database of SNPs derived
-											from 3000 rice genomes.Nucl.
-											Acids Res.(2015).
-											43(D1):D1023-D1027 doi:
-											10.1093/nar/gku1039
-											<n:br />
-											This is the first
-											publication introducing
-											SNP-Seek database, data
-											generation for Nipponbare
-											reference,and common use
-											cases.
-										</n:li>
-										<n:br />
-										<n:li>
-											Wang W, Mauleon R, Hu Z,
-											Chebotarov D, Tai S, et al.
-											Genomic variation in 3,010
-											diverse accessions of Asian
-											cultivated rice..
-											Nature.(2018). 557:43-49
-											doi:
-											10.1038/s41586-018-0063-9
-											<n:br />
-											The main scientific paper
-											for the 3K RGP.
-										</n:li>
-									</n:ul>
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
-									<n:br />
+					<n:div class="col-md-6 col-xl-3 mb-4">
+						<n:div
+							class="card shadow border-start-success py-2 home_div">
+							<n:div class="card-body">
+								<n:div
+									class="row align-items-center no-gutters">
+									<n:div class="col me-2">
+										<n:div
+											class="text-uppercase text-success fw-bold text-xs mb-1">
+											<n:span>
+												Variety Names
+											</n:span>
+										</n:div>
+										<n:div
+											class="text-dark fw-bold h5 mb-0">
+											<n:span>3024</n:span>
+										</n:div>
+									</n:div>
+									<n:div class="home_icons"
+										style="width: 90px;text-align: center;">
+										<n:i
+											class="fas fa-seedling fa-2x text-gray-300">
+										</n:i>
+									</n:div>
 								</n:div>
 							</n:div>
 						</n:div>
-					</n:section>
+					</n:div>
+					<n:div class="col-md-6 col-xl-3 mb-4">
+						<n:div
+							class="card shadow border-start-info py-2 home_div">
+							<n:div class="card-body">
+								<n:div
+									class="row align-items-center no-gutters">
+									<n:div class="col me-2">
+										<n:div
+											class="text-uppercase text-info fw-bold text-xs mb-1">
+											<n:span>
+												Number of SNPs
+											</n:span>
+										</n:div>
+										<n:div
+											class="row g-0 align-items-center">
+											<n:div class="col-auto">
+												<n:div
+													class="text-dark fw-bold h5 mb-0 me-3">
+													<n:span>
+														20 million +
+													</n:span>
+												</n:div>
+											</n:div>
+										</n:div>
+									</n:div>
+									<n:div class="home_icons"
+										style="width: 90px;text-align: center;">
+										<n:i
+											class="fas fa-clipboard-list fa-2x text-gray-300">
+										</n:i>
+									</n:div>
+								</n:div>
+							</n:div>
+						</n:div>
+					</n:div>
+					<n:div class="col-md-6 col-xl-3 mb-4">
+						<n:div
+							class="card shadow border-start-warning py-2 home_div">
+							<n:div class="card-body">
+								<n:div
+									class="row align-items-center no-gutters">
+									<n:div class="col me-2">
+										<n:div
+											class="text-uppercase text-warning fw-bold text-xs mb-1">
+											<n:span>
+												Total Visits
+											</n:span>
+										</n:div>
+										<n:div
+											class="text-dark fw-bold h5 mb-0">
+											<n:span>18</n:span>
+										</n:div>
+									</n:div>
+									<n:div class="home_icons">
+										<n:i
+											class="fas fa-chart-line fa-2x text-gray-300">
+										</n:i>
+									</n:div>
+								</n:div>
+							</n:div>
+						</n:div>
+					</n:div>
+				</n:div>
+
+				<n:div class="row"
+					style="width:90%; margin-left:auto;margin-right:auto;">
+
+					<n:div class="col-lg-7 col-xl-8">
+						<n:div class="card shadow mb-4"
+							style="border-radius:10px;">
+							<n:div
+								class="card-header d-flex justify-content-between align-items-center homeHeader">
+								<n:h6 class="text-primary fw-bold m-0"
+									style="color:#dfeae2!important">
+									About the Site
+								</n:h6>
+							</n:div>
+							<n:div class="card-body"
+								style="height:460px">
+
+								<div id="slider" sclass="myslider"
+									width="600px" height="300px"
+									w:onBind="this.bxSlider = jq(this).bxSlider();"
+									w:reloadSlider="function() { this.bxSlider.reloadSlider();}">
+									<div sclass="slide">
+										<n:div
+											style="height:350px;padding:70px;">
+											<n:p
+												style="font-size: 16px;">
+												This site provides
+												Genotype, Phenotype, and
+												Variety Information for
+												rice (Oryza sativa L.).
+												SNP genotyping data
+												(called against
+												Nipponbare reference
+												Os-Nipponbare-Reference-IRGSP-1.0)
+												came from 3,000 Rice
+												Genomes Project .
+												Phenotype and passport
+												data for the 3,000 rice
+												varieties came from the
+												International Rice
+												Genebank Collection
+												Information System
+												(IRGCIS). We are a part
+												of an ongoing effort by
+												the International Rice
+												Informatics Consortium
+												(IRIC) to centralize
+												information access to
+												rice research data and
+												provide computational
+												tools to facilitate rice
+												improvement via
+												discovery of new
+												gene-trait associations
+												and accelerated
+												breeding.
+											</n:p>
+										</n:div>
+
+									</div>
+									<div sclass="slide">
+										<n:div
+											style="height:350px;padding:70px;">
+											<n:p
+												style="font-size: 20px;">
+											PUBLICATION
+											</n:p>
+											<n:br />
+											
+											<n:p
+												style="font-size: 16px;">
+												Mansueto, et al. Rice
+												SNP-seek database
+												update: new SNPs,
+												indels, and
+												queries.Nucl. Acids
+												Res.(2017) 45 (D1):
+												D1075-D1081. doi:
+												10.1093/nar/gkw1135 This
+												paper describes new
+												features and datasets
+												added to SNP-Seek in
+												2015-2017 as well as
+												software and database
+												updates.
+											</n:p>
+											<n:br />
+											<n:br />
+											<n:div
+												style="display: flex; justify-content: flex-end">
+												<n:button
+													class="btn btn-primary d-block btn-user w-100 my_buttonStyle"
+													style="width:300px!important;" type="submit">
+													See More
+												</n:button>
+											</n:div>
+
+										</n:div>
+
+									</div>
+									<div sclass="slide">
+										<n:div
+											style="height:350px;padding:70px;">
+											<n:p
+												style="font-size: 20px;">
+											LATEST UPDATE
+											</n:p>
+										</n:div>
+
+									</div>
+								</div>
+
+							</n:div>
+						</n:div>
+					</n:div>
+
+					<n:div class="col-lg-5 col-xl-4">
+						<n:div class="card shadow mb-4"
+							style="border-radius:10px;">
+							<n:div
+								class="card-header d-flex justify-content-between align-items-center homeHeader"
+								style="background: white!important;border: 0px;margin: auto;margin-top: 40px;">
+								<n:h6
+									class="text-primary fw-bold m-0">
+									Login Account
+								</n:h6>
+							</n:div>
+							<n:div class="card-body"
+								style="height:420px;margin-left:70px;margin-right:70px;">
+
+								<n:form class="user">
+									<n:div class="mb-3">
+										<n:input id="exampleInputEmail"
+											class="form-control form-control-user" type="email"
+											aria-describedby="emailHelp"
+											placeholder="Enter Email Address..." name="email" />
+									</n:div>
+									<n:div class="mb-3">
+										<n:input
+											id="exampleInputPassword"
+											class="form-control form-control-user" type="password"
+											placeholder="Password" name="password" />
+									</n:div>
+									<n:div class="mb-3">
+										<n:div
+											class="custom-control custom-checkbox small">
+											<n:div class="form-check">
+												<n:input
+													id="formCheck-1"
+													class="form-check-input custom-control-input"
+													type="checkbox" />
+												<n:label
+													class="form-check-label custom-control-label"
+													for="formCheck-1">
+													Remember Me
+												</n:label>
+											</n:div>
+										</n:div>
+									</n:div>
+									<n:button
+										class="btn btn-primary d-block btn-user w-100 my_buttonStyle"
+										type="submit">
+										Login
+									</n:button>
+									<n:hr />
+									<n:a
+										class="btn btn-primary d-block btn-google btn-user w-100 mb-2"
+										role="button"
+										style="background: white;
+    color: #007bff;
+    border-color: #4e9c81;
+    border-radius: 10px;">
+										<n:i class="fab fa-google"></n:i>
+										  Login with Google
+									</n:a>
+									<n:a
+										class="btn btn-primary d-block btn-facebook btn-user w-100"
+										role="button" style="
+    border-radius: 10px;">
+
+										<n:i
+											class="fab fa-facebook-f">
+										</n:i>
+										  Login with Facebook
+									</n:a>
+									<n:hr />
+								</n:form>
+								<n:div class="text-center">
+									<n:a class="small"
+										href="forgot-password.html">
+										Forgot Password?
+									</n:a>
+								</n:div>
+								<n:div class="text-center">
+									<n:a class="small"
+										href="register.html">
+										Create an Account!
+									</n:a>
+								</n:div>
+							</n:div>
+						</n:div>
+					</n:div>
+					<!-- 
+						<n:div class="col-lg-7 col-xl-8">
+						<n:div class="card shadow mb-4">
+						<n:div
+						class="card-header d-flex justify-content-between align-items-center homeHeader">
+						<n:h6 class="text-primary fw-bold m-0"
+						style="color:#4c894c!important">
+						Publication
+						</n:h6>
+						</n:div>
+						<n:div class="card-body">
+						<n:div style="margin-left:10px;">
+						<n:ul>
+						<n:li class="my_fontStyle"
+						style="font-size: 13px;">
+						<n:p>
+						Mansueto, et al. Rice
+						SNP-seek database
+						update: new SNPs,
+						indels, and
+						queries.Nucl. Acids
+						Res.(2017) 45 (D1):
+						D1075-D1081. doi:
+						10.1093/nar/gkw1135
+						<n:br />
+						This paper describes new
+						features and datasets
+						added to SNP-Seek in
+						2015-2017 as well as
+						software and database
+						updates.
+						</n:p>
+						</n:li>
+						<n:li class="my_fontStyle"
+						style="font-size: 13px;">
+						<n:p>
+						Mansueto, et al.
+						SNP-Seek II: A resource
+						for allele mining and
+						analysis of big genomic
+						data in Oryza
+						sativa.Current Plant
+						Biology(2016). 7-8:16-25
+						doi:
+						10.1016/j.cpb.2016.12.003
+						<n:br />
+						This paper contains
+						details on variant
+						calling for 5
+						references, integration
+						of additional genomic
+						data, web interface,
+						database schema, use
+						cases, web services API.
+						</n:p>
+						</n:li>
+						<n:li class="my_fontStyle"
+						style="font-size: 13px;">
+						<n:p>
+						Alexandrov, et al.
+						SNP-Seek database of
+						SNPs derived from 3000
+						rice genomes.Nucl. Acids
+						Res.(2015).
+						43(D1):D1023-D1027 doi:
+						10.1093/nar/gku1039
+						<n:br />
+						This is the first
+						publication introducing
+						SNP-Seek database, data
+						generation for
+						Nipponbare reference,and
+						common use cases.
+						</n:p>
+						</n:li>
+						<n:li class="my_fontStyle"
+						style="font-size: 13px;">
+						<n:p>
+						Wang W, Mauleon R, Hu Z,
+						Chebotarov D, Tai S, et
+						al. Genomic variation in
+						3,010 diverse accessions
+						of Asian cultivated
+						rice.. Nature.(2018).
+						557:43-49 doi:
+						10.1038/s41586-018-0063-9
+						<n:br />
+						The main scientific
+						paper for the 3K RGP.
+						</n:p>
+						</n:li>
+						</n:ul>
+						</n:div>
+						</n:div>
+						</n:div>
+						</n:div>
+					-->
 
 				</n:div>
+				<!-- 
+					<n:div class="row">
+					<n:div class="col-lg-7 col-xl-8">
+					<n:div class="card shadow mb-4">
+					<n:div
+					class="card-header d-flex justify-content-between align-items-center homeHeader">
+					<n:h6 class="text-primary fw-bold m-0"
+					style="color:#4c894c!important">
+					Frequently Asked Questions
+					</n:h6>
+					</n:div>
+					<n:div class="card-body">
+					<iframe src="faq.html"
+					style="width:100%;height:900px;">
+					</iframe>
+					</n:div>
+					</n:div>
+					</n:div>
+					<n:div class="col-lg-5 col-xl-4">
+					<n:div class="card shadow mb-4">
+					<n:div
+					class="card-header d-flex justify-content-between align-items-center homeHeader">
+					<n:h6 class="text-primary fw-bold m-0"
+					style="color:#4c894c!important">
+					Latest Updates
+					</n:h6>
+					</n:div>
+					<n:div class="card-body"
+					style="height:950px">
+					<n:div>
+					
+					
+					</n:div>
+					
+					</n:div>
+					</n:div>
+					</n:div>
+					
+					</n:div>
+				-->
+
+
 			</n:div>
 		</n:div>
 		<!-- 

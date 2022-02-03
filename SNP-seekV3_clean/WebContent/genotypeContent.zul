@@ -888,29 +888,33 @@
 									</n:div>
 								</div>
 								<div id="resultHeader"
-									style="width:100%;background-color:white;padding:10px 20px 10px 20px;border-radius: 20px; margin-left: 20px; margin-right: 20px;" visible="false">
+									style="width:100%;background-color:white;padding:10px 20px 10px 20px;border-radius: 20px; margin-left: 20px; margin-right: 20px;"
+									visible="false">
 
 									<n:div class="form-row">
 										<n:div class="col">
 
 											<div id="backQueryDiv"
 												style="border: 4px; border-style: solid; width: 150px; padding: 15px;  border-radius: 25px;  border-color: #55a569; 
-    												margin-left: 20px;cursor:pointer;" class="divBtn">
+    												margin-left: 20px;cursor:pointer;"
+												class="divBtn">
 												<hlayout>
-															<n:i
-																class="fas fa-share-square"
-																style="font-size: 40px; color: #33a952">
-															</n:i>
-															<vbox>
-															<label
-																	 value="Back to" style="padding-left:10px;color: #03a103;font-size:14px;"/>
-																<label
-																	 style="padding-left:10px;color: #03a103;font-size:16px;" value="query" />
-															</vbox>
+													<n:i
+														class="fas fa-share-square"
+														style="font-size: 40px; color: #33a952">
+													</n:i>
+													<vbox>
+														<label
+															value="Back to"
+															style="padding-left:10px;color: #03a103;font-size:14px;" />
+														<label
+															style="padding-left:10px;color: #03a103;font-size:16px;"
+															value="query" />
+													</vbox>
 												</hlayout>
 											</div>
 										</n:div>
-										<n:div 
+										<n:div
 											style="margin-left:auto;margin-right:0px;padding-left: 10px;margin-top: 5px;">
 											<n:div class="text-right">
 												<div
@@ -919,33 +923,38 @@
 														<div
 															style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
 															<hlayout>
-															<n:i
-																class="fas fa-seedling"
-																style="font-size: 40px; color: #33a952">
-															</n:i>
-															<vbox>
-															<label
-																	 value="VARIETIES" style="padding-left:10px;color: #03a103;font-size:14px;"/>
-																<label
-																	id="nmVarietyResult" style="padding-left:10px;color: #03a103;font-size:16px;" value="0" />
-															</vbox>
+																<n:i
+																	class="fas fa-seedling"
+																	style="font-size: 40px; color: #33a952">
+																</n:i>
+																<vbox>
+																	<label
+																		value="VARIETIES"
+																		style="padding-left:10px;color: #03a103;font-size:14px;" />
+																	<label
+																		id="nmVarietyResult"
+																		style="padding-left:10px;color: #03a103;font-size:16px;"
+																		value="0" />
+																</vbox>
 															</hlayout>
 														</div>
 
 														<div
 															style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
 															<hlayout>
-															<n:i
-																class="fas fa-poll-h"
-																style="font-size: 40px; color: #33a952">
-															</n:i>
-															<vbox>
-															<label
-																	 value="SNP POSITION" style="padding-left:10px;color: #03a103;font-size:14px;"/>
-															<label
-																id="nmPosResult" value="0" style="padding-left:10px;color: #03a103;font-size:16px;"/>
+																<n:i
+																	class="fas fa-poll-h"
+																	style="font-size: 40px; color: #33a952">
+																</n:i>
+																<vbox>
+																	<label
+																		value="SNP POSITION"
+																		style="padding-left:10px;color: #03a103;font-size:14px;" />
+																	<label
+																		id="nmPosResult" value="0"
+																		style="padding-left:10px;color: #03a103;font-size:16px;" />
 																</vbox>
-																</hlayout>
+															</hlayout>
 														</div>
 													</hbox>
 												</div>
@@ -965,13 +974,13 @@
 										<attribute name="areas">
 											A A A A B 
 											A A A A B 
-											A A A A B 
+											A A A A	B 
 											A A A A B 
 											A A A A B 
 											A A A A B 
 											C C C C D 
 											C C C C D 
-											C C C C D 
+											C C	C C D 
 											C C C C D
 										</attribute>
 										<goldenpanel area="A"
@@ -980,46 +989,115 @@
 
 											<vlayout width="100%"
 												height="100%">
-												<menubar
-													id="download_menubar" width="100%"
-													style="background:#e9ecef">
-													<menu
-														label="Download" id="menu_download"
-														style="background:#e9ecef;color: black !important;"
-														class="menu_style">
-														<menupopup
-															style="background: #e9ecef !important;color: black !important;"
-															class="menupopup_style">
-															<menuitem
-																label="CSV" iconSclass="z-icon-file-o"
-																class="menuitem_style" />
-															<menuitem
-																label="Tab" iconSclass="z-icon-file-o"
-																class="menuitem_style" />
-															<menuitem
-																label="PLINK" iconSclass="z-icon-file-o"
-																class="menuitem_style" />
-															<menuitem
-																label="Flapjack" iconSclass="z-icon-file-o"
-																class="menuitem_style" />
-														</menupopup>
-													</menu>
+												<vlayout
+													style="background:#e9ecef;border: 0px;">
+													<hlayout
+														style="background:#e9ecef;border: 0px;">
+														<menubar
+															style="background:#e9ecef;border: 0px;">
+															<menu
+																label="Download" id="menu_download"
+																style="background:#e9ecef;color: black !important;"
+																class="menu_style">
+																<menupopup
+																	style="background: #e9ecef !important;color: black !important;"
+																	class="menupopup_style">
+																	<menuitem
+																		id="buttonDownloadCsv" label="CSV"
+																		iconSclass="z-icon-file-o" class="menuitem_style" />
+																	<menuitem
+																		id="buttonDownloadTab" label="Tab"
+																		iconSclass="z-icon-file-o" class="menuitem_style" />
+																	<menuitem
+																		id="buttonDownloadPlink" label="PLINK"
+																		iconSclass="z-icon-file-o" class="menuitem_style" />
+																	<menuitem
+																		id="buttonDownloadFlapjack" label="Flapjack"
+																		iconSclass="z-icon-file-o" class="menuitem_style" />
+																</menupopup>
+															</menu>
+														</menubar>
+														<div
+															style="margin-top:5px;">
+															<hlayout>
+																<div
+																	class="mystyle_test" style="margin-top:9px;">
+																	<label
+																		value="Filters:"
+																		style="font-size:13px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;" />
+																	<label
+																		value="Column: "
+																		style="font-size:13px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;" />
+																</div>
+																<selectbox
+																	id="columnSelectbox" class="z-select">
+																</selectbox>
+																<selectbox
+																	id="valueSelectbox">
+																</selectbox>
+																<button
+																	label="Apply" style="font-size: 11px;" />
+																<button
+																	label="Clear" style="font-size: 11px;" />
+															</hlayout>
 
-													<menu label="Filter"
-														style="background:#e9ecef;color: black !important;"
-														class="menu_style">
-														<menupopup
-															style="background:#e9ecef !important;color: black !important;"
-															class="menupopup_style">
-															<menuitem
-																label="Add Filter"
-																image="/widgets/menu/drop-down_menu/img/file_open.png"
-																class="menuitem_style" />
-														</menupopup>
-													</menu>
-
-
-												</menubar>
+														</div>
+													</hlayout>
+												</vlayout>
+												<div
+													style="display:none">
+													<vbox
+														id="divDownloadOnlyMsg" class="download-only-message"
+														visible="false">
+														<label
+															id="labelDownloadOnlyMsg"
+															style="font-weight:bold;font-size:14px" />
+														<hbox>
+															<radiogroup
+																id="rgWait" />
+															<label
+																style="font-weight:bold;font-size:12px"
+																class="download-message-one"
+																value="Operation can take some time to finish. (~5 mins/1000snps). Varieties are NOT sorted by score/mismatch/match." />
+															<div
+																visible="false">
+																<radio
+																	id="radioWait" radiogroup="rgWait" />
+																<label
+																	style="font-weight:bold;font-size:12px" pre="true"
+																	value=" WAIT or " />
+																<radio
+																	id="radioAsync" radiogroup="rgWait" selected="true" />
+																<label
+																	style="font-weight:bold;font-size:12px" pre="true"
+																	value=" QUERY AND CHECK LATER" />
+															</div>
+														</hbox>
+														<vbox>
+															<hbox
+																id="hboxPolluxUrl" class="download-message-two"
+																visible="false">
+																<label
+																	style="font-weight:bold;font-size:12px"
+																	value="For large downloads, users within IRRI may use the local server at " />
+																<a
+																	class="download-message-three"
+																	href="http://pollux:8080/iric-portal/_snp.zul"
+																	label="http://pollux:8080/iric-portal/_snp.zul"
+																	target="_pollux" />
+															</hbox>
+															<hbox>
+																<label
+																	id="labelDownloadProgressMsg"
+																	style="font-weight:bold;font-size:12px" />
+																<vbox
+																	width="20px" />
+																<a
+																	id="aDownloadProgressURL" target="_job" />
+															</hbox>
+														</vbox>
+													</vbox>
+												</div>
 												<biglistbox
 													height="630px" id="biglistboxArray" hflex="1"
 													xmlns:w="client" w:onScroll="jq('$tip').fadeOut();"
@@ -1154,6 +1232,61 @@
 													title="Allele frequency" width="1000" height="400"
 													zoomType="xy" />
 											</hbox>
+											<div id="divPairwise" visible="false">
+
+									<!--  *********************   DISPLAY PAIRWAISE VARIETY COMPARISON TABLE  *********************************************************************************** -->
+
+
+									<hbox>
+										<label pre="true"
+											value="Download  " style="font-weight:bold;" />
+										<button
+											id="buttonDownloadPairwiseCsv" label="CSV" width="60px"
+											height="30px" autodisable="self" />
+										<vbox width="10px" />
+										<button
+											id="buttonDownloadPairwiseTab" label="Tab" width="60px"
+											height="30px" autodisable="self" />
+									</hbox>
+									<hbox height="10px" />
+
+									<listbox id="listboxSnpresult"
+										class="pairwise-table" fixedLayout="true" mold="paging"
+										pageSize="100">
+										<auxhead
+											id="auxheadMultirefPairwise" visible="false">
+											<auxheader
+												id="auxheaderMultirefPairwise" label="" colspan="3" />
+											<auxheader
+												label="NIPPONBARE" colspan="3" />
+											<auxheader
+												label="COMPARE VARIETIES" colspan="2" />
+										</auxhead>
+										<listhead
+											class="haplotype-table">
+											<listheader
+												id="listheader1MultirefPairwise" visible="false"
+												label="CONTIG" />
+											<listheader
+												id="listheader2MultirefPairwise" visible="false"
+												label="POSITION" />
+											<listheader
+												id="listheader3MultirefPairwise" visible="false"
+												label="REFERENCE" />
+											<listheader label="CONTIG" />
+											<listheader
+												label="POSITION" />
+											<listheader
+												id="listHeaderVar2Reference" label="NPB REFERENCE" />
+											<listheader
+												id="listheaderVar1MultirefPairwise">
+											</listheader>
+											<listheader
+												id="listheaderVar2MultirefPairwise">
+											</listheader>
+										</listhead>
+									</listbox>
+								</div>
 										</goldenpanel>
 										<goldenpanel area="C"
 											id="goldenPanel_mdsPlot" title="MDS Plot" closable="false">
@@ -1204,7 +1337,7 @@
 											</vbox>
 										</goldenpanel>
 										<goldenpanel area="A"
-											title="Haplotype" closable="false">
+											id="goldenPA_haplotype" title="Haplotype" closable="false">
 											<borderlayout
 												height="760px">
 												<north
@@ -1551,7 +1684,7 @@
 										</goldenpanel>
 
 
-										
+
 										<goldenpanel area="D"
 											title="Compare Genome" closable="false">
 											<vlayout>
@@ -1575,8 +1708,8 @@
 												</tabbox>
 											</vlayout>
 										</goldenpanel>
-										<goldenpanel area="B" id="goldenPA_galaxy"
-											title="Galaxy" closable="false">
+										<goldenpanel area="B"
+											id="goldenPA_galaxy" title="Galaxy" closable="false">
 											<vlayout>
 												<include
 													id="includeGalaxy" />

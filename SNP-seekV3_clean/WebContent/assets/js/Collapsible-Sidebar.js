@@ -6,6 +6,14 @@ $(document).ready(function() {
 
 
 		if (active == 1) {
+			$("#leftsideBarInc").css({
+				'width': '70px'
+			});
+
+			$("#leftsidebarTemplate").css({
+				'width': '70px'
+			});
+
 			$("#sidebarId").css({
 				'width': '70px'
 			});
@@ -22,7 +30,8 @@ $(document).ready(function() {
 			});
 
 			$("#genotypeIcon").css({
-				'font-size': '24px'
+				'font-size': '24px',
+				'margin-left': '0px'
 			});
 			$("#genotypeSpan").css({
 				'opacity': '0',
@@ -38,7 +47,8 @@ $(document).ready(function() {
 			});
 
 			$("#varietyIcon").css({
-				'font-size': '24px'
+				'font-size': '24px',
+				'margin-left': '0px'
 			});
 			$("#varietySpan").css({
 				'opacity': '0',
@@ -53,7 +63,8 @@ $(document).ready(function() {
 			});
 
 			$("#geneLociIcon").css({
-				'font-size': '24px'
+				'font-size': '24px',
+				'margin-left': '0px'
 			});
 			$("#geneLociSpan").css({
 				'opacity': '0',
@@ -68,7 +79,8 @@ $(document).ready(function() {
 			});
 
 			$("#jbrowseIcon").css({
-				'font-size': '24px'
+				'font-size': '24px',
+				'margin-left': '0px'
 			});
 			$("#jbrowseSpan").css({
 				'opacity': '0',
@@ -83,7 +95,8 @@ $(document).ready(function() {
 			});
 
 			$("#gwasIcon").css({
-				'font-size': '24px'
+				'font-size': '24px',
+				'margin-left': '0px'
 			});
 			$("#gwasSpan").css({
 				'opacity': '0',
@@ -99,7 +112,8 @@ $(document).ready(function() {
 			});
 
 			$("#myListIcon").css({
-				'font-size': '24px'
+				'font-size': '24px',
+				'margin-left': '0px'
 			});
 			$("#myListSpan").css({
 				'opacity': '0',
@@ -115,7 +129,8 @@ $(document).ready(function() {
 			});
 
 			$("#downloadIcon").css({
-				'font-size': '24px'
+				'font-size': '24px',
+				'margin-left': '0px'
 			});
 			$("#downloadSpan").css({
 				'opacity': '0',
@@ -131,7 +146,8 @@ $(document).ready(function() {
 			});
 
 			$("#helpIcon").css({
-				'font-size': '24px'
+				'font-size': '24px',
+				'margin-left': '0px'
 			});
 			$("#helpSpan").css({
 				'opacity': '0',
@@ -142,6 +158,14 @@ $(document).ready(function() {
 			active = 0;
 
 		} else {
+
+			$("#leftsideBarInc").css({
+				'width': '90px'
+			});
+			$("#leftsidebarTemplate").css({
+				'width': '90px'
+			});
+
 			$("#sidebarId").css({
 				'width': '90px'
 			});
