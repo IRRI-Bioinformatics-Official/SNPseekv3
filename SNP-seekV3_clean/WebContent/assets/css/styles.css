@@ -10,9 +10,10 @@ body {
 	padding: 0px !important;
 }
 
-.divBtn:hover{
-	cursor: pointer; 
+.divBtn:hover {
+	cursor: pointer;
 }
+
 .navbar.navbar-light.navbar-expand-md {
 	background: rgb(7, 82, 7);
 }
@@ -50,7 +51,7 @@ body {
 	padding-top: 0px;
 	position: relative;
 	z-index: 1;
-	background: #ededed !important;
+	background: #b4d6c1 !important;
 }
 
 .nav-link.active.tabbedPane {
@@ -395,8 +396,8 @@ body {
 }
 
 .z-toolbar {
-    background: #ededed !important;
- }
+	background: #ededed !important;
+}
 
 .z-east-title, .z-west-title, .z-north-title, .z-south-title {
 	font-size: 12px;
@@ -465,15 +466,64 @@ body {
 	border: 1px solid #075207;
 }
 
-.z-window-content{
-	    background: #ededed;
+.z-window-content {
+	background: #ededed;
 }
 
-.tipboxGwas > div > div > div{
-	height:430px !important;
-	width:280px !important;
+.tipboxGwas>div>div>div {
+	height: 430px !important;
+	width: 280px !important;
 }
 
-.my_goldenStyle{
-	    background: #d9dcbb !important;
+.my_goldenStyle {
+	background: #d9dcbb !important;
+}
+
+.styleHeader {
+	color: #1d9527;
+	font-size: 14px;
+	background: #f7f7f7;
+}
+
+.accordionHeader {
+	font-size: 14px;
+}
+
+.homeHeader {
+	background: #4E9c81;
+}
+
+.accordion_qHeader {
+	color: rgb(28, 33, 29);
+	background: #ebebeb9e;
+}
+
+.home_icons {
+	border-style: solid;
+	padding: 25px;
+	border-radius: 45px;
+	background: #579164;
+	border-color: #96bbbf;
+	color: white;
+}
+
+.home_div {
+	border-radius: 140px;
+}
+
+.home_divLayout {
+	padding-left: 140px;
+	border-radius: 70px;
+}
+
+
+.my_buttonStyle{
+	background: #78b580;
+    border-radius: 50px;
+    border-color: #d3dbf1;
+}
+
+
+.bx-wrapper .bx-pager.bx-default-pager a.active, .bx-wrapper .bx-pager.bx-default-pager a:focus, .bx-wrapper .bx-pager.bx-default-pager a:hover {
+    background: #22bd52 !important;
 }
