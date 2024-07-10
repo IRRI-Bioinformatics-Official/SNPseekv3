@@ -1,6 +1,6 @@
 <zk>
 	<n:div xmlns:n="native">
-		
+
 		<n:script src="assets/js/jquery.min.js" />
 		<n:script src="assets/bootstrap/js/bootstrap.min.js" />
 		<n:script
@@ -64,28 +64,41 @@
 											</span>
 											&#160;00
 										</n:h1>
-										<n:ul>
-											<n:li>4 Dataset&#160;</n:li>
-											<n:li>
-												3K. rice-rp
-												<n:br />
-											</n:li>
-											<n:li>
-												<n:br />
-											</n:li>
-											<n:li>
-												50 GB Bandwith
-												<n:br />
-											</n:li>
-											<n:li>
-												All Features
-												<n:br />
-											</n:li>
-											<n:li>
-												Sales Dashboard
-												<n:br />
-											</n:li>
-										</n:ul>
+										<n:div
+											class="text-left mx-auto">
+											<n:ul>
+
+												<n:li>
+													<span>
+														&#10004;
+													</span>
+													3k dataset only
+												</n:li>
+												<n:li>
+													<span>
+														&#10006;
+													</span>
+													Download Feature
+													<n:br />
+												</n:li>
+												<n:li>
+													<span>
+														&#10006;
+													</span>
+													Export Results to
+													Galaxy
+													<n:br />
+												</n:li>
+												<n:li>
+													<span>
+														&#10006;
+													</span>
+													No Ads
+													<n:br />
+												</n:li>
+
+											</n:ul>
+										</n:div>
 									</n:div>
 									<n:div
 										class="text-center plan-button">
@@ -109,34 +122,43 @@
 													class="fa fa-dollar dollar">
 												</n:i>
 											</n:span>
-											&#160;19.99
+											&#160;TBD
 										</n:h1>
-										<n:ul>
-											<n:li>
-												Free Instalation
-												<n:br />
-											</n:li>
-											<n:li>
-												2 GB Storage
-												<n:br />
-											</n:li>
-											<n:li>
-												Upto 2 users
-												<n:br />
-											</n:li>
-											<n:li>
-												50 GB Bandwith
-												<n:br />
-											</n:li>
-											<n:li>
-												All Features
-												<n:br />
-											</n:li>
-											<n:li>
-												Sales Dashboard
-												<n:br />
-											</n:li>
-										</n:ul>
+										<n:div
+											class="text-left mx-auto">
+											<n:ul>
+												<n:li>
+													<span>
+														&#10004;
+													</span>
+													Access to All
+													Uploaded Datasets
+													<n:br />
+												</n:li>
+												<n:li>
+													<span>
+														&#10004;
+													</span>
+													Download Feature
+													<n:br />
+												</n:li>
+												<n:li>
+													<span>
+														&#10004;
+													</span>
+													Export Results to
+													Galaxy
+													<n:br />
+												</n:li>
+												<n:li>
+													<span>
+														&#10004;
+													</span>
+													No Ads
+													<n:br />
+												</n:li>
+											</n:ul>
+										</n:div>
 									</n:div>
 									<n:div class="plan-button">
 										<a
@@ -152,7 +174,7 @@
 				</n:section>
 			</n:div>
 		</n:div>
-		
+
 
 	</n:div>
 

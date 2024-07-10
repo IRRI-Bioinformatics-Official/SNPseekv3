@@ -15,6 +15,12 @@
 	<style src="assets/css/Pricing-Table.css" />
 	<style src="assets/css/Process-Steps.css" />
 	<style src="assets/css/styles.css" />
+	
+	<zscript>
+	import org.irri.iric.portal.AppContext;
+	String paramstr = AppContext.getJBrowseDefaulttracks(AppContext.getDefaultDataset());
+	//DNA,msu7gff,snp3k
+	</zscript>
 
 	<div xmlns:n="native">
 
@@ -26,16 +32,13 @@
 					style="padding-left:0px !important;">
 					<n:a class="navbar-brand" href="#"
 						style="color: rgba(247,239,239,0.9);font-size: 25px;">
-						<n:button id="mainSidebar" class="btn"
-							style="margin-left:10px;margin-right: 10px;color:white!important;">
-							<n:i class="fa fa-bars"></n:i>
-						</n:button>
+
 
 
 
 						<n:img class="rounded-circle"
 							src="assets/img/c7tx0SIy_400x400.jpg"
-							style="width: 30px;height: 30px;" />
+							style="margin-left:10px; width: 30px;height: 30px;" />
 						&#160; Rice SNP-seek Database
 						<n:br></n:br>
 					</n:a>
@@ -47,35 +50,36 @@
 						<span class="navbar-toggler-icon"></span>
 					</n:button>
 
-					<div>
+					<div
+						apply="org.irri.iric.portal.BannerController">
 						<menubar
-							style="border-top: 1px solid #075207 !important;
-									border-bottom: 1px solid #075207 !important;
-									background: #075207 !important;
-									color: rgb(255, 255, 255) !important;">
-							<menuitem label="Home" href="index.zul" />
-							<menuitem label="Pricing"
-								href="pricing.zul" />
-							<!-- 
-								<menu label="Search"
+							style="border-top: 1px solid rgb(111 142 102) ! important ; border-bottom: 1px solid rgb(111 142 102) ! important ;
+						background: rgb(111 142 102) ! important ; color: rgb (255, 255, 255) ! important ;">
+							<menuitem label="Home/Search" href="index.zul" />
+							<!-- 	<menu label="Search"
 								src="/images/iric/query.png"
 								style="border-top: 1px solid #075207 !important;
 								border-bottom: 1px solid #075207 !important;
 								background: #075207 !important;
 								color: rgb(255, 255, 255) !important;">
 								<menupopup>
-								<menuitem label="Genotype"
-								href="genotype.zul"
-								style="background: white !important;color: black !important;" />
-								<menuitem label="Varieties"
-								href="varieties.zul"
-								style="background: white !important;color: black !important;" />
-								<menuitem label="Gene Loci"
-								href="geneLoci.zul"
-								style="background: white !important;color: black !important;" />
+									<menuitem label="Genotype"
+										href="genotype.zul"
+										style="background: white !important;color: black !important;" />
+									<menuitem label="Varieties"
+										href="varieties.zul"
+										style="background: white !important;color: black !important;" />
+									<menuitem label="Gene Loci"
+										href="geneLoci.zul"
+										style="background: white !important;color: black !important;" />
 								</menupopup>
-								</menu>
-							-->
+							</menu>
+							 -->
+							<menuitem label="Pricing"
+								href="pricing.zul" />
+
+						
+
 							<zscript>
 	boolean isAllignmentVisible = org.irri.iric.portal.AppContext
 			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_BROWSE_ALIGNMENT);
@@ -115,272 +119,26 @@
 			
 			
 		</zscript>
-							<!-- 
-								<menu label="Browse"
-								src="/images/iric/browse6.png" visible="${visibleBrowse}"
-								style="border-top: 1px solid #075207 !important;
-								border-bottom: 1px solid #075207 !important;
-								background: #075207 !important;
-								color: rgb(255, 255, 255) !important;">
-								<menupopup>
-								
-								
-								<menu label="Genome"
-								src="/images/iric/genome1.png" visible="${visibleGenomeStr}"
-								style="background: white !important;color: black !important;">
-								<menupopup>
-								<menuitem
-								src="/images/iric/genome1.png" label="Nipponbare"
-								href="_ideo.zul?tracks=${paramstr}&amp;app=jbrowse"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/genome1.png" label="93-11"
-								href="_jbrowse.zul?data=9311v1&amp;tracks=DNA,9311v1gffv2"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/genome1.png" label="IR 64"
-								href="_jbrowse.zul?data=ir6421v1&amp;tracks=DNA,ir6421v1gffv2"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/genome1.png" label="Kasalath"
-								href="_jbrowse.zul?data=kasv1&amp;tracks=DNA,kasv1gffrapv2"
-								style="background: white !important;color: black !important;" />
-								
-								</menupopup>
-								</menu>
-								
-								
-								<menu label="Phylogenetic tree"
-								src="/images/iric/tree1.png" visible="${visiblePhylotreeStr}"
-								style="background: white !important;color: black !important;">
-								<menupopup>
-								<menuitem
-								src="/images/iric/tree1.png" label="K9 groups"
-								href="_variety.zul?irisid=alltree"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/tree1.png" label="K15 groups"
-								href="_variety.zul?irisid=alltree2"
-								style="background: white !important;color: black !important;" />
-								
-								
-								</menupopup>
-								</menu>
-								
-								<menu
-								src="/images/iric/mds_plot.png" label="MDS Plots"
-								visible="${visibleMdsStr}"
-								style="background: white !important;color: black !important;">
-								<menupopup>
-								<menuitem
-								src="/images/iric/mds_plot.png" label="3k MDS Plot"
-								href="_variety.zul?irisid=allmds"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/mds_plot.png" label="HDRA MDS Plot"
-								href="_variety.zul?irisid=allmdshdra"
-								style="background: white !important;color: black !important;" />
-								</menupopup>
-								</menu>
-								
-								<menu id="menuTestplots"
-								src="/images/iric/mds_plot.png" label="Test plots"
-								visible="false"
-								style="background: white !important;color: black !important;">
-								<menupopup>
-								<menuitem
-								src="/images/iric/tree1.png" label="Tree 1"
-								href="treeBrowser3023K15_dndtree.html" target="_test"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/tree1.png" label="Tree 2"
-								href="treeBrowser3023K15_radial.html" target="_test"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/mds_plot.png" label="3D MDS Plot 1"
-								href="3d_scatter_plotly.html" target="_test"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/mds_plot.png" label="3D MDS Plot 2"
-								href="scatter_plot_3d_demo.html" target="_test"
-								style="background: white !important;color: black !important;" />
-								
-								</menupopup>
-								</menu>
-								
-								
-								
-								<menu label="Genome alignments"
-								src="/images/iric/synteny.png" visible="${visibleGenomeStr}"
-								style="background: white !important;color: black !important;">
-								<menupopup>
-								<menuitem
-								label="Select Reference" disabled="true"
-								style="background: white !important;color: black !important;" />
-								<menuseparator />
-								<menu
-								src="/images/iric/var5.png" label="Nipponbarre vs.">
-								<menupopup>
-								<menuitem
-								label="Select Alignment" disabled="true"
-								style="background: white !important;color: black !important;" />
-								<menuseparator />
-								
-								<menuitem
-								src="/images/iric/var5.png" label="DJ123" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat06&amp;run=21641"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/var5.png" label="Kasalath"
-								target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat06&amp;run=37665"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/var5.png" label="93-11" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat06&amp;run=37668"
-								style="background: white !important;color: black !important;" />
-								<menuitem
-								src="/images/iric/var5.png" label="IR 64" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat06&amp;run=37870"
-								style="background: white !important;color: black !important;" />
-								</menupopup>
-								</menu>
-								<menu
-								src="/images/iric/var5.png" label="93-11 vs.">
-								<menupopup>
-								<menuitem
-								label="Select Alignment" disabled="true" />
-								<menuseparator />
-								<menuitem
-								src="/images/iric/var5.png" label="DJ123" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat07&amp;run=36169" />
-								<menuitem
-								src="/images/iric/var5.png" label="IR 64" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat07&amp;run=36371" />
-								<menuitem
-								src="/images/iric/var5.png" label="Kasalath"
-								target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat07&amp;run=37794" />
-								<menuitem
-								src="/images/iric/var5.png" label="Nipponbare"
-								target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat07&amp;run=37668&amp;base=4144" />
-								
-								</menupopup>
-								</menu>
-								<menu
-								src="/images/iric/var5.png" label="IR 64 vs.">
-								<menupopup>
-								<menuitem
-								label="Select Alignment" disabled="true" />
-								<menuseparator />
-								<menuitem
-								src="/images/iric/var5.png" label="Kasalath"
-								target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat08&amp;run=35323" />
-								<menuitem
-								src="/images/iric/var5.png" label="DJ123" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat08&amp;run=36564" />
-								<menuitem
-								src="/images/iric/var5.png" label="Nipponbare"
-								target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat08&amp;run=37870&amp;base=4146" />
-								<menuitem
-								src="/images/iric/var5.png" label="93-11" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat08&amp;run=36371&amp;base=4146" />
-								</menupopup>
-								</menu>
-								<menu
-								src="/images/iric/var5.png" label="Kasalath vs.">
-								<menupopup>
-								<menuitem
-								label="Select Alignment" disabled="true" />
-								<menuseparator />
-								<menuitem
-								src="/images/iric/var5.png" label="DJ123" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat11&amp;run=38038" />
-								
-								<menuitem
-								src="/images/iric/var5.png" label="Nipponbare"
-								target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat11&amp;run=37665&amp;base=3591" />
-								<menuitem
-								src="/images/iric/var5.png" label="93-11" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat11&amp;run=37794&amp;base=3591" />
-								<menuitem
-								src="/images/iric/var5.png" label="IR 64" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?base=orySat11&amp;run=35323&amp;base=3591" />
-								
-								</menupopup>
-								</menu>
-								
-								<menu
-								src="/images/iric/var5.png" label="DJ123 vs.">
-								<menupopup>
-								<menuitem
-								label="Select Alignment" disabled="true" />
-								<menuseparator />
-								<menuitem
-								src="/images/iric/var5.png" label="Nipponbare"
-								target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?run=21641&amp;base=4153" />
-								<menuitem
-								src="/images/iric/var5.png" label="93-11" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?run=36169&amp;base=4153" />
-								<menuitem
-								src="/images/iric/var5.png" label="IR 64" target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?run=36564&amp;base=4153" />
-								<menuitem
-								src="/images/iric/var5.png" label="Kasalath"
-								target="_vista"
-								href="http://pipeline.lbl.gov/tbrowser/tbrowser/?run=38038&amp;base=4153" />
-								
-								</menupopup>
-								</menu>
-								</menupopup>
-								</menu>
-								
-								<menuitem
-								src="/images/iric/traitgenes.png" label="Trait genes"
-								href="_ideo.zul?tracks=${paramstr}&amp;app=rice-ideogram"
-								visible="${visibleTraitGenesStr}" />
-								
-								<menuitem
-								src="/images/iric/manhattan-icon.png" label="GWAS results"
-								href="_gwas.zul" visible="${visibleGwasStr}" />
-								</menupopup>
-								
-								
-								</menu> 
-								<menuitem src="/images/iric/mylist.png"
-								label="My Lists" href="MyList.zul"
+
+							<!-- <menuitem id="menuitem_order"
+								src="/images/iric/var5.png" label="Order Seeds" href="order.zul"
 								style="border-top: 1px solid #075207 !important;
 								border-bottom: 1px solid #075207 !important;
 								background: #075207 !important;
 								color: rgb(255, 255, 255) !important;" />
-							-->
-							<menuitem src="/images/iric/var5.png"
-								label="Order Seeds" href="https://www.irri.org/rice-seeds"
-								target="_blank"
+							
+
+							<menuitem label="Settings"
 								style="border-top: 1px solid #075207 !important;
 									border-bottom: 1px solid #075207 !important;
 									background: #075207 !important;
 									color: rgb(255, 255, 255) !important;" />
-
-							<!-- 
-								<menuitem src="/images/iric/download.png"
-								label="Download" href="download.zul"
-								visible="${visibleDownloadGenesStr}"
-								style="border-top: 1px solid #075207 !important;
-								border-bottom: 1px solid #075207 !important;
-								background: #075207 !important;
-								color: rgb(255, 255, 255) !important;" />
 							-->
 							<menu label="Help"
 								src="/images/iric/help.png" visible="${visibleHelpGenesStr}"
-								style="border-top: 1px solid #075207 !important;
-									border-bottom: 1px solid #075207 !important;
-									background: #075207 !important;
+								style="border-top: 1px solid rgb(111 142 102) !important;
+									border-bottom: 1px solid rgb(111 142 102) !important;
+									background: rgb(111 142 102) !important;
 									color: rgb(255, 255, 255) !important;">
 								<menupopup>
 									<menuitem
@@ -423,16 +181,20 @@
 										src="/images/iric/about.png" label="FAQs" href="_faq.zul" />
 								</menupopup>
 							</menu>
-							<menuitem label="Settings"
-								style="border-top: 1px solid #075207 !important;
-									border-bottom: 1px solid #075207 !important;
-									background: #075207 !important;
+							<menuitem label="Login" href="login.zul" id="mi_login"
+								style="border-top: 1px solid rgb(111 142 102) !important;
+									border-bottom: 1px solid rgb(111 142 102) !important;
+									background: rgb(111 142 102) !important;
 									color: rgb(255, 255, 255) !important;" />
-							<menuitem label="Account"
-								style="border-top: 1px solid #075207 !important;
-									border-bottom: 1px solid #075207 !important;
-									background: #075207 !important;
-									color: rgb(255, 255, 255) !important;" />
+							<menu id="menuLogout">
+								<menupopup>
+									<menuitem label="logout"
+										href="logout" iconSclass="z-icon-sign-out" />
+								</menupopup>
+							</menu>
+
+
+
 
 						</menubar>
 					</div>

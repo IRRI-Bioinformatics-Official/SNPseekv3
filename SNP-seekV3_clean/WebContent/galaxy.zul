@@ -27,7 +27,7 @@
 					<label value="Select Lists" />
 					<vbox>
 						<listbox id="listLists" multiple="true"
-							checkmark="true" width="150px" height="200px">
+							checkmark="true" width="150px" height="200px" rows="0">
 							<listhead>
 								<listheader label="Data lists" />
 							</listhead>
@@ -67,14 +67,14 @@
 
 						<vbox width="20px" />
 						<listbox id="listData" multiple="true"
-							checkmark="true" width="300px" height="250px">
+							checkmark="true" width="300px" height="250px" rows="0">
 							<listhead>
 								<listheader label="Data class" />
 							</listhead>
 						</listbox>
 						<vbox width="10px" />
 						<listbox id="listFormat" multiple="true"
-							checkmark="true" width="300px" height="250px">
+							checkmark="true" width="300px" height="250px" rows="0">
 							<listhead>
 								<listheader label="File extension" />
 							</listhead>
@@ -111,14 +111,14 @@
 			</hbox>
 			<hbox height="20px" />
 
-			<vbox id="tableGalaxyContent" widths="35%,5%,60%">
+			<hbox widths="35%,5%,60%">
 				<vbox width="100%">
 					<!--  button id="buttonDiscover" label="Discover tools"/ -->
 					<label id="labelMatchedTools"
 						value="Workflows accepting data lists"
 						style="font-size:14px;font-weight:bold;color:gray;" />
-					<listbox id="listTools" width="100%" height="300px"
-						sizedByContent="true">
+					<listbox id="listTools" width="98%" height="300px"
+						vflex="1" sizedByContent="true">
 						<listhead sizable="true">
 							<listheader label="Workflow name"
 								width="150px" sort="auto" />
@@ -177,7 +177,7 @@
 					</vbox>
 
 				</vbox>
-			</vbox>
+			</hbox>
 
 		</vbox>
 
@@ -189,4 +189,5 @@
 		</vbox>
 
 	</window>
+
 </zk>

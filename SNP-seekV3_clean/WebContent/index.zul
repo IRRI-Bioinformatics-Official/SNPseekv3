@@ -11,5 +11,5 @@ window.Boot_progressbox = function (){}
 <?script rel="javascript" type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"?>
 <?link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css"?>
 <zk xmlns:w="http://www.zkoss.org/2005/zk/client">
-      <include self="@define(content)" src="/home.zul"/>
+      <include self="@define(content)" src="/main.zul"/>
 </zk>

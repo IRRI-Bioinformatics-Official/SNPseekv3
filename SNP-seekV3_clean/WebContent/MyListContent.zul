@@ -35,12 +35,7 @@
 
 			}
 
-			.vertical { -moz-transform: rotate(-90deg) translate(0,
-			100%); -moz-transform-origin: 0% 100%; -o-transform:
-			rotate(-90deg) translate(0, 100%); -o-transform-origin: 0%
-			100%; -webkit-transform: rotate(-90deg) translate(0, 100%);
-			-webkit-transform-origin: 0% 100%; transform: rotate(-90deg)
-			translate(0, 100%); transform-origin: 0% 100%;
+			
 
 			writing-mode: bt-rl; filter: flipV flipH;
 
@@ -74,6 +69,14 @@
 			sans-serif; height: 8px; }
 
 		</style>
+		<script>
+			function myFunction() {
+
+			var element =
+			document.getElementById("genotypeSearchSidebar");
+			element.classList.toggle("active"); }
+		</script>
+		
 
 		<window id="myListWin" border="none"
 			apply="user.ui.module.WorkspaceController" width="100%"
@@ -104,19 +107,34 @@ WorkspaceFacade workspace = (WorkspaceFacade)SpringUtil.getBean("WorkspaceFacade
 </zscript>
 
 
-			<n:div id="bodyContent">
+			<n:div id="bodyContent" style="height:890px">
 				<n:div class="wrapper">
 					<!-- Sidebar Holder -->
-					<n:nav id="genotypeSearchSidebar">
+					<n:nav id="genotypeSearchSidebar" style="position:absolute !important; width:550px !important;"
+						tabindex="-1" role="dialog">
 						<n:div class="container">
-
+							<hbox height="20px"/>
 							<n:div class="form-row">
 								<n:div class="col"
-									style="margin-left: 10px;margin-top: 15px;">
+									style="margin-left: 5px;margin-top: 10px;">
+
 									<label value="My List"
 										style="font-size:16px;color:#3b4e36;" />
 								</n:div>
+								<n:div class="col"
+									style="padding-left: 10px;margin-top: 5px;">
+									<n:div class="text-right">
+										<n:button id="closeSidebar"
+											class="btn" visible="true">
+											<n:i class="fas fa-times">
+											</n:i>
+										</n:button>
+									</n:div>
+
+								</n:div>
 							</n:div>
+
+							
 							<n:div class="form-row">
 								<n:div
 									style="width:580px !important;margin-left: 10px;margin-top: 15px;background-color:rgb(164 201 168);padding:10px">
@@ -413,10 +431,39 @@ WorkspaceFacade workspace = (WorkspaceFacade)SpringUtil.getBean("WorkspaceFacade
 					<n:div id="content">
 						<n:div>
 							<n:div class="mainDiv-Sidebar">
-
+								<div id="resultHeader"
+									style="width:100%;background-color:white;display:none;"
+									visible="false">
+								</div>
 								<n:div
 									style="margin-left:50px;margin-top:10px">
+									<n:div class="form-row" style="border-radius: 15px;">
+										<n:div class="col" style="padding: 5px;">
+											<hlayout>
+												<div id="backQueryDiv"
+													style="border-style: solid; width: 120px; padding: 5px; border-radius: 7px; border-color: white ;border-width: 0px; background-color: #5b9867;" class="divBtn">
+													<hbox>
+														<n:i
+															class="fas fa-share-square"
+															style="font-size: 20px; color: white">
+														</n:i>
+														<vbox>
+															<label
+																value="Open Query"
+																style="padding-left:10px;color: white;font-size:12px;" />
+														</vbox>
+													</hbox>
+													
+												</div>
+											</hlayout>
+										</n:div>
+										<n:div
+											style="margin-left:auto;margin-right:0px;padding-left: 10px;margin-top: 5px;">
+											<n:div class="text-right">
+											</n:div>
 
+										</n:div>
+									</n:div>
 									<vbox id="vboxListMembers"
 										visible="false">
 										<label id="labelNItems"

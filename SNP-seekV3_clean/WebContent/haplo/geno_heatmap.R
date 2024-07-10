@@ -28,12 +28,18 @@ start.time <- Sys.time()
 normalize_distance=TRUE
 
 set.seed(1111)
+
+if (!require("ggplot2")) 
+	install.packages("ggplot2",repos = "http://cran.us.r-project.org", dependecies=FALSE)
 library(ggplot2)
 # require(vegan) # for Clinski
 
 #beanstalk
-legendpath="/var/lib/tomcat8/webapps/ROOT/haplo/legend.png"
-plink_root="/IRCstorage/snpseekdata/current/plink/"
+#legendpath="/02_code/legend.png"
+#plink_root="/02_code/plink/"
+legendpath="/var/lib/tomcat9/webapps/v3/haplo/legend.png"
+plink_root="/IRCStorage/iric-portal-files/plink/"
+#plink_root="/IRCStorage/iric-portal-files/plink/"
 
 #popcolumnfactor=1.05
 popcolumnfactor=0.001
@@ -120,8 +126,16 @@ usePackage <- function(p)
 }
 
 
+
+if (require("png")) 
+	install.packages("png")
 library(png)
+
+if (require("methods")) 
+	install.packages("methods")
 library(methods)
+
+
 
 with_sample_ids=FALSE
 stringasf=F  # error in print(h) or ggsave() if set to F  
@@ -209,7 +223,8 @@ SHOW_GENOMIC_SNP_LINES=!GENOMIC_COORD && SHOW_GENE
 
 if(is.na(args[1]) || args[1]=="win") {
 	#windows
-	plink_root="E:/plink_win64/"
+	#plink_root="D:/plink"
+	plink_root="/02_code"
 	pedfilename=paste0(data_root,"/",pedfilename)
 	mapfilename=paste0(data_root,"/",mapfilename)
 	summaryfilename= paste0(data_root,"/",summaryfilename)
@@ -312,6 +327,8 @@ plink_command
 ec = system(plink_command)
 
 ############### Reading BED
+if (!require("MultiPhen")) 
+	install.packages("MultiPhen",dependencies=false, repos = "http://cran.us.r-project.org")
 library("MultiPhen")
 plink_command=paste0("reading ",pedfilename, "out.bed")
 plink_command
