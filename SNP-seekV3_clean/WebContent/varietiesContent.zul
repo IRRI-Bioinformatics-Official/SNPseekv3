@@ -23,29 +23,7 @@
 		<style src="assets/css/sidebar_home.css" />
 		<style src="assets/css/genotypeSearch.css" />
 
-		<style>
-
-			.z-loading { background-color:#808080; border:1px outset
-			#A0A0A0; font-weight: bold; padding:2px;
-
-			cursor: wait; top: 50%; left: 45% !important; align: center;
-			vertical-align: middle;
-
-			position: fixed; margin-left: auto; margin-right: auto;
-			display: block;
-
-
-			} .z-loading-indicator { color: gray; border:0 none;
-
-			width: 100%; height: 100%;
-
-			} .z-loading { top: 50% !important; left: 45% !important;
-			align: center; vertical-align: middle; } .z-loading-icon {
-			background-image: }
-
-
-
-		</style>
+	
 
 
 		<style>
@@ -65,12 +43,65 @@
 			apply="user.ui.module.VarietyQueryController" width="100%"
 			height="100%">
 
-			<n:div id="bodyContent">
+			<hlayout id="layoutResultId" class="text-left"
+				visible="false"
+				style="margin-top:auto; margin-bottom:auto;background-color:rgb(255 255 255) ;     padding: 25px 15px 10px 15px;position:fixed;z-index:9;top:65px;width:100%;">
+
+				<button id="backQueryDiv" iconSclass="z-icon-reorder"
+					tooltiptext="Go to Input"
+					style="width:40px; padding:7px;font-size:16px; background-color:#9fc6a1; color:white;margin-top:-5px;border-radius:80px;" />
+
+				<!-- <label value="RESULT "
+					style="margin-right: 10px;margin-left: 20px;" /> -->
+				<n:div style="padding: 10px !important;"
+					class="card shadow border-start-primary py-2 home_div2">
+					<n:div class="card-body2">
+						<n:div class="row align-items-center no-gutters"
+							style="margin-top: -10px;">
+							<n:div class="col me-2">
+								<n:div>
+									<n:span style="font-size:13px;">
+										VARIETIES:
+										<label id="varietyRsltCnt" />
+									</n:span>
+								</n:div>
+
+							</n:div>
+
+
+
+						</n:div>
+					</n:div>
+				</n:div>
+				<n:div
+					class="card shadow border-start-primary py-2 home_div2"
+					style="padding: 10px !important;">
+					<n:div class="card-body2">
+						<n:div class="row align-items-center no-gutters"
+							style="margin-top: -10px;">
+							<n:div class="col me-2">
+								<n:div>
+									<n:span style="font-size:13px;">
+										SNPs:
+										<label id="snpRsltCnt" />
+									</n:span>
+								</n:div>
+							</n:div>
+
+						</n:div>
+					</n:div>
+				</n:div>
+			</hlayout>
+			
+			
+			<n:div id="bodyContent" style="height:100%">
 				<n:div class="wrapper">
 					<!-- Sidebar Holder -->
-					<n:nav id="genotypeSearchSidebar" tabindex="-1"
+					<n:nav id="genotypeSearchSidebar" style="position:absolute !important; width: 430px !important;  overflow-y: auto;  height: 620px;"
+					tabindex="-1"
 						role="dialog">
 						<n:div class="container">
+							
 							<n:div class="form-row">
 								<n:div class="col"
 									style="margin-left: 10px;margin-top: 15px;">
@@ -78,20 +109,22 @@
 									<label value="Search By Variety"
 										style="font-size:16px;color:#3b4e36;" />
 								</n:div>
-								<n:div class="col"
-									style="padding-left: 10px;margin-top: 5px;">
-									<n:div class="text-right">
-										<n:button id="closeSidebar"
-											class="btn" visible="true">
-											<n:i class="fas fa-times">
-											</n:i>
-										</n:button>
+								<div id="closeDiv">
+									<n:div class="col"
+										style="padding-left: 10px;margin-top: 5px;">
+										<n:div class="text-right">
+											<n:button id="closeSidebar"
+												class="btn" visible="true">
+												<n:i class="fas fa-times">
+												</n:i>
+											</n:button>
+										</n:div>
+	
 									</n:div>
+								</div>
 
 							</n:div>
 
-							</n:div>
-							
 							<n:div class="form-row">
 								<n:div class="col"
 									style="margin-left: 10px;margin-top: 15px;">
@@ -104,7 +137,7 @@
 							</n:div>
 							<n:form style="margin: 10px;">
 								<groupbox id="VarietyGroup" open="true"
-									width="520px" mold="3d">
+									width="400px" mold="3d">
 									<caption label="Variety"
 										style="font-size:13px;background-color:#3a6b35;">
 										<div id="datasetIcon"
@@ -134,17 +167,19 @@
 												class="col offset-xl-0">
 												<div
 													class="form-group">
-													<bandbox
-														id="bandboxVarietyset" autodrop="true" readonly="true"
-														style="font-size:11px; width:255px;">
-														<bandpopup
-															width="200px" class="bandpopupGenotype">
-															<listbox
-																id="listboxDataset" checkmark="true" multiple="true"
-																seltype="multiple">
-															</listbox>
-														</bandpopup>
-													</bandbox>
+													<hbox id="refBox">
+														<bandbox
+															id="bandboxVarietyset" autodrop="true" readonly="true"
+															style="font-size:11px; width:255px;">
+															<bandpopup
+																width="200px" class="bandpopupGenotype">
+																<listbox
+																	id="listboxDataset" checkmark="true" multiple="true"
+																	seltype="multiple">
+																</listbox>
+															</bandpopup>
+														</bandbox>
+													</hbox> 
 												</div>
 											</div>
 										</div>
@@ -344,7 +379,7 @@
 									</n:div>
 								</groupbox>
 								<groupbox id="passportGroup"
-									open="false" width="520px" mold="3d">
+									open="false" width="400px" mold="3d">
 									<caption label="Passport"
 										style="font-size:13px;background-color:#3a6b35;">
 										<div id="passportIcon"
@@ -378,12 +413,12 @@
 														<hbox>
 															<listbox
 																id="listboxPassport" class="z-passport-dropdown"
-																mold="select" rows="1" width="300px" />
+																mold="select" rows="1" style="width:200px !important;" />
 															<label
 																pre="true" value=" = " />
 															<listbox
 																id="listboxPassportValue" class="z-passport-arrow"
-																mold="select" rows="1" />
+																mold="select" rows="1" style="width:150px !important;"/>
 
 														</hbox>
 													</vbox>
@@ -408,7 +443,7 @@
 									</n:div>
 								</groupbox>
 								<groupbox id="phenotypeGroup"
-									open="false" width="520px" mold="3d">
+									open="false" width="400px" mold="3d">
 									<caption label="Phenotype"
 										style="font-size:13px;background-color:#3a6b35;">
 										<div id="phenotypeIcon"
@@ -492,13 +527,13 @@
 															<hbox>
 																<listbox
 																	id="listboxPhenotypes" class="z-phenotype-dropdown"
-																	mold="select" rows="1" width="395px" />
+																	mold="select" rows="1" style="width:200px!important;" />
 																<listbox
 																	id="listboxPhenComparator" class="z-phenotype-check"
 																	mold="select" style="width:75px!important;" rows="1" />
 																<listbox
 																	id="listboxPhenValue" class="z-phenotype-empty"
-																	mold="select" rows="1" style="width:155px!important;" />
+																	mold="select" rows="1" style="width:100px!important;" />
 
 															</hbox>
 														</vbox>
@@ -525,7 +560,7 @@
 									</n:div>
 								</groupbox>
 								<groupbox id="mylistGroup" open="true"
-									width="520px" mold="3d">
+									width="400px" mold="3d">
 									<caption label="My List"
 										style="font-size:13px;background-color:#3a6b35;">
 										<div id="mylistIcon"
@@ -570,7 +605,7 @@
 								<n:br />
 								<n:br />
 								<n:div class="form-row"
-									style="width: 500px;">
+									style="width: 420px;">
 									<n:div class="col">
 
 										<n:div class="text-right">
@@ -602,102 +637,38 @@
 						</n:div>
 
 					</n:nav>
+					<div id="myModal">
+
+						<label value=".." />
+
+					</div>
+					
 					<n:div id="content">
 						<n:div>
-							<div id="resultHeader"
-								style="width:100%;background-color:white;padding:10px 20px 10px 20px;border-radius: 20px; margin-left: 20px; margin-right: 20px;"
-								visible="false">
+							<div>
+							<div id="div_info">
+								<n:div class="row"
+										style="width:90%; margin-left:auto;margin-right:auto;">
+										<n:div
+											style="margin-left:auto; margin-right:0px">
+											<n:div class="card-body"
+												style="height:100%;">
+												<n:img
+													src="assets/img/2.png" />
+											</n:div>
 
-								<n:div class="form-row">
-									<n:div class="col">
-
-										<div id="backQueryDiv"
-											style="border: 4px; border-style: solid; width: 150px; padding: 15px;  border-radius: 25px;  border-color: #55a569; 
-    												margin-left: 20px;cursor:pointer;"
-											class="divBtn">
-											<hlayout>
-												<n:i
-													class="fas fa-share-square"
-													style="font-size: 40px; color: #33a952">
-												</n:i>
-												<vbox>
-													<label
-														value="Back to"
-														style="padding-left:10px;color: #03a103;font-size:14px;" />
-													<label
-														style="padding-left:10px;color: #03a103;font-size:16px;"
-														value="query" />
-												</vbox>
-											</hlayout>
-										</div>
-									</n:div>
-									<n:div
-										style="margin-left:auto;margin-right:0px;padding-left: 10px;margin-top: 5px;">
-										<n:div class="text-right">
-											<div style="width:100%">
-												<hbox align="end">
-													<div
-														style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
-														<hlayout>
-															<n:i
-																class="fas fa-seedling"
-																style="font-size: 40px; color: #33a952">
-															</n:i>
-															<vbox>
-																<label
-																	value="ACCESSION"
-																	style="padding-left:10px;color: #03a103;font-size:14px;" />
-																<label
-																	id="nmAcession"
-																	style="padding-left:10px;color: #03a103;font-size:16px;"
-																	value="0" />
-															</vbox>
-														</hlayout>
-													</div>
-
-													<div
-														style="border: 5px; border-style: solid; border-radius: 10px; padding: 15px 30px 15px 30px;border-color: #55a569;">
-														<hlayout>
-															<n:i
-																class="fas fa-poll-h"
-																style="font-size: 40px; color: #33a952">
-															</n:i>
-															<vbox>
-																<label
-																	value="RESULT"
-																	style="padding-left:10px;color: #03a103;font-size:14px;" />
-																<label
-																	id="nmResult" value="0"
-																	style="padding-left:10px;color: #03a103;font-size:16px;" />
-															</vbox>
-														</hlayout>
-													</div>
-												</hbox>
-											</div>
 										</n:div>
-
 									</n:div>
-								</n:div>
-
 							</div>
 							<div id="resultContentDiv" visible="false"
-								style="margin-left:20px;margin-top:10px;margin-bottom:20px;height:100%;width:100%;">
+								style="margin-top:10px;margin-bottom:20px;height:100%;width:100%;">
 
 								<goldenlayout id="resultGoldenLayout"
 									height="1300px" hflex="1"
 									style="margin-top: 10px;border:0px;">
 									<attribute name="areas">
-										A A A A B B B 
-										A A A A B B B 
-										A A A A B B B 
-										A A A A B B B 
-										A A A A B B B 
-										A A A A B B B 
-										C C C D D D D 
-										C C C D D D D 
-										C C C D D D D 
-										C C C D D D D 
-										C C C D D D D
+										A A B
+										C C D
 									</attribute>
 									<goldenpanel area="B" title="Data"
 										closable="false" style="height:750px;" popup="true">
@@ -766,7 +737,7 @@
 											</rows>
 										</grid>
 									</goldenpanel>
-									<goldenpanel area="A"
+									<goldenpanel area="C"
 										title="Passport" closable="false" popup="true">
 
 										<vbox>
@@ -821,7 +792,7 @@
 
 
 									</goldenpanel>
-									<goldenpanel area="C"
+									<goldenpanel area="D"
 										title="MDS Plot" closable="false" style="height:750px;"
 										popup="true">
 
@@ -838,7 +809,7 @@
 										</div>
 									</goldenpanel>
 
-									<goldenpanel area="D"
+									<goldenpanel area="C"
 										title="Phenotype" closable="false" popup="true">
 
 										<a target="_blank"
@@ -858,13 +829,90 @@
 											</listhead>
 										</listbox>
 									</goldenpanel>
-
-									<goldenpanel area="D"
+									<goldenpanel area="A"
 										title="Table Result" closable="false" popup="true">
+										<div>
+											<!-- <hbox id="hboxAddtolist" visible="true">
+												<label value="Download:  " pre="true" />
+												<button id="buttonDownloadCSV"
+													label="CSV" />
+												<hbox width="5px" />
+												<button id="buttonDownloadTab"
+													label="Tab" />
+												<hbox width="25px" />
+												<button id="buttonAddToList"
+													label="Create List:" autodisable="self"
+													tooltip="popupCreateList" />
+												<label value="   List Name  "
+													pre="true" />
+												<textbox id="txtboxListname"
+													width="200px" />
+											</hbox>
+											 -->
+											<hlayout id="hboxAddtolist" style="background:#e9ecef; padding-bottom:10px;">
+													<menubar
+														id="menubar_dwnloadTbResult" width="100%"
+														style="background:#e9ecef;order-top: 0px solid; border-bottom: 0px solid">
+											<menu label="Download"
+												id="menu_dwnloadTbResult"
+												style="background:#e9ecef;color: black !important;"
+												class="menu_style">
+												<menupopup
+													style="background: #e9ecef !important;color: black !important;"
+													class="menupopup_style">
+													<menuitem
+														label="CSV" iconSclass="z-icon-file-o"
+														class="menuitem_style" />
+													<menuitem
+														label="Tab" iconSclass="z-icon-file-o"
+														class="menuitem_style" />
+													<menuitem
+														label="PLINK" iconSclass="z-icon-file-o"
+														class="menuitem_style" />
+													<menuitem
+														label="Flapjack" iconSclass="z-icon-file-o"
+														class="menuitem_style" />
+												</menupopup>
+											</menu>
+										</menubar>
+										<button id="buttonAddToList"
+													label="Create List:" autodisable="self"
+													tooltip="popupCreateList" />
+												<label value="   List Name  "
+													pre="true" />
+												<textbox id="txtboxListname"
+													width="200px" />
+										</hlayout>
+				
+				
+											<hbox visible="false">
+												<button id="buttonCheckAll"
+													label="Check All" />
+												<vbox width="20px" />
+												<button id="buttonUncheckAll"
+													label="Uncheck All" />
+												<vbox width="20px" />
+											</hbox>
+				
+				
+											<listbox id="listboxVarietyresult"
+												mold="paging"
+												pageSize="100" visible="true">
+												<listhead>
+													<listheader sort="auto"></listheader>
+													<listheader sort="auto"></listheader>
+													<listheader sort="auto"></listheader>
+													<listheader sort="auto"></listheader>
+													<listheader sort="auto"></listheader>
+												</listhead>
+											</listbox>
+										</div>
 									</goldenpanel>
+
+									
 								</goldenlayout>
 							</div>
-
+							</div>
 						</n:div>
 
 					</n:div>

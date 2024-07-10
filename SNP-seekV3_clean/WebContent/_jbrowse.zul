@@ -6,9 +6,8 @@
 window.Boot_progressbox = function (){}
 ]]>?>
 
-<?init class="org.zkoss.zk.ui.util.Composition"
-        arg0="/template.zul"?>
 <zk>
-      <include self="@define(content)" src="_jbrowseiframe.zul${paramstr}"/>
-    
+	<include self="@define(content)"
+		src="_jbrowseiframe.zul${paramstr}" />
+
 </zk>
