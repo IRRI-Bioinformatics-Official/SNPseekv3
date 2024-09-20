@@ -64,6 +64,7 @@
 			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.12.757</version>
 		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-emr -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>
@@ -100,7 +101,7 @@
 		<dependency>
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client-servlet</artifactId>
-			<version>1.31.0</version>
+			<version>1.36.0</version>
 
 		</dependency>
 
@@ -220,6 +221,19 @@
 				<exclusion>
 					<groupId>org.apache.xmlbeans</groupId>
 					<artifactId>xmlbeans</artifactId>
+				</exclusion>
+				<!-- <exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+				-->
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis-ext</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>batik-all</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -361,6 +375,10 @@
 				<exclusion>
 					<groupId>javax.xml.bind</groupId>
 					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.ws.rs</groupId>
+					<artifactId>jsr311-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -543,11 +561,11 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
 				</exclusion>
-				<exclusion>
+				<!-- <exclusion>
 					<groupId>xml-apis</groupId>
 					<artifactId>xml-apis</artifactId>
 				</exclusion>
-
+				-->
 				<exclusion>
 					<groupId>javax.xml.bind</groupId>
 					<artifactId>jaxb-api</artifactId>
@@ -641,12 +659,20 @@
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-xml</artifactId>
 				</exclusion>
+				<!--<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+				
+
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>-->
 				<exclusion>
 					<groupId>xml-apis</groupId>
 					<artifactId>xml-apis</artifactId>
 				</exclusion>
-
-
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -709,7 +735,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
-			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
 		<!-- <dependency> <groupId>javax.ws.rs</groupId>
@@ -930,10 +955,10 @@
 			<artifactId>commons-digester</artifactId>
 			<version>1.7</version>
 			<exclusions>
-				<exclusion>
+				<!--<exclusion>
 					<groupId>xml-apis</groupId>
 					<artifactId>xml-apis</artifactId>
-				</exclusion>
+				</exclusion>-->
 				<exclusion>
 					<groupId>commons-beanutils</groupId>
 					<artifactId>commons-beanutils</artifactId>
@@ -942,11 +967,15 @@
 					<groupId>commons-collections</groupId>
 					<artifactId>commons-collections</artifactId>
 				</exclusion>
+				<!--<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+				-->
 				<exclusion>
 					<groupId>xml-apis</groupId>
 					<artifactId>xml-apis</artifactId>
 				</exclusion>
-
 			</exclusions>
 
 
@@ -1062,11 +1091,6 @@
 			</exclusions>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/xml-apis/xml-apis -->
-		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-			<version>1.4.01</version>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/opensymphony/sitemesh -->
 		<dependency>

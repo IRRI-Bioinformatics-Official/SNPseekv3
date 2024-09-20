@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import org.irri.iric.ds.chado.domain.Locus;
 import org.irri.iric.ds.chado.domain.LocusPromoter;
 import org.irri.iric.ds.chado.domain.MarkerAnnotation;
+import org.irri.iric.ds.chado.domain.MergedLoci;
 import org.irri.iric.ds.chado.domain.Position;
 import org.irri.iric.ds.chado.domain.SnpsAllvarsPos;
 import org.irri.iric.ds.chado.domain.Variety;
@@ -27,11 +28,9 @@ import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImpl;
 import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImplAllelePvalue;
 import org.irri.iric.ds.chado.domain.impl.PositionLogPvalueImpl;
 import org.irri.iric.ds.chado.domain.impl.VarietyPlusPlusImpl;
-import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.portal.AppContext;
 import org.irri.iric.portal.User;
 import org.irri.iric.portal.admin.WorkspaceFacade;
-import org.irri.iric.portal.domain.MergedLoci;
 import org.irri.iric.portal.genomics.GenomicsFacade;
 import org.irri.iric.portal.genomics.service.GenomicsFacadeImpl;
 import org.irri.iric.portal.genomics.zkui.MarkerAnnotationSorter;
@@ -79,6 +78,7 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Intbox;
@@ -312,7 +312,13 @@ public class GwasDisplayController extends SelectorComposer<Window> {
 	private Checkbox checkboxIncludeQTL;
 	@Wire
 	private Button buttonUpdateAnnotations;
+	@Wire
+	private Div div_info;
 
+	@Wire
+	private Hlayout layoutResultId;
+	@Wire
+	private Div myModal;
 	@Wire
 	private Listbox listboxChromosome;
 	@Wire
@@ -352,6 +358,8 @@ public class GwasDisplayController extends SelectorComposer<Window> {
 
 	private User user;
 
+	private boolean searchMenu;
+
 	public GwasDisplayController() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -381,6 +389,8 @@ public class GwasDisplayController extends SelectorComposer<Window> {
 		sess = Sessions.getCurrent();
 		user = (User) sess.getAttribute(SessionConstants.USER_CREDENTIAL);
 
+		searchMenu = true;
+		
 		if (user == null) {
 //			Execution exec = Executions.getCurrent();
 //		    HttpServletResponse response = (HttpServletResponse)exec.getNativeResponse();
@@ -457,7 +467,14 @@ public class GwasDisplayController extends SelectorComposer<Window> {
 		listboxTrait.setSelectedIndex(0);
 	}
 
-	@Listen("onSelect =#listboxTrait")
+	
+	@Listen("onClick=#searchButton")
+	public void onClickSearch() {
+		onselectTrait();
+	}
+	
+	
+	
 	public void onselectTrait() {
 		if (listboxTrait.getSelectedIndex() == 0) {
 			// this.initDispayManhattan();
@@ -469,6 +486,40 @@ public class GwasDisplayController extends SelectorComposer<Window> {
 		
 		Clients.evalJavaScript("myFunction();");
 		resultContentDiv.setVisible(true);
+		div_info.setVisible(false);
+		
+		flipSearchBar();
+		
+	}
+	
+	@Listen("onClick=#backQueryDiv")
+	public void onClick$backQueryDiv() {
+		Clients.evalJavaScript("myFunction();");
+		flipSearchBar();
+	}
+	
+	private void flipSearchBar() {
+
+		// AppContext.setSidebar(false);
+
+		if (searchMenu) {
+			myModal.setClass("unmodal");
+			searchMenu = false;
+			layoutResultId.setVisible(true);
+
+		} else {
+			myModal.setClass("modal");
+			searchMenu = true;
+			layoutResultId.setVisible(false);
+		}
+
+	}
+	
+	@Listen("onClick=#closeDiv")
+	public void closeDiv() {
+		Clients.evalJavaScript("myFunction();");
+		flipSearchBar();
+
 	}
 
 	@Listen("onSelect =#comboboxMinlogP")

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,12 +35,15 @@ public class HaplotypeImageRHeatmapServiceImpl implements HaplotypeImageService 
 			boolean genomic_coords, double resolution, double local_weight, int kgroup, double kheight,
 			String autogroup, String imagesize) {
 
+		//
+
+		destdir = AppContext.getFlatfilesDir() + "temp/";
+
 		boolean success = false;
 		try {
 
 			BufferedWriter bwlog = new BufferedWriter(new FileWriter(destdir + pedfile + ".cmds.log"));
 
-			
 			String system = "linux";
 			if (AppContext.isWindows())
 				system = "win";
@@ -111,26 +115,72 @@ public class HaplotypeImageRHeatmapServiceImpl implements HaplotypeImageService 
 //					+ kheight + " " + autogroup + " " + imagesize + imagesize;
 
 			// END DOCKER LINUX
+
+			// DOCKER AWS
+//			String[] argarr = (String[]) ArrayUtils
+//					.addAll(new String[] { "docker", "exec", "rsnpseek", "Rscript",  "--verbose", "/usr/local/src/geno_heatmap.R", system,
+//							format, fileDest.getAbsolutePath(), pedfile, mapfile, summaryfile, strGenomicCoord,
+//							strDisplayGene, genefilename, Double.toString(resolution), Double.toString(local_weight),
+//							Integer.toString(kgroup), Double.toString(kheight), autogroup, imagesize + imagesize });
+//			
+//			String cmdline = fileR.getAbsolutePath() + " --verbose " + fileScript.getAbsolutePath() + " " + system + " "
+//					+ format + " " + fileDest.getAbsolutePath() + " " + pedfile + " " + mapfile + " " + summaryfile
+//					+ " " + strGenomicCoord + " " + strDisplayGene + " " + genefilename + " " + resolution + " "
+//					+ local_weight + " " + kgroup + " " + kheight + " " + autogroup + " " + imagesize + imagesize;
+			// END DOCKER AWS
+
+			List<String> command = new ArrayList<>();
+
+			if (AppContext.isDockerize()) {
+				command.add("docker");
+				command.add("exec");
+				command.add("rsnpseek");
+			}
 			
+			command.add(fileR.getPath());
+			command.add("--verbose");
+			command.add(fileScript.getAbsolutePath());
+			command.add(system);
+			command.add(format);
+			command.add(fileDest.getAbsolutePath());
+			command.add(pedfile);
+			command.add(mapfile);
+			command.add(summaryfile);
+			command.add(strGenomicCoord);
+			command.add(strDisplayGene);
+			command.add(genefilename);
+			command.add(Double.toString(resolution));
+			command.add(Double.toString(local_weight));
+			command.add(Integer.toString(kgroup));
+			command.add(Double.toString(kheight));
+			command.add(autogroup);
+			command.add(imagesize + imagesize);
+
+			command.forEach(element -> System.out.println(element));
 			// NOT DOCKER VERSION
-			String[] argarr = (String[]) ArrayUtils
-					.addAll(new String[] { fileR.getAbsolutePath(), "--verbose", fileScript.getAbsolutePath(), system,
-							format, fileDest.getAbsolutePath(), pedfile, mapfile, summaryfile, strGenomicCoord,
-							strDisplayGene, genefilename, Double.toString(resolution), Double.toString(local_weight),
-							Integer.toString(kgroup), Double.toString(kheight), autogroup, imagesize + imagesize });
-			String cmdline = fileR.getAbsolutePath() + " --verbose " + fileScript.getAbsolutePath() + " " + system + " "
+//			String[] argarr = (String[]) ArrayUtils
+//					.addAll(new String[] { fileR.getAbsolutePath(), "--verbose", fileScript.getAbsolutePath(), system,
+//							format, fileDest.getAbsolutePath(), pedfile, mapfile, summaryfile, strGenomicCoord,
+//							strDisplayGene, genefilename, Double.toString(resolution), Double.toString(local_weight),
+//							Integer.toString(kgroup), Double.toString(kheight), autogroup, imagesize + imagesize });
+
+			String cmdline = fileR.getPath() + " --verbose " + fileScript.getAbsolutePath() + " " + system + " "
 					+ format + " " + fileDest.getAbsolutePath() + " " + pedfile + " " + mapfile + " " + summaryfile
 					+ " " + strGenomicCoord + " " + strDisplayGene + " " + genefilename + " " + resolution + " "
 					+ local_weight + " " + kgroup + " " + kheight + " " + autogroup + " " + imagesize + imagesize;
-			
+//			
 			// NOT DOCKER VERSION
 
 			bwlog.append("executing: " + cmdline);
 			AppContext.debug("executing: " + cmdline);
 
-			AppContext.debug("executing ArgArr: " + argarr);
+//			AppContext.debug("executing ArgArr: " + argarr);
+//
+//			ProcessBuilder pbvcf = new ProcessBuilder(argarr);
 
-			ProcessBuilder pbvcf = new ProcessBuilder(argarr);
+			AppContext.debug("executing ArgArr: " + command);
+
+			ProcessBuilder pbvcf = new ProcessBuilder(command);
 			// ProcessBuilder pbvcf = new ProcessBuilder(cmdline);
 			pbvcf.directory(new File(destdir));
 			pbvcf.redirectOutput(Redirect.to(new File(destdir + pedfile + ".stdout.log")));

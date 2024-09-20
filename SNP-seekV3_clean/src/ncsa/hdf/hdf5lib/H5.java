@@ -342,10 +342,55 @@ public class H5 implements java.io.Serializable {
 		// else load static!
 		
 		if (!isLibraryLoaded) {
+			try {
+				String libpath = "lib";
+
+				if (AppContext.isWindows())
+					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+				else
+					System.load(AppContext.getFlatfilesDir() + libpath + "/hdfview/libjhdf5.so");
+				isLibraryLoaded = true;
+				AppContext.debug(
+						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
+
+			} catch (UnsatisfiedLinkError e) {
+				System.err.println("Native code library failed to load.\n" + e);
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		
+		if (!isLibraryLoaded) {
+			try {
+				String libpath = "lib";
+
+				if (AppContext.isWindows())
+					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+				else
+					System.load(AppContext.getFlatfilesDir() + libpath + "/amd64-Linux/libjhdf5.so");
+				isLibraryLoaded = true;
+				AppContext.debug(
+						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
+
+			} catch (UnsatisfiedLinkError e) {
+				System.err.println("Native code library failed to load.\n" + e);
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		if (!isLibraryLoaded) {
 
 			try {
 				String libpath = "/Applications/HDF-JAVA.app/Contents/Resources/lib";
-				
+
 				System.load(libpath + "/libjhdf5.2.10.0.dylib");
 				isLibraryLoaded = true;
 				AppContext.debug(
@@ -361,7 +406,7 @@ public class H5 implements java.io.Serializable {
 			}
 
 		}
-		
+
 		if (!isLibraryLoaded) {
 
 			try {
@@ -386,6 +431,26 @@ public class H5 implements java.io.Serializable {
 
 		}
 
+		if (!isLibraryLoaded) {
+
+			try {
+				String libpath = "/usr/local/tomcat/webapps/temp/lib";
+
+				System.load(libpath + "/libhdf5.so.310.4.0");
+				isLibraryLoaded = true;
+				AppContext.debug(
+						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
+
+			} catch (UnsatisfiedLinkError e) {
+				System.err.println("Native code library failed to load.\n" + e);
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			}
+
+		}
 
 		if (!isLibraryLoaded) {
 
@@ -413,14 +478,31 @@ public class H5 implements java.io.Serializable {
 
 		if (!isLibraryLoaded) {
 			try {
-				String libpath = "lib-prod";
-				if (AppContext.isDev())
-					libpath = "lib-dev";
+				String libpath = "lib";
 
 				if (AppContext.isWindows())
 					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
 				else
-					System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
+					System.load(AppContext.getFlatfilesDir() + libpath + "/arm-Linux/libjhdf5.so");
+				isLibraryLoaded = true;
+				AppContext.debug(
+						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
+
+			} catch (UnsatisfiedLinkError e) {
+				System.err.println("Native code library failed to load.\n" + e);
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		if (!isLibraryLoaded) {
+			try {
+				String libpath = "lib";
+
+				System.load(AppContext.getFlatfilesDir() + libpath + "/aarch64-MacOSX/libjhdf5.jnilib");
 				isLibraryLoaded = true;
 				AppContext.debug(
 						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
@@ -470,78 +552,6 @@ public class H5 implements java.io.Serializable {
 
 				System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.dylib");
 
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib-prod2";
-				if (AppContext.isDev())
-					libpath = "lib-dev2";
-
-				if (AppContext.isWindows())
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				else
-					System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib-prod3";
-				if (AppContext.isDev())
-					libpath = "lib-dev2";
-
-				if (AppContext.isWindows())
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				else
-					System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib-prod4";
-				if (AppContext.isDev())
-					libpath = "lib-dev2";
-
-				if (AppContext.isWindows())
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				else
-					System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
 				isLibraryLoaded = true;
 				AppContext.debug(
 						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);

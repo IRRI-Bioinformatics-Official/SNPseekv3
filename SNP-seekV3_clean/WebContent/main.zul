@@ -31,7 +31,7 @@
 			<n:body>
 				<div id="container" sclass="vertical">
 					<navbar id="navbar" orient="vertical"
-						style="height: 100% !important;padding-top:80px;background:#ededed;margin: 0px 0;"
+						style="padding-top:80px;background:#ededed;margin: 0px 0;"
 						collapsed="false">
 						<navitem id="collapseId" label="Collapse"
 							iconSclass="z-icon-th-large"

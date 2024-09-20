@@ -22,6 +22,7 @@ public class WebserverPropertyConstants {
 
 	public static final String EMBEDDED_SERVER = "embeddedDir";
 	
+	
 	// 
 	
 	public static final String SHOW_GENOTYPE_SNP_EFFECT = "showGenotypeSnpEffect";

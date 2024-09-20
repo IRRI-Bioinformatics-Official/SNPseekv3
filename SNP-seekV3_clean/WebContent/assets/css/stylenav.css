@@ -14,7 +14,7 @@
 
 .z-navbar-vertical {
 	width: 240px;
-	height: 300px;
+	height: 100%;
 }
 
 .z-navbar-vertical.z-navbar-collapsed {

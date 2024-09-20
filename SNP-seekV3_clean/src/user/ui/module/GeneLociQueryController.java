@@ -17,14 +17,14 @@ import org.irri.iric.ds.chado.domain.LocalAlignment;
 import org.irri.iric.ds.chado.domain.Locus;
 import org.irri.iric.ds.chado.domain.LocusPromoter;
 import org.irri.iric.ds.chado.domain.MarkerAnnotation;
+import org.irri.iric.ds.chado.domain.MergedLoci;
 import org.irri.iric.ds.chado.domain.impl.LocalAlignmentImpl;
+import org.irri.iric.ds.chado.domain.model.VLocusNotes;
 import org.irri.iric.ds.chado.domain.object.WebsiteQuery;
 import org.irri.iric.ds.utils.TextSearchOptions;
 import org.irri.iric.portal.AppContext;
 import org.irri.iric.portal.admin.WorkspaceFacade;
-import org.irri.iric.portal.chado.oracle.domain.VLocusNotes;
 import org.irri.iric.portal.dao.ListItemsDAO;
-import org.irri.iric.portal.domain.MergedLoci;
 import org.irri.iric.portal.genomics.GenomicsFacade;
 import org.irri.iric.portal.genomics.service.GenomicsFacadeImpl;
 import org.irri.iric.portal.genomics.zkui.BlastResultListitemRenderer;
@@ -582,6 +582,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 		
 	}
 
+	
 	private void initResults() {
 
 		locus_Result.setVisible(false);

@@ -60,51 +60,93 @@
 
 	<window border="none"
 		apply="user.ui.module.GwasDisplayController">
-		<n:div id="bodyContent" style="height:890px">
+
+		<hlayout id="layoutResultId" class="text-left" visible="false"
+			style="margin-top:auto; margin-bottom:auto;background-color:rgb(255 255 255) ;     padding: 25px 15px 10px 15px;position:fixed;z-index:9;top:65px;width:100%;">
+
+			<button id="backQueryDiv" iconSclass="z-icon-reorder"
+				tooltiptext="Go to Input"
+				style="width:40px; padding:7px;font-size:16px; background-color:#9fc6a1; color:white;margin-top:-5px;border-radius:80px;" />
+
+			<!-- <label value="RESULT "
+				style="margin-right: 10px;margin-left: 20px;" /> -->
+			<n:div style="padding: 10px !important;"
+				class="card shadow border-start-primary py-2 home_div2">
+				<n:div class="card-body2">
+					<n:div class="row align-items-center no-gutters"
+						style="margin-top: -10px;">
+						<n:div class="col me-2">
+							<n:div>
+								<n:span style="font-size:13px;">
+									VARIETIES:
+									<label id="varietyRsltCnt" />
+								</n:span>
+							</n:div>
+
+						</n:div>
+
+
+
+					</n:div>
+				</n:div>
+			</n:div>
+			<n:div
+				class="card shadow border-start-primary py-2 home_div2"
+				style="padding: 10px !important;">
+				<n:div class="card-body2">
+					<n:div class="row align-items-center no-gutters"
+						style="margin-top: -10px;">
+						<n:div class="col me-2">
+							<n:div>
+								<n:span style="font-size:13px;">
+									SNPs:
+									<label id="snpRsltCnt" />
+								</n:span>
+							</n:div>
+						</n:div>
+
+					</n:div>
+				</n:div>
+			</n:div>
+		</hlayout>
+		<n:div id="bodyContent" style="height:100%">
 			<n:div class="wrapper">
 				<n:nav id="genotypeSearchSidebar"
-					style="position:absolute !important; width: 590px !important;  overflow-y: auto;  height: 620px;"
+					style="position:absolute !important; width: 450px !important;  overflow-y: auto;  height: 100%;"
 					tabindex="-1" role="dialog">
 					<n:div class="container">
 						<n:div class="form-row">
 							<n:div class="col"
 								style="margin-left: 10px;margin-top: 15px;">
 
-								<label value="Search By Variety"
+								<label value="GWAS Results and tools"
 									style="font-size:16px;color:#3b4e36;" />
 							</n:div>
-							<n:div class="col"
-								style="padding-left: 10px;margin-top: 5px;">
-								<n:div class="text-right">
-									<n:button id="closeSidebar"
-										class="btn" visible="true">
-										<n:i class="fas fa-times"></n:i>
-									</n:button>
+							<div id="closeDiv">
+								<n:div class="col"
+									style="padding-left: 10px;margin-top: 5px;">
+									<n:div class="text-right">
+										<n:button id="closeSidebar"
+											class="btn" visible="true">
+											<n:i class="fas fa-times">
+											</n:i>
+										</n:button>
+									</n:div>
+
 								</n:div>
-
-							</n:div>
-
-						</n:div>
-
-						<n:div class="form-row">
-							<n:div class="col"
-								style="margin-left: 10px;margin-top: 15px;">
-
-								<textbox id="msgbox" readonly="true"
-									value="${msg}" width="100%" multiline="true"
-									style="word-wrap: break-word;word-break: break-all;height: 40px;font-size:11px!important;" />
-							</n:div>
+							</div>
 
 						</n:div>
+
 						<n:form style="margin: 10px;">
 							<groupbox id="gwasResults" open="true"
-								closable="false" width="520px" mold="3d">
+								closable="false" width="420px" mold="3d">
 								<caption label="Stored GWAS Results"
 									style="font-size:13px;background-color:#3a6b35;">
 								</caption>
 								<n:div style="width:500px;">
 									<n:div class="form-row"
-										style="width: 500px;">
+										style="width: 500px;margin-bottom:10px;">
 										<n:div style="width:150px">
 											<n:div class="form-group">
 												<label
@@ -118,8 +160,8 @@
 										</n:div>
 									</n:div>
 									<n:div class="form-row"
-										style="width: 500px;">
-										<n:div style="width:150px">
+										style="width: 500px;margin-bottom:10px;">
+										<n:div style="width:150px; ">
 											<n:div class="form-group">
 											</n:div>
 										</n:div>
@@ -134,7 +176,7 @@
 										</n:div>
 									</n:div>
 									<n:div class="form-row"
-										style="width: 500px;">
+										style="width: 500px;margin-bottom:10px;">
 										<n:div style="width:150px">
 											<n:div class="form-group">
 												<label
@@ -149,18 +191,17 @@
 									</n:div>
 								</n:div>
 							</groupbox>
-
+							
 							<!-- <n:hr style="width: 500px;" />  -->
-							<groupbox open="true" width="520px"
+							<groupbox open="true" width="420px"
 								mold="3d" closable="false">
 								<caption
 									label="SNPs and Variety GWAS Lists: "
 									style="font-size:8px;background-color:#3a6b35;">
 								</caption>
 								<n:div style="width:500px;">
-
 									<n:div class="form-row"
-										style="width: 500px;">
+										style="width: 500px;margin-bottom:10px;">
 										<n:div style="width:150px">
 											<n:div class="form-group">
 												<label
@@ -175,7 +216,7 @@
 									</n:div>
 
 									<n:div class="form-row"
-										style="width: 500px;">
+										style="width: 500px;margin-bottom:10px;">
 										<n:div style="width:150px">
 											<n:div class="form-group">
 												<label
@@ -193,17 +234,20 @@
 							</groupbox>
 
 
-							<groupbox open="true" width="520px"
+							<groupbox open="true" width="420px"
 								mold="3d" closable="false">
 								<caption label="Options"
 									style="font-size:11px;background-color:#3a6b35;color:#ffffff;">
 								</caption>
 								<n:div style="width:500px;">
-									<n:div style="width:150px">
-										<n:div class="form-group">
-											<label
-												value="Display minimum -log10 P   " pre="true" />
+									<n:div class="form-row"
+										style="width: 500px;margin-bottom:10px;">
+										<n:div style="width:150px">
+											<n:div class="form-group">
+												<label
+													value="Display minimum -log10 P" pre="true" />
 
+											</n:div>
 										</n:div>
 										<n:div class="col">
 											<listbox
@@ -229,39 +273,52 @@
 											</listbox>
 
 										</n:div>
+									</n:div>
+								</n:div>
+								<n:div class="form-row"
+									style="width: 500px;margin-bottom:10px;">
+									<n:div style="width:150px">
 										<n:div class="form-group">
 											<label
-												value="Show chromosome " pre="true" />
+												value="Show chromosome" pre="true" />
 
+										</n:div>
+									</n:div>
+
+									<n:div class="col">
+										<listbox id="listboxChromosome"
+											width="100px" mold="select">
+											<listitem label="all"
+												selected="true" />
+											<listitem label="chr01" />
+											<listitem label="chr02" />
+											<listitem label="chr03" />
+											<listitem label="chr04" />
+											<listitem label="chr05" />
+											<listitem label="chr06" />
+											<listitem label="chr07" />
+											<listitem label="chr08" />
+											<listitem label="chr09" />
+											<listitem label="chr10" />
+											<listitem label="chr11" />
+											<listitem label="chr12" />
+										</listbox>
+
+									</n:div>
+
+									<n:div class="form-row"
+										style="width: 500px;margin-bottom:10px;">
+										<n:div style="width:150px">
+											<n:div class="form-group">
+
+											</n:div>
 										</n:div>
 										<n:div class="col">
-											<listbox
-												id="listboxChromosome" width="100px" mold="select">
-												<listitem label="all"
-													selected="true" />
-												<listitem label="chr01" />
-												<listitem label="chr02" />
-												<listitem label="chr03" />
-												<listitem label="chr04" />
-												<listitem label="chr05" />
-												<listitem label="chr06" />
-												<listitem label="chr07" />
-												<listitem label="chr08" />
-												<listitem label="chr09" />
-												<listitem label="chr10" />
-												<listitem label="chr11" />
-												<listitem label="chr12" />
-											</listbox>
-
-										</n:div>
-										<n:div class="form-group">
-
-										</n:div>
-										<n:div class="col">
-											<label
-												value="Show JBrowse   " pre="true" />
 											<checkbox
 												id="checkboxJbrowse" checked="false" />
+											<label
+												value="Show JBrowse   " pre="true" />
+											
 
 										</n:div>
 									</n:div>
@@ -269,7 +326,28 @@
 								</n:div>
 
 							</groupbox>
+							<n:br />
+								<n:br />
+								<n:div id="buttonBox" class="form-row"
+									style="width: 430px;">
+									<n:div class="col">
 
+										<n:div class="text-right">
+											<button id="searchButton"
+												label="Search" style="font-size:11px;" />
+
+										</n:div>
+									</n:div>
+									<n:div class="col">
+										<n:div class="text-left">
+											<button label="Reset"
+												onClick="" style="font-size:11px;" />
+										</n:div>
+
+									</n:div>
+
+								</n:div>
+							
 
 
 
@@ -277,8 +355,28 @@
 					</n:div>
 
 				</n:nav>
-			</n:div>
+			
+			<div id="myModal">
+
+						<label value=".." />
+
+					</div>
+			
 			<n:div id="content">
+				<div id="div_info">
+					<n:div class="row"
+						style="width:20px; margin-left:480px;margin-right:auto;">
+						<n:div
+							style="margin-left:auto; margin-right:0px">
+							<n:div class="card-body2"
+								style="height:100%;">
+								<n:img src="assets/img/main1.png" />
+							</n:div>
+
+						</n:div>
+					</n:div>
+				</div>
+
 				<div id="resultContentDiv" visible="false"
 					style="margin-top:10px;margin-bottom:20px;height:100%;width:100%;">
 					<goldenlayout id="resultGoldenLayout"
@@ -699,7 +797,7 @@
 						</goldenpanel>
 
 					</goldenlayout>
-
+					
 
 
 					<popup id="popupCreateList" width="300px">
@@ -707,6 +805,15 @@
 					</popup>
 					<popup id="popupCreateListGenes" width="300px">
 						<html>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -741,10 +848,20 @@
 							
 							
 							
+							
+							
+							
+							
+							
+							
+							
+							
+							
 						</html>
 					</popup>
 
 				</div>
+				</n:div>
 			</n:div>
 		</n:div>
 	</window>

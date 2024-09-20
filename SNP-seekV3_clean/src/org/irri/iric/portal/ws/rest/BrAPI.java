@@ -889,7 +889,7 @@ public class BrAPI {
 		germ.put("defaultDisplayName", var.getName());
 		germ.put("germplasmName", var.getName());
 		germ.put("accessionNumber", var.getAccession());
-		germ.put("germplasmPUI", "https://snp-seek.irri.org/_variety.zul?irisid="
+		germ.put("germplasmPUI", "https://snpseekv3.irri-e-extension.com/_variety.zul?irisid="
 				+ var.getIrisId().toLowerCase().replace("iris", "").trim());
 		germ.put("commonCropName", "rice");
 

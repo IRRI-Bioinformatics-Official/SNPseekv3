@@ -204,13 +204,13 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	private Window genWin;
 	@Wire
 	private Menuitem menuitem_downloadCSV;
-	
+
 	@Wire
 	private Menuitem menuitem_downloadTab;
-	
+
 	@Wire
 	private Menuitem menuitem_downloadPlink;
-	
+
 	@Wire
 	private Menuitem menuitem_downloadFlapjack;
 
@@ -858,6 +858,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
+		varietyfacade = (VarietyFacade) AppContext.checkBean(varietyfacade, "VarietyFacade");
 
 		closeDiv.setVisible(false);
 		lst_organism = new ArrayList();
@@ -880,10 +881,12 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		gridBiglistheader.setModel(new SimpleListModel(new ArrayList()));
 
+		setPhenotypeList();
+
 		initFrom();
 
 		iframeJbrowse
-				.setSrc("https://snp-seek.irri.org/jbrowse/?loc=chr01%3A2901..10815&tracks=DNA%2Cmsu7gff&highlight=");
+				.setSrc("https://snpseekv3.irri-e-extension.com/jbrowse/?loc=chr01%3A2901..10815&tracks=DNA%2Cmsu7gff&highlight=");
 		System.out.println("setting div");
 //		if (sc != null) {
 //
@@ -920,9 +923,29 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	}
 
+	private void setPhenotypeList() {
+
+		Set<String> setPhenotype = new HashSet();
+		setPhenotype = varietyfacade.getPhenotypeDefinitions(AppContext.getDefaultDataset()).keySet();
+		TreeSet<String> ts = new TreeSet<String>();
+		for (String phen : setPhenotype) {
+			ts.add(phen.toLowerCase());
+		}
+
+		java.util.List listPhenotype = new java.util.ArrayList();
+		listPhenotype.add("");
+		listPhenotype.add("Create phenotype list...");
+		listPhenotype.addAll(workspace.getVarietyQuantPhenotypelistNames("3k"));
+		listPhenotype.addAll(workspace.getVarietyCatPhenotypelistNames("3k"));
+		listPhenotype.addAll(ts);
+
+		listboxPhenotype.setModel(new SimpleListModel(listPhenotype));
+
+	}
+
 	private void flipSearchBar() {
 
-		//AppContext.setSidebar(false);
+		// AppContext.setSidebar(false);
 
 		if (searchMenu) {
 			myModal.setClass("modal");
@@ -936,7 +959,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		}
 
 	}
-	
+
 //	public static void setSidebar(boolean toggle) {
 //		if (toggle) {
 //			navbar.setCollapsed(false);
@@ -964,11 +987,10 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		listVarlistNames.add("");
 		listVarlistNames.addAll(workspace.getVarietylistNames());
 		listVarlistNames.add("create new list...");
-		
-		
+
 		WorkspaceLoadLocal.loadLocalFile(AppContext.getFlatfilesDir() + "/preloadSNPS/", workspace, genotype);
 //		WorkspaceLoadLocal.loadLocalFile("/Users/lhbarboza/Documents/preloadsnps/", workspace, genotype);
-		
+
 		java.util.List listSNPlistNames = new java.util.ArrayList();
 		listSNPlistNames.add("");
 		listSNPlistNames.addAll(workspace.getSnpPositionListNames());
@@ -1106,9 +1128,9 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 					return;
 				}
 
-				//selectChr.setValue(gene.getContig().replace("0", "").toUpperCase());
+				// selectChr.setValue(gene.getContig().replace("0", "").toUpperCase());
 				selectChr.setValue(gene.getContig().toUpperCase());
-				
+
 				intStart.setValue(gene.getFmin());
 				intStop.setValue(gene.getFmax());
 				listboxMySNPList.setSelectedIndex(0);

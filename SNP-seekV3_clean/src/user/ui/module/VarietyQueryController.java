@@ -47,6 +47,7 @@ import org.zkoss.chart.Point;
 import org.zkoss.chart.Series;
 import org.zkoss.chart.model.DefaultXYModel;
 import org.zkoss.chart.plotOptions.ScatterPlotOptions;
+import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
@@ -305,6 +306,9 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 
 	@Wire
 	private Div closeDiv;
+
+	@Wire
+	private Hlayout layoutResultId;
 
 	public VarietyQueryController() {
 		super();
@@ -1449,12 +1453,15 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 	public void searchList3k() {
 		try {
 
+			
 			closeDiv.setVisible(true);
 
 			Clients.evalJavaScript("myFunction();");
 
 			flipSearchBar();
 
+			layoutResultId.setVisible(true);
+			
 			AppContext.resetTimer("variety query start");
 			// tabboxDisplay.setVisible(false);
 
@@ -1678,18 +1685,20 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 		if (searchMenu) {
 			myModal.setClass("modal");
 			searchMenu = false;
-			// layoutResultId.setVisible(false);
+			 layoutResultId.setVisible(false);
 		} else {
 			myModal.setClass("unmodal");
 			searchMenu = true;
-			// layoutResultId.setVisible(true);
+			 layoutResultId.setVisible(true);
 		}
 
 	}
+	
 
 	@Listen("onClick=#backQueryDiv")
 	public void onClick$backQueryDiv() {
 		Clients.evalJavaScript("myFunction();");
+		flipSearchBar();
 	}
 
 	/**

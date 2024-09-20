@@ -42,7 +42,6 @@
 		<window id="genWin" border="none"
 			apply="user.ui.module.VarietyQueryController" width="100%"
 			height="100%">
-
 			<hlayout id="layoutResultId" class="text-left"
 				visible="false"
 				style="margin-top:auto; margin-bottom:auto;background-color:rgb(255 255 255) ;     padding: 25px 15px 10px 15px;position:fixed;z-index:9;top:65px;width:100%;">
@@ -94,10 +93,10 @@
 			</hlayout>
 			
 			
-			<n:div id="bodyContent" style="height:100%">
+			<n:div id="bodyContent" style="height:100%; ">
 				<n:div class="wrapper">
 					<!-- Sidebar Holder -->
-					<n:nav id="genotypeSearchSidebar" style="position:absolute !important; width: 430px !important;  overflow-y: auto;  height: 620px;"
+					<n:nav id="genotypeSearchSidebar" style="position:absolute !important; width: 430px !important;  overflow-y: auto;  height: 100%;"
 					tabindex="-1"
 						role="dialog">
 						<n:div class="container">
@@ -604,8 +603,7 @@
 								</groupbox>
 								<n:br />
 								<n:br />
-								<n:div class="form-row"
-									style="width: 420px;">
+								<n:div class="form-row" style="width: 420px;margin-bottom:20px;" >
 									<n:div class="col">
 
 										<n:div class="text-right">
@@ -659,9 +657,9 @@
 
 										</n:div>
 									</n:div>
-							</div>
+							</div>	
 							<div id="resultContentDiv" visible="false"
-								style="margin-top:10px;margin-bottom:20px;height:100%;width:100%;">
+								style="margin-bottom:20px;height:100%;width:100%;margin-top:60px;">
 
 								<goldenlayout id="resultGoldenLayout"
 									height="1300px" hflex="1"

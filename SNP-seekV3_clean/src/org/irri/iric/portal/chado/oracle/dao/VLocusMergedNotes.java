@@ -12,8 +12,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.irri.iric.portal.chado.oracle.domain.VLocusNotes;
-import org.irri.iric.portal.domain.MergedLoci;
+import org.irri.iric.ds.chado.domain.MergedLoci;
+import org.irri.iric.ds.chado.domain.model.VLocusNotes;
+
+
+
 
 @Entity(name = "VLocusMergedNotes")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -17,6 +17,13 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/args4j.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/breeze.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/bsh.jar"/>
@@ -37,6 +44,11 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/guava.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/iceblue_c.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/itext.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarfitsobj.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarh5obj.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarhdf5-2.10.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarhdfobj.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarnc2obj.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jasperreports.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javassist.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jcommon.jar"/>
@@ -58,11 +70,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/timelinez.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/timeplotz.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xmlbeans-5.0.0.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarfitsobj.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarh5obj.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarhdf5-2.10.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarhdfobj.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jarnc2obj.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zcommon.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zel.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zhtml.jar"/>
@@ -77,17 +84,11 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zkwebfragment.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zml.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zsoup.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zul-1.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zuljsp.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zuti.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zweb.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zweb-dsp.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/zul-1.0.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/SNPseek-AWS-DS.1.0.0-2.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-15">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5 (2)"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/SNPseek-AWS-DS.1.1.0-1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
