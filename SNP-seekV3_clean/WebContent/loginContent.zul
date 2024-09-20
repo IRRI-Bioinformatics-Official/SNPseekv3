@@ -152,6 +152,9 @@
 												  Login with Google
 											</n:a>
 											<n:hr />
+											<button id="btn_oauth2_login" style="width: 100%; border-radius: 15px;">
+    											Login with Drupal
+											</button>
 										</n:form>
 										<n:div class="text-center">
 											<n:a class="small"
