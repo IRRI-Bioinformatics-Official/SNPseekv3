@@ -12,6 +12,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Label;
 
 import user.ui.module.util.constants.ContentConstants;
 import user.ui.module.util.constants.SessionConstants;
@@ -27,6 +28,10 @@ public class SidebarController extends SelectorComposer<Component> {
 
 	@Wire
 	private Div div_gwas;
+	
+	@Wire
+	private Label menuitem_user;
+	
 
 	private Session sess;
 	private User user;
@@ -39,6 +44,13 @@ public class SidebarController extends SelectorComposer<Component> {
 		sess = Sessions.getCurrent();
 		user = (User) sess.getAttribute(SessionConstants.USER_CREDENTIAL);
 
+		String username = (String) sess.getAttribute("username");
+		if(username != null) {
+			menuitem_user.setValue(username);
+		}else {
+			menuitem_user.setValue("Login");
+		}
+		
 		Properties prop = (Properties) sess.getAttribute(SessionConstants.CONTENT_MANAGER);
 
 		if (prop == null) {
@@ -66,6 +78,7 @@ public class SidebarController extends SelectorComposer<Component> {
 
 		sess.removeAttribute(SessionConstants.CONTENT_MANAGER);
 		sess.removeAttribute(SessionConstants.USER_CREDENTIAL);
+		sess.removeAttribute("username");
 
 		Executions.sendRedirect("index.zul");
 
