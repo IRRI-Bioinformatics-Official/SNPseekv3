@@ -232,6 +232,7 @@ public class GenomicsWS {
 			  else throw new JSONException("Invalid match type " + matchtype);
 			  
 			  Iterator itLoci =  genomics.getLociByDescription(t,AppContext.getDefaultOrganism(), model).iterator();
+			  
 			  while(itLoci.hasNext()) {
 				  listloc.add( new LocusRegionWS((MergedLoci)itLoci.next()));
 			  }
