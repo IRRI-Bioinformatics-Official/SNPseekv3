@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 import org.irri.iric.ds.chado.dao.LocusDAO;
+import org.irri.iric.ds.chado.domain.model.VLocusNotes;
 import org.skyway.spring.util.dao.JpaDao;
 import org.springframework.dao.DataAccessException;
 

@@ -177,7 +177,7 @@
 				<n:div class="wrapper">
 					<!-- Sidebar Holder -->
 					<n:nav id="genotypeSearchSidebar"
-						style="position:absolute !important; width: 430px !important;  overflow-y: auto;  height: 620px;"
+						style="position:absolute !important; width: 430px !important;  overflow-y: auto;  height: 100%;"
 						tabindex="-1" role="dialog">
 
 						<n:div class="container">
@@ -1305,8 +1305,7 @@
 													</west>
 													<center>
 												-->
-												<vlayout
-													style="padding-left:20px;padding-right:20px;padding-top:10px;">
+												<vlayout>
 													
 													<hlayout style="background:#e9ecef; padding-bottom:10px;">
 													<menubar
@@ -1376,7 +1375,7 @@
 													
 													
 													<hbox visible="true"
-														id="hboxColorcodeSNPQuery" style="margin-top:15px;">
+														id="hboxColorcodeSNPQuery" style="margin-top:15px;margin:0px auto">
 														<label
 															value="Allele color code: " style="font-weight:bold"
 															pre="true" />
@@ -1453,7 +1452,7 @@
 													</div>
 													<vlayout>
 														<hbox
-															class="biglistbox-table">
+															class="biglistbox-table" style="margin: 0 auto;">
 															<grid
 																id="gridBiglistheader" visible="false" height="580px"
 																width="680px"

@@ -84,7 +84,7 @@
 		<window border="none"
 			apply="user.ui.module.DownloadController">
 
-			<div style="background: #ededed;margin-left: 25px;">
+			<div style="background: #fff;margin-left: 25px;">
 				<hbox height="15px" />
 
 				<div>

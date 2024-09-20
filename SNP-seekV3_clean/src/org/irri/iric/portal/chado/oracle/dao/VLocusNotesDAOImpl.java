@@ -22,10 +22,9 @@ import org.hibernate.Session;
 import org.irri.iric.ds.chado.domain.Locus;
 import org.irri.iric.ds.chado.domain.Position;
 import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImpl;
-import org.irri.iric.ds.chado.domain.model.Organism;
+import org.irri.iric.ds.chado.domain.model.VLocusNotes;
 import org.irri.iric.ds.utils.TextSearchOptions;
 import org.irri.iric.portal.AppContext;
-import org.irri.iric.portal.chado.oracle.domain.VLocusNotes;
 import org.irri.iric.portal.chado.oracle.domain.VLocusNotesDAO;
 import org.irri.iric.portal.dao.ListItemsDAO;
 import org.irri.iric.portal.genomics.GenomicsFacade;
@@ -391,7 +390,7 @@ public class VLocusNotesDAOImpl extends AbstractJpaDao<VLocusNotes> implements V
 			throws DataAccessException {
 		try {
 			Query query = createNamedQuery("findVLocusNotesByFeatureId", startResult, maxRows, featureId);
-			return (org.irri.iric.portal.chado.oracle.domain.VLocusNotes) query.getSingleResult();
+			return (VLocusNotes) query.getSingleResult();
 		} catch (NoResultException nre) {
 			return null;
 		}
@@ -417,7 +416,7 @@ public class VLocusNotesDAOImpl extends AbstractJpaDao<VLocusNotes> implements V
 			throws DataAccessException {
 		try {
 			Query query = createNamedQuery("findVLocusNotesByPrimaryKey", startResult, maxRows, featureId);
-			return (org.irri.iric.portal.chado.oracle.domain.VLocusNotes) query.getSingleResult();
+			return (VLocusNotes) query.getSingleResult();
 		} catch (NoResultException nre) {
 			return null;
 		}

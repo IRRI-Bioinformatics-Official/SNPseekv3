@@ -2,6 +2,6 @@
 <zk>
 	<style src="assets/css/doc_styles.css" />
 	<iframe id="iframejbrowse2"
-		src="https://192.168.15.34:8443/?session=share-MZS2ePq8a0&amp;password=jUODk" width="100%" style="padding:20px;"
+		src="http://snpseekv3-prod.ap-southeast-1.elasticbeanstalk.com/_jbrowse.zul?data=9311v1&amp;tracks=DNA,9311v1gffv2" width="100%" style="padding:20px;"
 		height="100vh" />
 </zk>

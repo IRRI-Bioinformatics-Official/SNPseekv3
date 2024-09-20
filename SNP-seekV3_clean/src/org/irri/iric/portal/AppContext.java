@@ -123,7 +123,8 @@ public class AppContext {
 	public static enum OS {
 		WINDOWS, LINUX
 	};
-
+	
+	
 	public static enum COMPILETYPE {
 		PROD, DEV, TEST
 	};
@@ -153,6 +154,8 @@ public class AppContext {
 	static OS operatingSytem;
 
 	static RDMS rdms = AppContext.RDMS.POSTGRES;
+	
+	
 	private static boolean bBypassViews = true;
 
 	// private static boolean bBypassViews=false;
@@ -206,6 +209,7 @@ public class AppContext {
 	private static Properties webProp;
 
 	private static Properties anonymousContent;
+	private static boolean dockerize;
 
 	// private static AWSInstanceCountdown counter;
 	// private static AWSTimer counter;
@@ -225,6 +229,12 @@ public class AppContext {
 
 			webserver = WEBSERVER.valueOf(prop.get(PropertyConstants.WEBSERVER).toString().toUpperCase());
 			operatingSytem = OS.valueOf(prop.get(PropertyConstants.OPERATING_SYSTEM).toString().toUpperCase());
+			
+			if (prop.get(PropertyConstants.DOCKERIZE).toString().equals("true"))
+					dockerize = true;
+			else
+				dockerize = false;
+			
 
 			webProp.load(isWebProp);
 			anonymousContent.load(anon);
@@ -297,6 +307,10 @@ public class AppContext {
 
 	public static boolean isWS() {
 		return isWS;
+	}
+	
+	public static boolean isDockerize() {
+		return dockerize;
 	}
 
 	public static String getTempFolder() {
@@ -600,6 +614,7 @@ public class AppContext {
 
 		String pathToR = webProp.getProperty(WebserverPropertyConstants.PATH_R);
 
+		System.out.println("PATH:" + pathToR.toUpperCase());
 		if (pathToR.equals("."))
 			return "/usr/bin/Rscript";
 		return pathToR;
@@ -846,7 +861,8 @@ public class AppContext {
 	public static boolean isWindows() {
 		return operatingSytem == AppContext.OS.WINDOWS;
 	}
-
+	
+	
 	/**
 	 * server in IRRI LAN
 	 * 
