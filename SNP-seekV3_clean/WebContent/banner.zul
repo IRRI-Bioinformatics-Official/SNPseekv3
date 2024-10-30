@@ -188,7 +188,7 @@
 									color: rgb(255, 255, 255) !important;" />
 							<menu id="menuLogout">
 								<menupopup>
-									<menuitem label="logout"
+									<menuitem label="logout" id="mi_logout"
 										href="logout" iconSclass="z-icon-sign-out" />
 								</menupopup>
 							</menu>

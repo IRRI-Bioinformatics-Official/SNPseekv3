@@ -10,6 +10,21 @@ import org.zkoss.zk.ui.Executions;
  * Manages cookies
  */
 public class CookieController {
+
+	/**
+     * Logs the current cookies.
+     */
+	public void logCurrentCookies(HttpServletRequest request) {
+	    Cookie[] cookies = request.getCookies();
+	    if (cookies != null) {
+	        for (Cookie cookie : cookies) {
+	            System.out.println("Cookie Name: " + cookie.getName() + ", Value: " + cookie.getValue());
+	        }
+	    } else {
+	        System.out.println("No cookies found.");
+	    }
+	}
+	
 	/**
 	 * Returns the value of the cookie with the given name
 	 *

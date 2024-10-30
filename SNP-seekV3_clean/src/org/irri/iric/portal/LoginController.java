@@ -1,7 +1,13 @@
 package org.irri.iric.portal;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Map;
 import java.util.Properties;
 
 import org.zkoss.zk.ui.Executions;
@@ -18,8 +24,12 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import user.ui.module.util.constants.SessionConstants;
 import user.ui.module.util.constants.UserConstants;
+import org.springframework.stereotype.Controller;
 
 public class LoginController extends SelectorComposer<Window> {
 
@@ -139,5 +149,29 @@ public class LoginController extends SelectorComposer<Window> {
 		}
 
 	}
+
+	@Listen("onClick=#btn_oauth2_login")
+    public void oauth2Login() {
+        // Redirect the user to the OAuthServlet (starts OAuth2 login flow with Drupal)
+        Executions.sendRedirect("/OAuthServlet");
+    }
+    
+    @Listen("onClick=#btn_logout")
+    public void logout() {
+    	Session sess = Sessions.getCurrent();
+        
+        if (sess != null) {
+            // Log the current user info before clearing
+            Map<String, Object> userInfo = (Map<String, Object>) sess.getAttribute("userInfo");
+            System.out.println("User info before logout: " + userInfo);
+            
+            // Remove user info and invalidate session
+            sess.removeAttribute("userInfo");
+            sess.invalidate();
+            System.out.println("Session invalidated. User info should be cleared.");
+        }
+        
+        Executions.sendRedirect("index.zul"); // Redirect after logout
+    }
 
 }
