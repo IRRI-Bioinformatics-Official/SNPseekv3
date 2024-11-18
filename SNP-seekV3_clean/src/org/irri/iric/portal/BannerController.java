@@ -1,7 +1,5 @@
 package org.irri.iric.portal;
 
-import org.irri.iric.portal.zk.CookieController;
-import org.irri.iric.portal.zk.SessionController;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
@@ -12,7 +10,11 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menuitem;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
+
+import user.ui.module.util.constants.SessionConstants;
 
 public class BannerController extends SelectorComposer<Component> {
 
@@ -22,77 +24,62 @@ public class BannerController extends SelectorComposer<Component> {
     @Wire
     private Menuitem mi_login;
 
-    private SessionController sessionController = new SessionController();
+    @Wire
+    private Menuitem mi_logout;
 
-    private Session sess;
+    private Session zkSession;
+    private HttpSession httpSession;
     private User user;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
-        sess = Sessions.getCurrent();
-        user = (User) sess.getAttribute(SessionConstants.USER_CREDENTIAL);
 
+        // Initialize both session mechanisms
+        zkSession = Sessions.getCurrent();
+        user = (User) zkSession.getAttribute(SessionConstants.USER_CREDENTIAL);
+
+        // Check and update the login status
+        updateLoginStatus();
+    }
+
+    private void updateLoginStatus() {
+        // Obtain HttpServletRequest and current HttpSession
+        HttpServletRequest request = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
+        httpSession = request.getSession(false); // Prevent creating a new session if it doesn't exist
+
+        Map<String, Object> userInfo = null;
+        if (httpSession != null) {
+            userInfo = (Map<String, Object>) httpSession.getAttribute("userInfo");
+        }
+
+        // Handle login status based on both session mechanisms
         if (user != null) {
-            // Display the username from the User object
+            // Old session mechanism: Display username from User object
             menuLogout.setLabel("Logged in as: " + user.getUsername());
             menuLogout.setVisible(true);
             mi_login.setVisible(false);
+        } else if (userInfo != null && userInfo.get("username") != null) {
+            // New session mechanism: Display username from userInfo map
+            menuLogout.setLabel("Logged in via OAuth2: " + userInfo.get("username"));
+            menuLogout.setVisible(true);
+            mi_login.setVisible(false);
         } else {
-            // Check for OAuth user info
-            Map<String, Object> userInfo = (Map<String, Object>) sess.getAttribute("userInfo");
-            if (userInfo != null && userInfo.get("username") != null) {
-                // Display the username from the OAuth session
-                menuLogout.setLabel("Logged in via OAuth2: " + userInfo.get("username"));
-                menuLogout.setVisible(true);
-                mi_login.setVisible(false);
-            } else {
-                menuLogout.setVisible(false);
-                mi_login.setVisible(true);
-            }
-        }
-    }
-
-    @Listen("onClick=#menuLogout")
-    public void logout() {
-        if (sess != null) {
-            // Log the current user info before clearing
-            Map<String, Object> userInfo = (Map<String, Object>) sess.getAttribute("userInfo");
-            System.out.println("User info before logout: " + userInfo);
-
-            // Remove user info and invalidate session
-            sess.removeAttribute("userInfo");
-            sess.invalidate();
-            System.out.println("Session invalidated. User info should be cleared.");
-        }
-
-        clearCookies(); // Ensure cookies are cleared
-        Executions.sendRedirect("index.zul"); // Redirect after logout
-    }
-
-    private void clearCookies() {
-        HttpServletRequest request = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
-        HttpServletResponse response = (HttpServletResponse) Executions.getCurrent().getNativeResponse();
-
-        // Get all cookies from the request
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                // Set the cookie's max age to 0 to delete it
-                cookie.setMaxAge(0);
-                cookie.setValue(null); // Clear the cookie value
-                cookie.setPath("/"); // Ensure you're deleting it from the correct path
-                response.addCookie(cookie); // Add the cookie to the response
-                System.out.println("Cleared cookie: " + cookie.getName());
-            }
-        } else {
-            System.out.println("No cookies found to clear.");
+            // No user is logged in
+            menuLogout.setVisible(false);
+            mi_login.setVisible(true);
         }
     }
 
     @Listen("onClick=#mi_login")
     public void login() {
-        // Redirect to the login page (assuming you have a dedicated login page)
+        // Redirect to the login page
         Executions.sendRedirect("login.zul");
+    }
+
+    @Listen("onClick=#mi_logout")
+    public void onLogoutButtonClick() {
+        // Redirect to the LogoutServlet to handle session invalidation
+        Executions.sendRedirect("/logout-drupal");
     }
 }

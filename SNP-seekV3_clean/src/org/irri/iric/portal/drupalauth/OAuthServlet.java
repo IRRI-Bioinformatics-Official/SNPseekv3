@@ -12,7 +12,7 @@ public class OAuthServlet extends HttpServlet {
     
     // OAuth 2.0 credentials and endpoint URLs
     private static final String CLIENT_ID = "java-app-client-id";
-    private static final String REDIRECT_URI = "http://localhost:8080/SNP-seekV3_clean/callback";
+    private static final String REDIRECT_URI = "http://localhost:8085/SNP-seekV3_clean/callback";
     private static final String DRUPAL_AUTHORIZE_URL = "https://snpseek-drupal.ddev.site/oauth/authorize";
     
     // Step 1: Redirect to the Drupal OAuth 2.0 Authorization Endpoint

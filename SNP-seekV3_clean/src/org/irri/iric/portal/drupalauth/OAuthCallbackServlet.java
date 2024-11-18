@@ -13,11 +13,11 @@ import java.util.HashMap;
 
 public class OAuthCallbackServlet extends HttpServlet {
     
-    private static final String CLIENT_ID = "java-app-client-id"; // Your actual client ID from Drupal
-    private static final String CLIENT_SECRET = "***REMOVED***"; // Your actual client secret from Drupal
-    private static final String REDIRECT_URI = "http://localhost:8080/SNP-seekV3_clean/callback";
+    private static final String CLIENT_ID = "java-app-client-id";
+    private static final String CLIENT_SECRET = "***REMOVED***"; 
+    private static final String REDIRECT_URI = "http://localhost:8085/SNP-seekV3_clean/callback";
     private static final String DRUPAL_TOKEN_URL = "https://snpseek-drupal.ddev.site/oauth/token";
-    private static final String DRUPAL_USER_INFO_URL = "https://snpseek-drupal.ddev.site/oauth/userinfo"; // Assuming you have a user info endpoint
+    private static final String DRUPAL_USER_INFO_URL = "https://snpseek-drupal.ddev.site/oauth/userinfo"; 
 
     // Step 2: Handle the OAuth callback with the authorization code
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

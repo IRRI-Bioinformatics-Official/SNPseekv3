@@ -155,23 +155,4 @@ public class LoginController extends SelectorComposer<Window> {
         // Redirect the user to the OAuthServlet (starts OAuth2 login flow with Drupal)
         Executions.sendRedirect("/OAuthServlet");
     }
-    
-    @Listen("onClick=#btn_logout")
-    public void logout() {
-    	Session sess = Sessions.getCurrent();
-        
-        if (sess != null) {
-            // Log the current user info before clearing
-            Map<String, Object> userInfo = (Map<String, Object>) sess.getAttribute("userInfo");
-            System.out.println("User info before logout: " + userInfo);
-            
-            // Remove user info and invalidate session
-            sess.removeAttribute("userInfo");
-            sess.invalidate();
-            System.out.println("Session invalidated. User info should be cleared.");
-        }
-        
-        Executions.sendRedirect("index.zul"); // Redirect after logout
-    }
-
 }
