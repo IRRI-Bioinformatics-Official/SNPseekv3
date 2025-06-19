@@ -1,7 +1,0 @@
-<?page title="helpiframe" contentType="text/html;charset=UTF-8"?>
-<zk>
-	<style src="assets/css/doc_styles.css" />
-	<iframe id="iframejbrowse2"
-		src="https://snpseekv3.irri-e-extension.com/_ideo.zul?tracks=DNA,msu7gff,msu7snpsv2,msu7indelsv2&amp;app=rice-ideogram" width="100%" style="padding:20px;"
-		height="100vh" />
-</zk>
