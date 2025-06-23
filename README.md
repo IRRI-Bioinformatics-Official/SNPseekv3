@@ -22,7 +22,7 @@
 - 🔎 **SNP Search** by gene, chromosome position, or accession
 - 🧬 **Genotype Visualization** for multiple samples
 - 📦 **Downloadable SNP Datasets** in tabular format
-- 🧠 **API Access** for integration with pipelines or other bioinformatics tools
+- 🧠 **BrAPI v2.1** Support for standardized API access and integration with bioinformatics tools
 - 📊 **R-based SNP Analysis** with PLINK support
 - 🐳 **Docker-based Deployment**
 
@@ -31,7 +31,6 @@
 ## 🛠️ Technologies Used
 
 - **Java** – Backend services
-- **Spring Boot** – REST API and service layer
 - **PostgreSQL + Chado schema** – Genotype and metadata storage
 - **R + PLINK** – Backend SNP analysis scripts
 - **Docker** – Deployment and containerization
@@ -41,14 +40,36 @@
 
 ## ⚙️ Environment Variables
 
-Before running the project, configure the following variables in a `.env` file in the project root:
+Before running the project, ensure the following environment variables are set **directly** in your `docker-compose.yml` or your environment configuration.
 
-```env
-POSTGRES_DB=snpseek
-POSTGRES_USER=snpuser
-POSTGRES_PASSWORD=supersecure
-R_SCRIPTS_DIR=/IRCStorage/scripts
-APP_ENV=production
+These variables are required for authentication and third-party integration:
+
+```yaml
+RECAPTCHA_SECRET_KEY=<your-recaptcha-secret>
+
+MICROSOFT_CLIENT_ID=<your-azure-client-id>
+MICROSOFT_TENANT_ID=<your-azure-tenant-id>
+MICROSOFT_SECRET=<your-azure-secret>
+
+GOOGLE_OAUTH_CLIENT_ID=<your-google-client-id>
+GOOGLE_OAUTH_CLIENT_SECRET=<your-google-client-secret>
+```
+
+You can set these inside the environment: block of a service in docker-compose.yml, for example:
+
+```yaml
+services:
+  web:
+    build: .
+    environment:
+      - RECAPTCHA_SECRET_KEY=your-value
+      - MICROSOFT_CLIENT_ID=your-value
+      - MICROSOFT_TENANT_ID=your-value
+      - MICROSOFT_SECRET=your-value
+      - GOOGLE_OAUTH_CLIENT_ID=your-value
+      - GOOGLE_OAUTH_CLIENT_SECRET=your-value
+```
+**Tip:** Do not commit secrets into version control. Use GitHub secrets, environment-level configuration, or a secure secrets manager in production.
 
 ---
 
