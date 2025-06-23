@@ -18,6 +18,9 @@
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
+	<context:property-placeholder
+		ignore-unresolvable="true" system-properties-mode="ENVIRONMENT" />
+
 	<context:component-scan
 		base-package="org.irri.iric.portal.config" />
 
@@ -54,7 +57,6 @@
 	<import resource="classpath:misc-dao-context.xml" />
 
 	<import resource="classpath:applicationContextDs.xml" />
-
 
 
 

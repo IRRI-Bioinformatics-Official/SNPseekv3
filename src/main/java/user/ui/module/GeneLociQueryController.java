@@ -751,6 +751,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 				listMySnps.add("create new list...");
 				this.listboxMySNPList.setModel(new SimpleListModel(listMySnps));
 				this.rowMySnpList.setVisible(true);
+				this.rowMySnpListButtonDiv.setVisible(true);
 			} else if (searchby.equals("Gene set/networks")) {
 				workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 				List listMyLocus = new ArrayList();
