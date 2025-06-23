@@ -1,6 +1,6 @@
 # 🌾 SNPseek
 
-**SNPseek** is a genomic data platform developed by the International Rice Research Institute (IRRI) to support the exploration, visualization, and analysis of high-density Single Nucleotide Polymorphisms (SNPs) across rice accessions. It provides researchers with the tools to query genotypic data, download filtered datasets, and integrate results into downstream pipelines via APIs.
+**SNPseek** is a genomic data platform developed to support the exploration, visualization, and analysis of high-density Single Nucleotide Polymorphisms (SNPs) across rice accessions. It provides researchers with the tools to query genotypic data, download filtered datasets, and integrate results into downstream pipelines via APIs.
 
 ---
 
