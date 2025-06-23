@@ -8,12 +8,7 @@
 
 - [Features](#-features)
 - [Technologies Used](#-technologies-used)
-- [Getting Started](#-getting-started)
-- [Project Structure](#-project-structure)
-- [API Access](#-api-access)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Contact](#-contact)
+- [Environment Variable](#-environment-variable)
 
 ---
 
@@ -72,20 +67,6 @@ services:
 **Tip:** Do not commit secrets into version control. Use GitHub secrets, environment-level configuration, or a secure secrets manager in production.
 
 ---
-
-## 🚀 Getting Started
-
-### 🔧 Prerequisites
-
-- [Docker](https://www.docker.com/)
-- [Git](https://git-scm.com/)
-- (Optional) Java 11+ and R installed locally for script debugging
-
-### 🐳 Quick Start with Docker
-
-```bash
-git clone git@github.com:IRRI-Bioinformatics-Official/SNPseek-Datasource.git
-cd SNPseek-Datasource
 
 # Edit config files if necessary (e.g., DB paths, secrets)
 
