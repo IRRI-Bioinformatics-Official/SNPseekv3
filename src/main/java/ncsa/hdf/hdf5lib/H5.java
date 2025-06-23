@@ -514,6 +514,7 @@ public class H5 implements java.io.Serializable {
 		if (!isLibraryLoaded) {
 
 			try {
+								   
 				String libpath = "hdf-java/HDFView-2.10.1-Linux/HDF_Group/HDFView/2.10.1/lib";
 				if (AppContext.isWindows()) {
 					System.out.println(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");

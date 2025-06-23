@@ -550,7 +550,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private GoldenPanel gp_alleleFreq;
-	
+
 	@Wire
 	private GoldenPanel gp_template;
 
@@ -1554,14 +1554,12 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			advOptionDataset.setVisible(false);
 			advOptionRegion.setVisible(false);
 			advOptionOptions.setVisible(false);
-			
+
 			comboVar1.setValue("");
 			comboVar2.setValue("");
-			
-			
+
 		}
-		
-		
+
 	}
 
 	@Listen("onClick = #buttonHaploUpdate")
@@ -2045,7 +2043,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			selectChr.setModel(new SimpleListModel(listContigs));
 			comboGene.setModel(new SimpleListModel(listLoci));
 
-			
 			setDatasetVariantset(selOrg);
 
 			SimpleListModel listmodel2 = new SimpleListModel(genotype.getVarietysets(selOrg));
@@ -3004,9 +3001,10 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	@Listen("onActive=#gp_jbrowse")
 	public void onClick$goldenPA_jbrowse() {
 
-		
 		if (!this.listboxReference.getSelectedItem().getLabel().equals(AppContext.JAPONICA_NIPPONBARE))
-			urljbrowse = "http://snpseek.irri.org/jbrowse2/?assembly=MH63&view=LinearGenomeView&loc="+AppContext.ChrWithZERO(selectChr.getValue())+":"+intStart.getValue()+".."+intStop.getValue()+"&tracks=MH63-ReferenceSequenceTrack";
+			urljbrowse = "http://snpseek.irri.org/jbrowse2/?assembly=MH63&view=LinearGenomeView&loc="
+					+ AppContext.ChrWithZERO(selectChr.getValue()) + ":" + intStart.getValue() + ".."
+					+ intStop.getValue() + "&tracks=MH63-ReferenceSequenceTrack";
 		boolean newTab = false;
 
 		AppContext.debug("onselectTabJbrowse gfffile=" + gfffile + "\nurljbrowse=" + urljbrowse);
@@ -3794,14 +3792,15 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 						Messagebox.EXCLAMATION);
 				return null;
 			}
-			
+
 			if (intStop != null && intStart != null) {
-				if (intStop.getValue() - intStart.getValue() > AppContext.getMaxlengthUni(getVariantset()))
+				if (intStop.getValue() - intStart.getValue() > AppContext.getMaxlengthUni(getVariantset())) {
 					Messagebox.show("The selected region is too large to display.\r\n"
-							+ "Please narrow down the range or use the Download section to retrieve the full data.", "Too large to display", Messagebox.OK,
-							Messagebox.EXCLAMATION);
+							+ "Please narrow down the range or use the Download section to retrieve the full data.",
+							"Too large to display", Messagebox.OK, Messagebox.EXCLAMATION);
 					return null;
-			} 
+				}
+			}
 
 			int maxlength = -1;
 			String limitmsg = "";
@@ -3825,14 +3824,12 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	public void queryVariants() {
 
 		haplofilename = null;
-				
+
 		GenotypeFacade.snpQueryMode mode = null;
 
 //		AppContext.setSidebar(true);
-		
-		emptyLayout();
 
-		
+		emptyLayout();
 
 		try {
 			refreshgalaxy = true;
@@ -3931,7 +3928,8 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 					queryRawResult = genotype.queryGenotype(params2);
 
-					if (!params.getOrganismName().equals(AppContext.JAPONICA_NIPPONBARE) && !params.getOrganismName().equals(AppContext.MH63) && !AppContext.isAWS()) {
+					if (!params.getOrganismName().equals(AppContext.JAPONICA_NIPPONBARE)
+							&& !params.getOrganismName().equals(AppContext.MH63) && !AppContext.isAWS()) {
 						if (queryRawResult.getSnpstringdata() != null) {
 							if (queryRawResult.getSnpstringdata().getMapMSU7Pos2ConvertedPos() != null)
 								AppContext.debug("queryRawResult.getSnpstringdata().getMapMSU7Pos2ConvertedPos()="
@@ -4055,7 +4053,8 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 				// display or hide header rows based on reference and reference alleles options
 				biglistboxRows = 20;
 
-				if (!params.getOrganismName().equals(AppContext.JAPONICA_NIPPONBARE) && !params.getOrganismName().equals(AppContext.MH63)) {
+				if (!params.getOrganismName().equals(AppContext.JAPONICA_NIPPONBARE)
+						&& !params.getOrganismName().equals(AppContext.MH63)) {
 
 					// reference is not nipponbare
 					if (params.isbShowNPBPositions()) {
@@ -4194,7 +4193,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			} else {
 				// SNPs on 2 varieties in region
 
-				
 				varianttable = new VariantAlignmentTableArraysImpl();
 
 				String var1 = comboVar1.getValue().trim().toUpperCase();
@@ -4304,7 +4302,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			e.printStackTrace();
 		} finally {
 			// render after
-			
+
 			oncheckShowsnps();
 			Clients.clearBusy();
 		}
@@ -4313,22 +4311,20 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	private void emptyLayout() {
 		resultGoldenLayout.appendChild(gp_template);
-		
+
 		List<Component> toModify = new ArrayList<>();
 		for (Component child : resultGoldenLayout.getChildren()) {
-		    if (!gp_template.getId().equals(child.getId())) {
-		        toModify.add(child);
-		    }
+			if (!gp_template.getId().equals(child.getId())) {
+				toModify.add(child);
+			}
 		}
 
 		for (Component child : toModify) {
-		    child.setParent(null);
-		    resultGoldenLayout.invalidate();
+			child.setParent(null);
+			resultGoldenLayout.invalidate();
 		}
-		
+
 	}
-	
-	
 
 	/**
 	 * Create SNP GFF for 2-varieties query
@@ -4472,7 +4468,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		listboxSnpresult.setModel(new SimpleListModel(((VariantAlignmentTableArraysImpl) varianttable)
 				.getCompare2VarsList(this.selectChr.getValue(), params)));
 		divPairwise.setVisible(true);
-		//resultGoldenLayout.appendChild(gp_pairwise);
+		// resultGoldenLayout.appendChild(gp_pairwise);
 
 		System.out.println("Removed suspected unused method");
 //		String msgs[] = msgbox.getValue().split("...");
@@ -5014,7 +5010,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		}
 
 	}
-	
+
 	public class Object2StringMatrixComparatorProvider<T> implements MatrixComparatorProvider<Object[]> {
 		private int _x = -1;
 
@@ -5316,20 +5312,19 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			// String filetype = "text/plain";
 			// Filedownload.save( buff.toString(), filetype , filename + ".map");
 
-			
-			AppContext.debug("writing.. "+ filename + ".map");
+			AppContext.debug("writing.. " + filename + ".map");
 			FileWriter writer = new FileWriter(filename + ".map");
 			writer.append(buff.toString());
 			writer.flush();
 			writer.close();
 
-			AppContext.debug("writing.. "+ filename + ".map.ref");
+			AppContext.debug("writing.. " + filename + ".map.ref");
 			writer = new FileWriter(filename + ".map.ref");
 			writer.append(buffref.toString());
 			writer.flush();
 			writer.close();
 
-			AppContext.debug("writing.. "+ filename + ".map.annot\"");
+			AppContext.debug("writing.. " + filename + ".map.annot\"");
 			writer = new FileWriter(filename + ".map.annot");
 			writer.append(buffannot.toString());
 			writer.flush();
@@ -7323,7 +7318,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		}
 
 	}
-	
+
 	@Listen("onOpen = #bandboxVariantset")
 	public void onOpenvariantset(OpenEvent e) throws InterruptedException {
 		AppContext.debug("e.isOpen()=" + e.isOpen());
@@ -7363,7 +7358,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		}
 	}
 
-	
 	@Listen("onSelect = #listboxVariantset")
 	public void onSelect$checkboxDroplistboxVariantset(Event e) throws InterruptedException {
 
