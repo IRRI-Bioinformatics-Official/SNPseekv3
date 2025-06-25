@@ -18,6 +18,7 @@ import java.nio.ByteBuffer;
 import java.util.Vector;
 
 import org.irri.iric.portal.AppContext;
+import org.irri.iric.portal.config.SNPseekEnv;
 
 import ncsa.hdf.hdf5lib.callbacks.H5D_iterate_cb;
 import ncsa.hdf.hdf5lib.callbacks.H5D_iterate_t;
@@ -279,10 +280,14 @@ public class H5 implements java.io.Serializable {
 		if (isLibraryLoaded)
 			return;
 
+		String libPath;
+
 		// first try loading library by name from user supplied library path
 		s_libraryName = System.getProperty(H5_LIBRARY_NAME_PROPERTY_KEY, null);
+
 		String mappedName = null;
 		if ((s_libraryName != null) && (s_libraryName.length() > 0)) {
+			libPath = System.getProperty("hdf5.native.lib.path");
 			try {
 				mappedName = System.mapLibraryName(s_libraryName);
 				System.loadLibrary(s_libraryName);
@@ -295,6 +300,24 @@ public class H5 implements java.io.Serializable {
 				log.debug(" resolved to: " + mappedName + "; ");
 				log.info((isLibraryLoaded ? "" : " NOT") + " successfully loaded from system property");
 			}
+		}
+
+		if (!isLibraryLoaded) {
+			libPath = System.getenv(SNPseekEnv.HDF5_NATIVE_LIB_PATH);
+
+			String os = System.getProperty("os.name").toLowerCase();
+			String libFile = os.contains("win") ? "jhdf5.dll" : os.contains("mac") ? "libjhdf5.dylib" : "libjhdf5.so";
+
+			try {
+				System.load(libPath + File.separator + libFile);
+				log.debug("✅ HDF5 native library loaded successfully from: " + libPath);
+				isLibraryLoaded = true;
+			} catch (UnsatisfiedLinkError | SecurityException e) {
+				System.err.println("❌ Failed to load HDF5 native library from: " + libPath);
+				e.printStackTrace();
+				// Optional: exit or rethrow
+			}
+
 		}
 
 		if (!isLibraryLoaded) {
@@ -321,310 +344,345 @@ public class H5 implements java.io.Serializable {
 			}
 		}
 
-		// else load standard library
 		if (!isLibraryLoaded) {
 			try {
-				s_libraryName = "jhdf5";
-				mappedName = System.mapLibraryName(s_libraryName);
-				System.loadLibrary("jhdf5");
+				System.loadLibrary("hdf5");
+				System.out.println("✅ HDF5 native library loaded successfully via System.loadLibrary(\"hdf5\")");
 				isLibraryLoaded = true;
-			} catch (Throwable err) {
-				err.printStackTrace();
-				isLibraryLoaded = false;
-			} finally {
-				log.info("HDF5 library: " + s_libraryName);
-				log.debug(" resolved to: " + mappedName + "; ");
-				log.info((isLibraryLoaded ? "" : " NOT") + " successfully loaded from java.library.path");
+
+			} catch (UnsatisfiedLinkError | SecurityException e) {
+				System.err.println("❌ Failed to load HDF5 native library from: ");
+				e.printStackTrace();
+				// Optional: exit or rethrow
 			}
 		}
 
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib";
+		/**
+		 * REMOVED FOLLOWING HARD CODED LOCATION
+		 */
 
-				System.load("/Applications/HDFView.app/Contents/app/libhdf5_java.dylib");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"UI - Native code library loaded successfully from../Applications/HDFView.app/Contents/app/libhdf5_java.dylib");
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println(
-						"UI - Native code library failed to load.\n /Applications/HDFView.app/Contents/app/libhdf5_java.dylib"
-								+ e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		System.out.println("LOADING HDF5 Libraries");
-		// else load static!
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "hdf5_lib/linux";
-
-				System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib";
-
-				if (AppContext.isWindows())
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				else
-					System.load(AppContext.getFlatfilesDir() + libpath + "/hdfview/libjhdf5.so");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib";
-
-				if (AppContext.isWindows())
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				else
-					System.load(AppContext.getFlatfilesDir() + libpath + "/amd64-Linux/libjhdf5.so");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		if (!isLibraryLoaded) {
-
-			try {
-				String libpath = "/Library/Java/Extenstions";
-
-				System.load("/Library/Java/Extensions/arm64/libjhdf5.dylib");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.. /Library/Java/Extensions/arm64/libjhdf5.dylib");
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-
-		}
-
-		if (!isLibraryLoaded) {
-
-			try {
-				String libpath = "/Library/Java/Extenstions";
-
-				System.load("/Library/Java/Extensions/libjhdf5.jnilib");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.. /Library/Java/Extensions/libjhdf5.jnilib");
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-
-		}
-
-		if (!isLibraryLoaded) {
-
-			try {
-				String libpath = "/IRCStorage/hdf-java/HDFView-2.10.1-Linux/HDF_Group/HDFView/2.10.1/lib";
-				if (AppContext.isWindows()) {
-					System.out.println(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				} else
-					System.load(libpath + "/libjhdf5.so");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-
-		}
-
-		if (!isLibraryLoaded) {
-
-			try {
-				String libpath = "/usr/local/tomcat/webapps/temp/lib";
-
-				System.load(libpath + "/libhdf5.so.310.4.0");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-
-		}
-
-		if (!isLibraryLoaded) {
-
-			try {
-								   
-				String libpath = "hdf-java/HDFView-2.10.1-Linux/HDF_Group/HDFView/2.10.1/lib";
-				if (AppContext.isWindows()) {
-					System.out.println(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				} else
-					System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so.2.10.1");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-
-		}
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib";
-
-				if (AppContext.isWindows())
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				else
-					System.load(AppContext.getFlatfilesDir() + libpath + "/arm-Linux/libjhdf5.so");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib";
-
-				System.load(AppContext.getFlatfilesDir() + libpath + "/aarch64-MacOSX/libjhdf5.jnilib");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib";
-				if (AppContext.isDev())
-					libpath = "lib";
-
-				if (AppContext.isWindows())
-					System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
-				if (AppContext.isWindows())
-					System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
-				else
-
-					System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
-		if (!isLibraryLoaded) {
-			try {
-				String libpath = "lib";
-				if (AppContext.isDev())
-					libpath = "lib";
-
-				System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.dylib");
-
-				isLibraryLoaded = true;
-				AppContext.debug(
-						"Native code library loaded successfully from.." + AppContext.getFlatfilesDir() + libpath);
-
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n" + e);
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
+		// if (!isLibraryLoaded) {
+		// try {
+		// s_libraryName = "jhdf5";
+		// mappedName = System.mapLibraryName(s_libraryName);
+		// System.loadLibrary("jhdf5");
+		// isLibraryLoaded = true;
+		// } catch (Throwable err) {
+		// err.printStackTrace();
+		// isLibraryLoaded = false;
+		// } finally {
+		// log.info("HDF5 library: " + s_libraryName);
+		// log.debug(" resolved to: " + mappedName + "; ");
+		// log.info((isLibraryLoaded ? "" : " NOT") + " successfully loaded from
+		// java.library.path");
+		// }
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		// try {
+		// String libpath = "lib";
+		//
+		// System.load("/Applications/HDFView.app/Contents/app/libhdf5_java.dylib");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "UI - Native code library loaded successfully
+		// from../Applications/HDFView.app/Contents/app/libhdf5_java.dylib");
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println(
+		// "UI - Native code library failed to load.\n
+		// /Applications/HDFView.app/Contents/app/libhdf5_java.dylib"
+		// + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// System.out.println("LOADING HDF5 Libraries");
+		//
+		// if (!isLibraryLoaded) {
+		// try {
+		// String libpath = "hdf5_lib/linux";
+		//
+		// System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		// if (!isLibraryLoaded) {
+		// try {
+		// String libpath = "lib";
+		//
+		// if (AppContext.isWindows())
+		// System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+		// else
+		// System.load(AppContext.getFlatfilesDir() + libpath + "/hdfview/libjhdf5.so");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		// try {
+		// String libpath = "lib";
+		//
+		// if (AppContext.isWindows())
+		// System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+		// else
+		// System.load(AppContext.getFlatfilesDir() + libpath +
+		// "/amd64-Linux/libjhdf5.so");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		//
+		// try {
+		// String libpath = "/Library/Java/Extenstions";
+		//
+		// System.load("/Library/Java/Extensions/arm64/libjhdf5.dylib");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from..
+		// /Library/Java/Extensions/arm64/libjhdf5.dylib");
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		//
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		//
+		// try {
+		// String libpath = "/Library/Java/Extenstions";
+		//
+		// System.load("/Library/Java/Extensions/libjhdf5.jnilib");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from..
+		// /Library/Java/Extensions/libjhdf5.jnilib");
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		//
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		//
+		// try {
+		// String libpath =
+		// "/IRCStorage/hdf-java/HDFView-2.10.1-Linux/HDF_Group/HDFView/2.10.1/lib";
+		// if (AppContext.isWindows()) {
+		// System.out.println(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+		// System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+		// } else
+		// System.load(libpath + "/libjhdf5.so");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		//
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		//
+		// try {
+		// String libpath = "/usr/local/tomcat/webapps/temp/lib";
+		//
+		// System.load(libpath + "/libhdf5.so.310.4.0");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		//
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		//
+		// try {
+		//
+		// String libpath =
+		// "hdf-java/HDFView-2.10.1-Linux/HDF_Group/HDFView/2.10.1/lib";
+		// if (AppContext.isWindows()) {
+		// System.out.println(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+		// System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+		// } else
+		// System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so.2.10.1");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		//
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		// try {
+		// String libpath = "lib";
+		//
+		// if (AppContext.isWindows())
+		// System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+		// else
+		// System.load(AppContext.getFlatfilesDir() + libpath +
+		// "/arm-Linux/libjhdf5.so");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		// try {
+		// String libpath = "lib";
+		//
+		// System.load(AppContext.getFlatfilesDir() + libpath +
+		// "/aarch64-MacOSX/libjhdf5.jnilib");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		// try {
+		// String libpath = "lib";
+		// if (AppContext.isDev())
+		// libpath = "lib";
+		//
+		// if (AppContext.isWindows())
+		// System.load(AppContext.getFlatfilesDir() + libpath + "\\jhdf5.dll");
+		// if (AppContext.isWindows())
+		// System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
+		// else
+		//
+		// System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.so");
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// if (!isLibraryLoaded) {
+		// try {
+		// String libpath = "lib";
+		// if (AppContext.isDev())
+		// libpath = "lib";
+		//
+		// System.load(AppContext.getFlatfilesDir() + libpath + "/libjhdf5.dylib");
+		//
+		// isLibraryLoaded = true;
+		// AppContext.debug(
+		// "Native code library loaded successfully from.." +
+		// AppContext.getFlatfilesDir() + libpath);
+		//
+		// } catch (UnsatisfiedLinkError e) {
+		// System.err.println("Native code library failed to load.\n" + e);
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// } catch (Exception e) {
+		// System.err.println(e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
 
 		/* Important! Exit quietly */
 		try {

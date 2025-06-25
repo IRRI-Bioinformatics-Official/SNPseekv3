@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SNP-seekV3_clean</groupId>
 	<artifactId>SNP-seekV3_clean</artifactId>
-	<version>1.7.1</version>
+	<version>3.8.1</version>
 	<packaging>war</packaging>
 
 
