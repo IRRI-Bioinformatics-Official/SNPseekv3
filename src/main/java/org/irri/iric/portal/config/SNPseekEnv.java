@@ -12,5 +12,7 @@ public class SNPseekEnv {
 	
 	public static final String GOOGLE_OAUTH_CLIENT_ID = "GOOGLE_OAUTH_CLIENT_ID";
 	public static final String GOOGLE_OAUTH_CLIENT_SECRET = "GOOGLE_OAUTH_CLIENT_SECRET";
+	
+	public static final String HDF5_NATIVE_LIB_PATH = "HDF5_NATIVE_LIB_PATH";
 
 }

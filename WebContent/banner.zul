@@ -58,7 +58,7 @@
 						<menubar
 							style="border-top: 1px solid rgb(111 142 102) ! important ; border-bottom: 1px solid rgb(111 142 102) ! important ;
 						background: rgb(111 142 102) ! important ; color: rgb (255, 255, 255) ! important ;">
-							<menuitem label="Legacy SNP-Seek portal" href="https://snpseekv3.irri-e-extension.com/v2/" target="_blank" />
+							<menuitem label="Legacy SNP-Seek portal" href="http://legacy-snpseek.ap-southeast-1.elasticbeanstalk.com/" target="_blank" />
 							<menuitem label="Search" href="index.zul" style="font-weight: bold;"/>
 							<!-- 	<menu label="Search"
 								src="/images/iric/query.png"

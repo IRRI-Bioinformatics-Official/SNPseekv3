@@ -76,7 +76,7 @@ public class RunGetSNPS implements Runnable {
 		// Call your service here
 //	         RunGetSNPS.main(dataset, snpset, chr, samples, snps, start, end);
 
-//		ApplicationContext context = new ClassPathXmlApplicationContext("LOCAL_eclipse_applicationContext-business.xml");
+//		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("LOCAL_eclipse_applicationContext-business.xml");
 
 		ConfigurableApplicationContext  context = new ClassPathXmlApplicationContext("LOCAL_applicationContext-business.xml");
 
@@ -84,7 +84,7 @@ public class RunGetSNPS implements Runnable {
 
 			String names[] = context.getBeanDefinitionNames();
 
-			for (String name : context.getBeanDefinitionNames()) {
+			for (String name : context.getBeanDefinitionNames()) {	
 				System.out.println(name);
 			}
 
@@ -136,9 +136,9 @@ public class RunGetSNPS implements Runnable {
 
 			if (snps != null) {
 				try {
-					System.out.println("REading snps");
-					snppos = getSNPpos(Files.readAllLines(Paths.get(snps)));
 					
+					snppos = getSNPpos(Files.readAllLines(Paths.get(snps)));
+					System.out.println("LOADED snps: " + snppos.size());
 					
 
 					

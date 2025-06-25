@@ -27,7 +27,7 @@ public class IndelUni3024VarietiesAllele12v2TransposedDAO extends H5Dataset impl
 	private Logger log = Logger.getLogger(IndelUni3024VarietiesAllele12v2TransposedDAO.class.getName());
 
 	public IndelUni3024VarietiesAllele12v2TransposedDAO() {
-		super(AppContext.getFlatfilesDir() + "INDEL_geno_NB_trans_678b.h5", new H5ReadStringTransMatrix(), null);
+		super("INDEL_geno_NB_trans_678b.h5", new H5ReadStringTransMatrix(), null);
 	}
 
 	@Override
