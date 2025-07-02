@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SNP-seekV3_clean</groupId>
 	<artifactId>SNP-seekV3_clean</artifactId>
-	<version>3.8.1</version>
+	<version>3.9.1</version>
 	<packaging>war</packaging>
 
 
@@ -157,6 +157,7 @@
 
 			</exclusions>
 		</dependency>
+		
 
 		<!--
 		https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
@@ -165,6 +166,8 @@
 			<artifactId>protobuf-java</artifactId>
 			<version>3.19.6</version>
 		</dependency>
+
+		
 
 		<dependency>
 			<groupId>io.grpc</groupId>
@@ -1024,17 +1027,13 @@
 
 		<!--
 		https://mvnrepository.com/artifact/com.github.detro.ghostdriver/phantomjsdriver -->
-		<dependency>
-			<groupId>com.github.detro.ghostdriver</groupId>
-			<artifactId>phantomjsdriver</artifactId>
-			<version>1.1.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
+		<!--<dependency>
+		    <groupId>com.codeborne</groupId>
+		    <artifactId>phantomjsdriver</artifactId>
+		    <version>1.4.4</version>
 		</dependency>
+		-->
+
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -1303,6 +1302,7 @@
 				</configuration>
 
 			</plugin>
+		
 		</plugins>
 	</build>
 </project>

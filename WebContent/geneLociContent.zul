@@ -10,13 +10,13 @@
 
 		<!-- Google tag (gtag.js) -->
 		<n:script async="async"
-			src="https://www.googletagmanager.com/gtag/js?id=G-PFHRYPX2YW">
+			src="https://www.googletagmanager.com/gtag/js?id=G-6DY1MFCGZH">
 		</n:script>
 		<n:script>
 			window.dataLayer = window.dataLayer || []; function
 			gtag(){dataLayer.push(arguments);} gtag('js', new Date());
 
-			gtag('config', 'G-PFHRYPX2YW');
+			gtag('config', 'G-6DY1MFCGZH');
 
 			gtag('event', 'page_view', { 'page_path':
 			'/geneLociContent.zul' });
@@ -103,19 +103,17 @@
 
 		<window id="genWin" border="none"
 			apply="user.ui.module.GeneLociQueryController" width="100%"
-			height="100vh">
+			height="90vh">
 
 
 			<hlayout id="layoutResultId" class="text-left"
-				visible="false"
+				visible="false" width="95%"
 				style="margin-top:auto; margin-bottom:auto;background-color:rgb(255 255 255) ;     padding: 25px 15px 10px 15px;position:fixed;z-index:9;top:65px;width:100%;">
 
 				<button id="backQueryDiv" iconSclass="z-icon-reorder"
 					tooltiptext="Go to Input"
 					style="width:40px; padding:7px;font-size:16px; background-color:#9fc6a1; color:white;margin-top:-5px;border-radius:80px;" />
 
-				<!-- <label value="RESULT "
-					style="margin-right: 10px;margin-left: 20px;" /> -->
 				<n:div style="padding: 10px !important;"
 					class="card shadow border-start-primary py-2 home_div2">
 					<n:div class="card-body2">
@@ -161,7 +159,7 @@
 					<n:div id="div_nav"
 						style="position:absolute !important;height:100vh;">
 						<n:nav id="genotypeSearchSidebar"
-							style=" width: 480px !important;  overflow-y: auto;height:100%; "
+							style=" width: 480px !important;  overflow-y: auto;height:90vh; "
 							tabindex="-1" role="dialog">
 							<n:div class="container">
 
@@ -1009,6 +1007,32 @@
 													<div
 														class="text-left">
 														<checkbox
+															id="checkboxRicenetv2context" />
+														<label
+															value="Ricenetv2 context hubs" pre="true" />
+
+													</div>
+												</div>
+											</div>
+											<div
+												class="col offset-xl-0">
+												<div
+													class="form-group">
+													<button label="GO"
+														disabled="true" id="buttonRicenetv2context"
+														target="_ricenetcontext"
+														style="font-size:8px;height:5px;" />
+												</div>
+											</div>
+										</div>
+										<div class="form-row"
+											style="width: 430px;">
+											<div>
+												<div class="form-group"
+													style="width:300px !important;">
+													<div
+														class="text-left">
+														<checkbox
 															id="checkboxStringDB" />
 														<label
 															value="String-DB prot-prot interaction" pre="true" />
@@ -1152,6 +1176,22 @@
 												</div>
 											</div>
 										</div>
+										<n:hr/>
+										<div class="form-row"
+											style="width: 100%;" visible="false">
+											<div>
+												<vbox>
+													<checkbox
+														id="checkboxQueryinbackground"
+														label="Submit in Background" checked="false" />
+													<textbox
+														id="textboxMsgWebclient" readonly="true" rows="4" />
+													
+												</vbox>
+											</div>
+										</div>
+										
+										<timer id="timerCheckUrls" delay="5000" repeats="true"/>
 									</groupbox>
 
 
@@ -1271,9 +1311,12 @@
 										</n:div>
 										<n:div class="col">
 											<n:div class="text-left">
-												<button
-													id="buttonMyLocusList" label="Gene set/enrichment"
-													style="font-size:11px;" />
+												<vbox>
+													<button
+														id="buttonMyLocusList" label="Gene set/enrichment"
+														style="font-size:11px;" />
+												</vbox>
+
 											</n:div>
 
 										</n:div>
@@ -1309,9 +1352,6 @@
 
 					<n:div id="content">
 						<n:div>
-
-
-
 							<div id="div_info" style="height:100vh ;">
 								<n:div class="row"
 									style="position: absolute;top:20%;left: 550px;margin-right:0px; margin-left:0px;height:400px;width:1100px">
@@ -1383,10 +1423,10 @@
 
 
 							<div id="resultContentDiv" visible="false"
-								style="padding-top: 50px;margin-bottom:20px;height:100%;width:100%;">
+								style="margin-bottom:20px;height:100%;width:100%;">
 								<goldenlayout id="resultGoldenLayout"
-									height="100vh" hflex="1"
-									style="margin-top: 10px;border:0px;">
+									height="87vh" hflex="1"
+									style="margin-top: 10px;border:0px;padding-top:50px;">
 									<attribute name="areas">
 										A
 									</attribute>
@@ -1506,14 +1546,17 @@
 										visible="false">
 
 
-										<vbox width="100%">
-
-											<hbox height="20px" />
-											<hbox>
+										<vbox width="100%"
+											vflex="100%">
+											<hbox
+												style="padding:15px;margin:5px;">
 												<hbox id="hboxDownload"
 													visible="false">
-													<label
-														value="    Download:  " pre="true" />
+													<vbox
+														style="margin-top:10px;">
+														<label
+															value="Download:  " pre="true" />
+													</vbox>
 													<button
 														id="buttonDownloadCSV" label="CSV" />
 													<hbox width="5px" />
@@ -1528,8 +1571,11 @@
 													<button
 														id="buttonAddToList" label="Create Gene List:"
 														autodisable="self" tooltip="popupCreateList" />
-													<label
-														value="   List Name  " pre="true" />
+													<vbox
+														style="margin-top:10px;">
+														<label
+															value="   List Name  " pre="true" />
+													</vbox>
 													<textbox
 														id="txtboxListname" width="200px" />
 												</hbox>

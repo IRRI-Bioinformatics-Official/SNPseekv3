@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.irri.iric.ds.chado.dao.GWASRunDAO;
+import org.irri.iric.ds.chado.domain.GWASRun;
 import org.irri.iric.ds.chado.domain.MultiReferencePosition;
 import org.irri.iric.ds.chado.domain.Variety;
 import org.irri.iric.ds.chado.domain.VarietyPlusPlus;
@@ -24,9 +26,7 @@ import org.irri.iric.portal.genotype.VariantStringData;
 import org.irri.iric.portal.genotype.VariantTableArray;
 import org.irri.iric.portal.genotype.service.VariantAlignmentTableArraysImpl;
 import org.irri.iric.portal.gwas.GwasFacade;
-import org.irri.iric.portal.gwas.dao.GWASRunDAO;
 import org.irri.iric.portal.gwas.dao.ManhattanPlotDAO;
-import org.irri.iric.portal.gwas.domain.GWASRun;
 import org.irri.iric.portal.gwas.domain.ManhattanPlot;
 import org.irri.iric.portal.variety.VarietyFacade;
 import org.irri.iric.portal.variety.service.Data;
@@ -94,6 +94,7 @@ public class GwasFacadeImpl implements GwasFacade {
 			manhattandao = (ManhattanPlotDAO) AppContext.checkBean(manhattandao, "ManhattanPlotDAOFlatfileImpl");
 			// Set setsub=new TreeSet();
 			// Set settrait=new TreeSet();
+			
 			Iterator<GWASRun> itruns = gwasrundao.getGWASRuns().iterator();
 			while (itruns.hasNext()) {
 				GWASRun run = itruns.next();

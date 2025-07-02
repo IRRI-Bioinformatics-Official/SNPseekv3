@@ -89,4 +89,18 @@
     <servlet-name>JAX-RS Servlet</servlet-name>
     <url-pattern>/ws/*</url-pattern>
   </servlet-mapping>
+  <session-config>
+    <session-timeout>900</session-timeout>
+  </session-config>
+  <servlet>
+    <servlet-name>healthServlet</servlet-name>
+    <servlet-class>org.irri.iric.portal.admin.HealthServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>healthServlet</servlet-name>
+	    <url-pattern>/health</url-pattern>
+	</servlet-mapping>
+  
 </web-app>

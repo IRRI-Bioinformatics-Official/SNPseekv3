@@ -132,14 +132,39 @@ public class WebsiteDAOImpl implements WebsiteDAO {
 			try {
 
 				AppContext.debug("java  -jar   \"" + AppContext.getWebclientPath() + "\" \"" + infile + "\"");
-
-				// Runtime rt = Runtime.getRuntime();
-				// Process proc = rt.exec("java -jar \"" + AppContext.getWebclientPath() + "\"
-				// \"" + infile + "\"");
-
-				ProcessBuilder pb = new ProcessBuilder("java", "-jar", AppContext.getWebclientPath(), infile);
-				pb.redirectErrorStream(true);
 				
+				
+				// REPLACED
+
+//				ProcessBuilder pb = new ProcessBuilder("java", "-jar", AppContext.getWebclientPath(), infile);
+//				pb.redirectErrorStream(true);
+				
+				// External folder where JARs are located
+				String webclientJarPath = AppContext.getWebclientPath();
+				File jarFile = new File(webclientJarPath);
+				String externalJarDir = jarFile.getParent();
+
+				// Build classpath: main JAR + all JARs in the same folder
+				String classpath = jarFile.getAbsolutePath() + File.pathSeparator + externalJarDir + File.separator + "*";
+
+				// Main class inside snpseek-webclient-log.jar
+				String mainClass = "org.irri.iric.portal.webclient.SnpseekWebClient";
+
+				// Optional: Add Java module workaround for reflection (Java 17+)
+				List<String> command = new ArrayList<>();
+				command.add("java");
+				command.add("--add-opens");
+				command.add("java.base/java.lang=ALL-UNNAMED");
+				command.add("-cp");
+				command.add(classpath);
+				command.add(mainClass);
+				command.add(infile);
+
+				// Launch
+				ProcessBuilder pb = new ProcessBuilder(command);
+				pb.redirectErrorStream(true);
+
+
 				
 				Process proc = pb.start();
 
