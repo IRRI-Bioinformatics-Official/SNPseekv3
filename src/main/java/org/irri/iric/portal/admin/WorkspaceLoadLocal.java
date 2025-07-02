@@ -27,6 +27,7 @@ import org.irri.iric.ds.chado.domain.MultiReferencePosition;
 import org.irri.iric.ds.chado.domain.Variety;
 import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImpl;
 import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImplAllelePvalue;
+import org.irri.iric.ds.chado.domain.model.VGene;
 import org.irri.iric.ds.chado.domain.model.VLocusNotes;
 import org.irri.iric.portal.AppContext;
 import org.irri.iric.portal.WebConstants;
@@ -156,8 +157,6 @@ public class WorkspaceLoadLocal {
 
 	}
 
-	
-
 	public static void loadSNPLocalFile(String folder, WorkspaceFacade workspace, GenotypeFacade genotype) {
 		genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
 
@@ -189,7 +188,6 @@ public class WorkspaceLoadLocal {
 					reader = new BufferedReader(new FileReader(file));
 					String line = reader.readLine();
 
-			
 					while ((line = reader.readLine()) != null) {
 
 						try {
@@ -257,7 +255,6 @@ public class WorkspaceLoadLocal {
 							ex.printStackTrace();
 						}
 
-				
 					}
 
 					reader.close();
@@ -333,12 +330,21 @@ public class WorkspaceLoadLocal {
 					FileInputStream fi = new FileInputStream(file);
 					ObjectInputStream oi = new ObjectInputStream(fi);
 
-					Set<VLocusNotes> setVar = new LinkedHashSet();
+					Set setVar = new LinkedHashSet();
 
 					while (true) {
 						try {
-							VLocusNotes obj = (VLocusNotes) oi.readObject();
-							setVar.add(obj);
+							if (oi.readObject() instanceof VLocusNotes) {
+								VLocusNotes obj = (VLocusNotes) oi.readObject();
+								setVar.add(obj);
+							}
+							
+							if (oi.readObject() instanceof VGene) {
+								VGene obj = (VGene) oi.readObject();
+								setVar.add(obj);
+							}
+							
+							
 
 						} catch (EOFException e) {
 							break;

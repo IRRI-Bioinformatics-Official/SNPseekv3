@@ -1320,6 +1320,9 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 		initPanels();
 		
+		flipSearchBar();
+		Clients.evalJavaScript("myFunction();");
+		
 		try {
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
 			workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
@@ -1449,7 +1452,9 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			hboxDownload.setVisible(true);
 			div_info.setVisible(false);
 			
+			variety_panelPassportResult.setVisible(true);
 			resultGoldenLayout.appendChild(variety_panelPassportResult);
+			resultContentDiv.setVisible(true);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.irri.iric.ds.chado.domain.GWASRun;
 import org.irri.iric.portal.AppContext;
-import org.irri.iric.portal.gwas.domain.GWASRun;
 import org.irri.iric.portal.gwas.domain.ManhattanPlot;
 import org.irri.iric.portal.gwas.domain.ManhattanPlotImpl;
 import org.springframework.stereotype.Repository;

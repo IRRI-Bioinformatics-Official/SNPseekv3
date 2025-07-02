@@ -1,13 +1,13 @@
 <?page title="helpiframe" contentType="text/html;charset=UTF-8"?>
 <zk xmlns:n="native">
 	<!-- Google tag (gtag.js) -->
-			<n:script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-PFHRYPX2YW"></n:script>
+			<n:script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-6DY1MFCGZH"></n:script>
 			<n:script>
 			  window.dataLayer = window.dataLayer || [];
 			  function gtag(){dataLayer.push(arguments);}
 			  gtag('js', new Date());
 			
-			  gtag('config', 'G-PFHRYPX2YW');
+			  gtag('config', 'G-6DY1MFCGZH');
 			  
 			  gtag('event', 'page_view', {
 				  'page_path': '/_jbrowse2.zul' 
