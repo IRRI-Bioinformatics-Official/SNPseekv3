@@ -681,6 +681,9 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Label varietyRsltCnt;
+	
+	@Wire
+	private Label resultLabel;
 
 	@Wire
 	private A collapseLink;
@@ -882,6 +885,12 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	private boolean searchMenu;
 
 	private Organism organism;
+	
+	@Wire
+	private Groupbox result_grp;
+	
+	@Wire
+	private Groupbox summary_result_grp;
 
 	public void openPopup() {
 		winPopup.setVisible(true);
@@ -919,7 +928,10 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 		varietyfacade = (VarietyFacade) AppContext.checkBean(varietyfacade, "VarietyFacade");
 
-		closeDiv.setVisible(false);
+		// TODO: tailored to 1k1
+		if (closeDiv != null)
+			closeDiv.setVisible(false);
+
 		lst_organism = new ArrayList();
 
 		Session sess = Sessions.getCurrent();
@@ -4174,7 +4186,15 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 				varietyRsltCnt.setValue("Varities: " + queryResult.getListVariantsString().size() + " - SNPs: "
 						+ queryResult.getListPos().size());
 				gridBiglistheader.setVisible(true);
-				resultContentDiv.setVisible(true);
+
+				// TODO: 1k1 tailored
+				if (resultContentDiv != null)
+					resultContentDiv.setVisible(true);
+				if (result_grp != null) {
+					result_grp.setVisible(true);
+					summary_result_grp.setVisible(true);
+					resultLabel.setValue(varietyRsltCnt.getValue());
+				}
 				div_info.setVisible(false);
 
 				tallJbrowse = true;
@@ -4184,7 +4204,8 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 					updateJBrowse(chr, intStart.getValue().toString(), intStop.getValue().toString(), "");
 
 				}
-
+				removeGoldenPanel(gp_template);
+				//removeGoldenPanel(removeGoldenPanel(gp_template);)
 				updateAlleleFrequencyChart();
 				// calculateAlleleFrequencies();
 

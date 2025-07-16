@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SNP-seekV3_clean</groupId>
 	<artifactId>SNP-seekV3_clean</artifactId>
-	<version>3.9.1</version>
+	<version>3.9.2</version>
 	<packaging>war</packaging>
 
 
@@ -1263,12 +1263,35 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
+				<targetPath>.</targetPath>
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
 		</resources>
 		<plugins>
+			  <plugin>
+				  <artifactId>maven-resources-plugin</artifactId>
+			      <version>3.3.1</version>
+			      <executions>
+			        <execution>
+			          <id>copy-localhost-to-root</id>
+			          <phase>process-resources</phase>
+			          <goals>
+			            <goal>copy-resources</goal>
+			          </goals>
+			          <configuration>
+			            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+			            <resources>
+			              <resource>
+			                <directory>src/main/resources</directory>
+			                <filtering>false</filtering>
+			              </resource>
+			            </resources>
+			          </configuration>
+			        </execution>
+			      </executions>
+			    </plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>

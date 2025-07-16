@@ -225,7 +225,10 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	@Wire
 	private Bandbox bandboxVarietyset;
 
+	private String selectedList;
+
 	private Window window;
+	private int selIdx;
 
 	public WorkspaceController() {
 		super();
@@ -381,7 +384,8 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	@Listen("onClick = #radioVariety")
 	public void onclickVariety(Event event) {
 
-		String message = (String) event.getData();
+		String selected = (String) event.getData();
+		selIdx = 0;
 
 		captionListId.setLabel("Variety List ");
 		radioVariety.setSelected(true);
@@ -401,17 +405,21 @@ public class WorkspaceController extends SelectorComposer<Component> {
 		listboxListnames.setModel(model);
 		if (listVarlistNames.size() > 0) {
 
-			for (int i = 0; i < model.getSize(); i++) {
-				if (model.getElementAt(i).equals(message)) {
-					listboxListnames.setSelectedIndex(i); // Set the selected item
-					break;
-				}
-			}
+//			for (int i = 0; i < model.getSize(); i++) {
+//				if (message != null && message.isEmpty())
+//					if (model.getElementAt(i).equals(message)) {
+//						selIdx = i;
+//						listboxListnames.setSelectedIndex(i); // Set the selected item
+//						break;
+//					}
+//			}
 			// listboxListnames.setSelectedIndex(listVarlistNames.size() - 1);
 
 			// AppContext.debug(listboxListnames.getSelectedItem().getLabel() + "
 			// selected");
-			Events.sendEvent("onSelect", listboxListnames, null);
+			//selectedList = null;
+
+			Events.sendEvent("onSelect", listboxListnames, selected);
 			listboxVarieties.setVisible(true);
 		} else
 			labelNItems.setVisible(false);
@@ -419,7 +427,10 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	}
 
 	@Listen("onClick = #radioLocus")
-	public void onclickLocus() {
+	public void onclickLocus(Event event) {
+
+		String selected = (String) event.getData();
+		selIdx = 0;
 
 		captionListId.setLabel("Locus List ");
 
@@ -439,17 +450,29 @@ public class WorkspaceController extends SelectorComposer<Component> {
 		model.setMultiple(true);
 		listboxListnames.setModel(model);
 		if (listLocuslistNames.size() > 0) {
-			listboxListnames.setSelectedIndex(listLocuslistNames.size() - 1);
 
-			AppContext.debug(listboxListnames.getSelectedItem().getLabel() + "  selected");
-			Events.sendEvent("onSelect", listboxListnames, null);
+//			for (int i = 0; i < model.getSize(); i++) {
+//				if (message != null && message.isEmpty())
+//					if (model.getElementAt(i).equals(message)) {
+//						selIdx = i;
+//						listboxListnames.setSelectedIndex(i); // Set the selected item
+//						break;
+//					}
+//			}
+//			listboxListnames.setSelectedIndex(listLocuslistNames.size() - 1);
+
+			//AppContext.debug(listboxListnames.getSelectedItem().getLabel() + "  selected");
+			Events.sendEvent("onSelect", listboxListnames, selected);
 			listboxLocus.setVisible(true);
 		} else
 			labelNItems.setVisible(false);
 	}
 
 	@Listen("onClick = #radioSNP")
-	public void onclickSNP() {
+	public void onclickSNP(Event event) {
+
+		String selected = (String) event.getData();
+		selIdx = 0;
 
 		captionListId.setLabel("SNP List ");
 
@@ -466,10 +489,18 @@ public class WorkspaceController extends SelectorComposer<Component> {
 		listboxListnames.setModel(model);
 		if (listNames.size() > 0) {
 
-			listboxListnames.setSelectedIndex(listNames.size() - 1);
+//			for (int i = 0; i < model.getSize(); i++) {
+//				if (message != null && message.isEmpty())
+//					if (model.getElementAt(i).equals(message)) {
+//						selIdx = i;
+//						listboxListnames.setSelectedIndex(i); // Set the selected item
+//						break;
+//					}
+//			}
+//			listboxListnames.setSelectedIndex(listNames.size() - 1);
 
-			AppContext.debug(listboxListnames.getSelectedItem().getLabel() + "  selected");
-			Events.sendEvent("onSelect", listboxListnames, null);
+			//AppContext.debug(listboxListnames.getSelectedItem().getLabel() + "  selected");
+			Events.sendEvent("onSelect", listboxListnames, selected);
 		} else
 			labelNItems.setVisible(false);
 
@@ -617,7 +648,8 @@ public class WorkspaceController extends SelectorComposer<Component> {
 		if (setsel.size() == 0 && listmodel.getSize() > 0) {
 
 			try {
-				Object selobj = listmodel.getElementAt(listmodel.getSize() - 1);
+//				Object selobj = listmodel.getElementAt(listmodel.getSize() - 1);
+				Object selobj = listmodel.getElementAt(selIdx);
 				Set newsel = new HashSet();
 				newsel.add(selobj);
 				listmodel.setSelection(newsel);
@@ -630,8 +662,15 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	}
 
 	@Listen("onSelect = #listboxListnames")
-	public void onselectListnames() {
+	public void onselectListnames(Event event) {
 
+		selIdx = 0;
+		
+		String selected = (String) event.getData();
+
+		if (selected != null) 
+			setListboxSelection(selected);
+	
 		resultHeader.setVisible(true);
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 
@@ -715,6 +754,19 @@ public class WorkspaceController extends SelectorComposer<Component> {
 		}
 	}
 
+	private void setListboxSelection(String selected) {
+		ListModelList<String> model = (ListModelList) listboxListnames.getModel();
+
+		for (int i = 0; i < model.getSize(); i++) {
+			if (model.getElementAt(i).equals(selected)) {
+				selIdx = i;
+				listboxListnames.setSelectedIndex(i); // Set the selected item
+				break;
+			}
+		}
+		
+	}
+
 	@Listen("onClick =#buttonQueryIric")
 	public void onbuttonQueryIric() {
 	}
@@ -726,6 +778,8 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 	@Listen("onClick =#buttonCreate")
 	public void onbuttonCreate() {
+
+		selectedList = null;
 
 		if (radioVariety.isSelected())
 			window = (Window) Executions.createComponents("CreateVarietyListDialog.zul", null, varietyListMap);
@@ -755,21 +809,25 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 							listboxVarieties.setVisible(input.getListboxVarietySetVisible());
 
+							selectedList = input.getListname();
+
 							Events.sendEvent("onClick", radioVariety, input.getListname());
 
 						} else if (radioSNP.isSelected()) {
-							//success = onbuttonSaveSNP();
+							// success = onbuttonSaveSNP();
 //							if (success)
 							WorkspaceLoadLocal.writeListToUserList(input.getListname(), "SNP", input.getSnpList(),
 									user.getEmail());
-							
-							Events.sendEvent("onClick", radioSNP, null);
-							
+
+							Events.sendEvent("onClick", radioSNP, input.getListname());
+
 						} else if (radioLocus.isSelected()) {
 							success = onbuttonSaveLocus();
-							if (success)
+							if (success) {
 								WorkspaceLoadLocal.writeListToUserList(input.getListname(), "LOCUS",
 										input.getLocusList(), user.getEmail());
+								Events.sendEvent("onClick", radioLocus, input.getListname());
+							}
 						}
 
 						afterButtonSave(success);
@@ -1697,6 +1755,8 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
+
+		selectedList = null;
 
 		sess = Sessions.getCurrent();
 		user = (User) sess.getAttribute(SessionConstants.USER_CREDENTIAL);

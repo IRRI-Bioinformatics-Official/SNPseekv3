@@ -93,8 +93,6 @@ public class DownloadListBox {
 
 		try {
 			genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
-			
-			
 
 			int size = genotype.getFeatureLength(contig, AppContext.getDefaultOrganism());
 //			int size = 1000;
@@ -108,13 +106,13 @@ public class DownloadListBox {
 				if (lStop > size)
 					lStop = size;
 
-				downloadList("snp3kvars-" + str + ":" + (lStart + 1) + "-" + lStop + ".csv",
-						",", "csv", new Long(lStart + 1), new Long(lStop));
+				downloadList("snp3kvars-" + str + ":" + (lStart + 1) + "-" + lStop + ".csv", ",", "csv",
+						new Long(lStart + 1), new Long(lStop));
 
 //				callreport = callableDownloadBigListbox(
 //						AppContext.getTempDir() + "snp3kvars-" + str+"----"+ lStart +".csv", ",", "csv", new Long(lStart + 1), new Long(lStop));
 
-				System.out.println( "snp3kvars-" + str + ":" + lStart + "-" + lStop + ".csv");
+				System.out.println("snp3kvars-" + str + ":" + lStart + "-" + lStop + ".csv");
 
 //				AsyncJobReport report = callreport.call();
 
@@ -131,13 +129,22 @@ public class DownloadListBox {
 
 	}
 
+	public static String getBaseName(String filename) {
+		int dot = filename.lastIndexOf('.');
+		return (dot >= 0) ? filename.substring(0, dot) : filename;
+	}
+
+	public static String getExtension(String filename) {
+		int dot = filename.lastIndexOf('.');
+		return (dot >= 0) ? filename.substring(dot) : "";
+	}
+
 	public void downloadRegion(String filename, String chr) throws Exception {
 
 		try {
 			genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
 
-			downloadList(outputFile,
-					",", "csv", new Long(lStart + 1), new Long(lStop));
+			downloadList(outputFile, ",", "csv", new Long(lStart + 1), new Long(lStop));
 
 			System.out.println("snp3kvars-" + filename + ":" + lStart + "-" + lStop + ".csv");
 
@@ -168,9 +175,8 @@ public class DownloadListBox {
 
 			Set runs = new HashSet(getGenotyperun());
 
-			
-			GenotypeQueryParams params = new GenotypeQueryParams(allStockIds, contig, lStart, lStop, true, false, snpset,
-					dataset, runs, false, snppos, null, null, true, false, organism);
+			GenotypeQueryParams params = new GenotypeQueryParams(allStockIds, contig, lStart, lStop, true, false,
+					snpset, dataset, runs, false, snppos, null, null, true, false, organism);
 
 			params.setIncludedSnps(false, false, false);
 
@@ -185,6 +191,83 @@ public class DownloadListBox {
 			listSNPs = queryRawResult.getListVariantsString();
 
 			downloadBigListbox(varianttable, filename, ",", false, false);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			// Messagebox.show("call():" + ex.getMessage());
+			msg = ex.getMessage();
+
+		}
+
+	}
+
+	public void downloadListBulk(final String delimiter) {
+		String msg = "";
+		String jobid = "";
+		String url = "";
+		Future future = null;
+
+		genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
+
+		try {
+
+			List listSNPs = new java.util.ArrayList();
+
+			genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
+
+//			lStart = new Long(1);
+//			lStop = new Long(500000);
+////			lStop = new Long(genotype.getFeatureLength(contig, AppContext.getDefaultOrganism()));
+
+			Set runs = new HashSet(getGenotyperun());
+
+			long max = 10000;
+			long start = lStart;
+			long end;
+
+			String fname = getBaseName(outputFile);
+			String ext = getExtension(outputFile);
+
+			System.out.println("Start Bulkdownload");
+
+			boolean iterList = true;
+			while (iterList) {
+
+				if (lStop > start + max)
+					end = start + max;
+				else {
+					end = lStop;
+					iterList = false;
+				}
+				GenotypeQueryParams params = new GenotypeQueryParams(allStockIds, contig, start, end, true, false,
+						snpset, dataset, runs, false, snppos, null, null, true, false, organism);
+
+				params.setIncludedSnps(false, false, false);
+
+				try {
+					queryRawResult = genotype.queryGenotype(params);
+
+					varianttable = new VariantAlignmentTableArraysImpl();
+					varianttable = (VariantAlignmentTableArraysImpl) genotype.fillGenotypeTable(varianttable,
+							queryRawResult, params);
+
+					queryResult = varianttable.getVariantStringData();
+
+					listSNPs = queryRawResult.getListVariantsString();
+
+					System.out.println("making new File");
+					downloadBigListbox(varianttable, fname.trim() + ":" + start + "-" + end + "." + ext, ",", false,
+							false);
+
+					
+				} catch (NullPointerException e) {
+					// TODO: handle exception
+				}
+				
+				start = end + 1;
+			}
+
+			System.out.println("end Bulkdownload");
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -496,7 +579,7 @@ public class DownloadListBox {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				System.out.println("Writing to: " + file.getAbsolutePath());
 				// Filedownload.save(file, filetype);
 //				} catch (FileNotFoundException e) {

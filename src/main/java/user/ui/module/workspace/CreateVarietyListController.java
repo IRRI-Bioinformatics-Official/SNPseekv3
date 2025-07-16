@@ -129,6 +129,9 @@ public class CreateVarietyListController extends SelectorComposer<Component> {
 	private Radio radioSNP;
 	@Wire
 	private Radio radioLocus;
+
+	@Wire
+	private Radio searchWhiteSpace;
 	@Wire
 	private Listbox selectChromosome;
 	@Wire
@@ -213,7 +216,7 @@ public class CreateVarietyListController extends SelectorComposer<Component> {
 		try {
 
 			lst_dataset = new HashSet<String>();
-			
+
 			displayListboxVarietySet = false;
 
 			variety = (VarietyFacade) AppContext.checkBean(variety, "VarietyFacade");
@@ -240,20 +243,20 @@ public class CreateVarietyListController extends SelectorComposer<Component> {
 	public void createbutton() {
 
 		displayListboxVarietySet = false;
-		
+
 		varset = null;
 		if (txtboxEditListname.getValue().trim().isEmpty()) {
 			Messagebox.show("Please provide a unique list name");
 			return;
 		}
-		
+
 		lst_dataset = new HashSet<String>();
 		for (Listitem item : listboxDataset.getSelectedItems()) {
 			lst_dataset.add(item.getValue());
 		}
 
 		if (onbuttonSaveVariety()) {
-			
+
 			CustomList userList = new CustomList();
 			userList.setListname(txtboxEditListname.getValue());
 			userList.setListboxVarietySetVisible(displayListboxVarietySet);
@@ -357,7 +360,13 @@ public class CreateVarietyListController extends SelectorComposer<Component> {
 
 		}
 
-		Set<Variety> varset = new HashSet(variety.getGermplasmByNames(setNames, lst_dataset));
+		Set<Variety> varset;
+
+		if (searchWhiteSpace.isSelected())
+			varset = new HashSet(variety.getGermplasmByNamesWithSpace(setNames, lst_dataset));
+		else
+			varset = new HashSet(variety.getGermplasmByNames(setNames, lst_dataset));
+		
 		if (varset.size() < setNames.size())
 			varset.addAll(variety.getGermplasmByIrisIds(setNames, lst_dataset));
 		if (varset.size() < setNames.size())
@@ -395,8 +404,7 @@ public class CreateVarietyListController extends SelectorComposer<Component> {
 			return false;
 		}
 
-		
-		this.varset =  varset;
+		this.varset = varset;
 //		input.setVarietySets(varset);
 
 		Map<BigDecimal, Variety> mapVarid2var = new HashMap();
@@ -480,8 +488,8 @@ public class CreateVarietyListController extends SelectorComposer<Component> {
 
 				AppContext.debug(txtboxEditListname.getValue().trim() + " added with " + setMatched.size() + " items");
 
-				//listboxVarieties.setVisible(true);
-				
+				// listboxVarieties.setVisible(true);
+
 				displayListboxVarietySet = true;
 
 //				Events.sendEvent("onClick", radioVariety, null);

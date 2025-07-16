@@ -22,6 +22,7 @@ import org.hibernate.Session;
 import org.irri.iric.ds.chado.domain.Locus;
 import org.irri.iric.ds.chado.domain.Position;
 import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImpl;
+import org.irri.iric.ds.chado.domain.model.VLocusMergedNotes;
 import org.irri.iric.ds.chado.domain.model.VLocusNotes;
 import org.irri.iric.ds.utils.TextSearchOptions;
 import org.irri.iric.portal.AppContext;

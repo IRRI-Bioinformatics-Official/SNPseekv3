@@ -189,6 +189,13 @@ public class SidebarController extends SelectorComposer<Component> {
 		contentInclude.setSrc("/genotypeContent.zul");
 
 	}
+	
+	@Listen("onClick =#1k1")
+	public void search1k1() {
+		collapsedSidebar();
+		contentInclude.setSrc("/1k1Content.zul");
+
+	}
 
 	private void collapsedSidebar() {
 		navbar.setCollapsed(true);
