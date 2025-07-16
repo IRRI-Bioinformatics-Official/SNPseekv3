@@ -614,15 +614,14 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 				+ (setPassport == null ? "0" : setPassport.size()) + " passport fields, "
 				+ (setPhenotype == null ? "0" : setPhenotype.size()) + " phenotypes, "
 				+ (setPtoco == null ? "0" : setPtoco.size()) + " rice trait terms, for selection";
-		
-		
-		varietyCnt.setValue(varnames == null ? "0" : varnames.size()+"");
-		accessionCnt.setValue(varaccessions == null ? "0" : varaccessions.size()+"");
-		irisCnt.setValue(irisIds == null ? "0" : irisIds.size()+"");
-		countriesCnt.setValue(countries == null ? "0" : countries.size()+"");
-		subpopCnt.setValue(subpopulation == null ? "0" : subpopulation.size()+"");
-		passportCnt.setValue(setPassport == null ? "0" : setPassport.size()+"");
-		phenotypesCnt.setValue(setPhenotype == null ? "0" : setPhenotype.size()+"");
+
+		varietyCnt.setValue(varnames == null ? "0" : varnames.size() + "");
+		accessionCnt.setValue(varaccessions == null ? "0" : varaccessions.size() + "");
+		irisCnt.setValue(irisIds == null ? "0" : irisIds.size() + "");
+		countriesCnt.setValue(countries == null ? "0" : countries.size() + "");
+		subpopCnt.setValue(subpopulation == null ? "0" : subpopulation.size() + "");
+		passportCnt.setValue(setPassport == null ? "0" : setPassport.size() + "");
+		phenotypesCnt.setValue(setPhenotype == null ? "0" : setPhenotype.size() + "");
 	}
 
 	@Listen("onSelect = #listboxDataset")
@@ -1326,8 +1325,8 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 				}
 			}
 
-			Clients.showNotification("New panels have been added for passport details.", "info", gp_passport, "middle_center", 10000, true);
-			
+			Clients.showNotification("New panels have been added for passport details.", "info", gp_passport,
+					"middle_center", 10000, true);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -1570,6 +1569,8 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 			emptyLayout();
 
 			AppContext.resetTimer("variety query start");
+			
+			msgbox.setValue("");
 
 			// resultGroupVisible(false);
 
@@ -1629,7 +1630,9 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 						&& (listboxPhenotypes.getSelectedItem() == null
 								|| listboxPhenotypes.getSelectedItem().getLabel().trim().isEmpty())
 						&& (comboVarname == null || comboVarname.getValue() == null
-								|| comboVarname.getValue().trim().isEmpty())) {
+								|| comboVarname.getValue().trim().isEmpty())
+						&& (listboxMyVariety == null || listboxMyVariety.getSelectedItem() == null
+								|| listboxMyVariety.getSelectedItem().getLabel().trim().isEmpty())) {
 
 					AppContext.debug("varname=" + comboVarname.getValue());
 
@@ -1658,6 +1661,7 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 				if ((comboCountry == null || comboCountry.getValue().isEmpty())
 						&& (listboxSubpopulation == null || listboxSubpopulation.getSelectedIndex() < 1)
 						&& comboVarname.getValue().trim().isEmpty() && comboAccession.getValue().trim().isEmpty()) {
+					
 				} else {
 
 					Variety example = new VarietyImpl();
@@ -1855,8 +1859,6 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 
 		System.out.println("Children: " + resultGoldenLayout.getChildren().size());
 	}
-
-	
 
 	private void resultGroupVisible(boolean visible) {
 

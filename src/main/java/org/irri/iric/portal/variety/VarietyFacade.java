@@ -2,6 +2,7 @@ package org.irri.iric.portal.variety;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -462,6 +463,8 @@ public interface VarietyFacade {
 	public Map<BigDecimal, String> getAllTraits(Set<String> stringValues, boolean b);
 
 	public Collection getPassportByAccession(String value);
+
+	public List<Variety> getGermplasmByNamesWithSpace(Collection names, Set dataset);
 
 	// public List getVarietyByPassport(String sPassId);
 

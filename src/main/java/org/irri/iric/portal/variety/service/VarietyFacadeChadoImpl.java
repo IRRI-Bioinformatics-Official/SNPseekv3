@@ -364,6 +364,12 @@ public class VarietyFacadeChadoImpl implements VarietyFacade {
 	}
 
 	@Override
+	public List<Variety> getGermplasmByNamesWithSpace(Collection names, Set dataset) {
+		// Set s=new HashSet(); s.add(dataset);
+		return varietydao.findVarietyByNamesWithSpace(names, dataset);
+	}
+	
+	@Override
 	public List<Variety> getGermplasmByNames(Collection names, Set dataset) {
 		// Set s=new HashSet(); s.add(dataset);
 		return varietydao.findVarietyByNames(names, dataset);

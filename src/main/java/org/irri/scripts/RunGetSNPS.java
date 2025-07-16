@@ -155,7 +155,8 @@ public class RunGetSNPS implements Runnable {
 
 			try {
 
-				bx.downloadRegion(dataset.trim() + "-" + contig, contig);
+//				bx.downloadRegion(dataset.trim() + "-" + contig, contig);
+				bx.downloadListBulk(",");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
