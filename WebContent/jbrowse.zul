@@ -16,6 +16,6 @@
 			</n:script>
 	<style src="assets/css/doc_styles.css" />
 	<iframe id="iframejbrowse1"
-		src="https://snpseekv3.irri-e-extension.com/_jbrowse.zul?tracks=${paramstr}" width="100%" style="padding:20px;"
+		src="https://snpseek.irri.org/_jbrowse.zul?tracks=${paramstr}" width="100%" style="padding:20px;"
 		height="100vh" />
 </zk>

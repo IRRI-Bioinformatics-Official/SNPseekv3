@@ -123,8 +123,8 @@ public class SidebarController extends SelectorComposer<Component> {
 			WorkspaceLoadLocal.initUserList(WebConstants.LOCUS_DIR, user.getEmail(), workspace);
 			
 		}
-		sess = Sessions.getCurrent();
-		user = (User) sess.getAttribute(SessionConstants.USER_CREDENTIAL);
+//		sess = Sessions.getCurrent();
+//		user = (User) sess.getAttribute(SessionConstants.USER_CREDENTIAL);
 
 		Properties prop = (Properties) sess.getAttribute(SessionConstants.CONTENT_MANAGER);
 

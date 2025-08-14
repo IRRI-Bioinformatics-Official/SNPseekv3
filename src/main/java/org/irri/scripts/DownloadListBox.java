@@ -221,7 +221,7 @@ public class DownloadListBox {
 
 			Set runs = new HashSet(getGenotyperun());
 
-			long max = 10000;
+			long max = 100000;
 			long start = lStart;
 			long end;
 

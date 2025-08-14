@@ -755,6 +755,9 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				}
 			}
 		} else {
+			System.gc();
+			long hdf5_startTime = System.nanoTime();
+			
 
 			AppContext.debug("using HDF5");
 
@@ -1053,6 +1056,19 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 			} // else throw new RuntimeException("heteroSnps==null and
 				// mapVarid2Snpsstr_allele2==null ... no allele2 data");
+		
+			long hdf5_endTime = System.nanoTime();
+			long hdf5_totalTime = hdf5_endTime - hdf5_startTime;
+
+			
+			// More precise version
+			double totalSeconds2 = hdf5_totalTime / 1_000_000_000.0;
+			long minutes2 = (long) totalSeconds2 / 60;
+			double seconds2 = totalSeconds2 % 60;
+			System.out.printf("HDF5 TIME (precise): %d minutes %.2f seconds%n", minutes2, seconds2);
+
+			
+			
 		}
 
 		AppContext.resetTimer("to read indels");

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SNP-seekV3_clean</groupId>
 	<artifactId>SNP-seekV3_clean</artifactId>
-	<version>3.9.2</version>
+	<version>3.12.0</version>
 	<packaging>war</packaging>
 
 
@@ -95,7 +95,6 @@
 		</dependency>
 
 
-		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ec2 -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-ec2</artifactId>
@@ -157,7 +156,7 @@
 
 			</exclusions>
 		</dependency>
-		
+
 
 		<!--
 		https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->

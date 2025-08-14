@@ -299,7 +299,7 @@ public class UserSessionListsManager implements Serializable {
 		if (mapVarietyLists == null)
 			mapVarietyLists = new LinkedHashMap();
 		if (mapVarietyLists.containsKey(name))
-			return false;
+			return true;
 
 		Set setQueryVarobj = new HashSet();
 		Set setVarobj = new HashSet();

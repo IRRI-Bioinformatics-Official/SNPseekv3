@@ -8,23 +8,23 @@
 
 		<n:script src="assets/js/Collapsible-Sidebar.js" />
 		<n:script src="assets/js/Material-Text-Input.js" />
-		
+
 		<!-- Google tag (gtag.js) -->
-			<n:script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-6DY1MFCGZH"></n:script>
-			<n:script>
-			  window.dataLayer = window.dataLayer || [];
-			  function gtag(){dataLayer.push(arguments);}
-			  gtag('js', new Date());
-			
-			  gtag('config', 'G-6DY1MFCGZH');
-			  
-			  gtag('event', 'page_view', {
-				  'page_path': '/downloadContent.zul' 
-				});
-			  
-			</n:script>
-			
-			
+		<n:script async="async"
+			src="https://www.googletagmanager.com/gtag/js?id=G-6DY1MFCGZH">
+		</n:script>
+		<n:script>
+			window.dataLayer = window.dataLayer || []; function
+			gtag(){dataLayer.push(arguments);} gtag('js', new Date());
+
+			gtag('config', 'G-6DY1MFCGZH');
+
+			gtag('event', 'page_view', { 'page_path':
+			'/downloadContent.zul' });
+
+		</n:script>
+
+
 		<style src="assets/bootstrap/css/bootstrap.min.css" />
 		<style
 			src="https://fonts.googleapis.com/css?family=Nunito+Sans" />
@@ -112,17 +112,37 @@
 
 					<hbox height="15px" />
 
-					<iframe align="left" visible="true"
-						style="width:95%;height:4000px;border:0px inset;"
-						src="https://3kricegenome.s3.us-east-1.amazonaws.com/3kRG_download.html" />
+					<tabbox width="100%">
+						<tabs>
+							<tab label="3k" />
+							<tab label="Other Dataset" />
+						</tabs>
+						<tabpanels>
+							<tabpanel>
+								<vlayout>
+									<iframe align="left" visible="true"
+										style="width:95%;height:4000px;border:0px inset;"
+										src="https://3kricegenome.s3.us-east-1.amazonaws.com/3kRG_download.html" />
+								</vlayout>
+							</tabpanel>
+							<tabpanel>
+								<vlayout>
+									<iframe align="left" visible="true"
+										style="width:95%;height:4000px;border:0px inset;"
+										src="https://3kricegenome.s3.dualstack.us-east-1.amazonaws.com/snpseek-dl/Snpseek_subsets.html" />
+								</vlayout>
+							</tabpanel>
+						</tabpanels>
+					</tabbox>
+
 
 					<!-- 
-
-					<zscript><![CDATA[
+						
+						<zscript><![CDATA[
 						tabSequence.setVisible(!AppContext.isUsingsharedData());
-				]]></zscript>
-				
-				 -->
+						]]></zscript>
+						
+					-->
 
 				</div>
 			</div>

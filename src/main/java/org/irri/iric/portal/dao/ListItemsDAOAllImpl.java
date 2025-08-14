@@ -1603,7 +1603,8 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 		sampledao = (StockSampleDAO) AppContext.checkBean(sampledao, "StockSampleDAO");
 		Set samples = null;
 		if (params.hasVarlist()) {
-			samples = sampledao.getSamplesById(new HashSet(params.getColVarIds()));
+			//samples = sampledao.getSamplesById(new HashSet(params.getColVarIds()));
+			samples = sampledao.getSamplesBySampleIdInDataset(new HashSet(params.getDataset()), new HashSet(params.getColVarIds()));
 		} else if (params.hasVaridRange()) {
 			Integer varidstartend[] = params.getVaridStartEnd();
 			Set setVarids = new HashSet();
