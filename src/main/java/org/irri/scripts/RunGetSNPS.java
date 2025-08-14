@@ -2,6 +2,7 @@ package org.irri.scripts;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -69,17 +70,20 @@ public class RunGetSNPS implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Dataset: " + dataset);
-		System.out.println("SNPset: " + snpset);
-		System.out.println("Chr: " + chr);
-		System.out.println("Start-End: " + start + " - " + end);
+		
+		  URL resource = getClass().getClassLoader().getResource("IpAddresses.properties");
+	        System.out.println("IpAddresses.properties found at: " + resource);
+	        
 		// Call your service here
 //	         RunGetSNPS.main(dataset, snpset, chr, samples, snps, start, end);
 
 //		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("LOCAL_eclipse_applicationContext-business.xml");
 
+		System.out.println("Loading..... LOCAL_applicationContext-business.xml" );
+		
 		ConfigurableApplicationContext  context = new ClassPathXmlApplicationContext("LOCAL_applicationContext-business.xml");
 
+		
 		try {
 
 			String names[] = context.getBeanDefinitionNames();
@@ -98,7 +102,7 @@ public class RunGetSNPS implements Runnable {
 
 			Organism org = organismdao.getOrganismByID(9);
 
-			System.out.println("Loading.....");
+			
 			Set lst_dataset = new HashSet<String>();
 
 			Set lst_snpset = new HashSet<String>();
@@ -119,6 +123,13 @@ public class RunGetSNPS implements Runnable {
 			List<Integer> allStockIds = null;
 
 			Collection snppos = null;
+			
+			System.out.println("Dataset: " + dataset);
+			System.out.println("SNPset: " + snpset);
+			System.out.println("Chr: " + chr);
+			System.out.println("Start-End: " + start + " - " + end);
+			
+			
 
 			if (samples != null)
 				try {
@@ -126,7 +137,7 @@ public class RunGetSNPS implements Runnable {
 							.map(Integer::parseInt).collect(Collectors.toList());
 
 					// Print the list to confirm
-					System.out.println("ID List: " + allStockIds);
+					System.out.println("Using Samples: " + allStockIds);
 
 				} catch (IOException e) {
 					System.err.println("Error reading file: " + e.getMessage());
@@ -138,8 +149,7 @@ public class RunGetSNPS implements Runnable {
 				try {
 					
 					snppos = getSNPpos(Files.readAllLines(Paths.get(snps)));
-					System.out.println("LOADED snps: " + snppos.size());
-					
+					System.out.println("Using SNPpos: " + snppos.size());
 
 					
 
@@ -148,14 +158,14 @@ public class RunGetSNPS implements Runnable {
 				}
 			}
 
-			System.out.println(org.getName());
+		
 
 			DownloadListBox bx = new DownloadListBox(allStockIds, snppos, contig, lst_dataset, lst_snpset, lStart,
 					lStop, org, outputFile);
 
 			try {
 
-//				bx.downloadRegion(dataset.trim() + "-" + contig, contig);
+				//bx.downloadRegion(dataset.trim() + "-" + contig, contig);
 				bx.downloadListBulk(",");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

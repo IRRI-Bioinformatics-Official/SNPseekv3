@@ -23,7 +23,7 @@ public class IpAddressesConfig {
 	
 	@PostConstruct
     public void init() {
-        System.out.println("Property value from keys.properties: " + galaxyIp);
+        System.out.println("Property value from IPAddresses.properties: " + galaxyIp);
     }
 
 }

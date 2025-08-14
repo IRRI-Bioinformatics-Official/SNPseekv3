@@ -1,6 +1,5 @@
 package org.irri.iric.portal.hdf5;
 
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,7 +12,6 @@ import java.util.logging.Logger;
 import org.irri.iric.ds.chado.dao.SnpsStringDAO;
 import org.irri.iric.ds.chado.domain.GenotypeRunPlatform;
 import org.irri.iric.ds.chado.domain.SnpsAllvarsPos;
-import org.irri.iric.ds.utils.DbUtils;
 import org.irri.iric.portal.AppContext;
 
 import ncsa.hdf.object.Dataset;
@@ -184,16 +182,22 @@ public class H5Dataset implements SnpsStringDAO {
 			Set orderedVarids = new TreeSet(colVarids);
 			Iterator<BigDecimal> itVarid = orderedVarids.iterator();
 
-			int varids[] = new int[orderedVarids.size()];
+			int varids[] = new int[mapSampleId2Idx.size()];
 			int icount = 0;
 			while (itVarid.hasNext()) {
 
 				// varids[icount]=itVarid.next().intValue()-varid_offset;
-				if (mapSampleId2Idx == null || mapSampleId2Idx.isEmpty())
+				if (mapSampleId2Idx == null || mapSampleId2Idx.isEmpty()) {
 					varids[icount] = itVarid.next().intValue() - varid_offset;
-				else
-					varids[icount] = mapSampleId2Idx.get(itVarid.next().intValue() - varid_offset).intValue();
-				icount++;
+					icount++;
+				} else {
+					int temp = itVarid.next().intValue() - varid_offset;
+					if (mapSampleId2Idx.get(new BigDecimal(temp)) != null) {
+						varids[icount] = mapSampleId2Idx.get(new BigDecimal(temp));
+						icount++;
+					}
+				}
+
 			}
 
 			log.info("H5 querying " + varids.length + " vars " + this.filename + " [" + startIdx + "-" + endIdx

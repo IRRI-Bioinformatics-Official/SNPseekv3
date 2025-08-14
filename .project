@@ -3,6 +3,7 @@
 	<name>snp-seekv3</name>
 	<comment></comment>
 	<projects>
+		<project>snpseek-datasource</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

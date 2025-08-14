@@ -35,6 +35,8 @@
 		<style src="assets/fonts/fontawesome5-overrides.min.css" />
 		<style src="assets/css/Footer-Dark.css" />
 		<style src="assets/css/Collapsible-Sidebar.css" />
+		<style src="assets/css/styles.css" />
+		<style src="assets/css/styles_genotype.css" />
 		<style src="assets/css/sidebar_home.css" />
 		<style src="assets/css/genotypeSearch.css" />
 		<style src="assets/css/stylenav.css" />
