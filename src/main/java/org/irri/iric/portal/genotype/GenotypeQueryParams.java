@@ -10,6 +10,8 @@ import java.util.Set;
 
 import org.irri.iric.ds.chado.domain.MultiReferenceLocus;
 import org.irri.iric.ds.chado.domain.Variety;
+import org.irri.iric.ds.chado.domain.VarietyPlus;
+import org.irri.iric.ds.chado.domain.VarietyPlusPlus;
 import org.irri.iric.ds.chado.domain.impl.MultiReferenceLocusImpl;
 import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.portal.AppContext;
@@ -243,6 +245,10 @@ public class GenotypeQueryParams extends Query  {
 				Object objvar = itvarids.next();
 				if (objvar instanceof BigDecimal)
 					varids.add(objvar);
+				else if (objvar instanceof VarietyPlusPlus) {
+					VarietyPlusPlus vpp = (VarietyPlusPlus) objvar;
+					varids.add(vpp.getVarietyId());
+				}
 				else if (objvar instanceof Variety)
 					varids.add(((Variety) objvar).getStockSampleId());
 				else if (objvar instanceof Long)

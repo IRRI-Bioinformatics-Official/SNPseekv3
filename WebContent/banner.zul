@@ -145,8 +145,8 @@
 									background: rgb(111 142 102) !important;
 									color: rgb(255, 255, 255) !important;">
 								<menupopup>
-									<menuitem
-										src="/images/iric/users_manual.png" label="User's Manual (soon)"
+									<menuitem target="_blank"
+										src="/images/iric/users_manual.png" label="User's Manual" href="https://snp-seek-v3-user-manual.readthedocs.io/en/latest/index.html"
 										 />
 									<menuitem
 										src="/images/iric/srccode.png" label="Development"

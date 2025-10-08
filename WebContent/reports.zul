@@ -41,31 +41,32 @@
 
 		<n:script>
 			
-			<![CDATA[ function afterValidate(response) {
-
-			var action = "signup";
-
-			var token = grecaptcha.getResponse(); console.log("reCAPTCHA
-			token: ", token);
-
-			console.log("reCAPTCHA validated: ", response);
-
-			// Log the event firing to make sure it reaches this point
-			console.log("Firing event to ZK server with response and
-			action...");
-
-			zk.Widget.$('$recaptchaDiv').fire('onRecaptchaValidated',
-			{'response': response, 'action': action, 'token': token},
-			{toServer: true});
-
-			console.log("reCAPTCHA firing OnUserRespond: "); var button
-			= zk.Widget.$('$buttonSubmit');
-
-			if (response) { button.setDisabled(false); // Enable the
-			button } else { button.setDisabled(true); // Disable the
-			button }
-
-			} ]]>
+			<![CDATA[
+			  function afterValidate(response) {
+			    
+				var action = "signup";
+				
+				 var token = grecaptcha.getResponse();
+			     console.log("reCAPTCHA token: ", token);
+				
+				console.log("reCAPTCHA validated: ", response);
+			    
+				// Log the event firing to make sure it reaches this point
+			    console.log("Firing event to ZK server with response and action...");
+				
+				zk.Widget.$('$recaptchaDiv').fire('onRecaptchaValidated', {'response': response, 'action': action, 'token': token}, {toServer: true});
+			    
+				console.log("reCAPTCHA firing OnUserRespond: ");
+			    var button = zk.Widget.$('$buttonSubmit');
+		        
+		        if (response) {
+		            button.setDisabled(false);  // Enable the button
+		        } else {
+		            button.setDisabled(true);  // Disable the button
+		        }
+			    
+			  }
+		  ]]>
 			
 		</n:script>
 

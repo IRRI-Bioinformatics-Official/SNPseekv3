@@ -55,7 +55,6 @@ import org.springframework.stereotype.Service;
 @Service("SnpsStringNPBService")
 public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
-	
 	@Autowired
 	@Qualifier("VSnpNonsynallelePosDAO")
 	private SnpsNonsynAllvarsDAO snpsnonsynDAO;
@@ -82,7 +81,6 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 	@Override
 	public List checkSNPsInChromosome(Integer organismId, String chr, Collection posset, Set type) {
-		
 
 		/*
 		 * if(! (type.equals(SnpsAllvarsPosDAO.TYPE_3KALLSNP_HDF5_V2) ||
@@ -92,18 +90,18 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 		SnpsAllvarsPosDAO snpstringallvarsposDAO = null;
 		snpstringallvarsposDAO = (SnpsAllvarsPosDAO) AppContext.checkBean(snpstringallvarsposDAO, "VSnpRefposindexDAO");
-		return snpstringallvarsposDAO.getSNPsInChromosome(organismId,chr, posset, type);
+		return snpstringallvarsposDAO.getSNPsInChromosome(organismId, chr, posset, type);
 	}
 
 	@Override
 	public List<SnpsEffect> getSnpsEffects(List positions) {
-		
+
 		snpseffDAO = (SnpsEffectDAO) AppContext.checkBean(snpseffDAO, "SnpsEffectDAO");
 		// group gy contig
 		List listEffs = new ArrayList();
 		listEffs.addAll(snpseffDAO.getSNPsIn("any", positions, null));
 		return listEffs;
-		
+
 	}
 
 	@Override
@@ -113,7 +111,7 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 		snpstringallvarsposDAO = (SnpsAllvarsPosDAO) AppContext.checkBean(snpstringallvarsposDAO, "VSnpRefposindexDAO");
 
 		Set snptype = params.getSnpSet();
-		
+
 		Organism organism = params.getOrganism();
 
 		List<SnpsAllvarsPos> snpsposlist = null;
@@ -139,25 +137,28 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				listpos = new ArrayList();
 				listpos.addAll(new TreeSet(params.getPoslist()));
 				AppContext.resetTimer("getSNPsString start1");
-				snpsposlist = snpstringallvarsposDAO.getSNPsInChromosome(organism.getOrganismId().intValue(), params.getsChr(), listpos, snptype);
+				snpsposlist = snpstringallvarsposDAO.getSNPsInChromosome(organism.getOrganismId().intValue(),
+						params.getsChr(), listpos, snptype);
 			} else if (params.hasLocusList()) {
 				AppContext.resetTimer("getSNPsString start1b");
-				snpsposlist = snpstringallvarsposDAO.getSNPsInChromosome(organism.getOrganismId().intValue(), params.getsChr(), params.getColLoci(),
-						snptype);
+				snpsposlist = snpstringallvarsposDAO.getSNPsInChromosome(organism.getOrganismId().intValue(),
+						params.getsChr(), params.getColLoci(), snptype);
 			} else if (params.hasChrPosRange()) {
 				AppContext.resetTimer("getSNPsString start2");
-				snpsposlist = snpstringallvarsposDAO.getSNPs(organism.getOrganismId().intValue(), params.getsChr(), params.getlStart().intValue(),
-						params.getlEnd().intValue(), snptype, firstRow, maxRows);
+				snpsposlist = snpstringallvarsposDAO.getSNPs(organism.getOrganismId().intValue(), params.getsChr(),
+						params.getlStart().intValue(), params.getlEnd().intValue(), snptype, firstRow, maxRows);
 				// snpsposlist = snpstringallvarsposDAO.getSNPs(params.getsChr(),
 				// params.getlStart(), params.getlEnd(), snptype, firstRow, maxRows);
 			} else if (params.hasChrNoPosRange()) {
 				AppContext.resetTimer("getSNPsString start2b");
-				snpsposlist = snpstringallvarsposDAO.getSNPs(organism.getOrganismId().intValue(), params.getsChr(), null, null, snptype, firstRow, maxRows);
+				snpsposlist = snpstringallvarsposDAO.getSNPs(organism.getOrganismId().intValue(), params.getsChr(),
+						null, null, snptype, firstRow, maxRows);
 				// snpsposlist = snpstringallvarsposDAO.getSNPs(params.getsChr(),
 				// params.getlStart(), params.getlEnd(), snptype, firstRow, maxRows);
 			} else {
 				AppContext.resetTimer("getSNPsString start2c");
-				snpsposlist = snpstringallvarsposDAO.getSNPs(organism.getOrganismId().intValue(), "", null, null, snptype, firstRow, maxRows);
+				snpsposlist = snpstringallvarsposDAO.getSNPs(organism.getOrganismId().intValue(), "", null, null,
+						snptype, firstRow, maxRows);
 				// snpsposlist = snpstringallvarsposDAO.getSNPs(params.getsChr(),
 				// params.getlStart(), params.getlEnd(), snptype, firstRow, maxRows);
 			}
@@ -178,7 +179,7 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 	@Override
 	public long countVariantString(GenotypeQueryParams params) {
-		
+
 		return -1;
 	}
 
@@ -250,9 +251,11 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 		VariantStringData vardata = null;
 		MultiReferenceLocus locusNipponbare = null;
-		
+
 		AppContext.debug("Params Organism: " + params.getDataset() + " - Default Organism " + params.getOrganismName());
-		if (!params.getOrganism().getName().equals(AppContext.JAPONICA_NIPPONBARE) && !params.getOrganism().getName().equals(AppContext.MH63)) {
+		if (!params.getOrganism().getName().equals(AppContext.JAPONICA_NIPPONBARE)
+				&& !params.getOrganism().getName().equals(AppContext.MH63)
+				&& !params.getOrganism().getName().equals(AppContext.AZUCENA)) {
 			// not nipponbare coordinate. convert coordinates
 
 			if (params.getsChr() != null && params.getlStart() != null && params.getlEnd() != null) {
@@ -260,8 +263,8 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				multiplerefconvertdao = (MultipleReferenceConverterDAO) AppContext.checkBean(multiplerefconvertdao,
 						"MultipleReferenceConverterDAO");
 
-				MultiReferenceLocus locusQueried = new MultiReferenceLocusImpl(params.getOrganism().getName(), params.getsChr(),
-						params.getlStart().intValue(), params.getlEnd().intValue(), 1);
+				MultiReferenceLocus locusQueried = new MultiReferenceLocusImpl(params.getOrganism().getName(),
+						params.getsChr(), params.getlStart().intValue(), params.getlEnd().intValue(), 1);
 				locusNipponbare = multiplerefconvertdao.convertLocus(locusQueried, AppContext.getDefaultOrganism(),
 						null);
 				MultiReferenceLocus origMultiReferenceLocus = params.setNewPosition(locusNipponbare);
@@ -488,12 +491,11 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 		while (itVar.hasNext()) {
 			Object ovar = itVar.next();
 			BigDecimal var = null;
-			
+
 			if (ovar instanceof BigDecimal) {
 				var = (BigDecimal) ovar;
-				//System.out.println("VAR ID: " +var);
-			}
-			else if (ovar instanceof StockSample)
+				// System.out.println("VAR ID: " +var);
+			} else if (ovar instanceof StockSample)
 				var = ((StockSample) ovar).getStockSampleId();
 			else if (ovar instanceof Variety)
 				var = ((Variety) ovar).getVarietyId();
@@ -559,7 +561,8 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				snpstrdata.getMapVarid2SnpsAllele2str(), snpstrdata.getMapPos2NonsynAlleles(),
 				snpstrdata.getMapPos2SynAlleles(),
 				// snpstrdata.getSetSnpInExonPos() ,
-				snpstrdata.setSnpSpliceDonorPos, snpstrdata.setSnpSpliceAcceptorPos, mapRef2Match, params.getDataset(), snpstrdata.snpstrSnpsAllele1AllvarsDAO.getIdx2SampleMapping());
+				snpstrdata.setSnpSpliceDonorPos, snpstrdata.setSnpSpliceAcceptorPos, mapRef2Match, params.getDataset(),
+				snpstrdata.snpstrSnpsAllele1AllvarsDAO.getIdx2SampleMapping());
 
 		return vardata;
 	}
@@ -579,7 +582,6 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 	private SNPsStringData getSNPsStringData(GenotypeQueryParams params) { // , boolean exactMismatch, int firstRow, int
 																			// maxRows) {
-		
 
 		// Collection colVarids, String chr, BigDecimal start, BigDecimal end,
 		// Collection setPositions, Collection colLocus
@@ -592,7 +594,7 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 		SnpsStringDAO snpstrSnpsAllele1AllvarsDAO = null;
 		SnpsStringDAO snpstrSnpsAllele2AllvarsDAO = null;
-		
+
 		Organism organism = params.getOrganism();
 		// BigDecimal snptype=null;
 
@@ -608,8 +610,6 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 		List<SnpsAllvarsPos> snpsposlist = null;
 		List listpos = null;
-		
-		
 
 		if (params.hasPreviousData()) {
 			// snpsposlist=params.getVariantdata().getListPos();
@@ -627,20 +627,21 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				maxRows = params.getPageSize().intValue();
 			}
 
-			// TODO: DAGS for slicing 
+			// TODO: DAGS for slicing
 			if (params.hasSnpList()) {
 				listpos = new ArrayList();
 				listpos.addAll(new TreeSet(params.getPoslist()));
 				AppContext.resetTimer("get poslist hasSnpList");
-				snpsposlist = snpstringallvarsposDAO.getSNPsInChromosome(organism.getOrganismId().intValue(), params.getsChr(), listpos, snptype);
+				snpsposlist = snpstringallvarsposDAO.getSNPsInChromosome(organism.getOrganismId().intValue(),
+						params.getsChr(), listpos, snptype);
 			} else if (params.hasLocusList()) {
 				AppContext.resetTimer("get poslist hasLocusList");
-				snpsposlist = snpstringallvarsposDAO.getSNPsInChromosome(organism.getOrganismId().intValue(), params.getsChr(), params.getColLoci(),
-						snptype);
+				snpsposlist = snpstringallvarsposDAO.getSNPsInChromosome(organism.getOrganismId().intValue(),
+						params.getsChr(), params.getColLoci(), snptype);
 			} else {
 				AppContext.resetTimer("get poslist has chr range");
-				snpsposlist = snpstringallvarsposDAO.getSNPs(organism.getOrganismId().intValue(), params.getsChr(), params.getlStart().intValue(),
-						params.getlEnd().intValue(), snptype, firstRow, maxRows);
+				snpsposlist = snpstringallvarsposDAO.getSNPs(organism.getOrganismId().intValue(), params.getsChr(),
+						params.getlStart().intValue(), params.getlEnd().intValue(), snptype, firstRow, maxRows);
 			}
 
 			if (snpsposlist == null)
@@ -757,16 +758,15 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 		} else {
 			System.gc();
 			long hdf5_startTime = System.nanoTime();
-			
 
 			AppContext.debug("using HDF5");
 
 			int intSampleStartStopIdx[][] = null;
 
-			AppContext.debug("using hasVarlist:"+params.hasVarlist());
-			
-			AppContext.debug("using hasVarIDRange:"+params.hasVaridRange());
-			
+			AppContext.debug("using hasVarlist:" + params.hasVarlist());
+
+			AppContext.debug("using hasVarIDRange:" + params.hasVaridRange());
+
 			if (params.hasVarlist() || params.hasVaridRange()) {
 				snpstrSnpsAllele1AllvarsDAO = new H5Dataset(run.getLocation(), new H5ReadCharmatrix(),
 						listitemdao.getMapIdx2Sample(params)); // , run.getVaridOffset());
@@ -809,7 +809,7 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				} else {
 					if (laststart >= 0 && previdx >= 0) {
 						listStartStop.add(new int[] { laststart, previdx });
-						AppContext.debug(laststart  + "-" + previdx);
+						AppContext.debug(laststart + "-" + previdx);
 					}
 					laststart = indxs[indxscount];
 					previdx = indxs[indxscount];
@@ -817,20 +817,18 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				indxscount++;
 			}
 			listStartStop.add(new int[] { laststart, previdx });
-			AppContext.debug(laststart  + "-" + previdx);
+			AppContext.debug(laststart + "-" + previdx);
 
 			int intStartStopIdx[][] = new int[listStartStop.size()][2];
 			Iterator<int[]> itStartStop = listStartStop.iterator();
 			int sscount = 0;
 			long startTime = System.nanoTime();
-			long endTime   = System.nanoTime();
-			
-			
-			
+			long endTime = System.nanoTime();
+
 			long totalTime = endTime - startTime;
-			
-			System.out.println("TIME: " +TimeUnit.SECONDS.convert(totalTime, TimeUnit.NANOSECONDS));
-			
+
+			System.out.println("TIME: " + TimeUnit.SECONDS.convert(totalTime, TimeUnit.NANOSECONDS));
+
 			// TODO
 			while (itStartStop.hasNext()) {
 				intStartStopIdx[sscount] = itStartStop.next();
@@ -869,19 +867,22 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 					} else if (params.hasVarlist()) {
 						AppContext.debug("params.hasVarlist()");
 						AppContext.resetTimer("using readSNPString1 start");
-						mapVarid2Snpsstr = snpstrSnpsAllele1AllvarsDAO.readSNPString(organism.getOrganismId().intValue(), (Set) params.getColVarIds(),
-								params.getsChr(), indxs);
+						mapVarid2Snpsstr = snpstrSnpsAllele1AllvarsDAO.readSNPString(
+								organism.getOrganismId().intValue(), (Set) params.getColVarIds(), params.getsChr(),
+								indxs);
 						if (snpstrSnpsAllele2AllvarsDAO != null)
-							mapVarid2Snpsstr_allele2 = snpstrSnpsAllele2AllvarsDAO
-									.readSNPString(organism.getOrganismId().intValue(), (Set) params.getColVarIds(), params.getsChr(), indxs);
+							mapVarid2Snpsstr_allele2 = snpstrSnpsAllele2AllvarsDAO.readSNPString(
+									organism.getOrganismId().intValue(), (Set) params.getColVarIds(), params.getsChr(),
+									indxs);
 						AppContext.resetTimer("using readSNPString1 end");
 					} else {
 						AppContext.debug("all vars");
 						AppContext.resetTimer("using readSNPString2 start");
-						mapVarid2Snpsstr = snpstrSnpsAllele1AllvarsDAO.readSNPString(organism.getOrganismId().intValue(), params.getsChr(), indxs);
+						mapVarid2Snpsstr = snpstrSnpsAllele1AllvarsDAO
+								.readSNPString(organism.getOrganismId().intValue(), params.getsChr(), indxs);
 						if (snpstrSnpsAllele2AllvarsDAO != null)
-							mapVarid2Snpsstr_allele2 = snpstrSnpsAllele2AllvarsDAO.readSNPString(organism.getOrganismId().intValue(), params.getsChr(),
-									indxs);
+							mapVarid2Snpsstr_allele2 = snpstrSnpsAllele2AllvarsDAO
+									.readSNPString(organism.getOrganismId().intValue(), params.getsChr(), indxs);
 						AppContext.resetTimer("using readSNPString2 end");
 					}
 				} else if (params.hasLocusList()) {
@@ -934,20 +935,22 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				} else if (params.hasVarlist()) {
 					AppContext.debug("params.hasVarlist()");
 					AppContext.resetTimer("using readSNPString3 start");
-					mapVarid2Snpsstr = snpstrSnpsAllele1AllvarsDAO.readSNPString(organism.getOrganismId().intValue(), (Set) params.getColVarIds(),
-							params.getsChr(), startpos.getAlleleIndex().intValue(), endpos.getAlleleIndex().intValue());
+					mapVarid2Snpsstr = snpstrSnpsAllele1AllvarsDAO.readSNPString(organism.getOrganismId().intValue(),
+							(Set) params.getColVarIds(), params.getsChr(), startpos.getAlleleIndex().intValue(),
+							endpos.getAlleleIndex().intValue());
 					if (snpstrSnpsAllele2AllvarsDAO != null)
-						mapVarid2Snpsstr_allele2 = snpstrSnpsAllele2AllvarsDAO.readSNPString(organism.getOrganismId().intValue(),
-								(Set) params.getColVarIds(), params.getsChr(), startpos.getAlleleIndex().intValue(),
-								endpos.getAlleleIndex().intValue());
+						mapVarid2Snpsstr_allele2 = snpstrSnpsAllele2AllvarsDAO.readSNPString(
+								organism.getOrganismId().intValue(), (Set) params.getColVarIds(), params.getsChr(),
+								startpos.getAlleleIndex().intValue(), endpos.getAlleleIndex().intValue());
 					AppContext.resetTimer("using readSNPString3 end");
 				} else {
 					AppContext.debug("all vars");
 					AppContext.resetTimer("using readSNPString4 start");
-					mapVarid2Snpsstr = snpstrSnpsAllele1AllvarsDAO.readSNPString(organism.getOrganismId().intValue(),params.getsChr(),
-							startpos.getAlleleIndex().intValue(), endpos.getAlleleIndex().intValue());
+					mapVarid2Snpsstr = snpstrSnpsAllele1AllvarsDAO.readSNPString(organism.getOrganismId().intValue(),
+							params.getsChr(), startpos.getAlleleIndex().intValue(), endpos.getAlleleIndex().intValue());
 					if (snpstrSnpsAllele2AllvarsDAO != null)
-						mapVarid2Snpsstr_allele2 = snpstrSnpsAllele2AllvarsDAO.readSNPString(organism.getOrganismId().intValue(), params.getsChr(),
+						mapVarid2Snpsstr_allele2 = snpstrSnpsAllele2AllvarsDAO.readSNPString(
+								organism.getOrganismId().intValue(), params.getsChr(),
 								startpos.getAlleleIndex().intValue(), endpos.getAlleleIndex().intValue());
 				}
 
@@ -1056,19 +1059,16 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 			} // else throw new RuntimeException("heteroSnps==null and
 				// mapVarid2Snpsstr_allele2==null ... no allele2 data");
-		
+
 			long hdf5_endTime = System.nanoTime();
 			long hdf5_totalTime = hdf5_endTime - hdf5_startTime;
 
-			
 			// More precise version
 			double totalSeconds2 = hdf5_totalTime / 1_000_000_000.0;
 			long minutes2 = (long) totalSeconds2 / 60;
 			double seconds2 = totalSeconds2 % 60;
 			System.out.printf("HDF5 TIME (precise): %d minutes %.2f seconds%n", minutes2, seconds2);
 
-			
-			
 		}
 
 		AppContext.resetTimer("to read indels");
@@ -1120,12 +1120,12 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 							allele2.add(chari2);
 						}
 					}
-				
-				} catch(Exception ex) {
-					AppContext.debug("snpsposlist.len=" + snpsposlist.size() + "   icount=" + icount + "  allele1str.len=" + allele1str.length() + "  allele2str.len=" + allele2str.length() );
+
+				} catch (Exception ex) {
+					AppContext.debug("snpsposlist.len=" + snpsposlist.size() + "   icount=" + icount
+							+ "  allele1str.len=" + allele1str.length() + "  allele2str.len=" + allele2str.length());
 					throw ex;
 				}
-
 
 				icount++;
 			}
@@ -1176,13 +1176,14 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 
 				// nonsynAllele =
 				// snpsnonsynDAO.findSnpNonsynAlleleByFeatureidIn(setSnpFeatureId, snptype);
-				nonsynAllele = snpsnonsynDAO.findSnpNonsynAlleleByFeatureidIn(organism.getOrganismId().intValue(), setSnpFeatureId);
+				nonsynAllele = snpsnonsynDAO.findSnpNonsynAlleleByFeatureidIn(organism.getOrganismId().intValue(),
+						setSnpFeatureId);
 				// synAllele = snpssynDAO.findSnpSynAlleleByFeatureidIn(setSnpFeatureId,
 				// snptype);
 
 			} else {
-				nonsynAllele = snpsnonsynDAO.findSnpNonsynAlleleByChrPosBetween(organism.getOrganismId().intValue(), params.getsChr(),
-						startpos.getPosition().intValue(), endpos.getPosition().intValue(), snptype);
+				nonsynAllele = snpsnonsynDAO.findSnpNonsynAlleleByChrPosBetween(organism.getOrganismId().intValue(),
+						params.getsChr(), startpos.getPosition().intValue(), endpos.getPosition().intValue(), snptype);
 				// synAllele = snpssynDAO.findSnpSynAlleleByChrPosBetween(params.getsChr(),
 				// startpos.getPosition().intValue(), endpos.getPosition().intValue(), snptype);
 			}
@@ -1268,20 +1269,24 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				// setSpliceAcceptors = snpsspliceacceptorDAO.getSNPsIn(chr, setPositions);
 				// setSpliceDonors = snpssplicedonorDAO.getSNPsIn(chr, setPositions);
 
-				setSpliceAcceptors = snpsspliceacceptorDAO.getSNPsByFeatureidIn(organism.getOrganismId().intValue(), setSnpFeatureId);
-				setSpliceDonors = snpssplicedonorDAO.getSNPsByFeatureidIn(organism.getOrganismId().intValue(), setSnpFeatureId);
+				setSpliceAcceptors = snpsspliceacceptorDAO.getSNPsByFeatureidIn(organism.getOrganismId().intValue(),
+						setSnpFeatureId);
+				setSpliceDonors = snpssplicedonorDAO.getSNPsByFeatureidIn(organism.getOrganismId().intValue(),
+						setSnpFeatureId);
 
 			} else if (params.hasLocusList()) {
 				// setSpliceAcceptors = snpsspliceacceptorDAO.getSNPsIn(chr, colLocus);
 				// setSpliceDonors = snpssplicedonorDAO.getSNPsIn(chr, colLocus);
-				setSpliceAcceptors = snpsspliceacceptorDAO.getSNPsByFeatureidIn(organism.getOrganismId().intValue(),setSnpFeatureId);
-				setSpliceDonors = snpssplicedonorDAO.getSNPsByFeatureidIn(organism.getOrganismId().intValue(), setSnpFeatureId);
+				setSpliceAcceptors = snpsspliceacceptorDAO.getSNPsByFeatureidIn(organism.getOrganismId().intValue(),
+						setSnpFeatureId);
+				setSpliceDonors = snpssplicedonorDAO.getSNPsByFeatureidIn(organism.getOrganismId().intValue(),
+						setSnpFeatureId);
 
 			} else {
-				setSpliceAcceptors = snpsspliceacceptorDAO.getSNPsBetween(organism.getOrganismId().intValue(), params.getsChr(),
-						params.getlStart().intValue(), params.getlEnd().intValue(), snptype);
-				setSpliceDonors = snpssplicedonorDAO.getSNPsBetween(organism.getOrganismId().intValue(), params.getsChr(), params.getlStart().intValue(),
-						params.getlEnd().intValue(), snptype);
+				setSpliceAcceptors = snpsspliceacceptorDAO.getSNPsBetween(organism.getOrganismId().intValue(),
+						params.getsChr(), params.getlStart().intValue(), params.getlEnd().intValue(), snptype);
+				setSpliceDonors = snpssplicedonorDAO.getSNPsBetween(organism.getOrganismId().intValue(),
+						params.getsChr(), params.getlStart().intValue(), params.getlEnd().intValue(), snptype);
 			}
 
 			// setSpliceAcceptors =
@@ -1310,7 +1315,8 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 		}
 
 		SNPsStringData snpstrdata = new SNPsStringData(snpsposlist, strRef, mapVarid2Snpsstr, mapVarid2SnpsAllele2str,
-				mapPos2Allele, mapPos2NonsynAlleles, mapPos2SynAlleles, setSpliceDonorsPos, setSpliceAcceptorsPos, snpstrSnpsAllele1AllvarsDAO);
+				mapPos2Allele, mapPos2NonsynAlleles, mapPos2SynAlleles, setSpliceDonorsPos, setSpliceAcceptorsPos,
+				snpstrSnpsAllele1AllvarsDAO);
 
 		return snpstrdata;
 	}

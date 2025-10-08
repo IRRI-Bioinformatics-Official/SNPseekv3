@@ -1404,6 +1404,7 @@
 															style="width: 190px !important;border-radius: 10px;" />
 														<space
 															bar="true" spacing="15px" />
+														
 														<label
 															value="Filters"
 															style="font-size:13px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;" />
@@ -1431,6 +1432,9 @@
 																id="buttonClearFilterAllele" label="Clear"
 																style="font-size: 11px;width: 85px; border-radius: 10px;" />
 														</hlayout>
+														<vlayout
+															id="filterLayout" />
+														
 													</hlayout>
 
 
@@ -2200,7 +2204,7 @@
 																		id="tabHaploAutogroups"
 																		label="Autogroup calculations" />
 																	<tab
-																		id="tabHaploTree" label="Phylogenetic tree" />
+																		id="tabHaploTree" label="Phylogenetic tree" visible="false"/>
 																</tabs>
 																<tabpanels>
 																	<tabpanel

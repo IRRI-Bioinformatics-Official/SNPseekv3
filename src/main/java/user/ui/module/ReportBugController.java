@@ -19,6 +19,7 @@ import org.apache.poi.hpsf.Array;
 import org.irri.iric.ds.chado.domain.model.User;
 import org.irri.iric.portal.AppContext;
 import org.irri.iric.portal.MailUtils;
+import org.irri.iric.portal.config.SNPseekEnv;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
@@ -159,6 +160,28 @@ public class ReportBugController extends SelectorComposer<Div> {
 		}
 	}
 
+//	@Listen("onRecaptchaValidated = #recaptchaDiv")
+//	public void verify(Event event) throws Exception {
+//		// Get the event data which contains the response and action
+//		Map<String, Object> eventData = (Map<String, Object>) event.getData();
+//
+//		// Extract the reCAPTCHA response and action
+//		String recaptchaResponse = (String) eventData.get("response");
+//		String recaptchaAction = (String) eventData.get("action");
+//		String token = (String) eventData.get("token");
+//
+//		String projectID = "snp-seek";
+//		String recaptchaKey = "6Lde5MEqAAAAAPfUDTkpvARIpETwSsiT-c0ne4eh";
+//
+//		GoogleCredentials credentials = GoogleCredentials
+//				.fromStream(new FileInputStream(AppContext.getFlatfilesDir() + "snp-seek-a2082ae982eb.json"));
+//
+//		createAssessment(projectID, recaptchaKey, token, recaptchaAction, credentials);
+//
+//		buttonSubmit.setDisabled(false);
+//
+//	}
+	
 	@Listen("onRecaptchaValidated = #recaptchaDiv")
 	public void verify(Event event) throws Exception {
 		// Get the event data which contains the response and action
@@ -170,14 +193,13 @@ public class ReportBugController extends SelectorComposer<Div> {
 		String token = (String) eventData.get("token");
 
 		String projectID = "snp-seek";
-		String recaptchaKey = "6Lde5MEqAAAAAPfUDTkpvARIpETwSsiT-c0ne4eh";
+		String recaptchaKey = System.getenv(SNPseekEnv.RECAPTCHA_KEY);
+
 
 		GoogleCredentials credentials = GoogleCredentials
-				.fromStream(new FileInputStream(AppContext.getFlatfilesDir() + "snp-seek-a2082ae982eb.json"));
+				.fromStream(new FileInputStream(AppContext.getFlatfilesDir()+"snp-seek-a2082ae982eb.json"));
 
 		createAssessment(projectID, recaptchaKey, token, recaptchaAction, credentials);
-
-		buttonSubmit.setDisabled(false);
 
 	}
 
@@ -186,8 +208,16 @@ public class ReportBugController extends SelectorComposer<Div> {
 
 		if (formIsValid()) {
 			try {
-				MailUtils.sendEmailWithAttachments(textboxName.getName(), textboxEmail.getValue(), "SNPSEEK BUG REPORT",
-						textboxDesc.getValue(), mediaList);
+			
+				StringBuilder message = new StringBuilder();
+				message.append("<html><body>");
+				message.append(
+						"<p>"+textboxDesc.getValue()+"</p>");
+				message.append("</body></html>");
+				
+				MailUtils.sendEmailWithAttachments(textboxName.getValue(), textboxEmail.getValue(), "SNPSEEK BUG REPORT",
+						message.toString(), mediaList);
+				//MailUtils.simpleSendMail2(textboxName, textboxEmail.getValue(), textboxDesc.getValue());
 			} catch (WrongValueException | UnsupportedEncodingException | MessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -173,38 +173,35 @@
 							</n:div>
 						</n:div>
 						<n:div class="col-md-6 col-xl-3 mb-4"
-							style="padding-right:15px;padding-left:15px;">
-							<n:div
-								class="card shadow border-start-warning py-2 home_div"
-								style="border-left: .65rem solid #c5ae7e!important;">
-								<n:div class="card-body">
-									<n:div
-										class="row align-items-center no-gutters">
-										<n:div class="col me-2">
-											<n:div
-												class="text-uppercase text-warning fw-bold text-xs mb-1">
-												<n:span
-													class="primaryTextStyle">
-													Total Visits
-												</n:span>
-											</n:div>
-											<n:div
-												class="text-dark fw-bold h5 mb-0">
-												<n:span
-													class="primaryTextStyle">
-													18
-												</n:span>
-											</n:div>
-										</n:div>
-										<n:div class="home_icons">
-											<n:i
-												class="fas fa-chart-line fa-2x text-gray-300">
-											</n:i>
-										</n:div>
-									</n:div>
-								</n:div>
-							</n:div>
-						</n:div>
+    style="padding-right:15px;padding-left:15px;">
+    <n:div
+        class="card shadow border-start-warning py-2 home_div"
+        style="border-left: .65rem solid #c5ae7e!important;">
+        <n:div class="card-body">
+            <n:div class="row align-items-center no-gutters">
+                <n:div class="col me-2">
+                    <n:div
+                        class="text-uppercase text-warning fw-bold text-xs mb-1">
+                        <n:span class="primaryTextStyle">
+                            Total Visits (Since May 20, 2025)
+                        </n:span>
+                    </n:div>
+                    <n:div class="text-dark fw-bold h5 mb-0">
+                        <n:span class="primaryTextStyle">
+                            7,843 Visits
+                        </n:span>
+                    </n:div>
+                    <n:div class="text-muted text-xs mt-1">
+                        <n:span>Data provided by Google Analytics</n:span>
+                    </n:div>
+                </n:div>
+                <n:div class="home_icons">
+                    <n:i class="fas fa-chart-line fa-2x text-gray-300"></n:i>
+                </n:div>
+            </n:div>
+        </n:div>
+    </n:div>
+</n:div>
 					</n:div>
 
 					<n:div class="row"

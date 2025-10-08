@@ -1044,6 +1044,8 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	private Organism organism;
 	private VarietyList varietyList;
 	private HashMap varietyListMap;
+	private String chromosome;
+	private String filename;
 
 	private Set getVariantSets() {
 		Set s = new LinkedHashSet();
@@ -1694,39 +1696,51 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	@Listen("onClick =#buttonDelete")
 	public void onbuttonDelete() {
 		if (radioVariety.isChecked()) {
-
 			deleteFile(listboxListnames.getSelectedItem().getValue(), WebConstants.VARIETY_DIR, user.getEmail());
-
+		}
+		if (radioLocus.isChecked()) {
+			deleteFile(listboxListnames.getSelectedItem().getValue(), WebConstants.LOCUS_DIR, user.getEmail());
+		}
+		if (radioSNP.isChecked()) {
+			deleteFile(listboxListnames.getSelectedItem().getValue(), WebConstants.SNP_DIR, user.getEmail());
 		}
 	}
 
 	public void deleteFile(String listname, String type, String email) {
 
+		filename = listname;
+		
 		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebConstants.USER_DIR + File.separator
 				+ email + File.separator + type);
 
-		// Create the full file path
-
-		File[] nestedFolder = directory.listFiles(File::isDirectory);
-		final File[] fileToDelete = new File[1];
-
-		if (nestedFolder != null) {
-			for (File folder : nestedFolder) {
-				File tempFile = new File(directory + File.separator + folder.getName() + File.separator + listname);
-				if (tempFile.isFile() && tempFile.getName().equals(listname)) {
-					fileToDelete[0] = tempFile;
-					break;
-				}
-			}
-		} else {
-			File tempFile = new File(directory + File.separator + listname);
-			if (tempFile.isFile() && tempFile.getName().equals(listname)) {
-				fileToDelete[0] = tempFile;
+		if (type.equals(WebConstants.SNP_DIR)) {
+			String[] parts = listname.split(":");
+			if (parts.length > 1) {
+				filename = parts[1];
+				chromosome = parts[0];
 			}
 		}
 
+		// Create the full file path
+		File[] nestedFolders = directory.listFiles(File::isDirectory);
+		final File[] fileToDelete = new File[1];
+
+		File directFile = new File(directory, filename);
+		if (directFile.isFile()) {
+		    fileToDelete[0] = directFile;
+		} else if (nestedFolders != null) {
+		    // 2️⃣ Then check inside each subfolder
+		    for (File folder : nestedFolders) {
+		        File tempFile = new File(folder, filename);
+		        if (tempFile.isFile()) {
+		            fileToDelete[0] = tempFile;
+		            break;
+		        }
+		    }
+		}
+
 		if (fileToDelete[0] == null) {
-			Notification.show("List not found.", "warning", null, "middle_center", 2000);
+			Notification.show("List not found — possibly a preloaded or shared list.", "warning", null, "middle_center", 2000);
 			return;
 		}
 
@@ -1737,12 +1751,23 @@ public class WorkspaceController extends SelectorComposer<Component> {
 					public void onEvent(Messagebox.ClickEvent event) {
 						if (event.getButton() == Messagebox.Button.YES) {
 							if (fileToDelete[0] != null && fileToDelete[0].delete()) {
-								Notification.show("List deleted successfully.", "info", null, "middle_center", 2000);
 								if (type.equals(WebConstants.VARIETY_DIR)) {
 									workspace.deleteVarietyList(listname);
 									Events.postEvent("onClick", radioVariety, null);
-
 								}
+								
+								if (type.equals(WebConstants.SNP_DIR)) {
+									workspace.deleteSNPList(chromosome, filename);
+									Events.postEvent("onClick", radioSNP, null);
+								}
+								
+								if (type.equals(WebConstants.LOCUS_DIR)) {
+									workspace.deleteLocusList(listname);
+									Events.postEvent("onClick", radioLocus, null);
+								}
+								
+								Notification.show("List deleted successfully.", "info", null, "middle_center", 2000);
+								
 
 							} else {
 								Notification.show("Failed to delete the list.", "error", null, "middle_center", 2000);

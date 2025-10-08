@@ -45,8 +45,7 @@ public class HomeQueryController extends SelectorComposer<Window> {
 		
 
 		if (user != null) {
-			if (user.getEmail().contains(AppContext.EMAIL_IRRI))
-				dsNumber.setValue("14");
+			dsNumber.setValue("13");
 		}
 
 	}

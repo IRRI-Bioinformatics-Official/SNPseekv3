@@ -33,7 +33,6 @@ import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -57,6 +56,7 @@ import org.irri.iric.ds.chado.domain.SnpsEffect;
 import org.irri.iric.ds.chado.domain.SnpsStringAllvars;
 import org.irri.iric.ds.chado.domain.StockSample;
 import org.irri.iric.ds.chado.domain.Variety;
+import org.irri.iric.ds.chado.domain.VarietyPlusPlus;
 import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.ds.chado.domain.model.User;
 import org.irri.iric.ds.chado.domain.model.VGenotypeRun;
@@ -187,7 +187,6 @@ import org.zkoss.zul.Window;
 import org.zkoss.zul.Window.Mode;
 
 import user.ui.module.util.FakerMatrixModel;
-import user.ui.module.util.Object2StringMatrixComparatorProvider;
 import user.ui.module.util.constants.ContentConstants;
 import user.ui.module.util.constants.SessionConstants;
 import user.ui.module.util.constants.UserConstants;
@@ -681,7 +680,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Label varietyRsltCnt;
-	
+
 	@Wire
 	private Label resultLabel;
 
@@ -885,10 +884,10 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	private boolean searchMenu;
 
 	private Organism organism;
-	
+
 	@Wire
 	private Groupbox result_grp;
-	
+
 	@Wire
 	private Groupbox summary_result_grp;
 
@@ -959,7 +958,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		initFrom();
 
 		iframeJbrowse.setSrc(
-				"https://snpseekv3.irri-e-extension.com/jbrowse/?loc=chr01%3A2901..10815&tracks=DNA%2Cmsu7gff&highlight=");
+				"https://snpseek.irri.org/jbrowse/?loc=chr01%3A2901..10815&tracks=DNA%2Cmsu7gff&highlight=");
 		System.out.println("setting div");
 
 	}
@@ -1677,6 +1676,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		Set setVarieties = null;
 		String sSubpopulation = null;
+		String phenotypesFrmList = "";
 
 		genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
@@ -1688,6 +1688,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			setVarieties = genotype.getVarietiesForSubpopulation(sSubpopulation, getDataset());
 		} else if (listboxMyVarieties.getSelectedIndex() > 0) {
 			setVarieties = workspace.getVarieties(listboxMyVarieties.getSelectedItem().getLabel());
+			phenotypesFrmList = getPhenotypes(setVarieties);
 		}
 
 		Set snpposlist = null;
@@ -1804,17 +1805,21 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		params.setDatasetPosOps(listboxDatasetSnpOps.getSelectedItem().getLabel());
 
-		if (listboxPhenotype.getSelectedItem() != null) {
+		if (listboxPhenotype.getSelectedItem() != null || !phenotypesFrmList.isEmpty()) {
 			// get Legacy trait, not CO TERMs
 			String paramTrait;
 
-			String input = listboxPhenotype.getSelectedItem().getLabel();
-			if (!input.contains("::"))
-				paramTrait = input;
-			else {
-				String[] coTerm = input.split("::");
-				paramTrait = coTerm[1];
-			}
+			if (phenotypesFrmList.isEmpty()) {
+
+				String input = listboxPhenotype.getSelectedItem().getLabel();
+				if (!input.contains("::"))
+					paramTrait = input;
+				else {
+					String[] coTerm = input.split("::");
+					paramTrait = coTerm[1];
+				}
+			} else
+				paramTrait = phenotypesFrmList;
 
 			params.setPhenotype(paramTrait);
 		}
@@ -1829,6 +1834,25 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		return params;
 
+	}
+
+	private String getPhenotypes(Set setVarieties) {
+		Iterator objIter = setVarieties.iterator();
+		String phenotype = "";
+		while (objIter.hasNext()) {
+			Object obj = objIter.next();
+
+			if (obj instanceof VarietyPlusPlus) {
+				VarietyPlusPlus objPhen = (VarietyPlusPlus) obj;
+				Map<?, ?> phen = objPhen.getValueMap();
+
+				if (!phen.isEmpty()) {
+					phenotype = (String) phen.keySet().iterator().next();
+				}
+			}
+		}
+
+		return phenotype;
 	}
 
 	@Listen("onSelect = #listboxMyVarieties")
@@ -3562,12 +3586,15 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			AppContext.debug("updateBiglistboxArray: queryResult=" + queryResult.getListVariantsString().size() + " x "
 					+ queryResult.getListPos().size());
 
+			varietyRsltCnt.setValue("RESULT:  " + queryResult.getListVariantsString().size() + " Varieties x "
+					+ queryResult.getListPos().size() + " snps position. ");
+
 			Object2StringMultirefsMatrixRenderer renderer = new Object2StringMultirefsMatrixRenderer(queryResult,
 					params);
 			biglistboxArray.setMatrixRenderer(renderer);
 			biglistboxModel = new Object2StringMultirefsMatrixModel(varianttable,
 					params /* fillGenotypeQueryParams() */, varietyfacade.getMapId2Sample(getDataset()),
-					gridBiglistheader);
+					gridBiglistheader, mapVarid2Phenotype, sPhenotype);
 			biglistboxModel.setHeaderRows(biglistboxRows, lastY);
 			biglistboxArray.setModel(biglistboxModel); // strRef));
 
@@ -4004,6 +4031,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 				Object2StringMultirefsMatrixRenderer renderer = new Object2StringMultirefsMatrixRenderer(queryResult,
 						params);
 				biglistboxArray.setMatrixRenderer(renderer);
+
 				biglistboxModel = new Object2StringMultirefsMatrixModel(varianttable,
 						params /* fillGenotypeQueryParams() */, varietyfacade.getMapId2Sample(params.getDataset()),
 						gridBiglistheader, mapVarid2Phenotype, sPhenotype);
@@ -4183,8 +4211,8 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 				resultGoldenLayout.appendChild(gp_jbrowse);
 				resultGoldenLayout.appendChild(gp_snpeffect);
 				resultGoldenLayout.appendChild(gp_haplotype);
-				varietyRsltCnt.setValue("Varities: " + queryResult.getListVariantsString().size() + " - SNPs: "
-						+ queryResult.getListPos().size());
+//				varietyRsltCnt.setValue("Varities: " + queryResult.getListVariantsString().size() + " - SNPs: "
+//						+ queryResult.getListPos().size());
 				gridBiglistheader.setVisible(true);
 
 				// TODO: 1k1 tailored
@@ -4205,7 +4233,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 				}
 				removeGoldenPanel(gp_template);
-				//removeGoldenPanel(removeGoldenPanel(gp_template);)
+				// removeGoldenPanel(removeGoldenPanel(gp_template);)
 				updateAlleleFrequencyChart();
 				// calculateAlleleFrequencies();
 
@@ -9672,7 +9700,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 					Object alleleTable = null;
 					Object alleleTable2 = null;
 					Object alleleTable3 = null;
-					if (headercolumnidx < 5) {
+					if (headercolumnidx < 6) {
 						// TODO: index of column
 						alleleTable = ((Object[]) origModel.getElementAt(i).get(selPosIdx))[selPosIdx];
 					} else

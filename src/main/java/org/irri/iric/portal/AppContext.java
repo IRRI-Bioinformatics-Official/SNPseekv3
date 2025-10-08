@@ -2308,7 +2308,8 @@ public class AppContext {
 	private static Navbar mainNavbar;
 	private static Include mainContentInclude;
 	public static String JAPONICA_NIPPONBARE = "Japonica nipponbare";
-	public static Object MH63 = "MH63";
+	public static String AZUCENA = "azucena";
+	public static String MH63 = "MH63";
 
 	public static void addSessionAttr(Long session, String att, Object value) {
 
