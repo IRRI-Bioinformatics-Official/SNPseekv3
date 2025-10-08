@@ -25,6 +25,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.irri.iric.ds.chado.domain.Locus;
 import org.irri.iric.ds.chado.domain.MultiReferencePosition;
 import org.irri.iric.ds.chado.domain.Variety;
+import org.irri.iric.ds.chado.domain.VarietyPlusPlus;
 import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImpl;
 import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImplAllelePvalue;
 import org.irri.iric.ds.chado.domain.model.VGene;
@@ -73,6 +74,7 @@ public class WorkspaceLoadLocal {
 
 								while (true) {
 									try {
+										
 										Variety obj = (Variety) oi.readObject();
 										setVar.add(obj);
 
@@ -136,9 +138,10 @@ public class WorkspaceLoadLocal {
 
 				Object obj = varIter.next();
 
-				if (obj instanceof Variety)
-					o.writeObject((Variety) obj);
-				if (obj instanceof Locus)
+				if (obj instanceof VarietyPlusPlus) {
+					o.writeObject((VarietyPlusPlus) obj);
+					continue;
+				}if (obj instanceof Locus)
 					o.writeObject((Locus) obj);
 				if (obj instanceof Variety)
 					o.writeObject((Variety) obj);
@@ -193,8 +196,10 @@ public class WorkspaceLoadLocal {
 						try {
 							String chrposline = line.trim();
 
-							if (chrposline.isEmpty())
+							if (chrposline.isEmpty()) {
+								System.out.println("EMPTY >>> check");
 								continue;
+							}
 							String chrpos[] = chrposline.split("\\s+");
 							String chr = "";
 							try {

@@ -95,8 +95,6 @@ import user.ui.module.util.constants.SessionConstants;
 // @EnableAsync
 public class GeneLociQueryController extends SelectorComposer<Window> {
 
-   
-
 	@Autowired
 	private GenomicsFacade genomics;
 
@@ -132,11 +130,13 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Hbox hboxDownload;
-	
+
 	@Wire
 	private GoldenLayout resultGoldenLayout;
-	
-	
+	@Wire
+	private GoldenPanel gp_template;
+
+
 	@Wire
 	private Listbox listboxAnnotation;
 
@@ -492,8 +492,6 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private GoldenPanel variety_panelPhenotypeResult;
-
-   
 
 	@Override
 	public void doAfterCompose(Window comp) throws Exception {
@@ -965,8 +963,11 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	@Listen("onClick =#buttonMyLocusList")
 	public void onclickLocuslist() {
 
+		
 		AppContext.debug("onclickLocuslist()");
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
+
+		closeDiv.setVisible(true);
 
 		if (listboxMyLocusListGeneset.getSelectedItem() == null)
 			return;
@@ -1202,12 +1203,14 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	@Listen("onClick =#searchRegionButton")
 	public void searchByRegion() {
 
-		initPanels();
-		
+		emptyLayout();
+
 		AppContext.debug("searching region in " + listboxContig.getValue());
 
 		flipSearchBar();
 		Clients.evalJavaScript("myFunction();");
+
+		closeDiv.setVisible(true);
 
 		if (this.listboxContig.getValue() == null || this.listboxContig.getValue().trim().isEmpty()
 				|| this.intboxContigStart.getValue() == null || this.intboxContigEnd.getValue() == null) {
@@ -1254,6 +1257,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			resultContentDiv.setVisible(true);
 			// resultHeader.setVisible(true);
 			div_info.setVisible(false);
+			gp_template.setParent(null);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -1318,11 +1322,13 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	public void searchbyMySnpListQtl() {
 		initResults();
 
-		initPanels();
-		
+		emptyLayout();
+
 		flipSearchBar();
 		Clients.evalJavaScript("myFunction();");
-		
+
+		closeDiv.setVisible(true);
+
 		try {
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
 			workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
@@ -1451,10 +1457,12 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			borderMarkerVar.setVisible(true);
 			hboxDownload.setVisible(true);
 			div_info.setVisible(false);
-			
+
 			variety_panelPassportResult.setVisible(true);
 			resultGoldenLayout.appendChild(variety_panelPassportResult);
 			resultContentDiv.setVisible(true);
+			
+			gp_template.setParent(null);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -1484,6 +1492,8 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 		// AppContext.setSidebar(true);
 		layoutResultId.setVisible(true);
+
+		closeDiv.setVisible(true);
 
 		AppContext.debug(textboxSequence.getMaxlength() + " seq maxlength");
 		textboxSequence.setMaxlength(500000000);
@@ -2079,7 +2089,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 				WorkspaceLoadLocal.writeListToUserList(txtboxListname.getValue(),
 						WebConstants.LOCUS_DIR + File.separator, new LinkedHashSet(addLocuslist), user.getEmail());
 
-			Notification.show("List "+txtboxListname.getValue()+" added to your List. Go to My List.");
+			Notification.show("List " + txtboxListname.getValue() + " added to your List. Go to My List.");
 			List listNew = new ArrayList();
 			listNew.add("");
 			listNew.addAll(workspace.getLocuslistNames());
@@ -2096,14 +2106,12 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 	@Listen("onClick =#searchGenefunctionButton")
 	public void onclickSearchGenefunction() {
-		
-		initPanels();
-		
+		emptyLayout();
 		flipSearchBar();
 
 		layoutResultId.setVisible(true);
 		Clients.evalJavaScript("myFunction();");
-		
+		closeDiv.setVisible(true);
 		initResults();
 		try {
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
@@ -2152,9 +2160,10 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			listboxLocus.setVisible(true);
 			resultGoldenLayout.appendChild(variety_panelPassportResult);
 			resultContentDiv.setVisible(true);
-			
-			
+
 			div_info.setVisible(false);
+			
+			gp_template.setParent(null);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -2167,14 +2176,14 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	public void onclickSearchGenename() {
 		initResults();
 		try {
-			
-			initPanels();
+
+			emptyLayout();
 
 			flipSearchBar();
 
 			layoutResultId.setVisible(true);
 			Clients.evalJavaScript("myFunction();");
-
+			closeDiv.setVisible(true);
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
 
 			System.out.println("Searching..." + textboxGenename.getValue());
@@ -2232,6 +2241,8 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 			resultContentDiv.setVisible(true);
 			div_info.setVisible(false);
+			
+			gp_template.setParent(null);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -2240,19 +2251,29 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 	}
 
-	private void initPanels() {
-		
-		locus_Result.setParent(null);
-		variety_panelPassportResult.setParent(null);
-		variety_MDSResult.setParent(null);
-		variety_panelPhenotypeResult.setParent(null);
-		
+	private void emptyLayout() {
+		resultGoldenLayout.appendChild(gp_template);
+
+		List<Component> toModify = new ArrayList<>();
+		for (Component child : resultGoldenLayout.getChildren()) {
+			if (!gp_template.getId().equals(child.getId())) {
+				toModify.add(child);
+			}
+		}
+
+		for (Component child : toModify) {
+			child.setParent(null);
+			resultGoldenLayout.invalidate();
+		}
+
 	}
+
+	
 
 	@Listen("onClick =#searchGOButton")
 	public void onclickSearchGO() {
 		initResults();
-		initPanels();
+		emptyLayout();
 		try {
 
 			flipSearchBar();
@@ -2264,6 +2285,8 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
 
 			locusresult = new ArrayList();
+
+			closeDiv.setVisible(true);
 
 			if (this.listboxGOTerm.getSelectedIndex() > 0) {
 				locusresult = genomics.getLociByCvTerm(listboxGOTerm.getSelectedItem().getLabel(),
@@ -2282,7 +2305,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 			listboxLocus.setItemRenderer(new LocusListItemRenderer());
 			listboxLocus.setModel(new SimpleListModel(locusresult));
-			
+
 			resultGoldenLayout.appendChild(variety_panelPassportResult);
 
 			this.msgResult.setValue("Search by GO term '" + listboxGOTerm.getSelectedItem().getLabel());
@@ -2294,6 +2317,8 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			resultContentDiv.setVisible(true);
 			resultHeader.setVisible(true);
 			div_info.setVisible(false);
+			
+			gp_template.setParent(null);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -2306,12 +2331,15 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 		initResults();
 		try {
 			flipSearchBar();
-
+			emptyLayout();
+			Clients.evalJavaScript("myFunction();");
 			layoutResultId.setVisible(true);
 
 			genomics = (GenomicsFacade) AppContext.checkBean(genomics, "GenomicsFacade");
 
 			locusresult = new ArrayList();
+
+			closeDiv.setVisible(true);
 
 			if (this.listboxPatoTerm.getSelectedIndex() > 0) {
 				locusresult = genomics.getLociByCvTerm(listboxPatoTerm.getSelectedItem().getLabel(),
@@ -2340,7 +2368,14 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 			listboxLocus.setVisible(true);
 
+		
+			resultContentDiv.setVisible(true);
 			variety_panelPassportResult.setVisible(true);
+			variety_panelPassportResult.invalidate();
+			resultGoldenLayout.appendChild(variety_panelPassportResult);
+			div_info.setVisible(false);
+			
+			gp_template.setParent(null);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -2651,7 +2686,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 		locus_Result.setVisible(true);
 		resultGoldenLayout.appendChild(locus_Result);
-		
+
 		iframeJbrowse.setSrc(createJBrowseUrl(locus));
 		this.gridLocusInfo.setVisible(true);
 //		splitter.setOpen(true);

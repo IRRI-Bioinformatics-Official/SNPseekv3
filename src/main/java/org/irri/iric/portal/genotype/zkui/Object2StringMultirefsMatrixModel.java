@@ -48,7 +48,8 @@ import org.zkoss.zul.SimpleListModel;
 import org.zkoss.zul.event.ListDataEvent;
 import org.zkoss.zul.ext.Sortable;
 
-import user.ui.module.util.Object2StringMatrixComparatorProvider.Object2StringComparator;
+import user.ui.module.GenotypeQueryController.Object2StringMatrixComparatorProvider.Object2StringComparator;
+
 
 /**
  * A faker MatrixModel is used to handle a unlimited big table data.

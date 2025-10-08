@@ -380,7 +380,7 @@ public class VarietiesGenotypeSNPsIndelServiceImpl implements VarietiesGenotypeS
 		AppContext.startTimer();
 
 		VariantStringData variantMerged = null;
-		if ((params.getOrganismName().equals(AppContext.REFERENCE_NIPPONBARE()) || params.getOrganismName().equals(AppContext.MH63()))  && !params.isbShowAllRefAlleles())
+		if ((params.getOrganismName().equals(AppContext.REFERENCE_NIPPONBARE()) || params.getOrganismName().equals(AppContext.MH63())|| params.getOrganismName().equals(AppContext.AZUCENA))  && !params.isbShowAllRefAlleles())
 			variantMerged = queryVariantStringDataNipponbare(params);
 		else
 			variantMerged = queryVariantStringDataAllrefs(params);

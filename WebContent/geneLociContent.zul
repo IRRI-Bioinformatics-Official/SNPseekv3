@@ -1176,7 +1176,7 @@
 												</div>
 											</div>
 										</div>
-										<n:hr/>
+										<n:hr />
 										<div class="form-row"
 											style="width: 100%;" visible="false">
 											<div>
@@ -1186,12 +1186,13 @@
 														label="Submit in Background" checked="false" />
 													<textbox
 														id="textboxMsgWebclient" readonly="true" rows="4" />
-													
+
 												</vbox>
 											</div>
 										</div>
-										
-										<timer id="timerCheckUrls" delay="5000" repeats="true"/>
+
+										<timer id="timerCheckUrls"
+											delay="5000" repeats="true" />
 									</groupbox>
 
 
@@ -1851,15 +1852,11 @@
 										</listbox>
 									</goldenpanel>
 
-									<!-- <goldenpanel area="A"
-										id="variety_panelResult" class="variety_panelResultStyle"
-										title="Table Result" closable="false"
-										style="background-color:rgb(90,181, 109);font-size:12px;top:100px; left:35%;position:absolute;"
-										visible="false">
-										
-										
-										</goldenpanel>
-									-->
+									<goldenpanel area="A"
+										id="gp_template" title="template"
+										closable="false" style="height:750px;" popup="true"
+										visible="true">
+									</goldenpanel>
 								</goldenlayout>
 
 

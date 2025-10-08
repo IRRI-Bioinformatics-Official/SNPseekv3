@@ -21,6 +21,7 @@ import javax.mail.util.ByteArrayDataSource;
 
 import org.irri.iric.portal.config.KeysPropertyConfig;
 import org.zkoss.util.media.Media;
+import org.zkoss.zul.Textbox;
 
 public class MailUtils {
 
@@ -72,7 +73,8 @@ public class MailUtils {
 		}
 
 	}
-
+	
+	
 	public static void sendEmailWithAttachments(String fromName, String fromEmail, String subject, String messageText,
 			List<Media> attachments) throws Exception {
 
@@ -80,7 +82,9 @@ public class MailUtils {
 
 		StringBuilder composeMessage = new StringBuilder();
 
+		composeMessage.append("FROM: "+fromName +" emailto:"+fromEmail);
 		composeMessage.append(messageText);
+		
 
 		String FROM = keyProp.getFrom();
 		String FROMNAME = keyProp.getFromName();
@@ -88,6 +92,8 @@ public class MailUtils {
 		String HOST = keyProp.getHost();
 		String SMTP_USERNAME = keyProp.getUsername();
 		String SMTP_PASSWORD = keyProp.getPassword();
+		
+
 
 		InternetAddress[] recipients = new InternetAddress[1];
 		recipients[0] = new InternetAddress("l.h.barboza@cgiar.org");
@@ -102,32 +108,64 @@ public class MailUtils {
 		Session session = Session.getDefaultInstance(props);
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(fromEmail));
+		message.setFrom(new InternetAddress(FROM, FROMNAME));
 		message.setRecipients(Message.RecipientType.TO, recipients);
 		message.setSubject(subject);
+	
+//		MimeBodyPart textPart = new MimeBodyPart();
+//		textPart.setText(composeMessage.toString());
+//
+//		Multipart multipart = new MimeMultipart();
+//		multipart.addBodyPart(textPart);
+//
+//		
+//		if (attachments != null)
+//			if (attachments.size() > 0) {
+//				
+//				for (Media media : attachments) {
+//					MimeBodyPart attachmentPart = new MimeBodyPart();
+//					InputStream is = media.getStreamData();
+//					String contentType = media.getContentType();
+//					String fileName = media.getName();
+//
+//					ByteArrayDataSource dataSource = new ByteArrayDataSource(is, contentType);
+//					attachmentPart.setDataHandler(new DataHandler(dataSource));
+//					attachmentPart.setFileName(fileName);
+//
+//					multipart.addBodyPart(attachmentPart);
+//				}
+//
+//				
+//			}
+//		
+//		message.setContent(multipart, "text/html");
+		
+		// Create body part for HTML content
+		MimeBodyPart htmlPart = new MimeBodyPart();
+		htmlPart.setContent(composeMessage.toString(), "text/html; charset=utf-8");
 
-		MimeBodyPart textPart = new MimeBodyPart();
-		textPart.setText(composeMessage.toString());
+		// Create multipart container
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(htmlPart);
 
-		if (attachments.size() > 0) {
-			Multipart multipart = new MimeMultipart();
-			multipart.addBodyPart(textPart);
+		// Add attachments if any
+		if (attachments != null && !attachments.isEmpty()) {
+		    for (Media media : attachments) {
+		        MimeBodyPart attachmentPart = new MimeBodyPart();
+		        InputStream is = media.getStreamData();
+		        String contentType = media.getContentType();
+		        String fileName = media.getName();
 
-			for (Media media : attachments) {
-				MimeBodyPart attachmentPart = new MimeBodyPart();
-				InputStream is = media.getStreamData();
-				String contentType = media.getContentType();
-				String fileName = media.getName();
+		        ByteArrayDataSource dataSource = new ByteArrayDataSource(is, contentType);
+		        attachmentPart.setDataHandler(new DataHandler(dataSource));
+		        attachmentPart.setFileName(fileName);
 
-				ByteArrayDataSource dataSource = new ByteArrayDataSource(is, contentType);
-				attachmentPart.setDataHandler(new DataHandler(dataSource));
-				attachmentPart.setFileName(fileName);
-
-				multipart.addBodyPart(attachmentPart);
-			}
-
-			message.setContent(multipart);
+		        multipart.addBodyPart(attachmentPart);
+		    }
 		}
+
+		// Set the multipart as the message content
+		message.setContent(multipart);
 		Transport transport = session.getTransport();
 
 		try {

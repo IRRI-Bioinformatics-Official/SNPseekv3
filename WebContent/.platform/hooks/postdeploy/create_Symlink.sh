@@ -12,7 +12,7 @@ else
 fi
       
 echo "CREATING SYMLINK...2"
-echo "sudo -u tomcat ln -sf /mnt/efs/iric-portal-files/temp /var/lib/tomcat9/webapps/temp"
+echo "sudo -u tomcat ln -sf /IRCStorage/iric-portal-files/temp /var/lib/tomcat9/webapps/temp"
 sudo ln -sf /IRCStorage/iric-portal-files/temp /var/lib/tomcat9/webapps/temp >> $LOGFILE 2>&1
 sudo ln -sf /IRCStorage/jbrowse /var/lib/tomcat9/webapps/jbrowse >> $LOGFILE 2>&1
 sudo ln -sf /IRCStorage/iric-portal-files/static/gwas /var/lib/tomcat9/webapps/static >> $LOGFILE 2>&1
