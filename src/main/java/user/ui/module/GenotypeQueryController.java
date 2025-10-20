@@ -3968,7 +3968,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 					queryRawResult = genotype.queryGenotype(params2);
 
 					if (!params.getOrganismName().equals(AppContext.JAPONICA_NIPPONBARE)
-							&& !params.getOrganismName().equals(AppContext.MH63) && !AppContext.isAWS()) {
+							&& !params.getOrganismName().equals(AppContext.MH63)&& !params.getOrganismName().equals(AppContext.IR64)&& !params.getOrganismName().equals(AppContext.AZUCENA) && !AppContext.isAWS()) {
 						if (queryRawResult.getSnpstringdata() != null) {
 							if (queryRawResult.getSnpstringdata().getMapMSU7Pos2ConvertedPos() != null)
 								AppContext.debug("queryRawResult.getSnpstringdata().getMapMSU7Pos2ConvertedPos()="

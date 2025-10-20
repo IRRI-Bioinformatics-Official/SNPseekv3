@@ -6,7 +6,7 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/classes" path="src/main/java">
+	<classpathentry excluding="com/github/jmchilton/blend4j/galaxy/MyGalaxyInstanceFactory.java|com/github/jmchilton/blend4j/galaxy/MyWebResourceFactoryImpl.java|org/irri/iric/galaxy/service/GalaxyFacade.java|org/irri/iric/galaxy/service/GalaxyFacadeImpl.java|org/irri/iric/galaxy/service/DatatypeMaps.java|org/irri/iric/galaxy/service/MyTool.java|org/irri/iric/galaxy/service/MyToolParam.java|org/irri/iric/galaxy/service/MyWorksflow.java|org/irri/iric/portal/galaxy/zkui/GalaxyController.java|org/irri/iric/portal/galaxy/zkui/MatchedToolsRenderer.java|org/irri/iric/portal/galaxy/zkui/MatchedWorkflowRenderer.java|org/irri/iric/portal/genomics/dao/GalaxyAltSeqGenerator.java" kind="src" output="target/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>

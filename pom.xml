@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SNP-seekV3_clean</groupId>
 	<artifactId>SNP-seekV3_clean</artifactId>
-	<version>3.12.8</version>
+	<version>3.12.9</version>
 	<packaging>war</packaging>
 
 
@@ -15,12 +15,13 @@
 		<gson-version>2.8.5</gson-version>
 		<jodatime-version>2.9.3</jodatime-version>
 		<springframwework-version>5.3.18</springframwework-version>
-
+		<jersey.version>2.29.1</jersey.version>
+		 <hk2.version>2.6.1</hk2.version>
+		  <jackson.version>2.13.5</jackson.version>
 	</properties>
 
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-client</artifactId>
@@ -53,6 +54,12 @@
 			<groupId>com.microsoft.azure</groupId>
 			<artifactId>msal4j</artifactId>
 			<version>1.11.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 		  <groupId>io.github.cdimascio</groupId>
@@ -109,6 +116,12 @@
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-ec2</artifactId>
 			<version>1.12.757</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
 		<dependency>
@@ -147,6 +160,12 @@
 			<artifactId>google-api-services-oauth2</artifactId>
 			<version>v2-rev157-1.25.0</version>
 
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!--
 		https://mvnrepository.com/artifact/com.google.cloud/google-cloud-recaptchaenterprise -->
@@ -479,6 +498,10 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>jcl-over-slf4j</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -513,6 +536,22 @@
 				<exclusion>
 					<groupId>javax.ws.rs</groupId>
 					<artifactId>jsr311-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jersey.contribs</groupId>
+					<artifactId>jersey-multipart</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-json</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-client</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -579,10 +618,31 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.glassfish.hk2.external</groupId>
 			<artifactId>asm-all-repackaged</artifactId>
 			<version>2.2.0-b21</version>
+		</dependency>-->
+		<dependency>
+		  <groupId>org.glassfish.hk2.external</groupId>
+		  <artifactId>asm-all-repackaged</artifactId>
+		  <version>2.4.0-b34</version>
+		  <exclusions>
+		    <exclusion>
+		      <groupId>org.objectweb.asm</groupId>
+		      <artifactId>*</artifactId>
+		    </exclusion>
+		  </exclusions>
+		</dependency>
+		<dependency>
+		  <groupId>org.ow2.asm</groupId>
+		  <artifactId>asm</artifactId>
+		  <version>7.3.1</version> <!-- supports Java 17 -->
+		</dependency>
+		<dependency>
+		  <groupId>org.ow2.asm</groupId>
+		  <artifactId>asm-commons</artifactId>
+		  <version>7.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -739,25 +799,7 @@
 			<version>1.7.25</version>
 
 		</dependency> -->
-		<dependency>
-			<groupId>org.glassfish.hk2</groupId>
-			<artifactId>hk2-locator</artifactId>
-			<version>2.4.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.glassfish.hk2.external</groupId>
-					<artifactId>aopalliance-repackaged</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.inject</groupId>
-					<artifactId>javax.inject</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.javassist</groupId>
-					<artifactId>javassist</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/javassist/javassist -->
 		<dependency>
 			<groupId>javassist</groupId>
@@ -817,17 +859,6 @@
 				<exclusion>
 					<groupId>*</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.6.6</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -892,102 +923,113 @@
 		</exclusion> </exclusions> </dependency> -->
 		<!--
 		https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet -->
-		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			<artifactId>jersey-container-servlet</artifactId>
-			<version>2.4</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.glassfish.hk2.external</groupId>
-					<artifactId>javax.inject</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.glassfish.jersey.media</groupId>
-					<artifactId>jersey-media-jaxb</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
 
-		</dependency>
-
-		<!--
-		https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>2.4</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.ws.rs</groupId>
-					<artifactId>javax.ws.rs-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.module</groupId>
-					<artifactId>jackson-module-jaxb-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.glassfish.jersey.core</groupId>
-					<artifactId>jersey-common</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-core-asl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-jaxrs</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-mapper-asl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-xc</artifactId>
-				</exclusion>
-
-
-			</exclusions>
-		</dependency>
 		<!--
 		https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+
+		 <!-- Core Jersey -->
+	    <dependency>
+	        <groupId>org.glassfish.jersey.core</groupId>
+	        <artifactId>jersey-server</artifactId>
+	        <version>2.41</version>
+	    </dependency>
+	
+	    <dependency>
+	        <groupId>org.glassfish.jersey.containers</groupId>
+	        <artifactId>jersey-container-servlet</artifactId>
+	        <version>2.41</version>
+	    </dependency>
+	
+	    <!-- Required for HK2 injection -->
+	    <dependency>
+	        <groupId>org.glassfish.jersey.inject</groupId>
+	        <artifactId>jersey-hk2</artifactId>
+	        <version>2.41</version>
+	    </dependency>
+	
+	    <!-- If you use JSON (Jackson) -->
+	    <dependency>
+	        <groupId>org.glassfish.jersey.media</groupId>
+	        <artifactId>jersey-media-json-jackson</artifactId>
+	        <version>2.41</version>
+	        <exclusions>
+	        	<exclusion>
+	        		<groupId>com.fasterxml.jackson.core</groupId>
+	        		<artifactId>jackson-databind</artifactId>
+	        	</exclusion>
+	        	<exclusion>
+	        		<groupId>com.fasterxml.jackson.core</groupId>
+	        		<artifactId>jackson-core</artifactId>
+	        	</exclusion>
+	        	<exclusion>
+	        		<groupId>com.fasterxml.jackson.core</groupId>
+	        		<artifactId>jackson-annotations</artifactId>
+	        	</exclusion>
+	        	<exclusion>
+	        		<groupId>com.fasterxml.jackson.module</groupId>
+	        		<artifactId>
+	        			jackson-module-jaxb-annotations
+	        		</artifactId>
+	        	</exclusion>
+	        </exclusions>
+	    </dependency>
+	
+	    <!-- HK2 core -->
+	    <dependency>
+	        <groupId>org.glassfish.hk2</groupId>
+	        <artifactId>hk2-api</artifactId>
+	        <version>2.6.1</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.glassfish.hk2</groupId>
+	        <artifactId>hk2-utils</artifactId>
+	        <version>2.6.1</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.glassfish.hk2.external</groupId>
+	        <artifactId>aopalliance-repackaged</artifactId>
+	        <version>2.6.1</version>
+	    </dependency>
+	 	<dependency>
+		    <groupId>javax.inject</groupId>
+		    <artifactId>javax.inject</artifactId>
+		    <version>1</version>
+		</dependency>
+		 <dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-databind</artifactId>
+	        <version>${jackson.version}</version>
+	        <exclusions>
+	        	<exclusion>
+	        		<groupId>com.fasterxml.jackson.core</groupId>
+	        		<artifactId>jackson-core</artifactId>
+	        	</exclusion>
+	        	<exclusion>
+	        		<groupId>com.fasterxml.jackson.core</groupId>
+	        		<artifactId>jackson-annotations</artifactId>
+	        	</exclusion>
+	        </exclusions>
+		 </dependency>
+		 <dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>2.17.1</version> <!-- or any version that matches your jackson-databind -->
+		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.6.0</version>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-annotations</artifactId>
+		    <version>2.17.1</version>
+		</dependency><dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>accessors-smart</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.fasterxml.jackson.module</groupId>
+		  <artifactId>jackson-module-jaxb-annotations</artifactId>
+		  <version>2.17.1</version> <!-- Match your jackson-databind version -->
 		</dependency>
 
-		<!--
-		https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-moxy -->
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-moxy</artifactId>
-			<version>2.4</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.glassfish.jersey.core</groupId>
-					<artifactId>jersey-common</artifactId>
-				</exclusion>
-
-				<exclusion>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-				</exclusion>
-
-				<exclusion>
-					<groupId>org.glassfish</groupId>
-					<artifactId>javax.json</artifactId>
-				</exclusion>
-
-			</exclusions>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
 		<dependency>
@@ -1260,6 +1302,7 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+	
 	<repositories>
 		<repository>
 			<id>biojava-legacy-repo</id>
@@ -1267,6 +1310,30 @@
 			<url>https://github.com/biojava/maven-repo/raw/master/</url>
 		</repository>
 	</repositories>
+	<dependencyManagement>
+	  <dependencies>
+	    <dependency>
+	      <groupId>org.glassfish.jersey.core</groupId>
+	      <artifactId>jersey-server</artifactId>
+	      <version>2.29.1</version>
+	      <exclusions>
+	        <exclusion>
+	          <groupId>org.ow2.asm</groupId>
+	          <artifactId>asm</artifactId>
+	        </exclusion>
+	        <exclusion>
+	          <groupId>asm</groupId>
+	          <artifactId>asm</artifactId>
+	        </exclusion>
+	        <exclusion>
+	          <groupId>net.minidev</groupId>
+	          <artifactId>asm</artifactId>
+	        </exclusion>
+	      </exclusions>
+	    </dependency>
+	  </dependencies>
+	</dependencyManagement>
+
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>

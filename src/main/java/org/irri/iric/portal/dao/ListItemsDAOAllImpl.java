@@ -997,7 +997,7 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 			LinkedHashMap contignames = new LinkedHashMap();
 
 			// TODO value for 19
-			if (orgid.equals(BigDecimal.valueOf(9)) || orgid.equals(BigDecimal.valueOf(16))|| orgid.equals(BigDecimal.valueOf(23))) {
+			if (orgid.equals(BigDecimal.valueOf(9)) || orgid.equals(BigDecimal.valueOf(16))|| orgid.equals(BigDecimal.valueOf(23))|| orgid.equals(BigDecimal.valueOf(25))) {
 				scaffolddao = (ScaffoldDAO) AppContext.checkBean(scaffolddao, "ScaffoldDAO");
 				Iterator<Scaffold> it = scaffolddao.getScaffolds(orgid).iterator();
 				while (it.hasNext()) {
