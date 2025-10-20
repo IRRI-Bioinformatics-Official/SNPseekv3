@@ -255,7 +255,8 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 		AppContext.debug("Params Organism: " + params.getDataset() + " - Default Organism " + params.getOrganismName());
 		if (!params.getOrganism().getName().equals(AppContext.JAPONICA_NIPPONBARE)
 				&& !params.getOrganism().getName().equals(AppContext.MH63)
-				&& !params.getOrganism().getName().equals(AppContext.AZUCENA)) {
+				&& !params.getOrganism().getName().equals(AppContext.AZUCENA)
+				&& !params.getOrganism().getName().equals(AppContext.IR64)) {
 			// not nipponbare coordinate. convert coordinates
 
 			if (params.getsChr() != null && params.getlStart() != null && params.getlEnd() != null) {

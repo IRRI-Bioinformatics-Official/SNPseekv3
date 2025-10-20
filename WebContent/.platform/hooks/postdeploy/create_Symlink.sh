@@ -2,7 +2,7 @@
 
 LOGFILE="/var/log/new_symlink_creation.log"
       
-echo "Starting symlink creation at $(date)" >> $LOGFILE
+echo "FROM POST-HOOK Starting symlink creation at $(date)" >> $LOGFILE
       
 if [ -d /var/lib/tomcat9/webapps/temp ]; then
 	echo "temp Directory exists"

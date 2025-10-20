@@ -158,8 +158,8 @@ public class VariantSequenceDAOImpl implements VariantSequenceDAO {
 			}
 			bw.flush();
 			bw.close();
-			
-			String[] status=new GalaxyAltSeqGenerator(destdir,jobname).getAltSequence(destdir + "samplelist.txt", mapLoc2Int, query.getReference(),query.isSync());
+			//REMOVED BECAUSE OF JERSEY VERSION FROM BLEND JAR WHICH IS USE FOR GALAXY
+			//String[] status=new GalaxyAltSeqGenerator(destdir,jobname).getAltSequence(destdir + "samplelist.txt", mapLoc2Int, query.getReference(),query.isSync());
 
 		} else if (query.getMethod().equals("gatk")) {
 
