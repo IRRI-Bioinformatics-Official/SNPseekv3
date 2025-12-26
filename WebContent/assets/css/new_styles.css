@@ -1,0 +1,42 @@
+.z-combobox-input {
+    font-size: 14px;    
+}
+
+.z-comboitem, .z-comboitem a, .z-comboitem a:visited {
+    font-size: 14px;
+}
+
+/* Tab headers */
+.results-tabbox .result-tab {
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #0a4d3c;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Active tab */
+.results-tabbox .z-tab-selected {
+    background: linear-gradient(to bottom right, #059669, #0d9488);
+    border-bottom: 2px solid #1abc9c; /* match highlight color */
+}
+
+/* Panels */
+.result-panel {
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e4e8ef;
+    border-radius: 0 8px 8px 8px;
+    margin-bottom: 12px;
+}
+
+/* Panel content */
+.panel-content {
+    font-size: 14px;
+    color: #3a3a3a;
+}
+
+.z-tab-selected .z-tab-text {
+    color: #efefef;
+    background: linear-gradient(to bottom right, #059669, #0d9488);
+}

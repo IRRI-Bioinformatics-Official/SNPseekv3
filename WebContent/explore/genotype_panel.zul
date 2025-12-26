@@ -1,0 +1,92 @@
+<?zk?>
+<zk xmlns:n="native">
+    <div apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init(arg.viewModel)">
+        
+        <!-- Genotype Results Section - Only visible when results exist -->
+        <div visible="@load(vm.hasResults)">
+            <separator height="20px"/>
+            
+            <panel title="@load('Genotype Results for: '.concat(vm.searchCriteria))" 
+                   border="normal" 
+                   collapsible="true">
+                <panelchildren>
+                    <!-- Loading indicator -->
+                    <div visible="@load(vm.loading)" 
+                         style="text-align:center; padding:20px;">
+                        <n:i class="z-icon-spinner z-icon-spin z-icon-2x"></n:i>
+                        <label value=" Loading genotype data..." 
+                               style="margin-left:10px;"/>
+                    </div>
+                    
+                    <!-- Results count -->
+                    <div visible="@load(not vm.loading)">
+                        <hlayout style="padding:5px;">
+                            <label value="@load('Total Results: '.concat(vm.totalResults))" 
+                                   style="font-weight:bold;"/>
+                            <space/>
+                            <button label="Clear Results" 
+                                    onClick="@command('clearResults')"
+                                    iconSclass="z-icon-times"/>
+                        </hlayout>
+                        
+                        <separator height="5px"/>
+                        
+                        <!-- BigListbox with genotype data -->
+                        <biglistbox model="@load(vm.genotypeResults)" 
+                                   height="400px"
+                                   nonselectableTags="*">
+                            
+                            <!-- Header columns -->
+                            <auxhead>
+                                <auxheader label="Sample ID" width="150px"/>
+                                <auxheader label="Marker" width="120px"/>
+                                <auxheader label="Allele 1" width="100px"/>
+                                <auxheader label="Allele 2" width="100px"/>
+                                <auxheader label="Genotype" width="120px"/>
+                                <auxheader label="Quality Score" width="120px"/>
+                                <auxheader label="Call Date" width="150px"/>
+                            </auxhead>
+                            
+                            <!-- Data template -->
+                            <template name="model">
+                                <div style="padding:8px; border-bottom:1px solid #e0e0e0;">
+                                    <hlayout spacing="10px">
+                                        <div width="150px" style="overflow:hidden;">
+                                            <label value="@load(each.sampleId)" 
+                                                   style="color:#2196F3; font-weight:bold;"/>
+                                        </div>
+                                        <div width="120px">
+                                            <label value="@load(each.marker)"/>
+                                        </div>
+                                        <div width="100px">
+                                            <label value="@load(each.allele1)" 
+                                                   style="font-family:monospace;"/>
+                                        </div>
+                                        <div width="100px">
+                                            <label value="@load(each.allele2)" 
+                                                   style="font-family:monospace;"/>
+                                        </div>
+                                        <div width="120px">
+                                            <label value="@load(each.genotype)" 
+                                                   style="font-weight:bold; color:#4CAF50;"/>
+                                        </div>
+                                        <div width="120px">
+                                            <div style="@load(each.qualityScore ge 90 ? 'color:green;' : each.qualityScore ge 70 ? 'color:orange;' : 'color:red;')">
+                                                <label value="@load(each.qualityScore)"/>
+                                                <label value="%"/>
+                                            </div>
+                                        </div>
+                                        <div width="150px">
+                                            <label value="@load(each.callDate) @converter('formatedDate', format='yyyy-MM-dd HH:mm')"/>
+                                        </div>
+                                    </hlayout>
+                                </div>
+                            </template>
+                        </biglistbox>
+                    </div>
+                </panelchildren>
+            </panel>
+        </div>
+    </div>
+</zk>

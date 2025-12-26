@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- search.zul - Unified Search Page -->
+<zk>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f9fafb;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .main-content {
+            margin-left: 240px;
+            padding: 32px;
+        }
+        
+        .page-header {
+            margin-bottom: 32px;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+        
+        .page-description {
+            font-size: 16px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        
+        .tab-container {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            background: #f9fafb;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 16px 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.2s;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .tab-button:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+        
+        .tab-button-active {
+            color: #059669;
+            background: white;
+            border-bottom-color: #059669;
+        }
+        
+        .tab-content {
+            padding: 32px;
+        }
+        
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .search-button {
+            background: linear-gradient(to bottom right, #059669, #0d9488);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        
+        .search-button:hover {
+            opacity: 0.9;
+        }
+        
+        .reset-button {
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            color: #6b7280;
+        }
+        
+        .reset-button:hover {
+            background: #f9fafb;
+        }
+        
+        .info-box {
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .info-text {
+            font-size: 14px;
+            color: #0f766e;
+            line-height: 1.6;
+        }
+        
+        .results-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        
+        .result-item:hover {
+            border-color: #0d9488;
+            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1);
+        }
+        
+        .result-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+        
+        .result-meta {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .variety-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e0f2fe;
+            color: #0e7490;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+        
+        .gene-link {
+            color: #0d9488;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .gene-link:hover {
+            text-decoration: underline;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+        
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+    </style>
+    
+    <zscript><![CDATA[
+        // Track active tab
+        String activeTab = "genotype";
+        
+        void switchTab(String tab) {
+            activeTab = tab;
+            
+            // Update tab buttons
+            genotypeTab.setSclass(tab.equals("genotype") ? "tab-button tab-button-active" : "tab-button");
+            varietiesTab.setSclass(tab.equals("varieties") ? "tab-button tab-button-active" : "tab-button");
+            geneTab.setSclass(tab.equals("gene") ? "tab-button tab-button-active" : "tab-button");
+            
+            // Update content visibility
+            genotypeContent.setVisible(tab.equals("genotype"));
+            varietiesContent.setVisible(tab.equals("varieties"));
+            geneContent.setVisible(tab.equals("gene"));
+        }
+    ]]></zscript>
+    
+    <!-- Include Sidebar Component -->
+    <include src="sidebar.zul">
+        <custom-attributes page="search-genotype"/>
+    </include>
+    
+    <!-- Main Content Area -->
+    <div sclass="main-content">
+        <div sclass="page-header">
+            <label sclass="page-title" value="🔍 Search SNP-Seek Database"/>
+            <separator/>
+            <label sclass="page-description" 
+                   value="Search for genotypes, rice varieties, or gene loci. Select a search type below to get started."/>
+        </div>
+        
+        <!-- Tabbed Search Interface -->
+        <div sclass="content-card">
+            <!-- Tab Buttons -->
+            <div sclass="tab-container">
+                <div id="genotypeTab" sclass="tab-button tab-button-active" onClick="switchTab('genotype')">
+                    <label value="🔬 Search by Genotype" style="cursor: pointer;"/>
+                </div>
+                <div id="varietiesTab" sclass="tab-button" onClick="switchTab('varieties')">
+                    <label value="🌾 Search by Varieties" style="cursor: pointer;"/>
+                </div>
+                <div id="geneTab" sclass="tab-button" onClick="switchTab('gene')">
+                    <label value="📍 Search by Gene Loci" style="cursor: pointer;"/>
+                </div>
+            </div>
+            
+            <!-- Tab Content: Genotype Search -->
+            <div id="genotypeContent" sclass="tab-content" visible="true">
+                <div sclass="info-box">
+                    <label sclass="info-text" value="💡 Query SNP alleles for varieties in specific genomic regions using chromosome positions. Enter a chromosome and position range to find all SNPs in that region."/>
+                </div>
+                
+                <vbox spacing="20px" width="100%">
+                    <div>
+                        <label sclass="form-label" value="Chromosome"/>
+                        <combobox width="100%" placeholder="Select chromosome">
+                            <comboitem label="Chromosome 1"/>
+                            <comboitem label="Chromosome 2"/>
+                            <comboitem label="Chromosome 3"/>
+                            <comboitem label="Chromosome 4"/>
+                            <comboitem label="Chromosome 5"/>
+                            <comboitem label="Chromosome 6"/>
+                            <comboitem label="Chromosome 7"/>
+                            <comboitem label="Chromosome 8"/>
+                            <comboitem label="Chromosome 9"/>
+                            <comboitem label="Chromosome 10"/>
+                            <comboitem label="Chromosome 11"/>
+                            <comboitem label="Chromosome 12"/>
+                        </combobox>
+                    </div>
+                    
+                    <hbox spacing="20px" widths="300px,300px">
+                        <div>
+                            <label sclass="form-label" value="Start Position"/>
+                            <intbox width="100%" placeholder="e.g., 1000000"/>
+                        </div>
+                        
+                        <div>
+                            <label sclass="form-label" value="End Position"/>
+                            <intbox width="100%" placeholder="e.g., 2000000"/>
+                        </div>
+                    </hbox>
+                    
+                    <div>
+                        <label sclass="form-label" value="Filter by Variety (Optional)"/>
+                        <textbox width="100%" placeholder="Enter variety name or leave blank for all varieties"/>
+                    </div>
+                    
+                    <separator height="10px"/>
+                    
+                    <hbox spacing="12px">
+                        <button sclass="search-button" label="Search Genotypes" 
+                                onClick='Clients.showNotification("Searching genotypes...", "info", null, "middle_center", 2000)'/>
+                        <button sclass="reset-button" label="Reset Form"/>
+                    </hbox>
+                </vbox>
+            </div>
+            
+            <!-- Tab Content: Varieties Search -->
+            <div id="varietiesContent" sclass="tab-content" visible="false">
+                <div sclass="info-box">
+                    <label sclass="info-text" value="💡 Explore rice varieties by name, country of origin, or subpopulation classification. Browse through the 3,024 varieties in our collection."/>
+                </div>
+                
+                <vbox spacing="20px" width="100%">
+                    <div>
+                        <label sclass="form-label" value="Search by Variety Name"/>
+                        <textbox width="100%" placeholder="Enter variety name (e.g., IRIS_313-10000)"/>
+                    </div>
+                    
+                    <hbox spacing="20px" widths="300px,300px,300px">
+                        <div>
+                            <label sclass="form-label" value="Country of Origin"/>
+                            <combobox width="100%" placeholder="Select country">
+                                <comboitem label="All Countries"/>
+                                <comboitem label="China"/>
+                                <comboitem label="India"/>
+                                <comboitem label="Philippines"/>
+                                <comboitem label="Thailand"/>
+                                <comboitem label="Vietnam"/>
+                                <comboitem label="Bangladesh"/>
+                                <comboitem label="Indonesia"/>
+                                <comboitem label="Japan"/>
+                                <comboitem label="Myanmar"/>
+                                <comboitem label="Pakistan"/>
+                            </combobox>
+                        </div>
+                        
+                        <div>
+                            <label sclass="form-label" value="Subpopulation"/>
+                            <combobox width="100%" placeholder="Select subpopulation">
+                                <comboitem label="All Subpopulations"/>
+                                <comboitem label="Indica"/>
+                                <comboitem label="Japonica"/>
+                                <comboitem label="Aus"/>
+                                <comboitem label="Aromatic"/>
+                                <comboitem label="Admix"/>
+                            </combobox>
+                        </div>
+                        
+                        <div>
+                            <label sclass="form-label" value="Sort By"/>
+                            <combobox width="100%">
+                                <comboitem label="Name (A-Z)" />
+                                <comboitem label="Name (Z-A)"/>
+                                <comboitem label="Country"/>
+                                <comboitem label="Subpopulation"/>
+                            </combobox>
+                        </div>
+                    </hbox>
+                    
+                    <separator height="10px"/>
+                    
+                    <hbox spacing="12px">
+                        <button sclass="search-button" label="Search Varieties" 
+                                onClick='Clients.showNotification("Searching varieties...", "info", null, "middle_center", 2000)'/>
+                        <button sclass="reset-button" label="Reset Form"/>
+                    </hbox>
+                </vbox>
+            </div>
+            
+            <!-- Tab Content: Gene Loci Search -->
+            <div id="geneContent" sclass="tab-content" visible="false">
+                <div sclass="info-box">
+                    <label sclass="info-text" value="💡 Find SNPs associated with specific genes using locus IDs or gene names. Search our comprehensive gene annotation database."/>
+                </div>
+                
+                <vbox spacing="20px" width="100%">
+                    <div>
+                        <label sclass="form-label" value="Gene Locus ID or Name"/>
+                        <textbox width="100%" placeholder="e.g., LOC_Os01g01010 or OsMADS1"/>
+                    </div>
+                    
+                    <hbox spacing="20px" widths="300px,300px">
+                        <div>
+                            <label sclass="form-label" value="Search Type"/>
+                            <combobox width="100%">
+                                <comboitem label="Locus ID" />
+                                <comboitem label="Gene Name"/>
+                                <comboitem label="Both"/>
+                            </combobox>
+                        </div>
+                        
+                        <div>
+                            <label sclass="form-label" value="Chromosome (Optional)"/>
+                            <combobox width="100%" placeholder="Any chromosome">
+                                <comboitem label="Any Chromosome"/>
+                                <comboitem label="Chromosome 1"/>
+                                <comboitem label="Chromosome 2"/>
+                                <comboitem label="Chromosome 3"/>
+                                <comboitem label="Chromosome 4"/>
+                                <comboitem label="Chromosome 5"/>
+                                <comboitem label="Chromosome 6"/>
+                                <comboitem label="Chromosome 7"/>
+                                <comboitem label="Chromosome 8"/>
+                                <comboitem label="Chromosome 9"/>
+                                <comboitem label="Chromosome 10"/>
+                                <comboitem label="Chromosome 11"/>
+                                <comboitem label="Chromosome 12"/>
+                            </combobox>
+                        </div>
+                    </hbox>
+                    
+                    <div>
+                        <label sclass="form-label" value="Gene Function/Description (Optional)"/>
+                        <textbox width="100%" placeholder="e.g., transcription factor, kinase, resistance"/>
+                    </div>
+                    
+                    <separator height="10px"/>
+                    
+                    <hbox spacing="12px">
+                        <button sclass="search-button" label="Search Gene Loci" 
+                                onClick='Clients.showNotification("Searching genes...", "info", null, "middle_center", 2000)'/>
+                        <button sclass="reset-button" label="Reset Form"/>
+                    </hbox>
+                </vbox>
+            </div>
+        </div>
+        
+        <!-- Search Results Section -->
+        <div sclass="results-card">
+            <hbox align="center" pack="justify" style="margin-bottom: 20px;">
+                <label value="Search Results" style="font-size: 18px; font-weight: 600; color: #111827;"/>
+                <label value="0 results" style="font-size: 14px; color: #6b7280;"/>
+            </hbox>
+            
+            <separator height="16px"/>
+            
+            <!-- Empty State -->
+            <div sclass="empty-state">
+                <div sclass="empty-icon">🔍</div>
+                <label value="No search results yet" style="font-size: 18px; font-weight: 600; color: #6b7280; display: block; margin-bottom: 8px;"/>
+                <label value="Enter your search criteria above and click the search button" style="font-size: 14px;"/>
+            </div>
+            
+            <!-- Example Results (Hidden by default, will show after search) -->
+            <!--
+            <div sclass="result-item">
+                <label sclass="result-title" value="IRIS_313-10000"/>
+                <separator/>
+                <label sclass="result-meta" value="Country: China | Subpopulation: Indica"/>
+                <div>
+                    <span sclass="variety-tag">Indica</span>
+                    <span sclass="variety-tag">China</span>
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+</zk>

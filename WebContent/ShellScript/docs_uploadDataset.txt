@@ -1,0 +1,57 @@
+	# uploadDataset.sh
+
+## Overview
+`uploadDataset.sh` is a shell script designed to upload and process genomic dataset files into a target database.  
+It takes several arguments such as dataset name, variantset name, sample list, and position file to perform a batch upload and log the output.
+
+This script is typically used in bioinformatics data pipelines for managing large variant or sequencing datasets (e.g., 3K Rice Genomes Project or variant sets).
+
+---
+
+## Usage
+
+```bash
+./uploadDataset.sh <DATABASE_NAME> <VARIANTSET_NAME> <SAMPLE_LIST_FILE> <POSITION_FILE> <ORGANISM_NAME_OR_REFERENCE>
+```
+
+### Example
+```bash
+./uploadDataset.sh IR64 IR64 ../3k+15vgenome33.PV1.ir64/sample_list.txt ../3k+15vgenome33.PV1.ir64/pos.txt IR64 > 3039_output.log 2>&1 &
+```
+
+### Arguments
+
+| Argument | Description | Example |
+|-----------|--------------|----------|
+| `<DATASET_NAME>` | Name or ID of the dataset being uploaded. Used for labeling or database reference. | `IR64` |
+| `<VARIANTSET_NAME>` | Variantset name associated with the dataset. | `IR64` |
+| `<SAMPLE_LIST_FILE>` | Path to a text file containing a list of samples to include in the upload. | `../3k+15vgenome33.PV1.ir64/sample_list.txt` |
+| `<POSITION_FILE>` | Path to a file containing genomic positions or SNP coordinates. | `../3k+15vgenome33.PV1.ir64/pos.txt` |
+| `<OUTPUT_PREFIX>` | Prefix used for naming output or intermediate files. | `IR64` |
+
+---
+
+## Output
+
+
+## Troubleshooting
+
+| Issue | Possible Cause | Solution |
+|--------|----------------|-----------|
+| `Permission denied` | Script is not executable | Run `chmod +x uploadDataset.sh` |
+| `File not found` | Incorrect path to sample or position file | Check and update file paths |
+| `Upload incomplete` | Script interrupted or missing input data | Re-run the command and check logs |
+| `Database connection failed` | Network or credentials issue | Verify DB settings inside the script |
+
+---
+
+## License
+This script is part of an internal bioinformatics data processing pipeline.  
+You may modify or distribute it according to your organization’s data policies.
+
+---
+
+## Author
+**[Lord Hendrix Barboza]**  
+*Bioinformatics - IRRI *  
+📅 *Last Updated:* October 2025

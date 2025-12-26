@@ -5,11 +5,21 @@
 -->
 
 <zk>
-	<device-config>
-		<device-type>ajax</device-type>
-		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the browser to reload the same URL -->
-	</device-config>
-	<session-config>
-		<session-timeout>7200000</session-timeout> <!-- 120 minutes -->
-	</session-config>
+    <device-config>
+        <device-type>ajax</device-type>
+        <timeout-uri>/timeout.zul</timeout-uri>
+    </device-config>
+    
+    <desktop-config>
+        <desktop-timeout>7200</desktop-timeout> <!-- 2 hours in SECONDS -->
+    </desktop-config>
+    
+    <session-config>
+        <timer-keep-alive>true</timer-keep-alive>
+        <timeout-message>Your session has expired. Please refresh the page.</timeout-message>
+    </session-config>
+    
+    <client-config>
+        <keep-alive>true</keep-alive>
+    </client-config>
 </zk>

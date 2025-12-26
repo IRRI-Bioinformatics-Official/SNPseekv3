@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns:n="native">
+	<n:div style="min-height:100vh; padding:10px;">
+		<window title="Gene Loci Search" border="normal"
+			viewModel="@id('vm') @init('org.irri.test.GenelociViewModel')"
+			width="100%">
+
+			<!-- Search Panel -->
+			<panel title="Gene Loci Search" border="normal"
+				collapsible="false">
+				<panelchildren>
+					<vlayout spacing="10px" style="padding:10px;">
+						<hlayout spacing="10px">
+							<label value="Search Term:" width="100px" />
+
+							<textbox value="@bind(vm.searchTerm)"
+								width="300px" placeholder="Enter gene loci name or ID"
+								onOK="@command('searchGeneloci')" />
+
+							<button label="Search"
+								onClick="@command('searchGeneloci')" iconSclass="z-icon-search" />
+							<button label="Clear"
+								onClick="@command('clearSearch')" iconSclass="z-icon-times" />
+						</hlayout>
+
+						<separator height="10px" />
+
+						<div visible="@load(vm.hasGenelociResults)">
+							<label
+								value="@load(('Found ').concat(vm.resultSize).concat(' loci. Click on a row to view genotype data.'))"
+								style="color:#666; font-style:italic;" />
+						</div>
+					</vlayout>
+				</panelchildren>
+			</panel>
+
+			<separator height="10px" />
+
+			<!-- Gene Loci Results - no internal scroll, shows all rows -->
+			<panel title="Gene Loci Results" border="normal"
+				visible="@load(vm.hasGenelociResults)">
+				<panelchildren>
+
+					<!-- Header Row -->
+					<div
+						style="background:#f5f5f5; border-bottom:2px solid #ddd; padding:8px; font-weight:bold;">
+						<hlayout spacing="10px">
+							<label value="Loci ID" width="150px" />
+							<label value="Loci Name" width="200px" />
+							<label value="Chromosome" width="120px" />
+							<label value="Position" width="150px" />
+							<label value="Type" width="120px" />
+							<label value="Description" width="300px" />
+						</hlayout>
+					</div>
+
+					<!-- Data Rows -->
+					<vlayout children="@load(vm.genelociData)">
+						<template name="children">
+							<div style="padding:8px; border-bottom:1px solid #ddd; cursor:pointer;"
+								onClick="@command('selectLociAndSearch', lociId=each.lociId)">
+								<hlayout spacing="10px">
+									<label value="@load(each.lociId)" width="150px"
+										style="color:#1976D2; font-weight:bold;" />
+									<label value="@load(each.lociName)" width="200px"
+										style="font-weight:bold;" />
+									<label value="@load(each.chromosome)" width="120px" />
+									<label value="@load(each.position)" width="150px" />
+									<label value="@load(each.type)" width="120px" />
+									<label value="@load(each.description)" width="300px" />
+								</hlayout>
+							</div>
+						</template>
+					</vlayout>
+
+				</panelchildren>
+			</panel>
+
+			<separator height="10px" />
+
+			<!-- Genotype Results - no internal scroll -->
+			<panel visible="@load(vm.genotypeResultVM.hasResults)"
+				title="@load(('Genotype Results for: ').concat(vm.genotypeResultVM.searchCriteria))"
+				border="normal" collapsible="true">
+				<panelchildren>
+
+					<hlayout style="padding:5px;">
+						<label
+							value="@load(('Total Results: ').concat(vm.genotypeResultVM.totalResults))"
+							style="font-weight:bold;" />
+						<space />
+						<button label="Clear Results"
+							onClick="@command('clearGenotypeResults')"
+							iconSclass="z-icon-times" />
+					</hlayout>
+
+					<separator height="5px" />
+
+					<!-- Header -->
+					<div
+						style="background:#f5f5f5; border-bottom:2px solid #ddd; padding:8px; font-weight:bold;">
+						<hlayout spacing="10px">
+							<label value="Sample ID" width="150px" />
+							<label value="Marker" width="120px" />
+							<label value="Allele 1" width="100px" />
+							<label value="Allele 2" width="100px" />
+							<label value="Genotype" width="120px" />
+							<label value="Quality Score" width="120px" />
+							<label value="Call Date" width="150px" />
+						</hlayout>
+					</div>
+
+					<!-- Genotype Data -->
+					<vlayout children="@load(vm.genotypeResultVM.genotypeData)">
+						<template name="children">
+							<div style="padding:8px; border-bottom:1px solid #e0e0e0;">
+								<hlayout spacing="10px">
+									<label value="@load(each.sampleId)"
+										width="150px" style="color:#2196F3; font-weight:bold;" />
+									<label value="@load(each.marker)" width="120px" />
+									<label value="@load(each.allele1)"
+										width="100px" style="font-family:monospace;" />
+									<label value="@load(each.allele2)"
+										width="100px" style="font-family:monospace;" />
+									<label value="@load(each.genotype)"
+										width="120px" style="font-weight:bold; color:#4CAF50;" />
+									<label value="@load(each.qualityScore)" width="120px" />
+									<label value="@load(each.callDate)" width="150px" />
+								</hlayout>
+							</div>
+						</template>
+					</vlayout>
+
+				</panelchildren>
+			</panel>
+			
+			<separator height="20px" />
+
+		</window>
+	</n:div>
+</zk>

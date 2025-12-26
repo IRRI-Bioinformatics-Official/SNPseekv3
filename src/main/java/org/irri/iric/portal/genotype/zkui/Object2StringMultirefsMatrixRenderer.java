@@ -58,8 +58,10 @@ public class Object2StringMultirefsMatrixRenderer implements MatrixRenderer, SNP
 			frozenCols++;
 
 		if (params.isbIndel() && params.isbAlignIndels()) {
-			setPosGapRegion = tabledata.getIndelstringdata().getSetPosGapRegion();
-			setPosDeletionRegion = tabledata.getIndelstringdata().getSetPosDeletionRegion();
+			if (tabledata.getIndelstringdata() != null) {
+ 				setPosGapRegion = tabledata.getIndelstringdata().getSetPosGapRegion();
+				setPosDeletionRegion = tabledata.getIndelstringdata().getSetPosDeletionRegion();
+			}
 		}
 
 		mapIdx2Pos = new HashMap();

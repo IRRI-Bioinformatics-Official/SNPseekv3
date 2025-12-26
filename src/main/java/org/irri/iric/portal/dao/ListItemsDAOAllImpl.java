@@ -22,6 +22,7 @@ import java.util.TreeSet;
 import org.irri.iric.ds.chado.dao.CvDAO;
 import org.irri.iric.ds.chado.dao.CvTermByDatasetDAO;
 import org.irri.iric.ds.chado.dao.CvTermDAO;
+import org.irri.iric.ds.chado.dao.FeatureDAO;
 import org.irri.iric.ds.chado.dao.GeneDAO;
 import org.irri.iric.ds.chado.dao.GenotypeRunPlatformDAO;
 import org.irri.iric.ds.chado.dao.ScaffoldDAO;
@@ -31,6 +32,7 @@ import org.irri.iric.ds.chado.dao.VarietyDAO;
 import org.irri.iric.ds.chado.dao.access.OrganismDAO;
 import org.irri.iric.ds.chado.domain.CvTerm;
 import org.irri.iric.ds.chado.domain.CvTermDataset;
+import org.irri.iric.ds.chado.domain.Feature;
 import org.irri.iric.ds.chado.domain.Gene;
 import org.irri.iric.ds.chado.domain.Scaffold;
 import org.irri.iric.ds.chado.domain.StockSample;
@@ -67,6 +69,9 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 
 	@Autowired
 	private GeneDAO geneDAO;
+	
+	@Autowired
+	private FeatureDAO featureDAO;
 
 	@Autowired
 	@Qualifier("VarietyDAO")
@@ -529,6 +534,7 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 	@Override
 	public Gene findGeneFromName(String genename, String organism) {
 		geneDAO = (GeneDAO) AppContext.checkBean(geneDAO, "GeneDAO");
+		
 		return geneDAO.findGeneByName(genename.toUpperCase(), getOrganismByName(organism).getOrganismId().intValue());
 	}
 
@@ -997,7 +1003,7 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 			LinkedHashMap contignames = new LinkedHashMap();
 
 			// TODO value for 19
-			if (orgid.equals(BigDecimal.valueOf(9)) || orgid.equals(BigDecimal.valueOf(16))|| orgid.equals(BigDecimal.valueOf(23))|| orgid.equals(BigDecimal.valueOf(25))) {
+			if (orgid.equals(BigDecimal.valueOf(9)) || orgid.equals(BigDecimal.valueOf(16))|| orgid.equals(BigDecimal.valueOf(23))|| orgid.equals(BigDecimal.valueOf(24))|| orgid.equals(BigDecimal.valueOf(25))) {
 				scaffolddao = (ScaffoldDAO) AppContext.checkBean(scaffolddao, "ScaffoldDAO");
 				Iterator<Scaffold> it = scaffolddao.getScaffolds(orgid).iterator();
 				while (it.hasNext()) {

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- search-genotype.zul - Search Genotype Page Example -->
+<zk>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f9fafb;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .main-content {
+            margin-left: 240px;
+            padding: 32px;
+        }
+        
+        .page-header {
+            margin-bottom: 32px;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+        
+        .page-description {
+            font-size: 16px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        
+        .search-button {
+            background: linear-gradient(to bottom right, #059669, #0d9488);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+    
+    <!-- Include Sidebar Component -->
+    <include src="sidebar.zul">
+        <custom-attributes page="search-genotype"/>
+    </include>
+    
+    <!-- Main Content Area -->
+    <div sclass="main-content">
+        <div sclass="page-header">
+            <label sclass="page-title" value="🔬 Search by Genotype"/>
+            <separator/>
+            <label sclass="page-description" 
+                   value="Query SNP alleles for varieties in specific genomic regions using chromosome positions."/>
+        </div>
+        
+        <div sclass="content-card">
+            <vbox spacing="20px" width="100%">
+                <div>
+                    <label sclass="form-label" value="Chromosome"/>
+                    <separator/>
+                    <combobox width="300px" placeholder="Select chromosome">
+                        <comboitem label="Chromosome 1"/>
+                        <comboitem label="Chromosome 2"/>
+                        <comboitem label="Chromosome 3"/>
+                        <comboitem label="Chromosome 4"/>
+                        <comboitem label="Chromosome 5"/>
+                        <comboitem label="Chromosome 6"/>
+                        <comboitem label="Chromosome 7"/>
+                        <comboitem label="Chromosome 8"/>
+                        <comboitem label="Chromosome 9"/>
+                        <comboitem label="Chromosome 10"/>
+                        <comboitem label="Chromosome 11"/>
+                        <comboitem label="Chromosome 12"/>
+                    </combobox>
+                </div>
+                
+                <hbox spacing="20px">
+                    <div>
+                        <label sclass="form-label" value="Start Position"/>
+                        <separator/>
+                        <intbox width="200px" placeholder="e.g., 1000000"/>
+                    </div>
+                    
+                    <div>
+                        <label sclass="form-label" value="End Position"/>
+                        <separator/>
+                        <intbox width="200px" placeholder="e.g., 2000000"/>
+                    </div>
+                </hbox>
+                
+                <separator height="10px"/>
+                
+                <button sclass="search-button" label="Search SNPs" 
+                        onClick='Clients.showNotification("Search functionality will be implemented here", "info", null, "middle_center", 3000)'/>
+            </vbox>
+        </div>
+        
+        <div sclass="content-card">
+            <label value="Search results will appear here..." style="color: #9ca3af; font-style: italic;"/>
+        </div>
+    </div>
+</zk>

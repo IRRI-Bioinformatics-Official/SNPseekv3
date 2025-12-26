@@ -3,11 +3,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [8.17.1] - 11/11/2024
+## [3.13.0] - 2025-12-26
+
+- Added exploratory new UI
+- Added new folder and shell scripts
+- Bug fix for null pointer exception
+
+## [8.17.1] - 2024-11-11
 - Added HDF5LIbrarytest to test hdf5 libraries without running the app
 - Update Home page UI
 - New HDF5 native libs for MacOS (Check computer's architecture)
-- Update Genotype Search UI
+- Update Genotype Search UI6
 - Added new images
 - Update CSS styles needed for home page
 

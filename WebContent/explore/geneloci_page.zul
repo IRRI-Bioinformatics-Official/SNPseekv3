@@ -1,0 +1,111 @@
+<?zk?>
+<zk xmlns:n="native">
+    <window title="Gene Loci Search" border="normal" 
+            apply="org.zkoss.bind.BindComposer" 
+            viewModel="@id('vm') @init('org.irri.test.GenelociViewModel')"
+            width="100%" height="100%">
+        
+        <style>
+            .clickable-row:hover {
+                background-color: #f5f5f5;
+                cursor: pointer;
+            }
+            .selected-row {
+                background-color: #e3f2fd !important;
+            }
+        </style>
+        
+        <!-- Search Panel -->
+        <panel title="Gene Loci Search" border="normal" collapsible="false">
+            <panelchildren>
+                <vlayout spacing="10px" style="padding:10px;">
+                    <hlayout spacing="10px">
+                        <label value="Search Term:" width="100px"/>
+                        <textbox value="@bind(vm.searchTerm)" 
+                                width="300px" 
+                                placeholder="Enter gene loci name or ID"
+                                onOK="@command('searchGeneloci')"/>
+                        <button label="Search" 
+                                onClick="@command('searchGeneloci')"
+                                iconSclass="z-icon-search"/>
+                        <button label="Clear" 
+                                onClick="@command('clearSearch')"
+                                iconSclass="z-icon-times"/>
+                    </hlayout>
+                    
+                    <separator height="10px"/>
+                    
+                    <!-- Results info -->
+                    <div visible="@load(vm.hasGenelociResults)">
+                        <label value="@load('Found '.concat(vm.genelociResults.size()).concat(' loci. Click on a row to view genotype data.'))" 
+                               style="color:#666; font-style:italic;"/>
+                    </div>
+                </vlayout>
+            </panelchildren>
+        </panel>
+        
+        <separator height="10px"/>
+        
+        <!-- Gene Loci Results -->
+        <panel title="Gene Loci Results" border="normal" 
+               visible="@load(vm.hasGenelociResults)">
+            <panelchildren>
+                <biglistbox model="@load(vm.genelociResults)" 
+                           height="300px"
+                           selectedItem="@bind(vm.selectedLoci)"
+                           nonselectableTags="">
+                    
+                    <!-- Header -->
+                    <auxhead>
+                        <auxheader label="Loci ID" width="150px"/>
+                        <auxheader label="Loci Name" width="200px"/>
+                        <auxheader label="Chromosome" width="120px"/>
+                        <auxheader label="Position" width="150px"/>
+                        <auxheader label="Type" width="120px"/>
+                        <auxheader label="Description" width="300px"/>
+                    </auxhead>
+                    
+                    <!-- Data rows -->
+                    <template name="model">
+                        <div sclass="@load(vm.selectedLoci eq each ? 'clickable-row selected-row' : 'clickable-row')"
+                             style="padding:8px; border-bottom:1px solid #e0e0e0;"
+                             onClick="@command('selectLociAndSearch', loci=each)">
+                            <hlayout spacing="10px">
+                                <div width="150px">
+                                    <label value="@load(each.lociId)" 
+                                           style="color:#1976D2; font-weight:bold;"/>
+                                </div>
+                                <div width="200px">
+                                    <label value="@load(each.lociName)" 
+                                           style="font-weight:bold;"/>
+                                </div>
+                                <div width="120px">
+                                    <label value="@load(each.chromosome)"/>
+                                </div>
+                                <div width="150px">
+                                    <label value="@load(each.position)"/>
+                                </div>
+                                <div width="120px">
+                                    <label value="@load(each.type)"/>
+                                </div>
+                                <div width="300px">
+                                    <label value="@load(each.description)"
+                                           style="color:#666;"/>
+                                </div>
+                            </hlayout>
+                        </div>
+                    </template>
+                </biglistbox>
+            </panelchildren>
+        </panel>
+        
+        <separator height="10px"/>
+        
+        <!-- REUSABLE GENOTYPE COMPONENT INCLUDED HERE -->
+        <include id="genotypePanel" 
+                 src="/GenotypeResultPanel.zul">
+            <custom-attributes viewModel="@ref(vm.genotypeResultVM)"/>
+        </include>
+        
+    </window>
+</zk>

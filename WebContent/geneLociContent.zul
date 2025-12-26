@@ -1541,6 +1541,365 @@
 
 									</goldenpanel>
 									<goldenpanel area="A"
+										id="gp_resultTable" title="Result" closable="false"
+										popup="false" style="padding:0px">
+										<vlayout>
+											<hlayout
+												style="background:#e9ecef; padding-bottom:10px;display:none;">
+												<menubar
+													id="download_menubar" width="100%"
+													style="background:#e9ecef;order-top: 0px solid; border-bottom: 0px solid">
+													<menu
+														label="Download" id="menu_download"
+														style="background:#e9ecef;color: black !important;"
+														class="menu_style">
+														<menupopup
+															style="background: #e9ecef !important;color: black !important;"
+															class="menupopup_style">
+															<menuitem
+																id="menuitem_downloadCSV" label="CSV"
+																iconSclass="z-icon-file-o" class="menuitem_style" />
+															<menuitem
+																id="menuitem_downloadTab" label="Tab"
+																iconSclass="z-icon-file-o" class="menuitem_style" />
+															<menuitem
+																id="menuitem_downloadPlink" label="PLINK"
+																iconSclass="z-icon-file-o" class="menuitem_style" />
+															<menuitem
+																id="menuitem_downloadFlapjack" label="Flapjack"
+																iconSclass="z-icon-file-o" class="menuitem_style" />
+														</menupopup>
+													</menu>
+												</menubar>
+												<space bar="true"
+													spacing="15px" />
+												<label value="Listname"
+													style="font-size:13px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;" />
+												<textbox
+													id="textboxVarlistName" style="width:190px !important;" />
+
+												<button
+													label="Create List" id="buttonCreateVarlist"
+													style="width: 190px !important;border-radius: 10px;" />
+												<space bar="true"
+													spacing="15px" />
+
+												<label value="Filters"
+													style="font-size:13px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;" />
+												<label
+													style="font-size:13px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;" />
+												<label value="Column: "
+													style="font-size:13px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;" />
+												<listbox
+													id="listboxPosition" mold="select" rows="1"
+													style="width:190px !important;" />
+												<label value="Value: "
+													style="font-size:13px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;" />
+												<listbox
+													id="listboxAllele" mold="select" rows="1"
+													style="width:190px !important;" />
+												<label
+													style="font-size:13px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;" />
+												<hlayout>
+													<button
+														id="buttonFilterAllele" label="Apply Filter"
+														style="font-size: 11px;border-radius: 10px;" />
+													<button
+														id="buttonClearFilterAllele" label="Clear"
+														style="font-size: 11px;width: 85px; border-radius: 10px;" />
+												</hlayout>
+												<vlayout
+													id="filterLayout" />
+
+											</hlayout>
+
+
+											<hbox visible="true"
+												id="hboxColorcodeSNPQuery"
+												style="margin-top:15px;margin:0px auto">
+												<label
+													value="Allele color code: " style="font-weight:bold"
+													pre="true" />
+												<label value="mismatch "
+													style="color:red" pre="true" />
+												<!-- label value="synonymous " style="color:lightgray;background:white"  pre="true"/ -->
+
+												<label
+													value="non-synonymous "
+													style="color:red;background:black;font-weight:bold"
+													pre="true" />
+												<label
+													value="splice donor SNP " style="color:aqua" pre="true" />
+												<label
+													value="splice acceptor SNP " style="color:chartreuse"
+													pre="true" />
+												<label value="gap - "
+													pre="true" />
+
+											</hbox>
+											<div style="display:none">
+												<vbox
+													id="divDownloadOnlyMsg" class="download-only-message"
+													visible="false">
+													<label
+														id="labelDownloadOnlyMsg"
+														style="font-weight:bold;font-size:14px" />
+													<hbox>
+														<radiogroup
+															id="rgWait" />
+														<label
+															style="font-weight:bold;font-size:12px"
+															class="download-message-one"
+															value="Operation can take some time to finish. (~5 mins/1000snps). Varieties are NOT sorted by score/mismatch/match." />
+														<div
+															visible="false">
+															<radio
+																id="radioWait" radiogroup="rgWait" />
+															<label
+																style="font-weight:bold;font-size:12px" pre="true"
+																value=" WAIT or " />
+															<radio
+																id="radioAsync" radiogroup="rgWait" selected="true" />
+															<label
+																style="font-weight:bold;font-size:12px" pre="true"
+																value=" QUERY AND CHECK LATER" />
+														</div>
+													</hbox>
+													<vbox>
+														<hbox
+															id="hboxPolluxUrl" class="download-message-two"
+															visible="false">
+															<label
+																style="font-weight:bold;font-size:12px"
+																value="For large downloads, users within IRRI may use the local server at " />
+															<a
+																class="download-message-three"
+																href="http://pollux:8080/iric-portal/_snp.zul"
+																label="http://pollux:8080/iric-portal/_snp.zul"
+																target="_pollux" />
+														</hbox>
+														<hbox>
+															<label
+																id="labelDownloadProgressMsg"
+																style="font-weight:bold;font-size:12px" />
+															<vbox
+																width="20px" />
+															<a
+																id="aDownloadProgressURL" target="_job" />
+														</hbox>
+														<hbox
+															id="SG_hboxDownload" class="download-tab"
+															visible="false">
+															<label
+																pre="true" value="Download  " style="font-weight:bold;" />
+															<button
+																id="buttonDownloadCsv" class="z-download-csv"
+																label="CSV" width="80px" height="30px"
+																autodisable="self" />
+															<vbox
+																width="10px" />
+															<button
+																id="SG_buttonDownloadTab" class="z-download-tab"
+																label="Tab" width="80px" height="30px"
+																autodisable="self" />
+															<vbox
+																width="10px" />
+															<button
+																id="buttonDownloadPlink" class="z-download-plink"
+																label="Plink" width="80px" height="30px"
+																autodisable="self" />
+															<vbox
+																width="10px" />
+															<button
+																id="buttonDownloadFlapjack" class="z-download-flapjack"
+																label="Flapjack" width="80px" height="30px"
+																autodisable="self" />
+															<vbox
+																width="20px" />
+															<checkbox
+																id="checkboxCreateHaplotype" class="haplotype-invisible"
+																checked="false" label=" Generate Haplotype Map"
+																visible="false" />
+														</hbox>
+
+													</vbox>
+												</vbox>
+											</div>
+											<vlayout>
+												<hbox
+													class="biglistbox-table" style="margin: 0 auto;">
+													<grid
+														id="gridBiglistheader" visible="false" height="580px"
+														width="680px"
+														style="overflow-x: hidden; overflow-y:hidden; width:330px;"
+														oddRowSclass="myOddColor" sclass="testClass">
+														<auxhead
+															id="auxhead1Header" height="97px" visible="false">
+															<auxheader
+																id="auxheader11Header" label="Variety name"
+																sclass="word-wrap" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+														</auxhead>
+														<auxhead
+															id="auxhead2Header" height="32px" visible="false">
+															<auxheader
+																id="auxheader21Header" label="Alleles"
+																sclass="word-wrap" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+														</auxhead>
+														<auxhead
+															height="114px" visible="true">
+															<auxheader
+																id="auxheader3Header" label="Nipponbare positions"
+																sclass="word-wrap" />
+															<auxheader
+																id="auxheaderIrisid" label="Assay" />
+															<auxheader
+																label="Accession" />
+															<auxheader
+																id="auxheader3Phenotype" label="" />
+														</auxhead>
+														<columns>
+															<column
+																id="column4Header" label="Nipponbare" width="330px"
+																height="20px" />
+															<column
+																width="175px">
+															</column>
+															<column
+																width="175px">
+															</column>
+															<column
+																width="0px" visible="false">
+															</column>
+														</columns>
+														<auxhead
+															id="auxheadAlleles1" height="32px" visible="false">
+															<auxheader
+																id="auxheaderAlleles1" label="" sclass="word-wrap" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+														</auxhead>
+														<auxhead
+															id="auxheadAlleles2" height="32px" visible="false">
+															<auxheader
+																id="auxheaderAlleles2" label="" sclass="word-wrap" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+														</auxhead>
+														<auxhead
+															id="auxheadAlleles3" height="32px" visible="false">
+															<auxheader
+																id="auxheaderAlleles3" label="" sclass="word-wrap" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+														</auxhead>
+														<auxhead
+															id="auxheadAlleles4" height="32px" visible="false">
+															<auxheader
+																id="auxheaderAlleles4" label="" sclass="word-wrap" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+														</auxhead>
+														<auxhead
+															id="auxheadAlleleFilter" height="32px" visible="false">
+															<auxheader
+																id="auxheaderAlleleFilter" label="Query alleles"
+																sclass="word-wrap" style="font-color:blue" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+															<auxheader
+																label="" />
+														</auxhead>
+
+													</grid>
+
+													<biglistbox
+														height="600px" w:onScroll="jq('$tip').fadeOut();"
+														id="biglistboxArray" width="700px" xmlns:w="client"
+														style="font-size:10px">
+													</biglistbox>
+
+												</hbox>
+											</vlayout>
+										</vlayout>
+										<!-- </center>
+											</borderlayout>
+										-->
+									</goldenpanel>
+
+									<goldenpanel area="A"
 										id="variety_panelPassportResult"
 										title="Search By Gene Name/Symbol/Function Result"
 										class="variety_panelPassportResultStyle" closable="false"
@@ -1650,6 +2009,9 @@
 													<listheader
 														label="DESCRIPTION" sortAscending="${lasc6}"
 														sortDescending="${ldsc6}" />
+													<listheader
+														label="TOOLS" width="100px" sortAscending="${lasc7}"
+														sortDescending="${ldsc7}" />
 												</listhead>
 											</listbox>
 
@@ -1853,11 +2215,16 @@
 									</goldenpanel>
 
 									<goldenpanel area="A"
-										id="gp_template" title="template"
-										closable="false" style="height:750px;" popup="true"
-										visible="true">
+										id="gp_template" title="template" closable="false"
+										style="height:750px;" popup="true" visible="true">
 									</goldenpanel>
 								</goldenlayout>
+
+								<menupopup id="popup">
+									<menuitem label="search genotype > "
+										onClick="doEdit(event)" />
+
+								</menupopup>
 
 
 							</div>
@@ -1867,6 +2234,7 @@
 					</n:div>
 				</n:div>
 			</n:div>
+			<include id="genotypeSearch" src="genotypeContent.zul" />
 
 		</window>
 	</n:div>

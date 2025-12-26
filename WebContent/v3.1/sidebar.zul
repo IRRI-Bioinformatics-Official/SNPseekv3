@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- sidebar.zul - Reusable Sidebar Component -->
+<zk>
+    <style>
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 20px 16px;
+            position: fixed;
+            height: calc(100vh - 60px);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            top: 60px;
+            left: 0;
+            z-index: 100;
+            box-sizing: border-box;
+        }
+        
+        .logo-box {
+            margin-bottom: 32px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(to bottom right, #059669, #0d9488);
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .logo-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+        }
+        
+        .logo-subtitle {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #4b5563;
+            cursor: pointer;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .nav-link:hover {
+            background: #f0fdf4;
+            color: #059669;
+        }
+        
+        .nav-link-active {
+            background: linear-gradient(to right, #059669, #0d9488) !important;
+            color: white !important;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
+        }
+        
+        .nav-link-active .navText {
+            color: white !important;
+        }
+        
+        .nav-group {
+            margin-bottom: 4px;
+        }
+        
+        .nav-group-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #4b5563;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-group-header:hover {
+            background: #f0fdf4;
+            color: #059669;
+        }
+        
+        .nav-group-header-active {
+            background: #f0fdf4;
+            color: #059669 !important;
+        }
+        
+        .nav-group-header-active .navText {
+            color: #059669 !important;
+            font-weight: 500;
+        }
+        
+        .nav-group-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .nav-group-icon {
+            font-size: 10px;
+            transition: transform 0.2s;
+            color: #9ca3af;
+        }
+        
+        .nav-group-icon-expanded {
+            transform: rotate(90deg);
+        }
+        
+        .nav-sub-items {
+            margin-left: 20px;
+            margin-top: 4px;
+            border-left: 2px solid #e5e7eb;
+            padding-left: 12px;
+        }
+        
+        .nav-sub-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 6px;
+            color: #6b7280;
+            cursor: pointer;
+            margin-bottom: 2px;
+            transition: all 0.2s;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .nav-sub-link:hover {
+            background: #f0fdf4;
+            color: #059669;
+        }
+        
+        .nav-sub-link-active {
+            background: linear-gradient(to right, #059669, #0d9488) !important;
+            color: white !important;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);
+        }
+        
+        .nav-sub-link-active .navText {
+            color: white !important;
+        }
+        
+        .navText {
+            font-size: 14px;
+        }
+        
+        /* Login button styles */
+        .nav-link-login {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #4b5563;
+            cursor: pointer;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .nav-link-login:hover {
+            background: #f0fdf4;
+            color: #059669;
+            border-color: #059669;
+        }
+    </style>
+    
+    <zscript><![CDATA[
+        // Track search menu expansion
+        boolean searchExpanded = true;
+        
+        void toggleSearch() {
+            searchExpanded = !searchExpanded;
+            searchSubmenu.setVisible(searchExpanded);
+            searchIcon.setSclass(searchExpanded ? "nav-group-icon nav-group-icon-expanded" : "nav-group-icon");
+        }
+        
+        // Auto-expand search if on a search page
+        void init() {
+            String currentPage = arg.get("page");
+            if (currentPage != null && (currentPage.equals("search-genotype") || 
+                currentPage.equals("browse-varieties") || 
+                currentPage.equals("gene-loci"))) {
+                searchExpanded = true;
+            }
+        }
+    ]]></zscript>
+    
+    <div sclass="sidebar">
+        <!-- Navigation Menu -->
+        <vbox style="flex: 1; overflow-y: auto;">
+            <!-- Dashboard -->
+            <a href="index.zul" sclass="${arg.page == 'dashboard' ? 'nav-link nav-link-active' : 'nav-link'}">
+                <label class="navText" value="🏠  Dashboard" style="cursor: pointer;"/>
+            </a>
+            
+            <!-- Search Group (Collapsible) -->
+            <div sclass="nav-group">
+                <div id="searchHeader" 
+                     sclass="${(arg.page == 'search-genotype' or arg.page == 'browse-varieties' or arg.page == 'gene-loci') ? 'nav-group-header nav-group-header-active' : 'nav-group-header'}" 
+                     onClick="toggleSearch()">
+                    <div sclass="nav-group-title">
+                        <label class="navText" value="🔍" style="font-size: 16px;"/>
+                        <label class="navText" value="Search" style="cursor: pointer;"/>
+                    </div>
+                    <label id="searchIcon" sclass="nav-group-icon nav-group-icon-expanded" value="▶" style="cursor: pointer;"/>
+                </div>
+                
+                <div id="searchSubmenu" sclass="nav-sub-items" visible="true">
+                    <a href="searchBy_genotype.zul" sclass="${arg.page == 'search-genotype' ? 'nav-sub-link nav-sub-link-active' : 'nav-sub-link'}">
+                        <label class="navText" value="🔬  By Genotype" style="cursor: pointer;"/>
+                    </a>
+                    <a href="search.zul?tab=varieties" sclass="${arg.page == 'browse-varieties' ? 'nav-sub-link nav-sub-link-active' : 'nav-sub-link'}">
+                        <label class="navText" value="🌾  By Varieties" style="cursor: pointer;"/>
+                    </a>
+                    <a href="search.zul?tab=gene" sclass="${arg.page == 'gene-loci' ? 'nav-sub-link nav-sub-link-active' : 'nav-sub-link'}">
+                        <label class="navText" value="📍  By Gene Loci" style="cursor: pointer;"/>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Trait Genes -->
+            <a href="trait-genes.zul" sclass="${arg.page == 'trait-genes' ? 'nav-link nav-link-active' : 'nav-link'}">
+                <label class="navText" value="🧬  Trait Genes" style="cursor: pointer;"/>
+            </a>
+            
+            <!-- My List -->
+            <a href="my-list.zul" sclass="${arg.page == 'my-list' ? 'nav-link nav-link-active' : 'nav-link'}">
+                <label class="navText" value="📋  My List" style="cursor: pointer;"/>
+            </a>
+            
+            <!-- Downloads -->
+            <a href="downloads.zul" sclass="${arg.page == 'downloads' ? 'nav-link nav-link-active' : 'nav-link'}">
+                <label class="navText" value="📥  Downloads" style="cursor: pointer;"/>
+            </a>
+            
+            <!-- GWAS -->
+            <a href="gwas.zul" sclass="${arg.page == 'gwas' ? 'nav-link nav-link-active' : 'nav-link'}">
+                <label class="navText" value="📊  GWAS" style="cursor: pointer;"/>
+            </a>
+            
+            <!-- JBrowse -->
+            <a href="jbrowse.zul" sclass="${arg.page == 'jbrowse' ? 'nav-link nav-link-active' : 'nav-link'}">
+                <label class="navText" value="🔬  JBrowse" style="cursor: pointer;"/>
+            </a>
+            
+            <!-- Saved Searches -->
+            <a href="saved-searches.zul" sclass="${arg.page == 'saved-searches' ? 'nav-link nav-link-active' : 'nav-link'}">
+                <label class="navText" value="🔖  Saved Searches" style="cursor: pointer;"/>
+            </a>
+        </vbox>
+        
+        <!-- Login Section - Fixed at bottom -->
+        <div style="padding-top: 12px; border-top: 1px solid #e5e7eb; margin-top: auto; flex-shrink: 0;">
+            <a href="login.zul" sclass="nav-link-login">
+                <label class="navText" value="🔐  Login" style="cursor: pointer;"/>
+            </a>
+        </div>
+    </div>
+</zk>
