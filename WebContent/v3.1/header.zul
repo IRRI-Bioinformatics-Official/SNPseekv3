@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- header.zul - Reusable Header Component -->
+<zk>
+	<style>
+		.top-header { position: fixed; top: 0; left: 0; right: 0;
+		height: 60px; background: white; border-bottom: 1px solid
+		#e5e7eb; display: flex; align-items: center; padding: 0 24px;
+		z-index: 100; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
+
+		.header-left { display: flex; align-items: center; gap: 16px; }
+
+		.menu-toggle { width: 40px; height: 40px; border: none;
+		background: transparent; border-radius: 8px; cursor: pointer;
+		display: flex; align-items: center; justify-content: center;
+		transition: all 0.2s; }
+
+		.menu-toggle:hover { background: #f3f4f6; }
+
+		.menu-icon { width: 24px; height: 20px; position: relative;
+		display: flex; flex-direction: column; justify-content:
+		space-between; }
+
+		.menu-icon span { width: 100%; height: 3px; background: #374151;
+		border-radius: 2px; transition: all 0.3s; }
+
+		.header-logo { display: flex; align-items: center; gap: 12px;
+		text-decoration: none; }
+
+		.header-logo-icon { width: 36px; height: 36px; background:
+		linear-gradient(to bottom right, #059669, #0d9488);
+		border-radius: 8px; display: flex; align-items: center;
+		justify-content: center; font-size: 18px; }
+
+		.header-logo-text { font-size: 20px; font-weight: 700; color:
+		#111827; }
+
+		.header-right { margin-left: auto; display: flex; align-items:
+		center; gap: 24px; }
+
+		.header-link { color: #6b7280; text-decoration: none; font-size:
+		14px; font-weight: 500; transition: color 0.2s; cursor: pointer;
+		}
+
+		.header-link:hover { color: #059669; }
+
+		.header-divider { width: 1px; height: 24px; background: #e5e7eb;
+		}
+	</style>
+
+	<div sclass="top-header">
+		<div sclass="header-left">
+
+			<!-- Logo -->
+			<a href="dashboard.zul" sclass="header-logo">
+				<hbox align="center">
+					<div sclass="logo-icon">🌾</div>
+					<vbox>
+						<label sclass="logo-title" value="SNP-Seek" />
+						<label sclass="logo-subtitle"
+							value="Rice Genome Database" />
+					</vbox>
+				</hbox>
+			</a>
+		</div>
+
+		<div sclass="header-right">
+			<a href="legacy.zul" sclass="header-link">Legacy</a>
+			<a href="report-bug.zul" sclass="header-link">Report Bug</a>
+			<a href="pricing.zul" sclass="header-link">Pricing</a>
+			<a href="help.zul" sclass="header-link">Help</a>
+		</div>
+	</div>
+</zk>

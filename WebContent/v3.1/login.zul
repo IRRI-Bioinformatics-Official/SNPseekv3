@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- login.zul - Modern Login Page -->
+<zk>
+    <window id="homeWin" border="none" width="100%" height="100%"
+        apply="org.irri.iric.portal.LoginController">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            background: #f9fafb;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        /* Left Panel - Branding */
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, #059669 0%, #0d9488 50%, #0e7490 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-home {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.9;
+            z-index: 10;
+            cursor: pointer;
+        }
+        
+        .back-home:hover {
+            opacity: 1;
+        }
+        
+        .brand-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+        }
+        
+        .brand-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .brand-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: white;
+        }
+        
+        .brand-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 48px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .brand-features {
+            text-align: left;
+            max-width: 320px;
+        }
+        
+        .brand-feature {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .brand-feature-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        
+        .brand-feature-text {
+            font-size: 13px;
+            line-height: 1.5;
+            color: white;
+        }
+        
+        /* Right Panel - Login Form */
+        .login-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            background: white;
+        }
+        
+        .login-form-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+        
+        .login-subtitle {
+            font-size: 15px;
+            color: #6b7280;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100% !important;
+            padding: 12px 16px !important;
+            border: 1px solid #d1d5db !important;
+            border-radius: 10px !important;
+            font-size: 15px !important;
+            background: #f9fafb !important;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none !important;
+            border-color: #059669 !important;
+            background: white !important;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1) !important;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .forgot-link {
+            font-size: 14px;
+            color: #059669;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px 24px !important;
+            background: linear-gradient(to right, #059669, #0d9488) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(5, 150, 105, 0.25);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(5, 150, 105, 0.3);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 28px 0;
+        }
+        
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+        
+        .divider-text {
+            padding: 0 16px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+        
+        .social-btn-link {
+            text-decoration: none;
+            display: block;
+            margin-bottom: 12px;
+        }
+        
+        .social-btn {
+            width: 100%;
+            padding: 12px 24px !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 10px !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white !important;
+            color: #374151 !important;
+        }
+        
+        .social-btn:hover {
+            background: #f9fafb !important;
+            border-color: #d1d5db !important;
+        }
+        
+        .social-btn-cgiar {
+            background: #0e7490 !important;
+            color: white !important;
+            border-color: #0e7490 !important;
+        }
+        
+        .social-btn-cgiar:hover {
+            background: #0d6a82 !important;
+        }
+        
+        .signup-text {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .reset-text {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+        
+        .signup-link {
+            color: #059669;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .login-page {
+                flex-direction: column;
+            }
+            
+            .login-left {
+                padding: 40px 24px;
+                min-height: auto;
+            }
+            
+            .brand-features {
+                display: none;
+            }
+            
+            .brand-title {
+                font-size: 32px;
+            }
+            
+            .login-right {
+                padding: 40px 24px;
+            }
+        }
+    </style>
+    
+    <div sclass="login-page">
+        <!-- Left Panel - Branding -->
+        <div sclass="login-left">
+            <a href="index.zul" sclass="back-home">
+                ← Back to Home
+            </a>
+            
+            <div sclass="brand-content">
+                <div sclass="brand-icon">
+                    <label value="🌾" style="font-size: 56px;"/>
+                </div>
+                <div sclass="brand-title">SNP-Seek</div>
+                <div sclass="brand-subtitle">Rice Genome Database</div>
+                
+                <div sclass="brand-features">
+                    <div sclass="brand-feature">
+                        <span sclass="brand-feature-icon">🧬</span>
+                        <span sclass="brand-feature-text">Access 3,024 rice varieties with 20M+ SNP markers</span>
+                    </div>
+                    <div sclass="brand-feature">
+                        <span sclass="brand-feature-icon">📊</span>
+                        <span sclass="brand-feature-text">Advanced genome browser and GWAS tools</span>
+                    </div>
+                    <div sclass="brand-feature">
+                        <span sclass="brand-feature-icon">💾</span>
+                        <span sclass="brand-feature-text">Save searches and manage custom variety lists</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Panel - Login Form -->
+        <div sclass="login-right">
+            <div sclass="login-form-container">
+                <div sclass="login-header">
+                    <div sclass="login-title">Welcome Back</div>
+                    <div sclass="login-subtitle">Sign in to access your account</div>
+                </div>
+                
+                <!-- Login Form -->
+                <div sclass="form-group">
+                    <label sclass="form-label">Username or Email</label>
+                    <textbox id="txtbox_username" sclass="form-input" placeholder="Enter your username or email" width="100%"/>
+                </div>
+                
+                <div sclass="form-group">
+                    <label sclass="form-label">Password</label>
+                    <textbox id="txtbox_password" type="password" sclass="form-input" placeholder="Enter your password" width="100%"/>
+                </div>
+                
+                <div sclass="form-options">
+                    <checkbox id="rememberMe" label="Remember me"/>
+                    <a href="reset-password.zul" sclass="forgot-link">Forgot Password?</a>
+                </div>
+                
+                <button id="btn_login" label="Sign In" sclass="login-btn" width="100%"/>
+                
+                <!-- Divider -->
+                <div sclass="divider">
+                    <div sclass="divider-line"></div>
+                    <span sclass="divider-text">or continue with</span>
+                    <div sclass="divider-line"></div>
+                </div>
+                
+                <!-- Social Login Buttons -->
+                <a href="login" sclass="social-btn-link">
+                    <button id="googleBtn" label="🔍  Sign in with Google" sclass="social-btn" width="100%"/>
+                </a>
+                <a href="/microsoftLogin" sclass="social-btn-link">
+                    <button id="cgiarBtn" label="🏛️  Sign in with cgiar.org" sclass="social-btn social-btn-cgiar" width="100%"/>
+                </a>
+                
+                <!-- Sign Up Link -->
+                <div sclass="signup-text">
+                    Don't have an account? 
+                    <a href="register.zul" sclass="signup-link">Sign up for free</a>
+                </div>
+                
+                <div sclass="reset-text">
+                    <a href="resetPassword.zul" sclass="forgot-link">Reset Password</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </window>
+</zk>

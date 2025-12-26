@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- search-genotype.zul - Search by Genotype Page -->
+<zk>
+	<style src="assets/css/styles.css" />
+	<style>
+		body { margin: 0; padding: 0; background: #f9fafb; font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		sans-serif; }
+
+		.page-container { padding-top: 60px; }
+
+		.main-content { margin-left: 240px; padding: 32px; transition:
+		margin-left 0.3s ease; }
+
+		.page-header { margin-bottom: 24px; }
+
+		.page-title { font-size: 28px; font-weight: 600; color: #111827;
+		margin-bottom: 4px; }
+
+		.page-subtitle { font-size: 14px; color: #6b7280; }
+
+		.content-layout { display: grid; grid-template-columns: 600px
+		1fr; gap: 24px; }
+
+		.search-form { background: white; border-radius: 8px;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+
+		.form-section { padding: 24px; border-bottom: 1px solid #e5e7eb;
+		}
+
+		.form-section:last-child { border-bottom: none; }
+
+		.section-title { font-size: 15px; font-weight: 600; color:
+		#059669; margin-bottom: 20px; padding-bottom: 8px;
+		border-bottom: 2px solid #d1fae5; }
+
+		.form-field { margin-bottom: 16px; }
+
+		.form-field:last-child { margin-bottom: 0; }
+
+		.field-label { font-size: 13px; font-weight: 500; color:
+		#374151; margin-bottom: 6px; display: block; }
+
+		.field-input { width: 100%; padding: 8px 12px; border: 1px solid
+		#d1d5db; border-radius: 6px; font-size: 14px; transition:
+		border-color 0.2s; background: white; }
+
+		.field-input:focus { outline: none; border-color: #059669;
+		box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1); }
+
+		.z-combobox, .z-combobox-input, .z-combobox-button {
+		border-radius: 6px !important; }
+
+		.z-combobox { width: 100% !important; }
+
+		.z-combobox-input { border: 1px solid #d1d5db !important;
+		padding: 8px 12px !important; font-size: 14px !important; }
+
+		.z-combobox-button { border-left: 1px solid #d1d5db !important;
+		background: #f9fafb !important; }
+
+		.z-textbox, .z-intbox { border: 1px solid #d1d5db !important;
+		border-radius: 6px !important; padding: 8px 12px !important;
+		font-size: 14px !important; }
+
+		.z-textbox:focus, .z-intbox:focus { border-color: #059669
+		!important; box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1)
+		!important; }
+
+		.input-group { display: flex; gap: 8px; }
+
+		.input-group .field-input { flex: 1; }
+
+		.icon-button { width: 36px; height: 36px; background: #f3f4f6;
+		border: 1px solid #d1d5db; border-radius: 6px; display: flex;
+		align-items: center; justify-content: center; cursor: pointer;
+		transition: all 0.2s; flex-shrink: 0; }
+
+		.icon-button:hover { background: #e5e7eb; border-color: #059669;
+		}
+
+		.field-hint { font-size: 11px; color: #6b7280; font-style:
+		italic; margin-top: 4px; }
+
+		.range-inputs { display: grid; grid-template-columns: 1fr auto
+		1fr; gap: 8px; align-items: center; }
+
+		.range-separator { font-size: 13px; color: #6b7280; font-weight:
+		500; }
+
+		.checkbox-field { display: flex; align-items: center; gap: 8px;
+		}
+
+		.checkbox-field label { font-size: 13px; color: #374151; cursor:
+		pointer; }
+
+		.button-container { padding: 20px 24px; background: #f9fafb;
+		display: flex; justify-content: center; gap: 12px; }
+
+		.btn-primary { background: linear-gradient(to bottom right,
+		#059669, #0d9488); color: white; padding: 10px 32px; border:
+		none; border-radius: 6px; font-size: 14px; font-weight: 600;
+		cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+
+		.btn-primary:hover { transform: translateY(-1px); box-shadow: 0
+		4px 12px rgba(5, 150, 105, 0.3); }
+
+		.btn-secondary { background: white; color: #374151; padding:
+		10px 32px; border: 1px solid #d1d5db; border-radius: 6px;
+		font-size: 14px; font-weight: 500; cursor: pointer; transition:
+		all 0.2s; }
+
+		.btn-secondary:hover { background: #f9fafb; border-color:
+		#9ca3af; }
+
+		.info-panel { display: flex; flex-direction: column; gap: 16px;
+		}
+
+		.info-card { background: white; border-radius: 8px; padding:
+		20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+
+		.info-card-title { font-size: 14px; font-weight: 600; color:
+		#111827; margin-bottom: 12px; display: flex; align-items:
+		center; gap: 8px; }
+
+		.info-card-content { font-size: 13px; color: #6b7280;
+		line-height: 1.6; }
+
+		.info-list { list-style: none; padding: 0; margin: 0; }
+
+		.info-list li { padding: 8px 0; border-bottom: 1px solid
+		#f3f4f6; font-size: 13px; color: #4b5563; }
+
+		.info-list li:last-child { border-bottom: none; }
+
+		.info-badge { display: inline-block; padding: 2px 8px;
+		background: #d1fae5; color: #065f46; border-radius: 12px;
+		font-size: 11px; font-weight: 500; }
+
+		.results-section { grid-column: 1 / -1; background: white;
+		border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,
+		0, 0, 0.1); margin-top: 24px; }
+
+		.results-header { display: flex; justify-content: space-between;
+		align-items: center; margin-bottom: 20px; padding-bottom: 12px;
+		border-bottom: 1px solid #e5e7eb; }
+
+		.results-title { font-size: 16px; font-weight: 600; color:
+		#111827; }
+
+		.results-count { font-size: 13px; color: #6b7280; background:
+		#f3f4f6; padding: 4px 12px; border-radius: 12px; }
+
+		.empty-state { text-align: center; padding: 60px 20px; }
+
+		.empty-icon { font-size: 48px; margin-bottom: 12px; opacity:
+		0.5; }
+
+		.empty-title { font-size: 16px; font-weight: 600; color:
+		#6b7280; margin-bottom: 6px; }
+
+		.empty-text { font-size: 13px; color: #9ca3af; }
+
+		@media (max-width: 1200px) { .content-layout {
+		grid-template-columns: 1fr; } }
+	</style>
+
+	<zscript><![CDATA[
+	void doSearch() {
+		Clients.showNotification("Searching genotypes...", "info", null, "middle_center", 2000);
+	}
+	void doReset() {
+		Clients.showNotification("Form reset", "info", null, "middle_center", 1000);
+	}
+]]></zscript>
+
+	<div sclass="page-container">
+		<!-- Include Header -->
+		<include src="header.zul" />
+
+		<!-- Include Sidebar -->
+		<include src="sidebar.zul">
+			<custom-attributes page="search-genotype" />
+		</include>
+
+		<!-- Main Content -->
+		<div sclass="main-content">
+			<!-- Page Header -->
+			<div sclass="page-header">
+				<label sclass="page-title" value="Search by Genotype" />
+				<label sclass="page-subtitle"
+					value="Query SNP alleles for varieties in specific genomic regions" />
+			</div>
+
+			<div sclass="content-layout">
+				<!-- Search Form (Left Side) -->
+				<div sclass="search-form">
+					<!-- Dataset Section -->
+					<div sclass="form-section">
+						<label sclass="section-title"
+							value="Dataset Configuration" />
+
+						<!-- Reference -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="Reference Genome" />
+							<combobox width="100%" readonly="true">
+								<comboitem label="Japonica nipponbare" />
+								<comboitem label="Indica MH63" />
+								<comboitem label="Other references" />
+							</combobox>
+						</div>
+
+						<!-- Variety Set -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="Variety Set" />
+							<div sclass="input-group">
+								<textbox sclass="field-input"
+									value="3k" />
+								<button sclass="icon-button" label="🔍" />
+							</div>
+						</div>
+
+						<!-- SNP Set -->
+						<div sclass="form-field">
+							<label sclass="field-label" value="SNP Set" />
+							<div sclass="input-group">
+								<textbox sclass="field-input"
+									value="3kfiltered" />
+								<button sclass="icon-button" label="🔍" />
+							</div>
+						</div>
+
+						<!-- Subpopulation -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="Subpopulation" />
+							<combobox width="100%" readonly="true">
+								<comboitem label="All varieties" />
+								<comboitem label="Indica" />
+								<comboitem label="Japonica" />
+								<comboitem label="Aus" />
+								<comboitem label="Aromatic" />
+								<comboitem label="Admix" />
+							</combobox>
+						</div>
+
+						<!-- Variety List -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="Variety List (Optional)" />
+							<combobox width="100%" readonly="true">
+								<comboitem label="Select variety list" />
+							</combobox>
+						</div>
+					</div>
+
+					<!-- Region Section -->
+					<div sclass="form-section">
+						<label sclass="section-title"
+							value="Genomic Region" />
+
+						<!-- Chromosome -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="Chromosome" />
+							<textbox sclass="field-input"
+								placeholder="e.g., chr1" />
+							<label sclass="field-hint"
+								value="Example: chr1, chr2, etc." />
+						</div>
+
+						<!-- Position Range -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="Position Range" />
+							<div sclass="range-inputs">
+								<intbox sclass="field-input"
+									placeholder="Start" />
+								<label sclass="range-separator"
+									value="to" />
+								<intbox sclass="field-input"
+									placeholder="End" />
+							</div>
+						</div>
+
+						<!-- Gene Locus -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="Gene Locus" />
+							<textbox sclass="field-input"
+								placeholder="e.g., loc_os01g01010" />
+							<label sclass="field-hint"
+								value="Example: loc_os01g01010" />
+						</div>
+
+						<!-- SNP List -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="SNP List" />
+							<combobox width="100%" readonly="true">
+								<comboitem label="Select SNP list" />
+							</combobox>
+						</div>
+
+						<!-- Locus List -->
+						<div sclass="form-field">
+							<label sclass="field-label"
+								value="Locus List (Optional)" />
+							<combobox width="100%" readonly="true">
+								<comboitem label="Select locus list" />
+							</combobox>
+						</div>
+					</div>
+
+					<!-- Advanced Options -->
+					<div sclass="form-section">
+						<label sclass="section-title"
+							value="Advanced Options" />
+
+						<div sclass="checkbox-field">
+							<checkbox id="advancedOpt" />
+							<label
+								value="Include additional filtering options" />
+						</div>
+					</div>
+
+					<!-- Action Buttons -->
+					<div sclass="button-container">
+						<button sclass="btn-primary"
+							label="Search Genotypes" onClick="doSearch()" />
+						<button sclass="btn-secondary"
+							label="Reset Form" onClick="doReset()" />
+					</div>
+				</div>
+
+				<!-- Info Panel (Right Side) -->
+				<div sclass="info-panel">
+					<!-- Quick Tips -->
+					<div sclass="info-card">
+						<div sclass="info-card-title">
+							<label value="💡 Search Tips" />
+						</div>
+						<div sclass="info-card-content">
+							<html>
+								<ul sclass="info-list">
+									<li>
+										Use chromosome + position range
+										for region-based searches
+									</li>
+									<li>
+										Search by gene locus for
+										specific gene queries
+									</li>
+									<li>
+										Filter by subpopulation to
+										narrow results
+									</li>
+									<li>
+										Combine multiple criteria for
+										precise searches
+									</li>
+								</ul>
+							</html>
+						</div>
+					</div>
+
+					<!-- Dataset Info -->
+					<div sclass="info-card">
+						<div sclass="info-card-title">
+							<label value="📊 Dataset Information" />
+						</div>
+						<div sclass="info-card-content">
+							<html>
+								<ul sclass="info-list">
+									<li>
+										<strong>
+											3K Rice Genomes:
+										</strong>
+										3,024 varieties
+									</li>
+									<li>
+										<strong>SNPs Available:</strong>
+										20+ million
+									</li>
+									<li>
+										<strong>Reference:</strong>
+										Nipponbare IRGSP-1.0
+									</li>
+									<li>
+										<strong>Chromosomes:</strong>
+										12 (Chr1-Chr12)
+									</li>
+								</ul>
+							</html>
+						</div>
+					</div>
+
+					<!-- Recent Searches -->
+					<div sclass="info-card">
+						<div sclass="info-card-title">
+							<label value="🕒 Quick Access" />
+						</div>
+						<div sclass="info-card-content">
+							<html>
+								<ul sclass="info-list">
+									<li>
+										<label
+											value="Chr1: 1000000-2000000"
+											style="color: #0891b2; cursor: pointer; text-decoration: underline;" />
+										<label sclass="info-badge"
+											value="Popular" />
+									</li>
+									<li>
+										<label value="SD1 gene region"
+											style="color: #0891b2; cursor: pointer; text-decoration: underline;" />
+									</li>
+									<li>
+										<label
+											value="Indica subpopulation"
+											style="color: #0891b2; cursor: pointer; text-decoration: underline;" />
+									</li>
+								</ul>
+							</html>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Results Section (Full Width) -->
+			<div sclass="results-section">
+
+				<div sclass="results-header">
+					<label sclass="results-title"
+						value="Search Results" />
+					<label sclass="results-count" value="0 results" />
+				</div>
+
+				<tabbox  sclass="results-tabbox">
+
+					<tabs>
+						<tab label="Summary" sclass="result-tab" />
+						<tab label="SNP Table" sclass="result-tab" />
+						<tab label="Visualization" sclass="result-tab" />
+					</tabs>
+
+					<tabpanels>
+
+						<tabpanel sclass="result-panel">
+							<div sclass="panel-content">
+								<label
+									value="Summary of your search will appear here." />
+							</div>
+						</tabpanel>
+
+						<tabpanel sclass="result-panel">
+							<div sclass="panel-content">
+								<label
+									value="SNP table results will appear here." />
+							</div>
+						</tabpanel>
+
+						<tabpanel sclass="result-panel">
+							<div sclass="panel-content">
+								<label
+									value="Charts and genome visualization will appear here." />
+							</div>
+						</tabpanel>
+
+					</tabpanels>
+
+				</tabbox>
+
+			</div>
+
+		</div>
+	</div>
+</zk>

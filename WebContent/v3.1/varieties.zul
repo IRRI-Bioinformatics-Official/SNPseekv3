@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- browse-varieties.zul - Browse Varieties Page -->
+<zk>
+	<style>
+		body { margin: 0; padding: 0; background: #f9fafb; font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		sans-serif; }
+
+		.page-container { padding-top: 60px; }
+
+		.main-content { margin-left: 240px; padding: 32px; transition:
+		margin-left 0.3s ease; }
+
+		.page-header { margin-bottom: 24px; }
+
+		.page-title { font-size: 28px; font-weight: 600; color: #111827;
+		margin-bottom: 4px; }
+
+		.page-subtitle { font-size: 14px; color: #6b7280; }
+
+		.content-layout { display: grid; grid-template-columns: 600px
+		1fr; gap: 24px; }
+
+		.page-description { font-size: 16px; color: #6b7280;
+		line-height: 1.6; }
+
+		.content-card { background: white; border-radius: 12px; padding:
+		32px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); margin-bottom:
+		24px; }
+
+		.filter-section { display: flex; gap: 16px; margin-bottom: 24px;
+		}
+
+		.form-label { font-size: 14px; font-weight: 600; color: #374151;
+		margin-bottom: 8px; }
+
+		.search-button { background: linear-gradient(to bottom right,
+		#059669, #0d9488); color: white; padding: 12px 32px;
+		border-radius: 8px; font-weight: 600; border: none; cursor:
+		pointer; }
+
+		.variety-card { background: #f9fafb; border: 1px solid #e5e7eb;
+		border-radius: 8px; padding: 20px; margin-bottom: 16px;
+		transition: all 0.2s; }
+
+		.variety-card:hover { border-color: #0d9488; box-shadow: 0 2px
+		8px rgba(13, 148, 136, 0.1); }
+
+		.variety-name { font-size: 18px; font-weight: 600; color:
+		#111827; margin-bottom: 8px; }
+
+		.variety-info { font-size: 14px; color: #6b7280; }
+
+		.variety-tag { display: inline-block; padding: 4px 12px;
+		background: #e0f2fe; color: #0e7490; border-radius: 12px;
+		font-size: 12px; font-weight: 500; margin-right: 8px; }
+	</style>
+
+	<div sclass="page-container">
+		<!-- Include Header -->
+		<include src="header.zul" />
+
+		<!-- Include Sidebar -->
+		<include src="sidebar.zul">
+			<custom-attributes page="search-genotype" />
+		</include>
+
+
+
+		<!-- Main Content Area -->
+		<div sclass="main-content">
+			<div sclass="page-header">
+				<label sclass="page-title"
+					value="🌾 Browse Rice Varieties" />
+				<separator />
+				<label sclass="page-description"
+					value="Explore rice varieties by name, country of origin, or subpopulation classification." />
+			</div>
+
+			<!-- Filter Section -->
+			<div sclass="content-card">
+				<vbox spacing="20px" width="100%">
+					<hbox spacing="16px" widths="300px,300px,300px">
+						<div>
+							<label sclass="form-label"
+								value="Search by Name" />
+							<separator />
+							<textbox width="100%"
+								placeholder="Enter variety name..." />
+						</div>
+
+						<div>
+							<label sclass="form-label" value="Country" />
+							<separator />
+							<combobox width="100%"
+								placeholder="Select country">
+								<comboitem label="China" />
+								<comboitem label="India" />
+								<comboitem label="Philippines" />
+								<comboitem label="Thailand" />
+								<comboitem label="Vietnam" />
+								<comboitem label="Bangladesh" />
+								<comboitem label="Indonesia" />
+								<comboitem label="Japan" />
+								<comboitem label="All Countries" />
+							</combobox>
+						</div>
+
+						<div>
+							<label sclass="form-label"
+								value="Subpopulation" />
+							<separator />
+							<combobox width="100%"
+								placeholder="Select subpopulation">
+								<comboitem label="Indica" />
+								<comboitem label="Japonica" />
+								<comboitem label="Aus" />
+								<comboitem label="Aromatic" />
+								<comboitem label="Admix" />
+							</combobox>
+						</div>
+					</hbox>
+
+					<button sclass="search-button"
+						label="Search Varieties"
+						onClick='Clients.showNotification("Search functionality will be implemented here", "info", null, "middle_center", 3000)' />
+				</vbox>
+			</div>
+
+			<!-- Results Section -->
+			<div sclass="content-card">
+				<label value="Showing 5 of 3,024 varieties"
+					style="font-size: 14px; color: #6b7280; margin-bottom: 16px;" />
+				<separator height="16px" />
+
+				<!-- Sample Variety Cards -->
+				<div sclass="variety-card">
+					<label sclass="variety-name" value="IRIS_313-10000" />
+					<separator />
+					<label sclass="variety-info"
+						value="Country: China | Subpopulation: Indica" />
+					<separator height="8px" />
+					<div>
+						<span sclass="variety-tag">Indica</span>
+						<span sclass="variety-tag">China</span>
+					</div>
+				</div>
+
+				<div sclass="variety-card">
+					<label sclass="variety-name" value="IRIS_313-10001" />
+					<separator />
+					<label sclass="variety-info"
+						value="Country: India | Subpopulation: Aus" />
+					<separator height="8px" />
+					<div>
+						<span sclass="variety-tag">Aus</span>
+						<span sclass="variety-tag">India</span>
+					</div>
+				</div>
+
+				<div sclass="variety-card">
+					<label sclass="variety-name" value="IRIS_313-10002" />
+					<separator />
+					<label sclass="variety-info"
+						value="Country: Japan | Subpopulation: Japonica" />
+					<separator height="8px" />
+					<div>
+						<span sclass="variety-tag">Japonica</span>
+						<span sclass="variety-tag">Japan</span>
+					</div>
+				</div>
+
+				<div sclass="variety-card">
+					<label sclass="variety-name" value="IRIS_313-10003" />
+					<separator />
+					<label sclass="variety-info"
+						value="Country: Thailand | Subpopulation: Indica" />
+					<separator height="8px" />
+					<div>
+						<span sclass="variety-tag">Indica</span>
+						<span sclass="variety-tag">Thailand</span>
+					</div>
+				</div>
+
+				<div sclass="variety-card">
+					<label sclass="variety-name" value="IRIS_313-10004" />
+					<separator />
+					<label sclass="variety-info"
+						value="Country: Bangladesh | Subpopulation: Aromatic" />
+					<separator height="8px" />
+					<div>
+						<span sclass="variety-tag">Aromatic</span>
+						<span sclass="variety-tag">Bangladesh</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</zk>

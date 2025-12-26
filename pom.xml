@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SNP-seekV3_clean</groupId>
 	<artifactId>SNP-seekV3_clean</artifactId>
-	<version>3.12.9</version>
+	<version>3.13.0</version>
 	<packaging>war</packaging>
 
 
@@ -58,6 +58,10 @@
 				<exclusion>
 					<groupId>com.fasterxml.jackson.core</groupId>
 					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -1058,7 +1062,7 @@
 
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.slf4j/log4j-over-slf4j -->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
 			<version>1.7.25</version>
@@ -1068,7 +1072,7 @@
 					<artifactId>slf4j-api</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 			<groupId>org.json</groupId>

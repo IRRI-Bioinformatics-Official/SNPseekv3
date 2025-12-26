@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- dashboard.zul - Main Dashboard Page -->
+<zk>
+	<style src="assets/css/styles.css" />
+	<style>
+		body { margin: 0; padding: 0; background: #f9fafb; font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		'Helvetica Neue', Arial, sans-serif; }
+
+		.page-container { display: flex; min-height: 100vh; padding-top:
+		60px; }
+
+		.main-content { margin-left: 240px; padding: 32px; flex: 1;
+		width: 100%; transition: margin-left 0.3s ease; }
+
+		.hero-banner { background: linear-gradient(to bottom right,
+		#059669, #0d9488, #0e7490); border-radius: 16px; padding: 48px;
+		color: white; margin-bottom: 32px; box-shadow: 0 4px 6px rgba(0,
+		0, 0, 0.1); }
+
+		.hero-title { font-size: 32px; font-weight: 700; margin-bottom:
+		16px; }
+
+		.hero-text { font-size: 15px; opacity: 0.95; line-height: 1.6; }
+
+		.stats-grid { display: grid; grid-template-columns: repeat(4,
+		1fr); gap: 16px; margin-bottom: 32px; }
+
+		.stat-card { background: white; border-radius: 8px; padding:
+		16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position:
+		relative; min-height: 100px; }
+
+		.stat-card-green { border-color: #6ee7b7; }
+
+		.stat-card-blue { border-color: #67e8f9; }
+
+		.stat-card-yellow { border-color: #fde047; }
+
+		.stat-icon { width: 48px; height: 48px; border-radius: 50%;
+		display: flex; align-items: center; justify-content: center;
+		font-size: 20px; position: absolute; right: 16px; top: 16px; }
+
+		.stat-icon-green { background: #6ee7b7; }
+
+		.stat-icon-blue { background: #67e8f9; }
+
+		.stat-icon-yellow { background: #fde047; }
+
+		.stat-label { font-size: 11px; color: #059669; margin-bottom:
+		8px; text-transform: uppercase; font-weight: 600;
+		letter-spacing: 0.5px; padding-right: 60px; }
+
+		.stat-value { font-size: 24px; font-weight: 700; color: #111827;
+		margin-bottom: 4px; }
+
+		.stat-description { font-size: 12px; color: #6b7280; }
+
+		.section-title { font-size: 24px; font-weight: 700;
+		margin-bottom: 24px; color: #111827; }
+
+		.info-section { background: white; border-radius: 12px; padding:
+		32px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); margin-bottom:
+		32px; display: grid; grid-template-columns: 1fr 400px; gap:
+		40px; align-items: center; }
+
+		.info-content { flex: 1; }
+
+		.stat-icon-teal { background: linear-gradient(135deg, #0d9488,
+		#14b8a6); }
+
+		.stat-icon-orange { background: linear-gradient(135deg, #f97316,
+		#fb923c); }
+
+		.stat-icon-purple { background: linear-gradient(135deg, #9333ea,
+		#a855f7); }
+
+		.stat-icon-pink { background: linear-gradient(135deg, #ec4899,
+		#f472b6); }
+
+		.stat-icon-emerald { background: #10b981; color: white; }
+
+		.stat-icon-yellow { background: #facc15; color: black; }
+
+		.stat-icon-orange { background: #fb923c; color: white; }
+
+		.stat-icon-blue { background: #60a5fa; color: white; }
+
+		.info-title { font-size: 24px; font-weight: 700; color: #059669;
+		margin-bottom: 20px; }
+
+		.info-text { font-size: 14px; color: #4b5563; line-height: 1.8;
+		margin-bottom: 20px; }
+
+		.info-button { background: #6ee7b7; color: #065f46; padding:
+		10px 24px; border-radius: 8px; font-weight: 600; border: none;
+		cursor: pointer; font-size: 13px; text-transform: uppercase;
+		letter-spacing: 0.5px; }
+
+		.info-button:hover { background: #34d399; }
+
+		.info-illustration { width: 400px; height: 300px; background:
+		linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+		border-radius: 12px; display: flex; align-items: center;
+		justify-content: center; font-size: 80px; opacity: 0.6; }
+
+		.access-table { width: 100%; border-collapse: collapse;
+		margin-top: 20px; }
+
+		.access-table th { background: #d1fae5; padding: 12px;
+		text-align: left; font-weight: 600; color: #065f46; border: 1px
+		solid #6ee7b7; font-size: 13px; }
+
+		.access-table td { padding: 12px; border: 1px solid #d1d5db;
+		color: #4b5563; font-size: 13px; line-height: 1.6; }
+
+		.access-table tr:hover { background: #f0fdf4; }
+
+		/* Updated explore-grid styles for visibility on load */
+		.explore-grid { 
+			display: grid !important; 
+			grid-template-columns: repeat(3, 1fr) !important; 
+			gap: 16px; 
+			margin-bottom: 32px; 
+			margin-top: 16px;
+			visibility: visible !important;
+			opacity: 1 !important;
+		}
+
+		.explore-card { 
+			background: white; 
+			border-radius: 10px; 
+			padding: 16px 20px; 
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+			cursor: pointer;
+			transition: transform 0.2s, box-shadow 0.2s; 
+			position: relative;
+			display: block !important;
+			visibility: visible !important;
+			opacity: 1 !important;
+			min-height: auto;
+		}
+
+		.explore-card:hover { transform: translateY(-2px); box-shadow: 0
+		4px 12px rgba(0, 0, 0, 0.1); }
+
+		.explore-card:hover .arrow-icon { opacity: 1; right: 16px; }
+
+		.arrow-icon { position: absolute; right: 20px; top: 50%;
+		transform: translateY(-50%); font-size: 18px; color: #d1d5db;
+		opacity: 0.5; transition: all 0.3s; }
+
+		.explore-icon { 
+			width: 40px; 
+			height: 40px; 
+			border-radius: 10px;
+			display: flex !important; 
+			align-items: center; 
+			justify-content: center;
+			font-size: 20px; 
+			margin-bottom: 12px; 
+		}
+
+		.explore-icon-teal { background: linear-gradient(135deg,
+		#0d9488, #14b8a6); }
+
+		.explore-icon-orange { background: linear-gradient(135deg,
+		#f97316, #fb923c); }
+
+		.explore-icon-purple { background: linear-gradient(135deg,
+		#9333ea, #a78bfa); }
+
+		.explore-icon-blue { background: linear-gradient(135deg,
+		#3b82f6, #60a5fa); }
+
+		.explore-icon-emerald { background: linear-gradient(135deg,
+		#10b981, #34d399); }
+
+		.explore-icon-pink { background: linear-gradient(135deg,
+		#ec4899, #f472b6); }
+
+		.explore-title { font-size: 15px; font-weight: 600;
+		margin-bottom: 6px; color: #111827; display: block !important; }
+
+		.explore-text { font-size: 12px; color: #6b7280; line-height:
+		1.5; padding-right: 24px; display: block !important; }
+
+		/* Link wrapper styles */
+		.explore-link {
+			text-decoration: none;
+			display: block !important;
+			visibility: visible !important;
+		}
+
+		@media (max-width: 1400px) { .stats-grid {
+		grid-template-columns: repeat(2, 1fr); }
+
+		.info-section { grid-template-columns: 1fr; }
+
+		.info-illustration { display: none; } }
+
+		@media (max-width: 1024px) { .explore-grid {
+		grid-template-columns: repeat(2, 1fr) !important; } }
+
+		@media (max-width: 768px) { .main-content { margin-left: 0;
+		padding: 20px; }
+
+		.stats-grid { grid-template-columns: 1fr; }
+
+		.explore-grid { grid-template-columns: 1fr !important; }
+
+		.hero-banner { padding: 32px 24px; }
+
+		.hero-title { font-size: 24px; }
+
+		.hero-text { font-size: 14px; } }
+	</style>
+
+	<div sclass="page-container">
+		<!-- Include Header Component -->
+		<include src="header.zul" />
+
+		<!-- Include Sidebar Component -->
+		<include src="sidebar.zul">
+			<custom-attributes page="dashboard" />
+		</include>
+
+		<!-- Main Content Area -->
+		<div sclass="main-content">
+			<!-- Hero Banner -->
+			<!-- Stats Grid -->
+			<div sclass="stats-grid">
+				<div sclass="stat-card">
+					<div sclass="stat-icon stat-icon-teal">
+						<label value="💾" style="font-size: 24px;" />
+					</div>
+					<label sclass="stat-label"
+						value="Dataset Available" />
+					<separator height="8px" />
+					<label sclass="stat-value" value="1" />
+					<separator height="4px" />
+					<label sclass="stat-description"
+						value="3K Rice Genomes" />
+				</div>
+
+				<div sclass="stat-card">
+					<div sclass="stat-icon stat-icon-orange">
+						<label value="🌾" style="font-size: 24px;" />
+					</div>
+					<label sclass="stat-label" value="Rice Varieties" />
+					<separator height="8px" />
+					<label sclass="stat-value" value="3,024" />
+					<separator height="4px" />
+					<label sclass="stat-description"
+						value="From global collections" />
+				</div>
+
+				<div sclass="stat-card">
+					<div sclass="stat-icon stat-icon-purple">
+						<label value="✨" style="font-size: 24px;" />
+					</div>
+					<label sclass="stat-label" value="SNP Markers" />
+					<separator height="8px" />
+					<label sclass="stat-value" value="20M+" />
+					<separator height="4px" />
+					<label sclass="stat-description"
+						value="High-quality variants" />
+				</div>
+
+				<div sclass="stat-card">
+					<div sclass="stat-icon stat-icon-pink">
+						<label value="📈" style="font-size: 24px;" />
+					</div>
+					<label sclass="stat-label" value="Total Visits" />
+					<separator height="8px" />
+					<label sclass="stat-value" value="7,843" />
+					<separator height="4px" />
+					<label sclass="stat-description"
+						value="Since May 2025" />
+				</div>
+			</div>
+
+
+
+
+			<div sclass="hero-banner">
+				<label sclass="hero-title"
+					style="color: #ffffff; font-weight: bold;" value="🌾 About" />
+				<separator height="16px" />
+
+				<html sclass="hero-text" style="color: #f1f5f9;">
+					This Rice SNPseek Database provides Genotype,
+					Phenotype, and Variety Information for rice (Oryza
+					sativa L.). SNP genotyping data (called against
+					<a href="#"
+						style="color: #fef9c3; font-weight: bold; text-decoration: none;">
+						Nipponbare reference
+						Os-Nipponbare-Reference-IRGSP-1.0
+					</a>
+					) came from
+					<a href="#"
+						style="color: #fef9c3; font-weight: bold; text-decoration: none;">
+						3,000 Rice Genomes
+					</a>
+					Project. Phenotype and passport data for the 3,000
+					rice varieties came from the International Rice
+					Genebank Collection Information System (
+					<a href="#"
+						style="color: #fef9c3; font-weight: bold; text-decoration: none;">
+						IRGCIS
+					</a>
+					). We are part of an ongoing effort by the
+					International Rice Informatics Consortium (
+					<a href="#"
+						style="color: #fef9c3; font-weight: bold; text-decoration: none;">
+						IRIC
+					</a>
+					) to centralize rice research information and
+					support gene-trait discovery.
+				</html>
+			</div>
+
+
+
+
+			<!-- Explore Data Section -->
+			<label sclass="section-title"
+				style="font-size:24px;font-weight:700;color:#166534;text-align:center;margin-bottom:12px;"
+				value="Features" />
+
+			<div sclass="explore-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; margin-bottom: 32px;">
+				<a href="search-genotype.zul" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card" style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+						<div sclass="explore-icon explore-icon-teal" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #0d9488, #14b8a6);">
+							<label value="🔬" style="font-size: 20px;" />
+						</div>
+						<label sclass="explore-title" style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
+							value="Search by Genotype" />
+						<separator height="6px" />
+						<label sclass="explore-text" style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+							value="Query SNP alleles for varieties in specific genomic regions" />
+						<div sclass="arrow-icon" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">→</div>
+					</div>
+				</a>
+
+				<a href="browse-varieties.zul" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card" style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+						<div sclass="explore-icon explore-icon-orange" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #f97316, #fb923c);">
+							<label value="🌾" style="font-size: 20px;" />
+						</div>
+						<label sclass="explore-title" style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
+							value="Search By Varieties" />
+						<separator height="6px" />
+						<label sclass="explore-text" style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+							value="Explore rice varieties by name, country, or subpopulation" />
+						<div sclass="arrow-icon" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">→</div>
+					</div>
+				</a>
+
+				<a href="gene-loci.zul" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card" style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+						<div sclass="explore-icon explore-icon-purple" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #9333ea, #a78bfa);">
+							<label value="📍" style="font-size: 20px;" />
+						</div>
+						<label sclass="explore-title" style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
+							value="Search By Gene Loci" />
+						<separator height="6px" />
+						<label sclass="explore-text" style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+							value="Find SNPs associated with specific genes using locus IDs" />
+						<div sclass="arrow-icon" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">→</div>
+					</div>
+				</a>
+
+				<a href="jbrowse.zul" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card" style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+						<div sclass="explore-icon explore-icon-blue" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #3b82f6, #60a5fa);">
+							<label value="🧬" style="font-size: 20px;" />
+						</div>
+						<label sclass="explore-title" style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;" 
+							value="JBrowse" />
+						<separator height="6px" />
+						<label sclass="explore-text" style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+							value="Visual genome browser to explore genes and SNPs" />
+						<div sclass="arrow-icon" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">→</div>
+					</div>
+				</a>
+
+				<a href="trait-genes.zul" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card" style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+						<div sclass="explore-icon explore-icon-emerald" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #10b981, #34d399);">
+							<label value="🌱" style="font-size: 20px;" />
+						</div>
+						<label sclass="explore-title" style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
+							value="Trait Genes" />
+						<separator height="6px" />
+						<label sclass="explore-text" style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+							value="Find genes linked to traits like grain size or disease resistance" />
+						<div sclass="arrow-icon" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">→</div>
+					</div>
+				</a>
+
+				<a href="my-list.zul" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card" style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+						<div sclass="explore-icon explore-icon-pink" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #ec4899, #f472b6);">
+							<label value="📁" style="font-size: 20px;" />
+						</div>
+						<label sclass="explore-title" style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;" 
+							value="My List" />
+						<separator height="6px" />
+						<label sclass="explore-text" style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+							value="Save and manage SNPs, genes, or varieties for analysis" />
+						<div sclass="arrow-icon" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">→</div>
+					</div>
+				</a>
+			</div>
+			
+			<label sclass="section-title"
+				style="font-size:24px;font-weight:700;color:#166534;text-align:center;margin-bottom:12px;"
+				value="Tiered Data Access" />
+
+			<div style="margin-bottom: 32px;">
+				<vbox width="100%" style="margin-top:20px;">
+					<div
+						style="display:grid;grid-template-columns:1fr 2fr;border:1px solid #cbd5e1;border-radius:6px;">
+						<!-- Header -->
+						<div
+							style="background:#9acfb7;padding:12px;font-weight:bold;border-right:1px solid #cbd5e1;">
+							User Tier
+						</div>
+						<div
+							style="background:#9acfb7;padding:12px;font-weight:bold;">
+							Available Data
+						</div>
+
+						<!-- Anonymous -->
+						<div
+							style="padding:12px;border-top:1px solid #e5e7eb;">
+							Anonymous
+						</div>
+						<div
+							style="padding:12px;border-top:1px solid #e5e7eb;">
+							• 3kRG data only
+						</div>
+
+						<!-- Registered non-IRRI -->
+						<div
+							style="padding:12px;border-top:1px solid #e5e7eb;">
+							Registered non-cgiar
+						</div>
+						<div
+							style="padding:12px;border-top:1px solid #e5e7eb;">
+							• 3kRG + 6 datasets
+						</div>
+
+						<!-- Registered IRRI -->
+						<div
+							style="padding:12px;border-top:1px solid #e5e7eb;">
+							Registered cgiar and Paid Subscribers
+						</div>
+						<div
+							style="padding:12px;border-top:1px solid #e5e7eb;">
+							• 3kRG × 15 reference genomes
+
+							• Upcoming: 10K IRGC, 6k eGWAS (skim-seq)
+						</div>
+					</div>
+				</vbox>
+
+
+			</div>
+
+			<label sclass="section-title"
+				style="font-size:24px;font-weight:700;color:#166534;text-align:center;margin-bottom:12px;"
+				value="Publications" />
+			<div sclass="info-section"
+				style="padding: 15px; border: 1px solid #ccc; border-radius: 10px;margin-top:20px;">
+
+				<!-- Content -->
+				<div sclass="info-content">
+					<!-- Rich text for publication -->
+					<vbox style="margin:20px;">
+						<html>
+							Mansueto, et al.
+							<b>Rice SNP-seek database update</b>
+							: new SNPs, indels, and queries. Nucl. Acids
+							Res. (2017) 45 (D1): D1075-D1081. doi:
+							10.1093/nar/gkw1135. This paper describes
+							new features and datasets added to SNP-Seek
+							in 2015-2017 as well as software and
+							database updates.
+						</html>
+
+						<!-- Button with notification + redirect -->
+						<button sclass="info-button"
+							label="See More Publications"
+							onClick='Clients.showNotification("Redirecting to publications...", "info", null, "middle_center", 2000);
+                         setTimeout(function(){ window.location.href="https://example.com/publications"; }, 2000);'
+							style="margin-top: 10px; padding: 5px 15px; border-radius: 5px; cursor: pointer;" />
+					</vbox>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+</zk>

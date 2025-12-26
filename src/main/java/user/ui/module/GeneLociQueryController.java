@@ -36,14 +36,12 @@ import org.irri.iric.portal.genomics.zkui.CvTermLocusCountGridRenderer;
 import org.irri.iric.portal.genomics.zkui.LocusListItemRenderer;
 import org.irri.iric.portal.genomics.zkui.MarkerAnnotationSorter;
 import org.irri.iric.portal.genomics.zkui.MarkerVarListItemRenderer;
-import org.irri.iric.portal.variety.service.VarietyPropertiesServiceImplURLsFlatfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.zkoss.zhtml.Form;
 import org.zkoss.zhtml.Input;
-import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
@@ -51,6 +49,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -72,18 +71,19 @@ import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Include;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.SimpleListModel;
-import org.zkoss.zul.Splitter;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Timer;
 import org.zkoss.zul.Window;
@@ -135,7 +135,6 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	private GoldenLayout resultGoldenLayout;
 	@Wire
 	private GoldenPanel gp_template;
-
 
 	@Wire
 	private Listbox listboxAnnotation;
@@ -239,6 +238,9 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Listbox listboxOrganism;
+
+	@Wire
+	private Menupopup popup;
 
 	@Wire
 	private Listbox listboxGOTerm;
@@ -479,6 +481,9 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private GoldenPanel locus_Result;
+	
+	@Wire
+	private GoldenPanel gp_resultTable;
 
 	@Wire
 	private GoldenPanel variety_panelPassportResult;
@@ -493,10 +498,29 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	@Wire
 	private GoldenPanel variety_panelPhenotypeResult;
 
+	private GenotypeQueryController genotypeResultVM;
+
+	@Wire
+	private Include genotypeSearch;
+
 	@Override
 	public void doAfterCompose(Window comp) throws Exception {
 
 		super.doAfterCompose(comp);
+
+		Component included = genotypeSearch.getFirstChild();
+
+		System.out.println("Include component: " + genotypeSearch);
+		System.out.println("First child: " + included);
+		System.out.println("First child class: " + (included != null ? included.getClass().getName() : "null"));
+		System.out.println("Composer attribute: " + (included != null ? included.getAttribute("$composer") : "null"));
+
+		// Try getting all attributes
+		if (included != null) {
+			System.out.println("All attributes: " + included.getAttributes());
+		}
+
+		setGenotypeController();
 
 		searchMenu = true;
 		flipSearchBar();
@@ -582,7 +606,60 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 				}
 			}
 		});
+
+		listboxLocus.addEventListener(Events.ON_RIGHT_CLICK, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(Event evt) throws Exception {
+				MouseEvent me = (MouseEvent) evt;
+
+				Component comp = me.getTarget();
+				while (comp != null && !(comp instanceof Listitem)) {
+					comp = comp.getParent();
+				}
+
+				if (comp instanceof Listitem) {
+					Listitem li = (Listitem) comp;
+					popup.open(me.getPageX(), me.getPageY());
+					listboxLocus.getSelectedItem();
+				}
+
+			}
+		});
 	}
+
+	private void setGenotypeController() {
+		if (genotypeResultVM == null) {
+			Component window = genotypeSearch.query("#genotypeWindow");
+
+			System.out.println("Found window: " + window);
+
+			if (window != null) {
+				genotypeResultVM = (GenotypeQueryController) window.getAttribute("$composer");
+			}
+
+			 if (genotypeResultVM == null) {
+				 genotypeResultVM = findController(genotypeSearch);
+	            }
+			 
+			System.out.println("Found controller: " + genotypeResultVM);
+		}
+
+	}
+	
+	private GenotypeQueryController findController(Component parent) {
+        for (Component child : parent.getChildren()) {
+            Object composer = child.getAttribute("$composer");
+            if (composer instanceof GenotypeQueryController) {
+                return (GenotypeQueryController) composer;
+            }
+            GenotypeQueryController found = findController(child);
+            if (found != null) {
+                return found;
+            }
+        }
+        return null;
+    }
 
 	private void flipSearchBar() {
 		if (searchMenu) {
@@ -623,6 +700,19 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 		}
 		// If the chromosome is chr10, chr11, or chr12, return it as it is
 		return chromosome;
+	}
+
+	public void doRightClick(Event event) {
+		// event.getTarget() will be the component that was right-clicked
+		Component comp = event.getTarget();
+
+		if (comp instanceof Listitem) {
+			Listitem item = (Listitem) comp;
+			System.out.println("Right-clicked on: " + item.getLabel());
+
+			// Optional: show a context menu
+			// contextMenu.open(item, "end_before");
+		}
 	}
 
 	@Listen("onSelect =#listboxSearchby")
@@ -963,7 +1053,6 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 	@Listen("onClick =#buttonMyLocusList")
 	public void onclickLocuslist() {
 
-		
 		AppContext.debug("onclickLocuslist()");
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 
@@ -1237,7 +1326,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 					Long.valueOf(intboxContigStart.getValue()), Long.valueOf(intboxContigEnd.getValue()),
 					this.listboxOrganism.getSelectedItem().getLabel(),
 					(String) this.listboxAnnotation.getSelectedItem().getValue());
-			listboxLocus.setItemRenderer(new LocusListItemRenderer());
+			listboxLocus.setItemRenderer(new LocusListItemRenderer(genotypeResultVM,gp_resultTable));
 			listboxLocus.setModel(new SimpleListModel(locusresult));
 
 			if (locusresult.size() > 0) {
@@ -1295,7 +1384,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 			locusresult = genomics.getLociByContigPositions(contigname[0].trim(), colPos,
 					this.listboxOrganism.getSelectedItem().getLabel(), intboxPlusMinusBP.getValue(), annot);
-			listboxLocus.setItemRenderer(new LocusListItemRenderer());
+			listboxLocus.setItemRenderer(new LocusListItemRenderer(genotypeResultVM, gp_resultTable));
 			listboxLocus.setModel(new SimpleListModel(locusresult));
 
 			if (locusresult.size() > 0)
@@ -1461,7 +1550,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			variety_panelPassportResult.setVisible(true);
 			resultGoldenLayout.appendChild(variety_panelPassportResult);
 			resultContentDiv.setVisible(true);
-			
+
 			gp_template.setParent(null);
 
 		} catch (Exception ex) {
@@ -2139,7 +2228,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 							.equals(GenomicsFacade.GENEMODEL_RAP_ONLY);
 			showoverlap = !showoverlap;
 			listheaderOverlapping.setVisible(showoverlap);
-			listboxLocus.setItemRenderer(new LocusListItemRenderer());
+			listboxLocus.setItemRenderer(new LocusListItemRenderer(genotypeResultVM, gp_resultTable));
 			listboxLocus.setModel(new SimpleListModel(locusresult));
 
 			if (locusresult.size() > 0) {
@@ -2162,7 +2251,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			resultContentDiv.setVisible(true);
 
 			div_info.setVisible(false);
-			
+
 			gp_template.setParent(null);
 
 		} catch (Exception ex) {
@@ -2212,7 +2301,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 							.equals(GenomicsFacade.GENEMODEL_RAP_ONLY);
 			showoverlap = !showoverlap;
 			listheaderOverlapping.setVisible(showoverlap);
-			listboxLocus.setItemRenderer(new LocusListItemRenderer());
+			listboxLocus.setItemRenderer(new LocusListItemRenderer(genotypeResultVM, gp_resultTable));
 
 			listboxLocus.setModel(new SimpleListModel(locusresult));
 
@@ -2237,11 +2326,17 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 			variety_panelPassportResult.setVisible(true);
 			variety_panelPassportResult.invalidate();
+			
+			gp_resultTable.setVisible(true);
+			gp_resultTable.invalidate();
+			
+			
 			resultGoldenLayout.appendChild(variety_panelPassportResult);
-
+			resultGoldenLayout.appendChild(gp_resultTable);
+			
 			resultContentDiv.setVisible(true);
 			div_info.setVisible(false);
-			
+
 			gp_template.setParent(null);
 
 		} catch (Exception ex) {
@@ -2267,8 +2362,6 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 		}
 
 	}
-
-	
 
 	@Listen("onClick =#searchGOButton")
 	public void onclickSearchGO() {
@@ -2303,7 +2396,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 				hboxDownload.setVisible(false);
 			}
 
-			listboxLocus.setItemRenderer(new LocusListItemRenderer());
+			listboxLocus.setItemRenderer(new LocusListItemRenderer(genotypeResultVM, gp_resultTable));
 			listboxLocus.setModel(new SimpleListModel(locusresult));
 
 			resultGoldenLayout.appendChild(variety_panelPassportResult);
@@ -2317,7 +2410,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 			resultContentDiv.setVisible(true);
 			resultHeader.setVisible(true);
 			div_info.setVisible(false);
-			
+
 			gp_template.setParent(null);
 
 		} catch (Exception ex) {
@@ -2368,13 +2461,12 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 			listboxLocus.setVisible(true);
 
-		
 			resultContentDiv.setVisible(true);
 			variety_panelPassportResult.setVisible(true);
 			variety_panelPassportResult.invalidate();
 			resultGoldenLayout.appendChild(variety_panelPassportResult);
 			div_info.setVisible(false);
-			
+
 			gp_template.setParent(null);
 
 		} catch (Exception ex) {
