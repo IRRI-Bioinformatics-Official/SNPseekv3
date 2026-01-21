@@ -1,0 +1,216 @@
+{"swaggerVersion":"1.2","apiVersion":"1.0","basePath":"http://localhost:8080/iric_portal/ws","resourcePath":"",
+"apis":[
+
+	{"path":"/brapi/v1/calls","description":"Get calls and result formats",
+	"operations":[{"nickname":"GET - get call formats","method":"GET","summary":"Call result formats", "notes":"Get call result formats","type":"string",
+	"produces":["application/json"],
+	"parameters":[{"name":"datatype","paramType":"query","allowMultiple":false,"required":false,"type":"string", "description":"Return data type [tsv,json]" },
+	{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+
+	{"path":"/brapi/v1/token","description":"Login",
+	"operations":[{"nickname":"POST - Login","method":"POST","summary":"Login", "notes":"Login","type":"string",
+	"produces":["application/json"],
+	"parameters":[
+	    {
+        "name": "JSON",
+        "description": "JSON request",
+        "required": true,
+        "paramType":"body",
+        "type": "loginjson"
+      }
+	    
+	
+]}]},
+
+	{"path":"/brapi/v1/token","description":"Get access token",
+	"operations":[{"nickname":"DELETE - Logout","method":"DELETE","summary":"Logout", "notes": "Logout","type":"string",
+	"produces":["application/json"]}]},
+
+		
+{"path":"/brapi/v1/germplasm-search","description":"Germplasm search",
+"operations":[{"nickname":"GET - get germplasm","method":"GET","summary":"Get  get germplasm", "notes":"Get germplasm","type":"string",
+"produces":["application/json"],
+"parameters":[
+{"name":"germplasmPUI", "paramType":"query","allowMultiple":false,"required":false,"type":"string", "description":"The name or synonym of external genebank accession identifier Example: http://oryzasnp.org/iric-portal/_variety.zul?irisid=313-9609" },
+{"name":"germplasmDbId", "description":"The name or synonym of external genebank accession",   "paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+{"name":"germplasmName", "description":"The name or synonym of the accession Example: loto::gervex 104-c1",  "paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+	    
+{"path":"/brapi/v1/germplasm/{germplasmDbId}","description":"Germplasm details by germplasmDbId",
+"operations":[{"nickname":"GET - get germplasm details","method":"GET","summary":"Get germplasm details", "notes":"Get germplasm details","type":"string",
+"produces":["application/json"],
+"parameters":[
+{"name":"germplasmDbId", "paramType":"path","allowMultiple":false,"required":true,"type":"string", "description":"The internal id of the germplasm" }
+]}]},
+
+{"path":"/brapi/v1/germplasm/{germplasmDbId}/markerprofiles","description":"Germplasm details by germplasmDbId",
+"operations":[{"nickname":"GET - get germplasm markerProfileIds","method":"GET","summary":"Get germplasm markerProfileIds", "notes":"Get germplasm markerProfileIds","type":"string",
+"produces":["application/json"],
+"parameters":[
+{"name":"germplasmDbId", "paramType":"path","allowMultiple":false,"required":true,"type":"string", "description":"The internal id of the germplasm" }
+]}]},
+
+{"path":"/brapi/v1/germplasm/{germplasmDbId}/attributes","description":"Germplasm attributes and values by germplasmDbId",
+"operations":[{"nickname":"GET - get germplasm attributes","method":"GET","summary":"Get germplasm attributes", "notes":"Get germplasm attributes","type":"string",
+"produces":["application/json"],
+"parameters":[
+{"name":"germplasmDbId", "paramType":"path","allowMultiple":false,"required":true,"type":"string", "description":"The internal id of the germplasm" },
+{"name":"attributeList", "paramType":"query","allowMultiple":false,"required":false,"type":"string", "description":"List of attrubite ids, (comma separated)" }
+]}]},
+
+
+
+{"path":"/brapi/v1/attributes/categories","description":"Germplasm attribute categories","operations":[{"nickname":"GET - Germplasm attribute categories","method":"GET","summary":"Germplasm attribute categories", "notes":"Germplasm attribute categories","type":"string","produces":["application/json"]
+}]},
+
+{"path":"/brapi/v1/attributes","description":"Germplasm attributes","operations":[{"nickname":"GET - Germplasm attributes","method":"GET","summary":"Germplasm attributes", "notes":"Germplasm attributes","type":"string","produces":["application/json"],
+"parameters":[
+{"name":"attributeCategoryDbId","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+
+
+{"path":"/brapi/v1/studyTypes","description":"Available study types","operations":[{"nickname":"GET - available study types","method":"GET","summary":"available study types", "notes":"available study types","type":"string","produces":["application/json"]
+}]},
+
+
+{"path":"/brapi/v1/studies-search","description":"","operations":[{"nickname":"GET - get studies","method":"GET","summary":"get studies", "notes":"get studies","type":"string","produces":["application/json"],
+"parameters":[
+{"name":"studyType","paramType":"query","allowMultiple":false,"description":"[Genotype]", "required":false,"type":"string" },
+{"name":"germplasmDbIds","paramType":"query","allowMultiple":true,"description":"Filter studies where specified germplasm have been used/tested", "required":false,"type":"string" },
+{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+
+
+{"path":"/brapi/v1/studies/{studyDbId}","description":"Retrieve study details","operations":[{"nickname":"GET - study details","method":"GET","summary":"study details", "notes":"study details","type":"string","produces":["application/json"],
+"parameters":[
+{"name":"studyDbId","paramType":"path","allowMultiple":false,"description":"Identifier of the study.", "required":true,"type":"string" },
+{"name":"expand","paramType":"query","allowMultiple":false,"description":"Expand attributes.", "required":false,"type":"string" }
+]}]},
+
+{"path":"/brapi/v1/studies/{studyDbId}/germplasm","description":"Retrieve study germplasm details","operations":[{"nickname":"GET - study germplasm details","method":"GET","summary":"study germplasm details", "notes":"study germplasm details","type":"string","produces":["application/json"],
+"parameters":[
+{"name":"studyDbId","paramType":"path","allowMultiple":false,"description":"Identifier of the study.", "required":true,"type":"string" },
+{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+
+
+{"path":"/brapi/v1/maps","description":"","operations":[{"nickname":"GET - get all maps","method":"GET","summary":"get all maps", "notes":"get maps for all species","type":"string","produces":["application/json"],
+"parameters":[
+	{"name":"speciesDbId","paramType":"query","allowMultiple":false,"description":"Species Default:rice", "required":false,"type":"string" },
+	{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+
+	    
+{"path":"/brapi/v1/maps/{mapDbId}","description":"","operations":[{"nickname":"GET - get map linkage groups","method":"GET","summary":"Get map linkage groups", "notes":"Get map linkage groups","type":"string","produces":["application/json"],"parameters":[
+	{"name":"mapDbId","paramType":"path","allowMultiple":false,"required":true,"type":"string" }
+]}]},
+
+{"path":"/brapi/v1/maps/{mapDbId}/positions","description":"","operations":[{"nickname":"GET - get map markers","method":"GET","summary":"Get map markers", "notes":"Get map markers","type":"string","produces":["application/json"],"parameters":[
+	{"name":"mapDbId","paramType":"path","allowMultiple":false,"required":true,"type":"string" },
+	{"name":"linkageGroupDbId","paramType":"query","allowMultiple":false,"required":false,"type":"string" },
+	{"name":"format","paramType":"query","allowMultiple":false,"required":false, "type":"string", "description":"result format [json (default), tsv]" },
+	{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+
+		
+{"path":"/brapi/v1/maps/{mapDbId}/positions/{linkageGroupDbId}","description":"","operations":[{"nickname":"GET - getMarkersByRangePosition","method":"GET","summary":"Get markers in linkage group in range of positions", "notes":"Get markers in linkage group in range of positions","type":"string","produces":["application/json"],"parameters":[
+{"name":"mapDbId","paramType":"path","allowMultiple":false,"required":true,"type":"string", "description":"set to 9 (Rice Genome IRGSPv1 )" },
+{"name":"linkageGroupDbId","paramType":"path","allowMultiple":false,"required":true,"type":"string", "description":"chromosome [chr01, chr02, .. chr12]" },
+{"name":"min","paramType":"query","allowMultiple":false,"required":false,"type":"long", "description":"start bp" },
+{"name":"max","paramType":"query","allowMultiple":false,"required":false, "type":"long", "description":"stop bp" },
+{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+
+]}]},
+
+			
+{"path":"/brapi/v1/markerprofiles","description":"","operations":[{"nickname":"GET - get markerprofiles","method":"GET","summary":"Marker profiles", "notes":"Gets markerprofiles","type":"string","produces":["application/json"],
+	"parameters":[
+	{"name":"germplasmDbId","paramType":"query","allowMultiple":false,"required":false,"type":"string"}, 
+	{"name":"studyDbId","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"sampleDbId","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+	]}]},
+	
+{"path":"/brapi/v1/markerprofiles/{markerprofileDbId}","description":"","operations":[{"nickname":"GET - get markerprofile details/encodings","method":"GET","summary":"Markerprofile details/encoding", "notes":"Gets markerprofile details/encoding","type":"string","produces":["application/json"],
+	"parameters":[
+	{"name":"markerprofileDbId","paramType":"path","allowMultiple":false,"required":true,"type":"string"},
+	{"name":"expandHomozygotes","description":"Should homozygotes NOT be collapsed into a single occurrence? Default: true.","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"unknownString","description":"The string to use as a representation for missing data. Default: N","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"sepUnphased","description":"The string to use as a separator for unphased allele calls. Default: /", "paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"format","paramType":"query","allowMultiple":false,"required":false,"type":"string","description":"result formal [json (default), tsv]"},
+	{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+	]}]},
+
+
+{"path":"/brapi/v1/allelematrix","description":"","operations":[{"nickname":"GET - get allele matrix","method":"GET","summary":"Allele matrix (for large input lists, use POST)", "notes":"Gets allele matrix for markerprofiles and markers","type":"string","produces":["application/json"],"parameters":[
+{"name":"markerprofileDbId","description":"The markerprofile db ids; for multiple, repeat the parameter.", "paramType":"query","allowMultiple":true,"required":true,"type":"string"},
+	{"name":"markerDbId","description":"ids of the markers; if none are specified, results are returned for all markers in the database.", "paramType":"query","allowMultiple":true,"required":false,"type":"string"},
+	{"name":"expandHomozygotes","description":"Should homozygotes NOT be collapsed into a single occurrence? Default: true.","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"unknownString","description":"The string to use as a representation for missing data. Default: N","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"sepUnphased","description":"The string to use as a separator for unphased allele calls. Default: /", "paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"format","paramType":"query","allowMultiple":false,"required":false,"type":"string","description":"result formal [json (default), tsv]"},
+	{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+
+{"path":"/brapi/v1/allelematrix-search","description":"","operations":[{"nickname":"POST - get allele matrix","method":"POST","summary":"Allele matrix", "notes":"Gets allele matrix for markerprofiles and markers","type":"string","produces":["application/json","text/tsv"],"consumes":["application/json"],
+ "parameters":[
+{"name":"markerprofileDbId","description":"The markerprofile db ids; for multiple, repeat the parameter.", "paramType":"query","allowMultiple":true,"required":true,"type":"string"},
+	{"name":"markerDbId","description":"ids of the markers; if none are specified, results are returned for all markers in the database.", "paramType":"query","allowMultiple":true,"required":false,"type":"string"},
+	{"name":"expandHomozygotes","description":"Should homozygotes NOT be collapsed into a single occurrence? Default: true.","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"unknownString","description":"The string to use as a representation for missing data. Default: N","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"sepUnphased","description":"The string to use as a separator for unphased allele calls. Default: /", "paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+	{"name":"format","paramType":"query","allowMultiple":false,"required":false,"type":"string","description":"result formal [json (default), tsv]"},
+	{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+
+
+{"path":"/brapi/v1/allelematrix-search","description":"","operations":[{"nickname":"POST - get allele matrix","method":"POST","summary":"Allele matrix", "notes":"Gets allele matrix for markerprofiles and markers","type":"string","produces":["application/json","text/tsv"],"consumes":["application/json"],
+ "parameters":
+  	[{
+        "name": "JSON",
+        "description": "JSON request",
+        "required": true,
+        "paramType":"body",
+        "type": "allelesearchjson"
+      }
+
+]}]}
+
+],
+
+
+"models": {
+	"allelesearchjson":{
+		"id":"allelesearchjson",
+		"properties":{
+				"markerprofileDbId": {"type":"array","items":{"type":"string"} , "defaultValue":["10838","10848"]},
+				"markerDbId":{"type":"array","items":{"type":"string"} , "defaultValue":["chr01_15876685", "chr01_15876807"]},
+				"format":{"type":"string","defaultValue":"json"}
+		 }
+	},
+	"loginjson":{ 
+	    "id":"loginjson",
+		"properties":{
+	    	"username":{"type":"string","defaultValue":"snpseek-user"} ,
+			"grant_type":{"type":"string","defaultValue":"passport"} ,
+			"password":{"type":"string","defaultValue":"snpseek-user-pass"} ,
+			"client_id":{"type":"string","defaultValue":null} 
+		}
+	}
+}
+
+
+}

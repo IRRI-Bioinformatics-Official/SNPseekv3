@@ -1,0 +1,91 @@
+{"swaggerVersion":"1.2","apiVersion":"1.0","basePath":"http://172.29.4.215:8080/iric-postal/ws/","resourcePath":"",
+"apis":[
+{"path":"/brapi/v1/calls/{identifier}","description":"Get call result formats for identifier",
+	"operations":[{"nickname":"GET - get call formats","method":"GET","summary":"Call result formats", "notes":"Get call result formats","type":"string","produces":["application/json"],
+	"parameters":[{"name":"identifier","paramType":"path","allowMultiple":false,"required":true,"type":"string"}]}]},
+
+
+
+
+
+
+		
+{"path":"/brapi/v1/germplasm","description":"","operations":[{"nickname":"GET - get germplasm","method":"GET","summary":"Get  get germplasm", "notes":"Get germplasm","type":"string","produces":["application/json"],"parameters":[
+{"name":"name","paramType":"query","allowMultiple":false,"required":false,"type":"string" },
+{"name":"matchMethod","paramType":"query","allowMultiple":false,"required":false,"type":"string", "description":"Name match method [exact (default), case_insensitive, wildcard]" },
+{"name":"include","paramType":"query","allowMultiple":false,"required":false,"type":"string" },
+		{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+
+]}]},
+			  
+	    
+{"path":"/brapi/v1/germplasm/{id}/markerprofiles","description":"","operations":[{"nickname":"GET - get germplasm markerprofiles","method":"GET","summary":"Get germplasm  markerprofiles", "notes":"Get germplasm  markerprofiles","type":"string","produces":["application/json"],"parameters":[
+{"name":"id","paramType":"path","allowMultiple":false,"required":true,"type":"string" },
+		{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+]}]},
+	    
+	    
+
+{"path":"/brapi/v1/studies-search","description":"","operations":[{"nickname":"GET - get studies","method":"GET","summary":"get studies", "notes":"get studies","type":"string","produces":["application/json"],"parameters":[
+{"name":"studyType","paramType":"query","allowMultiple":false,"required":true,"type":"string" }
+]}]},
+	    
+
+
+{"path":"/brapi/v1/maps","description":"","operations":[{"nickname":"GET - get all maps","method":"GET","summary":"get all maps", "notes":"get maps for all species","type":"string","produces":["application/json"],"parameters":[
+		{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+
+]}]},
+
+	    
+{"path":"/brapi/v1/maps/{mapId}","description":"","operations":[{"nickname":"GET - get map linkage groups","method":"GET","summary":"Get map linkage groups", "notes":"Get map linkage groups","type":"string","produces":["application/json"],"parameters":[
+{"name":"mapId","paramType":"path","allowMultiple":false,"required":true,"type":"string" },
+		{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+
+]}]},
+
+{"path":"/brapi/v1/maps/{mapId}/positions","description":"","operations":[{"nickname":"GET - get map markers","method":"GET","summary":"Get map markers", "notes":"Get map markers","type":"string","produces":["application/json"],"parameters":[
+{"name":"mapId","paramType":"path","allowMultiple":false,"required":true,"type":"string" },
+{"name":"format","paramType":"query","allowMultiple":false,"required":false, "type":"string", "description":"result format [json (default), tsv,csv]" },
+		{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+
+]}]},
+
+		
+{"path":"/brapi/v1/maps/{mapId}/positions/{linkageGroupId}","description":"","operations":[{"nickname":"GET - getMarkersByRangePosition","method":"GET","summary":"Get markers in linkage group in range of positions", "notes":"Get markers in linkage group in range of positions","type":"string","produces":["application/json"],"parameters":[
+{"name":"mapId","paramType":"path","allowMultiple":false,"required":true,"type":"string", "description":"set to 9 (Rice Genome IRGSPv1 )" },
+{"name":"linkageGroupId","paramType":"path","allowMultiple":false,"required":true,"type":"string", "description":"chromosome [chr01, chr02, .. chr12]" },
+{"name":"min","paramType":"query","allowMultiple":false,"required":false,"type":"long", "description":"start bp" },
+{"name":"max","paramType":"query","allowMultiple":false,"required":false, "type":"long", "description":"stop bp" },
+{"name":"format","paramType":"query","allowMultiple":false,"required":false, "type":"string", "description":"result format [json (default), tsv,csv]" },
+		{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+
+]}]},
+			
+	
+{"path":"/brapi/v1/markerprofiles","description":"","operations":[{"nickname":"GET - get markerprofiles","method":"GET","summary":"Marker profiles", "notes":"Gets markerprofiles","type":"string","produces":["application/json"],
+	"parameters":[{"name":"germplasm","paramType":"query","allowMultiple":false,"required":false,"type":"string"}, 
+	{"name":"extract","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+		{"name":"method","paramType":"query","allowMultiple":false,"required":false,"type":"string"},
+		{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+	]}]},
+	
+
+{"path":"/brapi/v1/allelematrix","description":"","operations":[{"nickname":"GET - get allele matrix","method":"GET","summary":"Allele matrix (for large input lists, use POST)", "notes":"Gets allele matrix for markerprofiles and markers","type":"string","produces":["application/json"],"parameters":[
+{"name":"markerprofileDbId","paramType":"query","allowMultiple":true,"required":true,"type":"string"},
+	{"name":"markerDbId","paramType":"query","allowMultiple":true,"required":false,"type":"string"},
+	{"name":"format","paramType":"query","allowMultiple":false,"required":false,"type":"string","description":"result formal [json (default), tsv, csv]"},
+	{"name":"pageSize","paramType":"query","allowMultiple":false,"required":false,"type":"int"},
+	{"name":"page","paramType":"query","allowMultiple":false,"required":false,"type":"int"}
+
+]}]}
+
+			
+]}

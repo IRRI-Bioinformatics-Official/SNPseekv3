@@ -21,16 +21,8 @@ public class AsyncJobExecutorConfig {
 		ThreadPoolTaskExecutor ex = new ThreadPoolTaskExecutor();
 
 		try {
-			if (AppContext.isAWSBeanstalk()) {
-				ex.setCorePoolSize(4);
-				ex.setMaxPoolSize(10);
-			} else if (AppContext.isAWS()) {
-				ex.setCorePoolSize(2);
-				ex.setMaxPoolSize(2);
-			} else if (AppContext.isPollux()) {
-				ex.setCorePoolSize(3);
-				ex.setMaxPoolSize(5);
-			}
+			ex.setCorePoolSize(3);
+			ex.setMaxPoolSize(5);
 			ex.setQueueCapacity(5);
 			threadPoolTaskExecutor = ex;
 		} catch (Exception e) {

@@ -123,7 +123,7 @@ public class AppContext {
 	};
 
 	public static enum WEBSERVER {
-		LOCALHOST, AWS, AWSDEV, VMIRRI, POLLUX, ASTI, BEANSTALK, BEANSTALK2, BEANSTALKDEV
+		LOCALHOST, SCIENCE_CLOUD, BRS
 	};
 
 	public static enum OS {
@@ -225,11 +225,9 @@ public class AppContext {
 
 	static {
 		try {
-			
-			dotenv = Dotenv.configure()
-			        .ignoreIfMissing()
-			        .load();
-			
+
+			dotenv = Dotenv.configure().ignoreIfMissing().load();
+
 			prop = new Properties();
 			webProp = new Properties();
 			anonymousContent = new Properties();
@@ -303,10 +301,10 @@ public class AppContext {
 		// return rdms==AppContext.RDMS.ORACLE;
 		return false;
 	}
-	
+
 	public static String geteNV(String key) {
-        return dotenv.get(key);
-    }
+		return dotenv.get(key);
+	}
 
 	public static String getDefaultSchema() {
 		if (isPostgres())
@@ -383,9 +381,7 @@ public class AppContext {
 
 	// in server file system (where tomcat is deployed)
 	public static String getHaploscriptsDir() {
-		if (isAWSBeanstalk() || isAWSBeanstalkDev() || isLocalhost())
-			// if (isAWSBeanstalk() || isAWSBeanstalkDev())
-			// return getTomcatWebappsDir() + "ROOT/haplo/";
+		if (isScienceCloud() || isBRS() || isLocalhost())
 			return getFlatfilesDir() + "haplo/";
 		else
 			return getTomcatWebappsDir() + getHostDirectory() + "/haplo/";
@@ -505,21 +501,44 @@ public class AppContext {
 
 		String jbrowseDir = webProp.getProperty(WebserverPropertyConstants.JBROWSE_DIR);
 
-		// if (isLocalhost()) {
-		// return "http://172.29.4.215:8080/jbrowse-dev2";
-		// } else {
-		// if (isASTI())
-		// return AppContext.getHostname() + "/" + "jbrowse";
-		// else if (isPollux())
-		// return AppContext.getHostname() + "/" + "jbrowse-dev2";
-		// else if (isUsingsharedData() || isAWSBeanstalk() ||
-		// isAWSBeanstalkDev())
-		// return AppContext.getHostname() + "/" + "jbrowse";
-		// else
 		if (!jbrowseDir.equals("."))
-			return jbrowseDir;
-		return AppContext.getHostname() + "/" + "jbrowse-dev2";
-		// }
+			jbrowseDir = "/jbrowse";
+
+		return AppContext.getHostname() + jbrowseDir;
+
+	}
+
+	/**
+	 * JBrowse host directory
+	 * 
+	 * @return
+	 */
+	public static String getJbrowseDir2() {
+		logger.info("JBROWSE2 HOST DIR: " + webProp.getProperty(WebserverPropertyConstants.JBROWSE2_DIR));
+
+		String jbrowseDir = webProp.getProperty(WebserverPropertyConstants.JBROWSE2_DIR);
+
+		if (!jbrowseDir.equals("."))
+			jbrowseDir = "/jbrowse2";
+
+		return AppContext.getHostname() + jbrowseDir;
+
+	}
+
+	/**
+	 * JBrowse host directory
+	 * 
+	 * @return
+	 */
+	public static String getLegacyUrl() {
+		logger.info("Legacy URL: " + webProp.getProperty(WebserverPropertyConstants.LEGACY_URL));
+
+		String legacyURL = webProp.getProperty(WebserverPropertyConstants.LEGACY_URL);
+
+		if (legacyURL.equals("."))
+			return "";
+
+		return legacyURL;
 
 	}
 
@@ -738,13 +757,7 @@ public class AppContext {
 //	}
 
 	public static String getPlinkDir() {
-
-		if (isPollux())
-			return "/home/lmansueto/plinkdir/";
-		else if (isAWSBeanstalk() || isAWSBeanstalkDev()) {
-			return "/IRCstorage/snpseekdata/current/plink/";
-		}
-		return null;
+		return getFlatfilesDir() + "/plink/";
 	}
 
 	// ***************************************** DATA-RELATED CONIGURATION
@@ -811,53 +824,12 @@ public class AppContext {
 	 * 
 	 * @return
 	 */
-	public static boolean isAWS() {
-		return webserver == AppContext.WEBSERVER.AWS;
+	public static boolean isScienceCloud() {
+		return webserver == AppContext.WEBSERVER.SCIENCE_CLOUD;
 	}
 
-	public static boolean isAWSBeanstalk() {
-		return webserver == AppContext.WEBSERVER.BEANSTALK; // ||
-															// isAWSBeanstalkDev();
-	}
-
-	public static boolean isAWSBeanstalkDev() {
-		return webserver == AppContext.WEBSERVER.BEANSTALKDEV;
-	}
-
-	/**
-	 * Launch in AWS-dev
-	 * 
-	 * @return
-	 */
-	public static boolean isAWSdev() {
-		return webserver == AppContext.WEBSERVER.AWSDEV;
-	}
-
-	/**
-	 * Launch in IRRI VM
-	 * 
-	 * @return
-	 */
-	public static boolean isVMIRRI() {
-		return webserver == AppContext.WEBSERVER.VMIRRI;
-	}
-
-	/**
-	 * Launch in Pollux
-	 * 
-	 * @return
-	 */
-	public static boolean isPollux() {
-		return webserver == AppContext.WEBSERVER.POLLUX;
-	}
-
-	/**
-	 * Launced in ASTI
-	 * 
-	 * @return
-	 */
-	public static boolean isASTI() {
-		return webserver == AppContext.WEBSERVER.ASTI;
+	public static boolean isBRS() {
+		return webserver == AppContext.WEBSERVER.BRS;
 	}
 
 	/**
@@ -904,7 +876,7 @@ public class AppContext {
 	public static boolean isIRRILAN() {
 		// return (isLocalhost() && !isUsingsharedData() ) || isPollux() ||
 		// isVMIRRI();
-		return isLocalhost() || isPollux() || isVMIRRI() || isASTI();
+		return isLocalhost() || isBRS();
 	}
 
 	/**
@@ -2248,17 +2220,7 @@ public class AppContext {
 	}
 
 	public static String getPhantomjsExe() {
-
-		if (isWindows())
-			return getFlatfilesDir() + "phantomjs.exe";
-		else if (isPollux())
-			return "/home/lmansueto/phantomjs/phantomjs";
-		// else if(isAWS() || isASTI())
-		else
-			return "/usr/local/share/phantomjs/bin/phantomjs";
-
-		// return null;
-
+		return getFlatfilesDir() + "phantomjs.exe";
 	}
 
 	public static int getSnpMatrixFrozenCols() {
@@ -2419,17 +2381,7 @@ public class AppContext {
 	}
 
 	public static String getInstance() {
-		if (isAWSBeanstalk() || isAWSBeanstalkDev()) {
-			String ec2name = getEC2Tag("Name");
-			if (ec2name != null)
-				return EC2MetadataUtils.getInstanceId() + ":" + ec2name;
-			else
-				return EC2MetadataUtils.getInstanceId();
-		} else if (isAWS())
-			return "AWS_single";
-		else if (isPollux())
-			return "pollux";
-		else if (isLocalhost())
+		if (isLocalhost())
 			return "localhost";
 		else
 			return "unknown";
@@ -2630,7 +2582,7 @@ public class AppContext {
 	// ************* PAST CODES RETAINED
 
 	public static String getLogLevel() {
-		if (isAWSBeanstalk())
+		if (isScienceCloud())
 			return log_level;
 		// if(isIRRILAN() || isAWS) return "debug";
 		return "debug";

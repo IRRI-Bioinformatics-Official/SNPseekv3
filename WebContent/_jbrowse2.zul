@@ -15,8 +15,9 @@
 			  
 			</n:script>
 	<style src="assets/css/jbrowseStyles.css" />
+	<!-- Use AppContext.getJbrowse2() to supply the iframe source at render time and append the shared session parameters -->
 	<iframe id="iframejbrowse2"
-    src="https://snpseek.irri.org/jbrowse2/?session=share-ad7DbDSufO&amp;password=jZQzS" 
+    src="${AppContext.getJbrowseDir2() + '/?session=share-ad7DbDSufO&amp;password=jZQzS'}" 
     width="100%" style="padding:20px;" height="100vh" />
 
 </zk>

@@ -11,6 +11,8 @@ public class WebserverPropertyConstants {
 	public static final String FLATFILE_DIR = "flatFileDir";
 
 	public static final String JBROWSE_DIR = "jbrowseDir";
+	
+	public static final String JBROWSE2_DIR = "jbrowse2Dir";
 
 	public static final String PATH_LOCAL_BLAST = "pathToLocalBlast";
 
@@ -23,6 +25,8 @@ public class WebserverPropertyConstants {
 	public static final String EMBEDDED_SERVER = "embeddedDir";
 	
 	public static final String RECAPTCHA = "recaptcha";
+	
+	public static final String LEGACY_URL = "legacyUrl";
 	
 	
 	// 
@@ -102,6 +106,8 @@ public class WebserverPropertyConstants {
 	public static final String DEFAULT_VARIANT_SET = "defaultVariantset";
 	
 	public static final String DEFAULT_CHR2SRC_FEATURE_ID_OFFSET = "chr2srcfeatureidOffset";
+
+
 	
 	
 }

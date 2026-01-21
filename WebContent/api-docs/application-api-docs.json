@@ -1,4 +1,4 @@
-{"swaggerVersion":"1.2","apiVersion":"1.0","basePath":"https://snpseek.irri.org/ws","resourcePath":"",
+{"swaggerVersion":"1.2","apiVersion":"1.0","basePath":"/ws","resourcePath":"",
 "apis":[
 
 {"path":"/variety","description":"API's to query variety related data","operations":[{"nickname":"GET - getVarieties","method":"GET","summary":"All varieties", "notes":"Gets all variety objects", "type":"string","produces":["application/json"]}]},

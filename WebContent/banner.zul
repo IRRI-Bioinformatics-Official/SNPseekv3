@@ -56,9 +56,9 @@
 					<div
 						apply="org.irri.iric.portal.BannerController">
 						<menubar
-							style="border-top: 1px solid rgb(111 142 102) ! important ; border-bottom: 1px solid rgb(111 142 102) ! important ;
-						background: rgb(111 142 102) ! important ; color: rgb (255, 255, 255) ! important ;">
-							<menuitem label="Legacy SNP-Seek portal" href="http://snpseekv3.duckdns.org/v2" target="_blank" />
+							style="border-top: 1px solid #00695C ! important ; border-bottom: 1px solid #00695C  ! important ;
+						background: #00695C  ! important ; color: rgb (255, 255, 255) ! important ;">
+							<menuitem label="Legacy SNP-Seek portal" href="${AppContext.getLegacyUrl()}" target="_blank" />
 							<menuitem label="Search" href="index.zul" style="font-weight: bold;"/>
 							<!-- 	<menu label="Search"
 								src="/images/iric/query.png"
@@ -140,9 +140,9 @@
 							-->
 							<menu label="Help"
 								 visible="${visibleHelpGenesStr}"
-								style="border-top: 1px solid rgb(111 142 102) !important;
-									border-bottom: 1px solid rgb(111 142 102) !important;
-									background: rgb(111 142 102) !important;
+								style="border-top: 1px solid #00695C !important;
+									border-bottom: 1px solid #00695C !important;
+									background: #00695C !important;
 									color: rgb(255, 255, 255) !important;">
 								<menupopup>
 									<menuitem target="_blank"
@@ -187,9 +187,9 @@
 								</menupopup>
 							</menu>
 							<menuitem label="Login" href="login.zul" id="mi_login"
-								style="border-top: 1px solid rgb(111 142 102) !important;
-									border-bottom: 1px solid rgb(111 142 102) !important;
-									background: rgb(111 142 102) !important;
+								style="border-top: 1px solid #00695C !important;
+									border-bottom: 1px solid #00695C !important;
+									background: #00695C !important;
 									color: rgb(255, 255, 255) !important;" />
 							<menu id="menuLogout">
 								<menupopup>

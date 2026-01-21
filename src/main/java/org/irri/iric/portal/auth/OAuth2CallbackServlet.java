@@ -30,7 +30,6 @@ import org.irri.iric.ds.chado.domain.model.User;
 import org.irri.iric.ds.chado.domain.model.UserSubscription;
 import org.irri.iric.portal.AppContext;
 import org.irri.iric.portal.config.KeysPropertyConfig;
-import org.irri.iric.portal.config.SNPseekEnv;
 import org.json.JSONObject;
 import org.zkoss.zk.ui.Sessions;
 
@@ -46,7 +45,7 @@ import user.ui.module.util.constants.SessionConstants;
 @WebServlet("/callback")
 public class OAuth2CallbackServlet extends HttpServlet {
 
-	private static final String REDIRECT_URI = "https://snpseek.irri.org/callback"; // Make sure this matches what you set
+	// NOTE: Prefer configuration via environment variables or secure config; do not hard-code secrets.
 	private static final String AUTHORITY = "https://login.microsoftonline.com/";
 
 	private UserDAO u_serv;
@@ -84,7 +83,7 @@ public class OAuth2CallbackServlet extends HttpServlet {
 
 			String pass = "";
 			try {
-				System.out.println("key >>>>> "+ keyProp.getKey());
+				System.out.println("key >>>>> " + keyProp.getKey());
 				pass = PasswordUtils.encrypt("mykeySnpseek", keyProp.getKey());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -127,7 +126,7 @@ public class OAuth2CallbackServlet extends HttpServlet {
 				lst_User = u_serv.getByUserName(userInfo.optString("userPrincipalName"));
 
 			}
-			
+
 			userCred = lst_User.get(0);
 
 			if (!pass.equals(userCred.getPasswordHash())) {
@@ -171,17 +170,48 @@ public class OAuth2CallbackServlet extends HttpServlet {
 	private String exchangeCodeForToken2(String code) {
 
 		String[] SCOPES = new String[] { "User.Read" };
-		
-		String CLIENT_ID = System.getenv(SNPseekEnv.MICROSOFT_CLIENT_ID);
-		String SECRET = System.getenv(SNPseekEnv.MICROSOFT_SECRET);
-		String TENANT_ID = System.getenv(SNPseekEnv.MICROSOFT_TENANT_ID);
+		// Read configuration from environment variables (preferred)
+		String CLIENT_ID = System.getenv("MICROSOFT_CLIENT_ID");
+		String SECRET = System.getenv("MICROSOFT_SECRET");
+		String TENANT_ID = System.getenv("MICROSOFT_TENANT_ID");
+		String redirectUri = AppContext.getHostname() + "/callback";
+
+		// Fallbacks: if any required value is missing, attempt to read servlet context init params
+		if (CLIENT_ID == null) {
+			CLIENT_ID = getServletContext().getInitParameter("MICROSOFT_CLIENT_ID");
+		}
+		if (SECRET == null) {
+			SECRET = getServletContext().getInitParameter("MICROSOFT_SECRET");
+		}
+		if (TENANT_ID == null) {
+			TENANT_ID = getServletContext().getInitParameter("MICROSOFT_TENANT_ID");
+		}
+		if (redirectUri == null) {
+			redirectUri = getServletContext().getInitParameter("MICROSOFT_REDIRECT_URI");
+		}
+
+		// Validate required configuration
+		if (CLIENT_ID == null || SECRET == null || TENANT_ID == null || redirectUri == null) {
+			AppContext.debug("Microsoft OAuth configuration missing. Ensure MICROSOFT_CLIENT_ID, MICROSOFT_SECRET, MICROSOFT_TENANT_ID and MICROSOFT_REDIRECT_URI are set in the environment or servlet context init params.");
+			return null;
+		}
+
+		// Do NOT print secret or full client id in logs; print presence-only for debugging
+		AppContext.debug("=== Microsoft Auth Debug ===");
+		AppContext.debug("CLIENT_ID present: " + (CLIENT_ID != null && !CLIENT_ID.isEmpty()));
+		AppContext.debug("TENANT_ID: " + TENANT_ID);
+		AppContext.debug("SECRET exists: " + (SECRET != null && !SECRET.isEmpty()));
+		AppContext.debug("SECRET exists: " + SECRET);
+		AppContext.debug("Authority: " + AUTHORITY + TENANT_ID);
+		AppContext.debug("redirect: " +  redirectUri);
+		AppContext.debug("=== End Debug ===");
 
 		IConfidentialClientApplication app;
 		try {
 			app = ConfidentialClientApplication.builder(CLIENT_ID, ClientCredentialFactory.createFromSecret(SECRET))
 					.authority(AUTHORITY + "" + TENANT_ID).build();
 			// Acquire token by providing the authorization code
-			AuthorizationCodeParameters parameters = AuthorizationCodeParameters.builder(code, new URI(REDIRECT_URI))
+			AuthorizationCodeParameters parameters = AuthorizationCodeParameters.builder(code, new URI(redirectUri))
 					.scopes((new HashSet<>(Arrays.asList(SCOPES)))).build();
 
 			IAuthenticationResult result = app.acquireToken(parameters).join();

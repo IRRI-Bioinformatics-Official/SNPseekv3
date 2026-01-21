@@ -10,5 +10,5 @@ window.Boot_progressbox = function (){}
         arg0="/template.zul"?>
 <?init class="org.irri.iric.portal.LoginInitPage" ?>
 <zk>
-      <include self="@define(content)" src="/loginContent.zul"/>
+      <include self="@define(content)" src="/loginContent2.zul"/>
 </zk>

@@ -8,12 +8,19 @@ import java.util.Set;
 
 public class MicrosoftAuth {
 
-    private static final String CLIENT_ID = "8f69a01b-9888-4dab-a974-0806b5d9c90e";  // Your Azure App Registration's Client ID
-    private static final String TENANT_ID = "6afa0e00-fa14-40b7-8a2e-22a7f8c357d5";  // Your Azure AD Tenant ID
-    private static final String REDIRECT_URI = "http://localhost:8080"; // Redirect URI
-    private static final String AUTHORITY = "https://login.microsoftonline.com/" + TENANT_ID;
-
     public static void main(String[] args) {
+        // Prefer environment variables for configuration
+        String CLIENT_ID = System.getenv("MICROSOFT_CLIENT_ID");
+        String TENANT_ID = System.getenv("MICROSOFT_TENANT_ID");
+        String REDIRECT_URI = System.getenv("MICROSOFT_REDIRECT_URI");
+
+        if (CLIENT_ID == null || TENANT_ID == null || REDIRECT_URI == null) {
+            System.err.println("MicrosoftAuth configuration missing. Please set MICROSOFT_CLIENT_ID, MICROSOFT_TENANT_ID and MICROSOFT_REDIRECT_URI as environment variables before running this program.");
+            return;
+        }
+
+        final String AUTHORITY = "https://login.microsoftonline.com/" + TENANT_ID;
+
         try {
             // Build the PublicClientApplication
             PublicClientApplication publicClientApplication = PublicClientApplication
@@ -36,7 +43,7 @@ public class MicrosoftAuth {
 
             // Successfully authenticated, retrieve the access token
             String accessToken = result.accessToken();
-            System.out.println("Access token: " + accessToken);
+            System.out.println("Access token acquired (length=" + (accessToken!=null?accessToken.length():0) + ")");
         } catch (Exception e) {
             e.printStackTrace();
         }
