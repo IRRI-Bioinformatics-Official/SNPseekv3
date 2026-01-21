@@ -3,6 +3,7 @@ package user.ui.module;
 import java.util.Properties;
 
 import org.irri.iric.ds.chado.domain.model.User;
+import org.irri.iric.portal.AppContext;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
@@ -70,6 +71,12 @@ public class HomeQueryController extends SelectorComposer<Div> {
 	
 	@Wire
 	private Label lbl_gwas;
+	
+	@Wire
+	private Div providerDiv_asti;
+	
+	@Wire
+	private Div providerDiv_brs;
 
 	/**
 	 * Initializes Controller to Genotype Module (GenotypeContent.zul)
@@ -84,6 +91,14 @@ public class HomeQueryController extends SelectorComposer<Div> {
 
 		dsNumber.setValue("1");
 		setLabelFeaturesVisibility(true);
+		
+		providerDiv_asti.setVisible(false);
+		providerDiv_brs.setVisible(false);
+		
+		if (AppContext.isBRS())
+			providerDiv_brs.setVisible(true);
+		else if (AppContext.isScienceCloud())
+			providerDiv_asti.setVisible(true);
 
 		
 
