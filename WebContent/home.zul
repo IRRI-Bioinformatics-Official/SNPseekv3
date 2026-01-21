@@ -203,8 +203,8 @@
 		.hero-title { font-size: 24px; }
 
 		.hero-text { font-size: 14px; } }
-		
-		
+
+
 	</style>
 
 	<div sclass="page-container"
@@ -304,19 +304,26 @@
 				</html>
 
 				<!-- Powered by COARE -->
-				<div sclass="powered-by-coare">
-					<!-- OPTION A --> 
-					<span class="powered-label">Mirror provided by CGIAR Breeding Resources Services</span>
+				<div id="providerDiv" sclass="powered-by-coare">
+					<!-- OPTION A -->
+					<div id="providerDiv_asti">
+						Powered by:
+						<a href="https://asti.dost.gov.ph/coare/"
+							target="_blank">
+							<image src="assets/img/COARE_2.png"
+								height="44px" />
+							<span class="coare-text">COARE</span>
+						</a>
+					</div>
 					<!-- OPTION B -->
-					<!-- <a href="https://asti.dost.gov.ph/coare/"
-					target="_blank">
-					<image src="assets/img/COARE_2.png"
-					height="44px" />
-					<span class="coare-text">COARE</span>
-					</a> -->
-				<!-- OPTION B -->
+					<div id="providerDiv_brs">
+						<span class="powered-label">
+							Mirror provided by CGIAR Breeding Resources
+							Services
+						</span>
+					</div>
 				</div>
-				
+
 			</div>
 
 
@@ -479,91 +486,92 @@
 				</a>
 				<!-- Add these three cards after the "My List" card in your explore-grid -->
 
-<!-- Order Seeds Card -->
-<!-- <a id="orderSeedsCard" class="explore-link"
-	style="text-decoration: none; display: block;">
-	<div sclass="explore-card"
-		style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
-		<div sclass="explore-icon explore-icon-amber"
-			style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #f59e0b, #fbbf24);">
-			<label value="🌾" style="font-size: 20px;" />
-		</div>
-		<hbox>
-			<label sclass="explore-title"
-				style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
-				value="Order Seeds" />
-			<label id="lbl_orderSeeds" sclass="explore-text"
-				style="font-size: 11px; color: #ef4444; font-weight: 500; display: block;padding-left:5px;"
-				value="(User login required 🔒)" />
-		</hbox>
-		<separator height="6px" />
-		<label sclass="explore-text"
-			style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
-			value="Request rice seeds from the International Rice Genebank" />
-		<div sclass="arrow-icon"
-			style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">
-			→
-		</div>
-	</div>
-</a>
- -->
+				<!-- Order Seeds Card -->
+				<!-- <a id="orderSeedsCard" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card"
+					style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+					<div sclass="explore-icon explore-icon-amber"
+					style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+					<label value="🌾" style="font-size: 20px;" />
+					</div>
+					<hbox>
+					<label sclass="explore-title"
+					style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
+					value="Order Seeds" />
+					<label id="lbl_orderSeeds" sclass="explore-text"
+					style="font-size: 11px; color: #ef4444; font-weight: 500; display: block;padding-left:5px;"
+					value="(User login required 🔒)" />
+					</hbox>
+					<separator height="6px" />
+					<label sclass="explore-text"
+					style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+					value="Request rice seeds from the International Rice Genebank" />
+					<div sclass="arrow-icon"
+					style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">
+					→
+					</div>
+					</div>
+					</a>
+				-->
 
-<!-- Downloads Card -->
-<a id="downloadsCard" class="explore-link"
-	style="text-decoration: none; display: block;">
-	<div sclass="explore-card"
-		style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
-		<div sclass="explore-icon explore-icon-violet"
-			style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
-			<label value="⬇️" style="font-size: 20px;" />
-		</div>
-		<hbox>
-			<label sclass="explore-title"
-				style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
-				value="Downloads" />
-			<label id="lbl_download" sclass="explore-text"
-				style="font-size: 11px; color: #ef4444; font-weight: 500; display: block;padding-left:5px;"
-				value="(User login required 🔒)" />
-		</hbox>
-		<separator height="6px" />
-		<label sclass="explore-text"
-			style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
-			value="Download datasets, genotype files, and analysis results" />
-		<div sclass="arrow-icon"
-			style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">
-			→
-		</div>
-	</div>
-</a>
+				<!-- Downloads Card -->
+				<a id="downloadsCard" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card"
+						style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+						<div sclass="explore-icon explore-icon-violet"
+							style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+							<label value="⬇️" style="font-size: 20px;" />
+						</div>
+						<hbox>
+							<label sclass="explore-title"
+								style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
+								value="Downloads" />
+							<label id="lbl_download"
+								sclass="explore-text"
+								style="font-size: 11px; color: #ef4444; font-weight: 500; display: block;padding-left:5px;"
+								value="(User login required 🔒)" />
+						</hbox>
+						<separator height="6px" />
+						<label sclass="explore-text"
+							style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+							value="Download datasets, genotype files, and analysis results" />
+						<div sclass="arrow-icon"
+							style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">
+							→
+						</div>
+					</div>
+				</a>
 
-<!-- GWAS Card -->
-<a id="gwasCard" class="explore-link"
-	style="text-decoration: none; display: block;">
-	<div sclass="explore-card"
-		style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
-		<div sclass="explore-icon explore-icon-cyan"
-			style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #06b6d4, #22d3ee);">
-			<label value="📊" style="font-size: 20px;" />
-		</div>
-		<hbox>
-			<label sclass="explore-title"
-				style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
-				value="GWAS" />
-			<label id="lbl_gwas" sclass="explore-text"
-				style="font-size: 11px; color: #ef4444; font-weight: 500; display: block;padding-left:5px;"
-				value="(User login required 🔒)" />
-		</hbox>
-		<separator height="6px" />
-		<label sclass="explore-text"
-			style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
-			value="Gwas for trait-marker relationships" />
-		<div sclass="arrow-icon"
-			style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">
-			→
-		</div>
-	</div>
-</a>
-				
+				<!-- GWAS Card -->
+				<a id="gwasCard" class="explore-link"
+					style="text-decoration: none; display: block;">
+					<div sclass="explore-card"
+						style="background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); position: relative;">
+						<div sclass="explore-icon explore-icon-cyan"
+							style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: linear-gradient(135deg, #06b6d4, #22d3ee);">
+							<label value="📊" style="font-size: 20px;" />
+						</div>
+						<hbox>
+							<label sclass="explore-title"
+								style="font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #111827; display: block;"
+								value="GWAS" />
+							<label id="lbl_gwas" sclass="explore-text"
+								style="font-size: 11px; color: #ef4444; font-weight: 500; display: block;padding-left:5px;"
+								value="(User login required 🔒)" />
+						</hbox>
+						<separator height="6px" />
+						<label sclass="explore-text"
+							style="font-size: 12px; color: #6b7280; line-height: 1.5; padding-right: 24px; display: block;"
+							value="Gwas for trait-marker relationships" />
+						<div sclass="arrow-icon"
+							style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #d1d5db;">
+							→
+						</div>
+					</div>
+				</a>
+
 			</div>
 
 			<label sclass="section-title"
