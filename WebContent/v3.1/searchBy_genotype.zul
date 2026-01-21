@@ -204,11 +204,17 @@
 						<div sclass="form-field">
 							<label sclass="field-label"
 								value="Reference Genome" />
-							<combobox width="100%" readonly="true">
+							<!-- <combobox width="100%" readonly="true">
 								<comboitem label="Japonica nipponbare" />
 								<comboitem label="Indica MH63" />
 								<comboitem label="Other references" />
-							</combobox>
+								</combobox>
+							-->
+							<listbox id="listboxReference" mold="select"
+								rows="1" disabled="false">
+								<listitem label="Nipponbare2" />
+								<listitem label="MH63" />
+							</listbox>
 						</div>
 
 						<!-- Variety Set -->
@@ -437,7 +443,7 @@
 					<label sclass="results-count" value="0 results" />
 				</div>
 
-				<tabbox  sclass="results-tabbox">
+				<tabbox sclass="results-tabbox">
 
 					<tabs>
 						<tab label="Summary" sclass="result-tab" />

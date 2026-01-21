@@ -54,17 +54,11 @@ public class AppContextFilterConfig implements Filter {
 
 			 if(deployment.equals("localhost"))
 				 AppContext.webserver=AppContext.WEBSERVER.LOCALHOST;
-			 else if(deployment.equals("asti"))
-				 AppContext.webserver=AppContext.WEBSERVER.ASTI;
-			 else if(deployment.equals("aws"))
-				 AppContext.webserver=AppContext.WEBSERVER.AWS;
-			 else if(deployment.equals("awsdev"))
-				 AppContext.webserver=AppContext.WEBSERVER.AWSDEV;
-			 else if(deployment.equals("vmirri"))
-				 AppContext.webserver=AppContext.WEBSERVER.VMIRRI;
-			 else if(deployment.equals("pollux"))
-				 AppContext.webserver=AppContext.WEBSERVER.POLLUX;
-		 }
+			 else if(deployment.equals("science_cloud"))
+				 AppContext.webserver=AppContext.WEBSERVER.SCIENCE_CLOUD;
+			 else if(deployment.equals("brs"))
+				 AppContext.webserver=AppContext.WEBSERVER.BRS;
+		}
 		 
 
 		 //AppContext.compiletype = AppContext.COMPILETYPE_PROD;

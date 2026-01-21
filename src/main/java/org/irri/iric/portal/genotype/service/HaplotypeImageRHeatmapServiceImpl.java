@@ -3,6 +3,7 @@ package org.irri.iric.portal.genotype.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.ProcessBuilder.Redirect;
@@ -47,9 +48,7 @@ public class HaplotypeImageRHeatmapServiceImpl implements HaplotypeImageService 
 			String system = "linux";
 			if (AppContext.isWindows())
 				system = "win";
-			else if (AppContext.isPollux())
-				system = "pollux";
-
+			
 			// File fileScript=new File(AppContext.getFlatfilesDir() + "geno_heatmap.R");
 			File fileScript = new File(AppContext.getHaploscriptsDir() + "geno_heatmap.R");
 			File fileDest = new File(destdir);
@@ -274,8 +273,7 @@ public class HaplotypeImageRHeatmapServiceImpl implements HaplotypeImageService 
 			String system = "linux";
 			if (AppContext.isLocalhost())
 				system = "win";
-			else if (AppContext.isPollux())
-				system = "pollux";
+			
 
 			// File fileScript=new File(AppContext.getFlatfilesDir() + "geno_heatmap.R");
 			File fileScript = new File(AppContext.getHaploscriptsDir() + "draw_tree.R");
@@ -383,7 +381,8 @@ public class HaplotypeImageRHeatmapServiceImpl implements HaplotypeImageService 
 			return new double[] { min, Double.valueOf(lastline) };
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}
+		} 
+		
 		return null;
 	}
 

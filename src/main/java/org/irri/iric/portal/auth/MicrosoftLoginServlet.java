@@ -10,23 +10,65 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.irri.iric.portal.AppContext;
+
 @WebServlet("/microsoftLogin")
 public class MicrosoftLoginServlet extends HttpServlet {
-	// Replace with your actual client ID, tenant ID, and redirect URI
-    private static final String CLIENT_ID = "8f69a01b-9888-4dab-a974-0806b5d9c90e";
-    private static final String TENANT_ID = "6afa0e00-fa14-40b7-8a2e-22a7f8c357d5";
-    private static final String REDIRECT_URI = "https://snpseek.irri.org/callback"; // Make sure this matches what you set in Azure
-//    private static final String REDIRECT_URI = "http://localhost:8080/callback";
-    
+	// Load sensitive config from environment variables or servlet context init params
+	private static final String CLIENT_ID_ENV = "MICROSOFT_CLIENT_ID";
+	private static final String TENANT_ID_ENV = "MICROSOFT_TENANT_ID";
+	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
+        
+        String redirect_URI = AppContext.getHostname()+"/callback";
+        
+        // Prefer environment variables; fall back to servlet context init parameters
+        String clientId = System.getenv(CLIENT_ID_ENV);
+        AppContext.debug(CLIENT_ID_ENV + ":" + clientId);
+        if (clientId == null) {
+            clientId = getServletContext().getInitParameter("MICROSOFT_CLIENT");
+        }
+        String tenantId = System.getenv(TENANT_ID_ENV);
+        AppContext.debug(TENANT_ID_ENV + ":" + tenantId);
+        if (tenantId == null) {
+            tenantId = getServletContext().getInitParameter("MICROSOFT_TENANT_ID");
+        }
+        
+        // If required configuration is missing, return a clear error (do not expose the values)
+        if (clientId == null || tenantId == null) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            PrintWriter out = response.getWriter();
+            out.println("<html>");
+            out.println("<head><title>Configuration error</title></head>");
+            out.println("<body>");
+            out.println("<h2>Server configuration error</h2>");
+            out.println("<p>Microsoft OAuth configuration is missing. Please set environment variables " + CLIENT_ID_ENV + ", " + TENANT_ID_ENV + ", and " + redirect_URI + " or provide servlet context init parameters.</p>");
+            out.println("</body>");
+            out.println("</html>");
+            return;
+        }
 
-        // Prepare the Microsoft login URL
-        String authUrl = "https://login.microsoftonline.com/" + TENANT_ID + "/oauth2/v2.0/authorize?"
-                + "client_id=" + CLIENT_ID
+        // Build the Microsoft OAuth2 authorize URL
+//        String authUrl = "https://login.microsoftonline.com/" + URLEncoder.encode(tenantId, "UTF-8") + "/oauth2/v2.0/authorize?"
+//                + "client_id=" + URLEncoder.encode(clientId, "UTF-8")
+//                + "&response_type=code"
+//                + "&redirect_uri=" + URLEncoder.encode(redirect_URI, "UTF-8")
+//                + "&scope=" + URLEncoder.encode("User.Read", "UTF-8");
+     // FIXED
+//        String authUrl = "https://login.microsoftonline.com/" + tenantId + "/oauth2/v2.0/authorize?"
+//				+ "client_id=" + clientId
+//				+ "&response_type=code"
+//				+ "&redirect_uri=" + URLEncoder.encode(redirect_URI, "UTF-8")
+//				+ "&scope=" + URLEncoder.encode("User.Read", "UTF-8");
+        
+        String authUrl = "https://login.microsoftonline.com/" + tenantId + "/oauth2/v2.0/authorize?"
+                + "client_id=" + URLEncoder.encode(clientId, "UTF-8")
                 + "&response_type=code"
-                + "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, "UTF-8")
-                + "&scope=" + URLEncoder.encode("User.Read", "UTF-8");
+                + "&redirect_uri=" + URLEncoder.encode(redirect_URI, "UTF-8")
+                + "&scope=" + URLEncoder.encode("User.Read", "UTF-8")
+                + "&domain_hint=" + URLEncoder.encode("cgiar.org", "UTF-8");  // Add this line
+        
 
         // Generate the HTML login page with a button that redirects to Microsoft's OAuth login
         PrintWriter out = response.getWriter();
@@ -52,6 +94,10 @@ public class MicrosoftLoginServlet extends HttpServlet {
         out.println("</html>");
         
         response.sendRedirect(authUrl);
+        
+        // NOTE: previously the servlet also called response.sendRedirect(authUrl) here which caused
+        // the HTML to be ignored and an immediate redirect. We intentionally do NOT auto-redirect so
+        // the user sees the login button and any configuration error messages.
     }
     
    

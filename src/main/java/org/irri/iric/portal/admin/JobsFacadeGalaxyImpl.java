@@ -272,8 +272,7 @@ public class JobsFacadeGalaxyImpl implements  JobsFacade {
 		try {
 			// credentials = new
 			// ProfileCredentialsProvider("default").getCredentials();
-			credentials = new BasicAWSCredentials("AKIAJTSYRQSBGDGLRPRA",
-					"O0gUyUXT6375ZP/UXAU4sh+dURVOSDpCXCQXZdGn");
+			credentials = new BasicAWSCredentials("INSERT_CRENDENTIALS","DATA");
 		} catch (Exception e) {
 			throw new AmazonClientException("Cannot load the credentials from the credential profiles file. "
 					+ "Please make sure that your credentials file is at the correct "
@@ -294,16 +293,18 @@ public class JobsFacadeGalaxyImpl implements  JobsFacade {
 		PutObjectResult res = s3.putObject(new PutObjectRequest(getBucket(), activedonejobkey, file));
 		
 	}
+	/**
+	 * Deprecated: use getBucketName in AppContext
+	 * no longer used 
+	 * @return
+	 */
 	private String getBucket() {
-		/*
-		if(bucket!=null) return bucket;
-		return "snp-seek-jobs";
-		*/
-		if(AppContext.isAWSBeanstalkDev())
-			return "snp-seek-galaxy-jobs-dev";
-		//else if(AppContext.isAWSBeanstalk()) return "snp-seek-jobs";
-		else if(AppContext.isAWSBeanstalk()) return "snp-seek-galaxy-jobs";
-		else return "snp-seek-galaxy-jobs-dev";
+		// UNUSED
+		//		if(AppContext.isAWSBeanstalkDev())
+		//			return "snp-seek-galaxy-jobs-dev";
+		//		else if(AppContext.isAWSBeanstalk()) return "snp-seek-galaxy-jobs";
+		//		else return "snp-seek-galaxy-jobs-dev";
+		return null;
 	}
 	private String getErrorFolder() {
 		return "error/";

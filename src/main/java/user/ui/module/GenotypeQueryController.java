@@ -677,9 +677,6 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	private A galaxyLink;
 
 	@Wire
-	private Div collapseDiv;
-
-	@Wire
 	private Label varietyRsltCnt;
 
 	@Wire
@@ -961,7 +958,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		initFrom();
 
 		iframeJbrowse
-				.setSrc("https://snpseek.irri.org/jbrowse/?loc=chr01%3A2901..10815&tracks=DNA%2Cmsu7gff&highlight=");
+				.setSrc(AppContext.getHostname() + "/jbrowse/?loc=chr01%3A2901..10815&tracks=DNA%2Cmsu7gff&highlight=");
 		System.out.println("setting div");
 
 	}
@@ -3061,7 +3058,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	public void onClick$goldenPA_jbrowse() {
 
 		if (!this.listboxReference.getSelectedItem().getLabel().equals(AppContext.JAPONICA_NIPPONBARE))
-			urljbrowse = "http://snpseek.irri.org/jbrowse2/?assembly=MH63&view=LinearGenomeView&loc="
+			urljbrowse = AppContext.getHostname() + "/jbrowse2/?assembly=MH63&view=LinearGenomeView&loc="
 					+ AppContext.ChrWithZERO(selectChr.getValue()) + ":" + intStart.getValue() + ".."
 					+ intStop.getValue() + "&tracks=MH63-ReferenceSequenceTrack";
 		boolean newTab = false;
@@ -4001,7 +3998,8 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 					if (!params.getOrganismName().equals(AppContext.JAPONICA_NIPPONBARE)
 							&& !params.getOrganismName().equals(AppContext.MH63)
 							&& !params.getOrganismName().equals(AppContext.IR64)
-							&& !params.getOrganismName().equals(AppContext.AZUCENA) && !AppContext.isAWS()) {
+							&& !params.getOrganismName().equals(AppContext.AZUCENA)
+							&& (!AppContext.isScienceCloud() || !AppContext.isBRS())) {
 						if (queryRawResult.getSnpstringdata() != null) {
 							if (queryRawResult.getSnpstringdata().getMapMSU7Pos2ConvertedPos() != null)
 								AppContext.debug("queryRawResult.getSnpstringdata().getMapMSU7Pos2ConvertedPos()="
@@ -4691,7 +4689,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		// String urltemplate = "..%2F..%2F" + AppContext.getHostDirectory() +
 		// "%2Ftmp%2F" + "GFF_FILE";
 		String urltemplate = "..%2F..%2Ftemp%2F" + "GFF_FILE";
-		if (AppContext.isASTI()) {
+		if (AppContext.isScienceCloud()) {
 			urltemplate = AppContext.getHostname() + "%2F" + AppContext.getTempFolder() + "GFF_FILE";
 		}
 

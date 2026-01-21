@@ -12,3 +12,7 @@
 /config.properties
 /application.properties
 /IpAddresses.properties
+/brs.properties
+/science_cloud.properties
+/localhost-SC2-1k1.properties
+/localhost.properties

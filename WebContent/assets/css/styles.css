@@ -27,7 +27,7 @@ body {
 }
 
 .navbar.navbar-light.navbar-expand-md {
-	background: rgb(111, 142, 102);
+	background: #00695C ;
 }
 
 .z-panel-header {
@@ -429,7 +429,10 @@ body {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	left: 0; . zk-notification { position : fixed;
+	left: 0; 
+	}
+
+.zk-notification { position : fixed;
 	bottom: 20px; /* Distance from the bottom of the page */
 	right: 20px; /* Distance from the right of the page */
 	z-index: 9999;
@@ -442,9 +445,9 @@ body {
 	color: white; /* White text */
 	font-size: 14px;
 	font-weight: bold;
-}
 
 }
+
 .z-notification-content {
 	width: 588px !important;
 }
@@ -903,7 +906,6 @@ body {
 }
 
 .nav-icon {
-	background: #ededed;
 	margin: 0px 0;
 	font-size: 16px;
 }

@@ -75,7 +75,7 @@ public class RegisterController extends SelectorComposer<Component> {
 	@Wire
 	private Button buttonSubmit;
 
-	private String urlMessage = "https://snpseek.irri.org/validate.zul?token=";
+	private String urlMessage;
 
 	private UserDAO u_serv;
 
@@ -100,6 +100,7 @@ public class RegisterController extends SelectorComposer<Component> {
 
 		super.doAfterCompose(comp);
 
+		urlMessage = AppContext.getHostname()+"/validate.zul?token=";
 		u_serv = (UserDAO) AppContext.getApplicationContext().getBean("UserDAO");
 		subs_serv = (SubscriptionDAO) AppContext.getApplicationContext().getBean("SubscriptionDAO");
 		usubs_serv = (UserSubscriptionDAO) AppContext.getApplicationContext().getBean("UserSubscriptionDAO");

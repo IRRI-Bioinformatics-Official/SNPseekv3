@@ -295,11 +295,17 @@ public class H5 implements java.io.Serializable {
 
 		// --- 2️⃣ Try loading from java.library.path / Tomcat first ---
 		try {
-		    System.loadLibrary("jhdf5"); // use global JVM/Tomcat paths
+		    System.loadLibrary("jhdf5");
 		    System.out.println("✅ HDF5 native library loaded successfully via java.library.path/Tomcat lib");
 		    isLibraryLoaded = true;
 		} catch (UnsatisfiedLinkError e) {
-		    System.out.println("⚠ Could not load HDF5 from java.library.path/Tomcat lib: " + e.getMessage());
+		    if (e.getMessage().contains("already loaded")) {
+		        System.out.println("✅ HDF5 native library already loaded (shared across applications)");
+		        isLibraryLoaded = true; // It's already loaded, so it's available
+		    } else {
+		        System.out.println("⚠ Could not load HDF5 from java.library.path/Tomcat lib: " + e.getMessage());
+		        // Try fallback...
+		    }
 		}
 
 		// --- 3️⃣ If not loaded, fallback to environment variable ---

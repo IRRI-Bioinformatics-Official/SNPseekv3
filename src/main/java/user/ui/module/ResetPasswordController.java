@@ -60,7 +60,7 @@ public class ResetPasswordController extends SelectorComposer<Component> {
 	@Wire
 	private Button submitBtn;
 
-	private String urlMessage = "https://snpseek.irri.org/resetPassword.zul?reset=";
+	private String urlMessage;
 
 	private UserDAO u_serv;
 
@@ -93,6 +93,8 @@ public class ResetPasswordController extends SelectorComposer<Component> {
 
 		user = null;
 
+		urlMessage = AppContext.getHostname()+"/resetPassword.zul?reset=";
+				
 		u_serv = (UserDAO) AppContext.getApplicationContext().getBean("UserDAO");
 
 		keyProp = (KeysPropertyConfig) AppContext.checkBean(keyProp, "keysPropertyConfig");

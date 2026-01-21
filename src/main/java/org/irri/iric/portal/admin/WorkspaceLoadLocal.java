@@ -46,6 +46,9 @@ public class WorkspaceLoadLocal {
 
 		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebConstants.USER_DIR + File.separator
 				+ email + File.separator + WebConstants.VARIETY_DIR);
+		
+		System.out.println("Directory: " + AppContext.getFlatfilesDir() + File.separator + WebConstants.USER_DIR + File.separator
+				+ email + File.separator + WebConstants.VARIETY_DIR);
 
 		File[] files = directory.listFiles();
 

@@ -495,9 +495,6 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 			listboxVarietyresult.setItemRenderer(rend);
 			listboxVarietyresult.setModel(new SimpleListModel(new java.util.ArrayList()));
 
-			AppContext.debug("AppContext.isIRRILAN()=" + AppContext.isIRRILAN() + "  AppContext.isAWS()="
-					+ AppContext.isAWS() + "  AppContext.isLocalhost()=" + AppContext.isLocalhost()
-					+ " AppContext.isPollux()=" + AppContext.isPollux());
 
 			if (AppContext.isIRRILAN()) {
 				hboxRawfiles.setVisible(true);

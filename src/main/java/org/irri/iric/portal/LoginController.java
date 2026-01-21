@@ -80,11 +80,11 @@ public class LoginController extends SelectorComposer<Window> {
 
 	private KeysPropertyConfig keyProp;
 
-	private static final String CLIENT_ID = "8f69a01b-9888-4dab-a974-0806b5d9c90e"; // Your Azure App Registration's
-																					// Client ID
-	private static final String TENANT_ID = "6afa0e00-fa14-40b7-8a2e-22a7f8c357d5"; // Your Azure AD Tenant ID
-	private static final String REDIRECT_URI = "https://localhost:44368/"; // Redirect URI
-	private static final String AUTHORITY = "https://login.microsoftonline.com/" + TENANT_ID;
+	// Remove hard-coded secrets; read from environment or servlet init params at runtime
+	private String CLIENT_ID;
+	private String TENANT_ID;
+	private String REDIRECT_URI;
+	private String AUTHORITY;
 
 	@Override
 	public void doAfterCompose(Window comp) throws Exception {
@@ -98,12 +98,35 @@ public class LoginController extends SelectorComposer<Window> {
 
 		keyProp = (KeysPropertyConfig) AppContext.checkBean(keyProp, "keysPropertyConfig");
 
-		System.out.println("KEY >>>" + keyProp.getKey());
+		// Load config from environment variables or servlet context parameters
+		CLIENT_ID = System.getenv("MICROSOFT_CLIENT_ID");
+		TENANT_ID = System.getenv("MICROSOFT_TENANT_ID");
+		REDIRECT_URI = System.getenv("MICROSOFT_REDIRECT_URI");
+
+		if (CLIENT_ID == null) {
+			CLIENT_ID = Executions.getCurrent().getDesktop().getWebApp().getInitParameter("MICROSOFT_CLIENT_ID");
+		}
+		if (TENANT_ID == null) {
+			TENANT_ID = Executions.getCurrent().getDesktop().getWebApp().getInitParameter("MICROSOFT_TENANT_ID");
+		}
+		if (REDIRECT_URI == null) {
+			REDIRECT_URI = Executions.getCurrent().getDesktop().getWebApp().getInitParameter("MICROSOFT_REDIRECT_URI");
+		}
+
+		AUTHORITY = TENANT_ID != null ? "https://login.microsoftonline.com/" + TENANT_ID : null;
+
+		// Do not log secrets; only log presence for debugging
+		System.out.println("MICROSOFT CLIENT_ID present: " + (CLIENT_ID != null && !CLIENT_ID.isEmpty()));
 	}
 
 	@Listen("onClick=#btn_mlogin")
 	public void microsoftLogin() {
 		try {
+			if (CLIENT_ID == null || AUTHORITY == null || REDIRECT_URI == null) {
+				Notification.show("Microsoft login is not configured. Please contact your administrator.");
+				return;
+			}
+
 			// Build the PublicClientApplication
 			PublicClientApplication publicClientApplication = PublicClientApplication.builder(CLIENT_ID)
 					.authority(AUTHORITY).build();
@@ -123,7 +146,7 @@ public class LoginController extends SelectorComposer<Window> {
 
 			// Successfully authenticated, retrieve the access token
 			String accessToken = result.accessToken();
-			System.out.println("Access token: " + accessToken);
+			System.out.println("Access token acquired (length=" + (accessToken != null ? accessToken.length() : 0) + ")");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

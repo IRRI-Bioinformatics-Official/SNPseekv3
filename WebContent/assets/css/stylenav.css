@@ -1,6 +1,3 @@
-.horizontal, .vertical {
-	background-color: #EAE7E7;
-}
 
 .z-navbar {
 	position: absolute;
@@ -59,7 +56,7 @@
 }
 
 .z-navbar>ul ul .z-nav-text, .z-navbar>ul ul .z-navitem-text {
-	font-size: var(--ds-font-size-100,12px);
+	font-size: var(--ds-font-size-100,14px);
 	margin-left: 10px;
 	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Fira Sans,Droid Sans,Helvetica Neue,sans-serif !important;
 }

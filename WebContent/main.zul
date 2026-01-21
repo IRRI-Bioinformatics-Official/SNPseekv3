@@ -19,6 +19,11 @@
 
 		<style src="assets/css/stylenav.css" />
 
+		<style>
+			.z-navbar {
+		    border-bottom: 0px solid #D9D9D9;
+		    }
+				</style>
 		<zscript>
 			import org.irri.iric.portal.AppContext;
 			String paramstr = AppContext.getJBrowseDefaulttracks(AppContext.getDefaultDataset());
@@ -31,37 +36,37 @@
 			<n:body>
 				<div id="container" sclass="vertical">
 					<navbar id="navbar" orient="vertical"
-						style="background:#ededed;margin: 0px 0;min-width: 85px;"
+						style="margin: 0px 0;min-width: 85px;"
 						collapsed="false">
-						<navitem id="collapseId" label="Collapse"
-							iconSclass="z-icon-th-large" class="nav-icon" />
-						<nav id="search" label="Search"
-							iconSclass="z-icon-search" open="true" class="nav-icon">
+						<navitem id="dashboard" label="🏠  Dashboard"
+							class="nav-icon" />
+						<nav id="search" label="🔍 Search"
+							 open="true" class="nav-icon">
 							<navitem id="searchGenotype"
-								label="By Genotype"
-								style="font-size:11px;font-family: 'arial,sans-serif' !important; background:#ededed;margin: 0px 0;font-size:12px;"
-								iconSclass="z-icon-list-alt" />
+								label="🔬  By Genotype"
+								style="font-size:11px;font-family: 'arial,sans-serif' !important; margin: 0px 0;font-size:12px;"
+								/>
 							<navitem id="searchVariety"
-								iconSclass="z-icon-pagelines" label="By Variety"
-								style="font-size:11px;font-family: 'arial,sans-serif' !important;background:#ededed;margin: 0px 0;font-size:12px;" />
+								 label="🌾  By Varieties"
+								style="font-size:11px;font-family: 'arial,sans-serif' !important;margin: 0px 0;font-size:12px;" />
 							<navitem id="searchGeneLoci"
-								label="By Gene Loci" iconSclass="z-icon-tasks"
-								style="font-size:11px;font-family: 'arial,sans-serif' !important;background:#ededed;margin: 0px 0;font-size:12px;" />
+								label="📍  By Gene Loci" 
+								style="font-size:11px;font-family: 'arial,sans-serif' !important;margin: 0px 0;font-size:12px;" />
 						</nav>
-						<navitem id="jbrowse" label="Jbrowse"
-							iconSclass="z-icon-exchange" class="nav-icon" />
-						<navitem id="jbrowse2" label="Jbrowse 2"
-							iconSclass="z-icon-exchange" class="nav-icon" />
-						<navitem id="gwas" label="GWAS"
-							iconSclass="z-icon-bar-chart-o" class="nav-icon" />
-						<navitem id="traitGenes" label="Trait Genes"
-							iconSclass="z-icon-bar-chart-o" class="nav-icon" />
-						<navitem id="download" label="Download"
-							iconSclass="z-icon-download" class="nav-icon" />
-						<navitem id="myList" label="My List"
-							iconSclass="z-icon-th-list" class="nav-icon" />
+						<navitem id="jbrowse" label="🔬  JBrowse"
+							 class="nav-icon" />
+						<navitem id="jbrowse2" label="🔬  JBrowse 2"
+							 class="nav-icon" />
+						<navitem id="gwas" label="📊  GWAS"
+							 class="nav-icon" />
+						<navitem id="traitGenes" label="🧬  Trait Genes"
+							 class="nav-icon" />
+						<navitem id="download" label="📥  Downloads"
+							 class="nav-icon" />
+						<navitem id="myList" label="📋  My List"
+							 class="nav-icon" />
 						<navitem id="orderSeeds" label="Order Seeds"
-							iconSclass="z-icon-shopping-cart" class="nav-icon" />
+							 class="nav-icon" />
 
 					</navbar>
 					<include id="contentInclude" mode="instant"
