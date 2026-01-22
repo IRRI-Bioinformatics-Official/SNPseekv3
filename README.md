@@ -35,40 +35,119 @@
 
 ## ⚙️ Environment Variables
 
-Before running the project, ensure the following environment variables are set **directly** in your `docker-compose.yml` or your environment configuration.
+Before running the project, ensure the following environment variables are configured. These variables are required for authentication and third-party integration.
 
-These variables are required for authentication and third-party integration:
+### Required Variables
 
 ```yaml
+HOSTNAME=<your-server-hostname>              # e.g., http://localhost:8080 or https://yourdomain.com
 RECAPTCHA_SECRET_KEY=<your-recaptcha-secret>
-
 MICROSOFT_CLIENT_ID=<your-azure-client-id>
 MICROSOFT_TENANT_ID=<your-azure-tenant-id>
 MICROSOFT_SECRET=<your-azure-secret>
-
 GOOGLE_OAUTH_CLIENT_ID=<your-google-client-id>
 GOOGLE_OAUTH_CLIENT_SECRET=<your-google-client-secret>
+GOOGLE_ANALYTICS_PROPERTY_ID=<your-google-propertyid>
 ```
 
-You can set these inside the environment: block of a service in docker-compose.yml, for example:
+### Configuration Methods
+
+#### Option 1: Docker Compose (Recommended)
+
+Add the variables directly in your `docker-compose.yml`:
 
 ```yaml
 services:
-  web:
-    build: .
+  tomcat:
+    image: tomcat:9.0
     environment:
-      - RECAPTCHA_SECRET_KEY=your-value
-      - MICROSOFT_CLIENT_ID=your-value
-      - MICROSOFT_TENANT_ID=your-value
-      - MICROSOFT_SECRET=your-value
-      - GOOGLE_OAUTH_CLIENT_ID=your-value
-      - GOOGLE_OAUTH_CLIENT_SECRET=your-value
+      - HOSTNAME=http://localhost:8080
+      - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
+      - MICROSOFT_CLIENT_ID=${MICROSOFT_CLIENT_ID}
+      - MICROSOFT_TENANT_ID=${MICROSOFT_TENANT_ID}
+      - MICROSOFT_SECRET=${MICROSOFT_SECRET}
+      - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
+      - GOOGLE_OAUTH_CLIENT_SECRET=${GOOGLE_OAUTH_CLIENT_SECRET}
+      - GOOGLE_ANALYTICS_PROPERTY_ID=${GOOGLE_ANALYTICS_PROPERTY_ID}
 ```
-**Tip:** Do not commit secrets into version control. Use GitHub secrets, environment-level configuration, or a secure secrets manager in production.
 
----
+#### Option 2: Tomcat setenv.sh (Linux/Mac)
 
-# Edit config files if necessary (e.g., DB paths, secrets)
+Create or edit `TOMCAT_HOME/bin/setenv.sh`:
 
-# Build and run
-docker-compose up --build
+```bash
+#!/bin/bash
+export HOSTNAME="http://localhost:8080"
+export RECAPTCHA_SECRET_KEY="your-recaptcha-secret"
+export MICROSOFT_CLIENT_ID="your-azure-client-id"
+export MICROSOFT_TENANT_ID="your-azure-tenant-id"
+export MICROSOFT_SECRET="your-azure-secret"
+export GOOGLE_OAUTH_CLIENT_ID="your-google-client-id"
+export GOOGLE_OAUTH_CLIENT_SECRET="your-google-client-secret"
+export GOOGLE_ANALYTICS_PROPERTY_ID="your-google-propertyid"
+```
+
+Make it executable:
+```bash
+chmod +x TOMCAT_HOME/bin/setenv.sh
+```
+
+#### Option 3: Tomcat setenv.bat (Windows)
+
+Create or edit `TOMCAT_HOME/bin/setenv.bat`:
+
+```batch
+set HOSTNAME=http://localhost:8080
+set RECAPTCHA_SECRET_KEY=your-recaptcha-secret
+set MICROSOFT_CLIENT_ID=your-azure-client-id
+set MICROSOFT_TENANT_ID=your-azure-tenant-id
+set MICROSOFT_SECRET=your-azure-secret
+set GOOGLE_OAUTH_CLIENT_ID=your-google-client-id
+set GOOGLE_OAUTH_CLIENT_SECRET=your-google-client-secret
+set GOOGLE_ANALYTICS_PROPERTY_ID=your-google-propertyid
+```
+
+#### Option 4: System Environment Variables
+
+**Linux/Mac:**
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+export HOSTNAME="http://localhost:8080"
+export RECAPTCHA_SECRET_KEY="your-recaptcha-secret"
+# ... (add all variables)
+
+# Reload
+source ~/.bashrc
+```
+
+**Windows:**
+1. Open System Properties → Environment Variables
+2. Add each variable under "System variables" or "User variables"
+3. Restart Tomcat
+
+### Accessing Variables in Java
+
+In your `AppContext.java`:
+
+```java
+package org.irri.iric.portal;
+
+public class AppContext {
+    public static final String hostname = System.getenv("HOSTNAME");
+    
+    // Or with fallback
+    public static String getHostname() {
+        return System.getenv().getOrDefault("HOSTNAME", "http://localhost:8080");
+    }
+}
+```
+
+### Verification
+
+After configuration, verify the variables are loaded:
+
+```java
+System.out.println("HOSTNAME: " + System.getenv("HOSTNAME"));
+```
+
+Or check Tomcat logs on startup.
