@@ -516,7 +516,7 @@ public class LocusQueryController extends SelectorComposer<Window> {
 		if (AppContext.isIRRILAN())
 			divAdvancedOptions.setVisible(true);
 
-		String jbrowsestart = AppContext.getJbrowseDir();
+		String jbrowsestart = AppContext.getJbrowse();
 
 		AppContext.debug("initdone");
 
@@ -3222,7 +3222,7 @@ public class LocusQueryController extends SelectorComposer<Window> {
 		// snp3kcore +
 		// "SNP%20Genotyping&addStores={%22url%22%3A{%22type%22%3A%22JBrowse%2FStore%2FSeqFeature%2FGFF3Variety%22%2C%22urlTemplate%22%3A%22"
 		// + urltemplate +
-		urljbrowse = AppContext.getJbrowseDir() + "/?" + chrpad + ":" + start + ".." + end + "&tracks=" + showTracks
+		urljbrowse = AppContext.getJbrowse() + "/?" + chrpad + ":" + start + ".." + end + "&tracks=" + showTracks
 				+ "SNP%20Genotyping&addStores={%22url%22%3A{%22type%22%3A%22JBrowse%2FStore%2FSeqFeature%2FGFF3Variety%22%2C%22urlTemplate%22%3A%22"
 				+ urltemplate + "%22}}&addTracks=[{%22label%22%3A%22SNP%20Genotyping%22%2C%22type%22%3A" + rendertype
 				+ "%2C%22store%22%3A%22url%22%2C%20" + displaymode

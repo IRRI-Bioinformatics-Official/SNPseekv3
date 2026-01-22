@@ -4759,7 +4759,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 				 * //"fmtDetailValue_Name":
 				 * "function(name) { return '<a target=\"variety\" href=\"_variety.zul?name='+name+'\">'+name+'</a>'; }"
 				 */
-				urljbrowse = AppContext.getJbrowseDir() + "/?" + chrpad + ":" + start + ".." + end + "&tracks="
+				urljbrowse = AppContext.getJbrowse() + "/?" + chrpad + ":" + start + ".." + end + "&tracks="
 						+ showTracks; // "SNP%20Genotyping" +
 										// "&addStores={%22url%22%3A{%22type%22%3A%22JBrowse%2FStore%2FSeqFeature%2FGFF3Variety%22%2C%22urlTemplate%22%3A%22"
 										// + urltemplate +
@@ -4798,7 +4798,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 				// for 2 varieties
 				// urljbrowse= AppContext.getHostname() + "/" + AppContext.getJbrowseDir() +
 				// "/?loc=" + chrpad + ":" + start + ".." + end +
-				urljbrowse = AppContext.getJbrowseDir() + "/?" + chrpad + ":" + start + ".." + end +
+				urljbrowse = AppContext.getJbrowse() + "/?" + chrpad + ":" + start + ".." + end +
 				// "&tracks=DNA,msu7gff,snp3k," + snp3kcore +
 				// "SNP%20Genotyping&addStores={%22url%22:{%22type%22:%22JBrowse/Store/SeqFeature/GFF3%22,%22urlTemplate%22:%22"
 				// + urltemplate

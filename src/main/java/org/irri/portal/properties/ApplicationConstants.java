@@ -13,6 +13,8 @@ public class ApplicationConstants {
 	public static final String JBROWSE_DIR = "jbrowseDir";
 	
 	public static final String JBROWSE2_DIR = "jbrowse2Dir";
+	
+	public static final String TRAIT_IDEOGRAM_DIR = "traitIdeogramDir";
 
 	public static final String PATH_LOCAL_BLAST = "pathToLocalBlast";
 
@@ -106,6 +108,7 @@ public class ApplicationConstants {
 	public static final String DEFAULT_VARIANT_SET = "defaultVariantset";
 	
 	public static final String DEFAULT_CHR2SRC_FEATURE_ID_OFFSET = "chr2srcfeatureidOffset";
+
 
 
 	
