@@ -1,9 +1,13 @@
 package user.ui.module;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import org.irri.iric.ds.chado.domain.model.User;
 import org.irri.iric.portal.AppContext;
+import org.irri.iric.portal.google.GoogleAnalyticsService;
+import org.irri.iric.portal.google.PageAnalytics;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
@@ -27,6 +31,7 @@ import user.ui.module.util.constants.SessionConstants;
  */
 public class HomeQueryController extends SelectorComposer<Div> {
 
+	private static final String GA_ID = "GOOGLE_ANALYTICS_PROPERTY_ID";
 	private User user;
 	private Properties contentProp;
 
@@ -73,6 +78,9 @@ public class HomeQueryController extends SelectorComposer<Div> {
 	private Label lbl_gwas;
 	
 	@Wire
+	private Label totalVisits;
+	
+	@Wire
 	private Div providerDiv_asti;
 	
 	@Wire
@@ -99,6 +107,23 @@ public class HomeQueryController extends SelectorComposer<Div> {
 			providerDiv_brs.setVisible(true);
 		else if (AppContext.isScienceCloud())
 			providerDiv_asti.setVisible(true);
+		// Google Analytics 
+		
+		String propertyId = System.getenv(GA_ID); // e.g., "1234
+		
+		GoogleAnalyticsService service = new GoogleAnalyticsService(propertyId, "ga-credentials.json");
+        
+        try {
+            // Get total sessions for last 28 days
+            long totalSessions = service.getTotalSessions(30);
+
+            totalVisits.setValue(String.valueOf(totalSessions));
+            
+            
+        } catch (IOException e) {
+            System.err.println("Error fetching analytics data: " + e.getMessage());
+            e.printStackTrace();
+        }
 
 		
 
