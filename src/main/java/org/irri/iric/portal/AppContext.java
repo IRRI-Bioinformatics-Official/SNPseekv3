@@ -48,7 +48,6 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.zip.ZipFile;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
@@ -64,7 +63,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.hibernate.Session;
 import org.irri.iric.ds.chado.domain.Position;
 import org.irri.iric.ds.chado.domain.StockSample;
 import org.irri.iric.ds.chado.domain.Variety;
@@ -82,17 +80,6 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Listitem;
 
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.ec2.AmazonEC2;
-import com.amazonaws.services.ec2.AmazonEC2ClientBuilder;
-import com.amazonaws.services.ec2.model.DescribeTagsRequest;
-import com.amazonaws.services.ec2.model.DescribeTagsResult;
-import com.amazonaws.services.ec2.model.Filter;
-import com.amazonaws.services.ec2.model.TagDescription;
-import com.amazonaws.util.EC2MetadataUtils;
-
-import io.github.cdimascio.dotenv.Dotenv;
 import user.ui.module.util.constants.UserConstants;
 
 /**
@@ -218,16 +205,14 @@ public class AppContext {
 
 	private static Properties anonymousContent;
 	private static boolean dockerize;
-	private static Dotenv dotenv;
-
+	
 	// private static AWSInstanceCountdown counter;
 	// private static AWSTimer counter;
 
 	static {
 		try {
 
-			dotenv = Dotenv.configure().ignoreIfMissing().load();
-
+			
 			prop = new Properties();
 			webProp = new Properties();
 			anonymousContent = new Properties();
@@ -302,10 +287,7 @@ public class AppContext {
 		return false;
 	}
 
-	public static String geteNV(String key) {
-		return dotenv.get(key);
-	}
-
+	
 	public static String getDefaultSchema() {
 		if (isPostgres())
 			return "public";
@@ -1682,6 +1664,7 @@ public class AppContext {
 			log.debug(name + "==null using static");
 			debug(name + "==null using getApplicationContext");
 			obj = AppContext.getApplicationContext().getBean(name);
+			
 		}
 		if (obj == null) {
 			log.debug(name + "==null using SpringUtil");
@@ -2332,6 +2315,7 @@ public class AppContext {
 		return bBypassViews;
 	}
 
+	/** DEPRECATED
 	public static List executeSQL(EntityManager entityManager, Class retclass, String sql) {
 		if (AppContext.isLocalhost())
 			AppContext.debug("executing :" + sql + "  retclass:" + retclass);
@@ -2346,8 +2330,10 @@ public class AppContext {
 			ex.printStackTrace();
 			throw ex;
 		}
-	}
+	}*/
 
+	
+	/** @Deprecated 
 	private static String getEC2Tag(String name) {
 
 		if (ec2tagname != null)
@@ -2379,6 +2365,7 @@ public class AppContext {
 		}
 		return null;
 	}
+	*/
 
 	public static String getInstance() {
 		if (isLocalhost())

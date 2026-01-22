@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SNP-seekV3_clean</groupId>
 	<artifactId>SNP-seekV3_clean</artifactId>
-	<version>3.15.0</version>
+	<version>3.16.0</version>
 	<packaging>war</packaging>
 
 
@@ -177,21 +177,38 @@
 		<!--
 		https://mvnrepository.com/artifact/com.google.cloud/google-cloud-recaptchaenterprise -->
 		<dependency>
-			<groupId>com.google.cloud</groupId>
-			<artifactId>google-cloud-recaptchaenterprise</artifactId>
-			<version>3.3.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.protobuf</groupId>
-					<artifactId>protobuf-java</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>io.grpc</groupId>
-					<artifactId>grpc-protobuf</artifactId>
-				</exclusion>
-
-			</exclusions>
+		    <groupId>com.google.cloud</groupId>
+		    <artifactId>google-cloud-recaptchaenterprise</artifactId>
+		    <version>3.3.0</version>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>com.google.protobuf</groupId>
+		            <artifactId>protobuf-java</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>io.grpc</groupId>
+		            <artifactId>grpc-protobuf</artifactId>
+		        </exclusion>
+		        <!-- ADD THESE EXCLUSIONS -->
+		        <exclusion>
+		            <groupId>com.google.api</groupId>
+		            <artifactId>gax</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>com.google.api</groupId>
+		            <artifactId>gax-grpc</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>io.grpc</groupId>
+		            <artifactId>grpc-stub</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>io.grpc</groupId>
+		            <artifactId>grpc-api</artifactId>
+		        </exclusion>
+		    </exclusions>
 		</dependency>
+
 
 
 		<!--
@@ -224,6 +241,20 @@
 			<version>1.36.0</version>
 
 		</dependency>
+		<!-- Google Analytics Data API - Use compatible version -->
+		<dependency>
+		    <groupId>com.google.analytics</groupId>
+		    <artifactId>google-analytics-data</artifactId>
+		    <version>0.25.0</version>
+		    <exclusions>
+		        <!-- Exclude to avoid conflicts -->
+		        <exclusion>
+		            <groupId>io.grpc</groupId>
+		            <artifactId>*</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+
 		<!--
 		https://mvnrepository.com/artifact/com.google.auth/google-auth-library-oauth2-http -->
 		<dependency>
@@ -231,12 +262,71 @@
 			<artifactId>google-auth-library-oauth2-http</artifactId>
 			<version>1.33.1</version>
 		</dependency>
+		<!-- Force compatible gax versions for Analytics -->
+		<dependency>
+		    <groupId>com.google.api</groupId>
+		    <artifactId>gax</artifactId>
+		    <version>2.18.7</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.api</groupId>
+		    <artifactId>gax-grpc</artifactId>
+		    <version>2.18.7</version>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>io.grpc</groupId>
+		            <artifactId>*</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+		<!-- Force specific grpc versions that work with everything -->
+		<dependency>
+		    <groupId>io.grpc</groupId>
+		    <artifactId>grpc-stub</artifactId>
+		    <version>1.42.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>io.grpc</groupId>
+		    <artifactId>grpc-api</artifactId>
+		    <version>1.42.0</version>
+		</dependency>
+
 		<!--
 		https://mvnrepository.com/artifact/com.google.auth/google-auth-library-credentials -->
 		<dependency>
 			<groupId>com.google.auth</groupId>
 			<artifactId>google-auth-library-credentials</artifactId>
 			<version>1.33.1</version>
+		</dependency>
+		
+		<!-- gRPC Core - IMPORTANT -->
+		<dependency>
+		    <groupId>io.grpc</groupId>
+		    <artifactId>grpc-core</artifactId>
+		    <version>1.42.0</version>
+		</dependency>
+		
+		<!-- gRPC Context -->
+		<dependency>
+		    <groupId>io.grpc</groupId>
+		    <artifactId>grpc-context</artifactId>
+		    <version>1.42.0</version>
+		</dependency>
+		
+		<!-- gRPC Netty Shaded (transport layer) -->
+		<dependency>
+		    <groupId>io.grpc</groupId>
+		    <artifactId>grpc-netty-shaded</artifactId>
+		    <version>1.42.0</version>
+		</dependency>
+		
+		<!-- gRPC Auth -->
+		<dependency>
+		    <groupId>io.grpc</groupId>
+		    <artifactId>grpc-auth</artifactId>
+		    <version>1.42.0</version>
 		</dependency>
 
 

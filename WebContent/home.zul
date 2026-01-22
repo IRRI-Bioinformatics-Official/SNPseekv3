@@ -257,10 +257,10 @@
 					</div>
 					<label sclass="stat-label" value="Total Visits" />
 					<separator height="8px" />
-					<label sclass="stat-value" value="7,843" />
+					<label id="totalVisits" sclass="stat-value"  />
 					<separator height="4px" />
 					<label sclass="stat-description"
-						value="Since May 2025" />
+						value="past 30 days" />
 				</div>
 			</div>
 
