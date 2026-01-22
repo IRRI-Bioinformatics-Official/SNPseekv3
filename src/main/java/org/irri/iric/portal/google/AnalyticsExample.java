@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class AnalyticsExample {
-    
+	private static final String GA_ID = "GOOGLE_ANALYTICS_PROPERTY_ID";
+	
     public static void main(String[] args) {
-        String propertyId = "INSERT GA PROPERTY ID"; // e.g., "123456789"
         String credentialsPath = "ga-credentials.json";
         
+        String propertyId = System.getenv(GA_ID);
         GoogleAnalyticsService service = new GoogleAnalyticsService(propertyId, credentialsPath);
         
         try {

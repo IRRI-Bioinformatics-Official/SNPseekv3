@@ -114,7 +114,7 @@ public class HomeQueryController extends SelectorComposer<Div> {
 		GoogleAnalyticsService service = new GoogleAnalyticsService(propertyId, "ga-credentials.json");
         
         try {
-            // Get total sessions for last 28 days
+            
             long totalSessions = service.getTotalSessions(30);
 
             totalVisits.setValue(String.valueOf(totalSessions));

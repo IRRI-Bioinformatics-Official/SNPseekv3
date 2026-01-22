@@ -67,7 +67,6 @@ import org.irri.iric.portal.ContentPropertyConstants;
 import org.irri.iric.portal.CreateZipMultipleFiles;
 import org.irri.iric.portal.GenotypeSearchContent;
 import org.irri.iric.portal.SimpleListModelExt;
-import org.irri.iric.portal.WebConstants;
 import org.irri.iric.portal.admin.AsyncJob;
 import org.irri.iric.portal.admin.AsyncJobImpl;
 import org.irri.iric.portal.admin.AsyncJobReport;
@@ -98,6 +97,7 @@ import org.irri.iric.portal.variety.VarietyFacade;
 import org.irri.iric.portal.variety.service.Data;
 import org.irri.iric.portal.variety.zkui.VarietyQueryController;
 import org.irri.iric.portal.zk.ListboxMessageBox;
+import org.irri.portal.properties.WebVariableConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.zkoss.chart.AxisLabels;
@@ -1497,7 +1497,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 		// AppContext.getNewlineFromSet(setVarieties), user.getEmail());
 		if (user != null)
 			WorkspaceLoadLocal.writeListToUserList(textboxVarlistName.getValue(),
-					WebConstants.VARIETY_DIR + File.separator + getDataset(), setVarieties, user.getEmail());
+					WebVariableConstants.VARIETY_DIR + File.separator + getDataset(), setVarieties, user.getEmail());
 
 		Notification.show(textboxVarlistName.getValue() + " is added to your list. Go to My List to view.");
 

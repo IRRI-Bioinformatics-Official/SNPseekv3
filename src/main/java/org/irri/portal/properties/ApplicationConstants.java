@@ -1,6 +1,6 @@
-package org.irri.iric.portal;
+package org.irri.portal.properties;
 
-public class WebserverPropertyConstants {
+public class ApplicationConstants {
 
 	public static final String TOMCAT_SERVER = "tomcatserver";
 

@@ -69,6 +69,8 @@ import org.irri.iric.ds.chado.domain.Variety;
 import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.ds.utils.DbUtils;
 import org.irri.iric.portal.galaxy.zkui.GalaxyCustomController;
+import org.irri.portal.properties.ApplicationConstants;
+import org.irri.portal.properties.ConfigConstants;
 //import org.irri.iric.portal.galaxy.zkui.DefaultGalaxyController;
 //import org.irri.iric.portal.galaxy.zkui.GalaxyCustomController;
 //import org.python.util.PythonInterpreter;
@@ -199,7 +201,7 @@ public class AppContext {
 
 	private static String galaxyInstanceId = null;
 
-	private static Properties prop;
+	private static Properties configProp;
 
 	private static Properties webProp;
 
@@ -213,22 +215,22 @@ public class AppContext {
 		try {
 
 			
-			prop = new Properties();
+			configProp = new Properties();
 			webProp = new Properties();
 			anonymousContent = new Properties();
 
-			InputStream is = AppContext.class.getResourceAsStream("/" + PropertyConstants.PROPERTYFILE);
-			prop.load(is);
+			InputStream is = AppContext.class.getResourceAsStream("/" + ConfigConstants.PROPERTYFILE);
+			configProp.load(is);
 
 			InputStream anon = AppContext.class
 					.getResourceAsStream("/ACCESS_" + UserConstants.ANONYMOUS + ".properties");
 			InputStream isWebProp = AppContext.class
-					.getResourceAsStream("/" + prop.getProperty(PropertyConstants.WEBSERVER) + ".properties");
+					.getResourceAsStream("/" + configProp.getProperty(ConfigConstants.WEBSERVER) + ".properties");
 
-			webserver = WEBSERVER.valueOf(prop.get(PropertyConstants.WEBSERVER).toString().toUpperCase());
-			operatingSytem = OS.valueOf(prop.get(PropertyConstants.OPERATING_SYSTEM).toString().toUpperCase());
+			webserver = WEBSERVER.valueOf(configProp.get(ConfigConstants.WEBSERVER).toString().toUpperCase());
+			operatingSytem = OS.valueOf(configProp.get(ConfigConstants.OPERATING_SYSTEM).toString().toUpperCase());
 
-			if (prop.get(PropertyConstants.DOCKERIZE).toString().equals("true"))
+			if (configProp.get(ConfigConstants.DOCKERIZE).toString().equals("true"))
 				dockerize = true;
 			else
 				dockerize = false;
@@ -253,15 +255,15 @@ public class AppContext {
 
 	public AppContext() {
 		super();
-		InputStream is = AppContext.class.getResourceAsStream("/" + PropertyConstants.PROPERTYFILE);
+		InputStream is = AppContext.class.getResourceAsStream("/" + ConfigConstants.PROPERTYFILE);
 
 		try {
-			prop.load(is);
+			configProp.load(is);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		webserver = (WEBSERVER) prop.get(PropertyConstants.WEBSERVER);
+		webserver = (WEBSERVER) configProp.get(ConfigConstants.WEBSERVER);
 	}
 
 	// ******************************** DEPLOYMENT-SPECIFIC SETTINGS (change
@@ -280,6 +282,10 @@ public class AppContext {
 	public static boolean isPostgres() {
 		// return rdms==AppContext.RDMS.POSTGRES;
 		return true;
+	}
+	
+	public static String getAppVersion() {
+		return configProp.get(ConfigConstants.VERSION).toString();
 	}
 
 	public static boolean isOracle() {
@@ -319,9 +325,9 @@ public class AppContext {
 
 	public static String getTomcatWebappsDir() {
 
-		logger.info("TOMCAT DIRECTORY: " + webProp.getProperty(WebserverPropertyConstants.TOMCAT_SERVER));
+		logger.info("TOMCAT DIRECTORY: " + webProp.getProperty(ApplicationConstants.TOMCAT_SERVER));
 
-		String tomcatWebDir = webProp.getProperty(WebserverPropertyConstants.TOMCAT_SERVER);
+		String tomcatWebDir = webProp.getProperty(ApplicationConstants.TOMCAT_SERVER);
 
 		/*
 		 * if (isPollux()) return "/usr/share/apache-tomcat-7.0.42/webapps/"; else if
@@ -334,13 +340,15 @@ public class AppContext {
 		if (!tomcatWebDir.equals("."))
 			return tomcatWebDir;
 		return "";
+	
+	
 	}
 
 	public static String getRecaptcha() {
 
-		logger.info("Recaptcah: " + webProp.getProperty(WebserverPropertyConstants.RECAPTCHA));
+		logger.info("Recaptcah: " + webProp.getProperty(ApplicationConstants.RECAPTCHA));
 
-		String recaptcha = webProp.getProperty(WebserverPropertyConstants.RECAPTCHA);
+		String recaptcha = webProp.getProperty(ApplicationConstants.RECAPTCHA);
 
 		if (!recaptcha.equals("."))
 			return recaptcha;
@@ -375,12 +383,12 @@ public class AppContext {
 	 * @return
 	 */
 	public static String getFlatfilesDir() {
-		logger.info("FILE DIRECTORY FOR SNPSEEK DATA: " + webProp.getProperty(WebserverPropertyConstants.FLATFILE_DIR));
+		logger.info("FILE DIRECTORY FOR SNPSEEK DATA: " + webProp.getProperty(ApplicationConstants.FLATFILE_DIR));
 
 		if (flatfilesdir != null)
 			return flatfilesdir;
 
-		String flatFiledir = webProp.getProperty(WebserverPropertyConstants.FLATFILE_DIR);
+		String flatFiledir = webProp.getProperty(ApplicationConstants.FLATFILE_DIR);
 
 		/*
 		 * if (isPollux()) return "/home/lmansueto/iric-portal-files/"; else if
@@ -427,11 +435,11 @@ public class AppContext {
 	 * @return
 	 */
 	public static String getHostname() {
-		logger.info("HOST NAME FOR EMBEDDED WEBAPPS: " + webProp.getProperty(WebserverPropertyConstants.HOST));
+		logger.info("HOST NAME FOR EMBEDDED WEBAPPS: " + webProp.getProperty(ApplicationConstants.HOST));
 		if (hostname != null)
 			return hostname;
 
-		String hostname = webProp.getProperty(WebserverPropertyConstants.HOST);
+		String hostname = webProp.getProperty(ApplicationConstants.HOST);
 
 		/*
 		 * if (isPollux()) return "http://172.29.4.215:8080"; else if (isAWS()) return
@@ -455,11 +463,11 @@ public class AppContext {
 	 * @return
 	 */
 	public static String getHostDirectory() {
-		logger.info("WEB APP FORLDER IN HOST: " + webProp.getProperty(WebserverPropertyConstants.HOST_DIR));
+		logger.info("WEB APP FORLDER IN HOST: " + webProp.getProperty(ApplicationConstants.HOST_DIR));
 		if (hostdirectory != null)
 			return hostdirectory;
 
-		String hostDir = webProp.getProperty(WebserverPropertyConstants.HOST_DIR);
+		String hostDir = webProp.getProperty(ApplicationConstants.HOST_DIR);
 
 		/*
 		 * if (isWS()) return "iric-ws"; if (isDev()) { return "iric-portal-dev"; } else
@@ -479,9 +487,9 @@ public class AppContext {
 	 * @return
 	 */
 	public static String getJbrowseDir() {
-		logger.info("JBROWSE HOST DIR: " + webProp.getProperty(WebserverPropertyConstants.JBROWSE_DIR));
+		logger.info("JBROWSE HOST DIR: " + webProp.getProperty(ApplicationConstants.JBROWSE_DIR));
 
-		String jbrowseDir = webProp.getProperty(WebserverPropertyConstants.JBROWSE_DIR);
+		String jbrowseDir = webProp.getProperty(ApplicationConstants.JBROWSE_DIR);
 
 		if (!jbrowseDir.equals("."))
 			jbrowseDir = "/jbrowse";
@@ -496,9 +504,9 @@ public class AppContext {
 	 * @return
 	 */
 	public static String getJbrowseDir2() {
-		logger.info("JBROWSE2 HOST DIR: " + webProp.getProperty(WebserverPropertyConstants.JBROWSE2_DIR));
+		logger.info("JBROWSE2 HOST DIR: " + webProp.getProperty(ApplicationConstants.JBROWSE2_DIR));
 
-		String jbrowseDir = webProp.getProperty(WebserverPropertyConstants.JBROWSE2_DIR);
+		String jbrowseDir = webProp.getProperty(ApplicationConstants.JBROWSE2_DIR);
 
 		if (!jbrowseDir.equals("."))
 			jbrowseDir = "/jbrowse2";
@@ -513,9 +521,9 @@ public class AppContext {
 	 * @return
 	 */
 	public static String getLegacyUrl() {
-		logger.info("Legacy URL: " + webProp.getProperty(WebserverPropertyConstants.LEGACY_URL));
+		logger.info("Legacy URL: " + webProp.getProperty(ApplicationConstants.LEGACY_URL));
 
-		String legacyURL = webProp.getProperty(WebserverPropertyConstants.LEGACY_URL);
+		String legacyURL = webProp.getProperty(ApplicationConstants.LEGACY_URL);
 
 		if (legacyURL.equals("."))
 			return "";
@@ -525,9 +533,9 @@ public class AppContext {
 	}
 
 	public static String getEmbededDir(String app) {
-		logger.info("EMBEDDED DIR" + webProp.getProperty(WebserverPropertyConstants.EMBEDDED_SERVER));
+		logger.info("EMBEDDED DIR" + webProp.getProperty(ApplicationConstants.EMBEDDED_SERVER));
 
-		String embbededDir = webProp.getProperty(WebserverPropertyConstants.EMBEDDED_SERVER);
+		String embbededDir = webProp.getProperty(ApplicationConstants.EMBEDDED_SERVER);
 
 		if (app.equals("jbrowse"))
 			return getJbrowseDir();
@@ -559,11 +567,11 @@ public class AppContext {
 	 * @return
 	 */
 	public static String getPathToLocalBlast() {
-		logger.info("PATH TO LOCAL BLAST PROGRAM: " + webProp.getProperty(WebserverPropertyConstants.PATH_LOCAL_BLAST));
+		logger.info("PATH TO LOCAL BLAST PROGRAM: " + webProp.getProperty(ApplicationConstants.PATH_LOCAL_BLAST));
 		if (pathtolocalblast != null)
 			return pathtolocalblast;
 
-		String path = webProp.getProperty(WebserverPropertyConstants.PATH_LOCAL_BLAST);
+		String path = webProp.getProperty(ApplicationConstants.PATH_LOCAL_BLAST);
 
 		/*
 		 * if (isAWS() || isAWSdev()) return "/home/ubuntu/lmansueto/ncbi-blast/bin/";
@@ -584,12 +592,12 @@ public class AppContext {
 	 */
 	public static String getPathToLocalBlastData() {
 		logger.info(
-				"PATH TO LOCAL BLAST DATA: " + webProp.getProperty(WebserverPropertyConstants.PATH_LOCAL_BLAST_DATA));
+				"PATH TO LOCAL BLAST DATA: " + webProp.getProperty(ApplicationConstants.PATH_LOCAL_BLAST_DATA));
 
 		if (pathtolocalblastdata != null)
 			return pathtolocalblastdata;
 
-		String pathBlastData = webProp.getProperty(WebserverPropertyConstants.PATH_LOCAL_BLAST_DATA);
+		String pathBlastData = webProp.getProperty(ApplicationConstants.PATH_LOCAL_BLAST_DATA);
 
 		// if (isAWS() || isAWSdev())
 		// return "/home/ubuntu/lmansueto/ncbi-blast/iric-portal/";
@@ -612,8 +620,8 @@ public class AppContext {
 	 * @return
 	 */
 	public static String getBlastServer() {
-		logger.info("BLAST SERVER: " + webProp.getProperty(WebserverPropertyConstants.BLAST_SERVER));
-		String blastServer = webProp.getProperty(WebserverPropertyConstants.BLAST_SERVER);
+		logger.info("BLAST SERVER: " + webProp.getProperty(ApplicationConstants.BLAST_SERVER));
+		String blastServer = webProp.getProperty(ApplicationConstants.BLAST_SERVER);
 
 		// if (isLocalhost() || isPollux())
 		// return "http://pollux:8080/iric-portal-dev";
@@ -640,9 +648,9 @@ public class AppContext {
 	}
 
 	public static String getPathToR() {
-		logger.info("PATH TO R: " + webProp.getProperty(WebserverPropertyConstants.PATH_R));
+		logger.info("PATH TO R: " + webProp.getProperty(ApplicationConstants.PATH_R));
 
-		String pathToR = webProp.getProperty(WebserverPropertyConstants.PATH_R);
+		String pathToR = webProp.getProperty(ApplicationConstants.PATH_R);
 
 		System.out.println("PATH:" + pathToR.toUpperCase());
 		if (pathToR.equals("."))
@@ -1352,9 +1360,9 @@ public class AppContext {
 	 */
 	public static String getDefaultOrganism() {
 
-		logger.info("TOMCAT DIRECTORY: " + webProp.getProperty(WebserverPropertyConstants.TOMCAT_SERVER));
+		logger.info("TOMCAT DIRECTORY: " + webProp.getProperty(ApplicationConstants.TOMCAT_SERVER));
 
-		defaultorganism = webProp.getProperty(WebserverPropertyConstants.DEFAULT_ORGANISM_NAME);
+		defaultorganism = webProp.getProperty(ApplicationConstants.DEFAULT_ORGANISM_NAME);
 
 		if (defaultorganism == null || defaultorganism.equals("."))
 			return AppContext.JAPONICA_NIPPONBARE;
@@ -1381,7 +1389,7 @@ public class AppContext {
 //	}
 
 	public static String getDefaultDataset() {
-		return webProp.get(WebserverPropertyConstants.DEFAULT_DATASET).toString(); // VarietyFacade.DATASET_SNPINDELV2_IUPAC;
+		return webProp.get(ApplicationConstants.DEFAULT_DATASET).toString(); // VarietyFacade.DATASET_SNPINDELV2_IUPAC;
 		// return "refset" ; //VarietyFacade.DATASET_DEFAULT;
 
 	}
@@ -1389,7 +1397,7 @@ public class AppContext {
 	public static int chr2srcfeatureidOffset() {
 		try {
 			return Integer
-					.parseInt(webProp.get(WebserverPropertyConstants.DEFAULT_CHR2SRC_FEATURE_ID_OFFSET).toString());
+					.parseInt(webProp.get(ApplicationConstants.DEFAULT_CHR2SRC_FEATURE_ID_OFFSET).toString());
 		} catch (NumberFormatException ex) {
 			return 2;
 		}
@@ -1398,7 +1406,7 @@ public class AppContext {
 	}
 
 	public static String getDefaultVariantset() {
-		return webProp.get(WebserverPropertyConstants.DEFAULT_VARIANT_SET).toString();
+		return webProp.get(ApplicationConstants.DEFAULT_VARIANT_SET).toString();
 	}
 
 	/**

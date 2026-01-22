@@ -7,10 +7,10 @@ import java.util.Properties;
 
 import org.irri.iric.ds.chado.domain.model.User;
 import org.irri.iric.portal.AppContext;
-import org.irri.iric.portal.WebConstants;
 import org.irri.iric.portal.admin.WorkspaceFacade;
 import org.irri.iric.portal.admin.WorkspaceLoadLocal;
 import org.irri.iric.portal.genotype.GenotypeFacade;
+import org.irri.portal.properties.WebVariableConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.zkoss.zk.ui.Component;
@@ -116,11 +116,11 @@ public class SidebarController extends SelectorComposer<Component> {
 		WorkspaceLoadLocal.loadSNPLocalFile(AppContext.getFlatfilesDir() + "/preloadSNPS/", workspace, genotype);
 
 		if (user != null) {
-			File directory = new File(AppContext.getFlatfilesDir() + WebConstants.USER_DIR + File.separator
-					+ user.getEmail() + File.separator + WebConstants.SNP_DIR);
+			File directory = new File(AppContext.getFlatfilesDir() + WebVariableConstants.USER_DIR + File.separator
+					+ user.getEmail() + File.separator + WebVariableConstants.SNP_DIR);
 			WorkspaceLoadLocal.loadSNPLocalFile(directory.getAbsolutePath(), workspace, genotype);
 			WorkspaceLoadLocal.initUserVarietyList(user.getEmail(), workspace);
-			WorkspaceLoadLocal.initUserList(WebConstants.LOCUS_DIR, user.getEmail(), workspace);
+			WorkspaceLoadLocal.initUserList(WebVariableConstants.LOCUS_DIR, user.getEmail(), workspace);
 
 		}
 //		sess = Sessions.getCurrent();

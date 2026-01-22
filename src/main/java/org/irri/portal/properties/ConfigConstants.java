@@ -1,6 +1,6 @@
-package org.irri.iric.portal;
+package org.irri.portal.properties;
 
-public class PropertyConstants {
+public class ConfigConstants {
 
 	public static final String WEBSERVER = "webserver";
 
@@ -11,6 +11,8 @@ public class PropertyConstants {
 	public static final Object OPERATING_SYSTEM = "os";
 	
 	public static final Object DOCKERIZE = "dockerize";
+	
+	public static final Object VERSION = "version";
 
 	
 

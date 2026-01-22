@@ -255,19 +255,19 @@
 												</div>
 												<zscript>
 	boolean isAnnotationVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_LOCI_BY_ANNOTATION);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_LOCI_BY_ANNOTATION);
 	boolean isGoTermVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_LOCI_BY_GO_TERM);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_LOCI_BY_GO_TERM);
 	boolean isTraitVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_LOCI_BY_TRAIT);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_LOCI_BY_TRAIT);
 	boolean isRegionVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_LOCI_BY_REGION);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_LOCI_BY_REGION);
 	boolean isSequenceVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_LOCI_BY_SEQUENCE);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_LOCI_BY_SEQUENCE);
 	boolean isSnpListVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_LOCI_BY_SNPLIST);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_LOCI_BY_SNPLIST);
 	boolean isGeneListVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_LOCI_BY_GENELIST);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_LOCI_BY_GENELIST);
 	String visibleAnnotationStr = String.valueOf(isAnnotationVisible);
 	String visibleGoTermStr = String.valueOf(isGoTermVisible);
 	String visibleTraitStr = String.valueOf(isTraitVisible);
