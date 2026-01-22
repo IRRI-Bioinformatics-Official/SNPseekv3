@@ -16,6 +16,6 @@
 			</n:script>
 	<style src="assets/css/doc_styles.css" />
 	<iframe id="iframejbrowse1"
-		src="${AppContext.hostname}/_jbrowse.zul?tracks=${paramstr}" width="100%" style="padding:20px;"
-		height="100vh" />
+		src="${AppContext.getHostname()}/_jbrowse.zul?tracks=${paramstr}" width="100%" style="padding:20px;"
+		height="100vh" ></iframe>
 </zk>

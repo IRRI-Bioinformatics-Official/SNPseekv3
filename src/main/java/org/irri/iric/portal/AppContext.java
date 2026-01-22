@@ -486,15 +486,15 @@ public class AppContext {
 	 * 
 	 * @return
 	 */
-	public static String getJbrowseDir() {
+	public static String getJbrowse() {
 		logger.info("JBROWSE HOST DIR: " + webProp.getProperty(ApplicationConstants.JBROWSE_DIR));
 
 		String jbrowseDir = webProp.getProperty(ApplicationConstants.JBROWSE_DIR);
 
 		if (!jbrowseDir.equals("."))
-			jbrowseDir = "/jbrowse";
+			jbrowseDir = "jbrowse";
 
-		return AppContext.getHostname() + jbrowseDir;
+		return AppContext.getHostname() +"/"+ jbrowseDir;
 
 	}
 
@@ -503,15 +503,15 @@ public class AppContext {
 	 * 
 	 * @return
 	 */
-	public static String getJbrowseDir2() {
+	public static String getJbrowse2() {
 		logger.info("JBROWSE2 HOST DIR: " + webProp.getProperty(ApplicationConstants.JBROWSE2_DIR));
 
 		String jbrowseDir = webProp.getProperty(ApplicationConstants.JBROWSE2_DIR);
 
 		if (!jbrowseDir.equals("."))
-			jbrowseDir = "/jbrowse2";
+			jbrowseDir = "jbrowse2";
 
-		return AppContext.getHostname() + jbrowseDir;
+		return AppContext.getHostname() + "."+ jbrowseDir;
 
 	}
 
@@ -538,9 +538,9 @@ public class AppContext {
 		String embbededDir = webProp.getProperty(ApplicationConstants.EMBEDDED_SERVER);
 
 		if (app.equals("jbrowse"))
-			return getJbrowseDir();
+			return getJbrowse();
 		if (app.equals("ideogram"))
-			return getJbrowseDir();
+			return getTraitGeneIdeogramUrl();
 
 		if (!embbededDir.equals("."))
 			return embbededDir;
@@ -559,6 +559,17 @@ public class AppContext {
 		// return AppContext.getHostname() + "/" + "jbrowse-dev2";
 		// }
 
+	}
+
+	private static String getTraitGeneIdeogramUrl() {
+		logger.info("Ideogram HOST DIR: " + webProp.getProperty(ApplicationConstants.TRAIT_IDEOGRAM_DIR));
+
+		String riceIdeogram = webProp.getProperty(ApplicationConstants.TRAIT_IDEOGRAM_DIR);
+
+		if (!riceIdeogram.equals("."))
+			riceIdeogram = "rice-ideogram";
+
+		return AppContext.getHostname() +"/"+ riceIdeogram;
 	}
 
 	/**

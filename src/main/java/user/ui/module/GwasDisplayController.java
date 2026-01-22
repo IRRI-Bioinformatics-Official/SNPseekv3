@@ -2183,7 +2183,7 @@ public class GwasDisplayController extends SelectorComposer<Window> {
 	@Listen("onClick = #checkboxJbrowse")
 	public void onclickJbrowse() {
 		if (checkboxJbrowse.isChecked() && urljbrowse != null) {
-			if (!urljbrowse.contains(AppContext.getJbrowseDir()))
+			if (!urljbrowse.contains(AppContext.getJbrowse()))
 				return;
 			AppContext.debug("displaying " + urljbrowse);
 			iframeJbrowse.setSrc(urljbrowse);
@@ -2301,7 +2301,7 @@ public class GwasDisplayController extends SelectorComposer<Window> {
 		// String urljbrowse= "172.29.4.215:8080" + /* AppContext.getHostname() + */ "/"
 		// + AppContext.getJbrowseDir() + "/?" + chrpad + ":" + start + ".." + end +
 		// "&tracks=" + AppContext.getJBrowseDefaulttracks();
-		urljbrowse = AppContext.getJbrowseDir() + "/?" + chrpad + ":" + start + ".." + end + "&tracks=" + showTracks; // AppContext.getJBrowseDefaulttracks();
+		urljbrowse = AppContext.getJbrowse() + "/?" + chrpad + ":" + start + ".." + end + "&tracks=" + showTracks; // AppContext.getJBrowseDefaulttracks();
 
 		if (checkboxJbrowse.isChecked()) {
 			AppContext.debug("displaying " + urljbrowse);
