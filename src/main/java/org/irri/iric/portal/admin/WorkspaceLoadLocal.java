@@ -31,8 +31,8 @@ import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImplAllelePvalue
 import org.irri.iric.ds.chado.domain.model.VGene;
 import org.irri.iric.ds.chado.domain.model.VLocusNotes;
 import org.irri.iric.portal.AppContext;
-import org.irri.iric.portal.WebConstants;
 import org.irri.iric.portal.genotype.GenotypeFacade;
+import org.irri.portal.properties.WebVariableConstants;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.util.Notification;
 import org.zkoss.zul.Messagebox;
@@ -44,11 +44,11 @@ public class WorkspaceLoadLocal {
 	public static void initUserVarietyList(String email, WorkspaceFacade workspace) {
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 
-		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebConstants.USER_DIR + File.separator
-				+ email + File.separator + WebConstants.VARIETY_DIR);
+		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebVariableConstants.USER_DIR + File.separator
+				+ email + File.separator + WebVariableConstants.VARIETY_DIR);
 		
-		System.out.println("Directory: " + AppContext.getFlatfilesDir() + File.separator + WebConstants.USER_DIR + File.separator
-				+ email + File.separator + WebConstants.VARIETY_DIR);
+		System.out.println("Directory: " + AppContext.getFlatfilesDir() + File.separator + WebVariableConstants.USER_DIR + File.separator
+				+ email + File.separator + WebVariableConstants.VARIETY_DIR);
 
 		File[] files = directory.listFiles();
 
@@ -112,7 +112,7 @@ public class WorkspaceLoadLocal {
 
 	public static void writeListToUserList(String listname, String type, Set list, String email) {
 
-		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebConstants.USER_DIR + File.separator
+		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebVariableConstants.USER_DIR + File.separator
 				+ email + File.separator + type);
 
 		// Check if the directory exists; if not, create it
@@ -327,7 +327,7 @@ public class WorkspaceLoadLocal {
 	public static void initUserList(String type, String email, WorkspaceFacade workspace) {
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
 
-		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebConstants.USER_DIR + File.separator
+		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebVariableConstants.USER_DIR + File.separator
 				+ email + File.separator + type);
 
 		File[] files = directory.listFiles();
@@ -364,7 +364,7 @@ public class WorkspaceLoadLocal {
 					oi.close();
 					fi.close();
 
-					if (type.equals(WebConstants.LOCUS_DIR))
+					if (type.equals(WebVariableConstants.LOCUS_DIR))
 						workspace.addLocusList(file.getName(), setVar);
 
 				} catch (FileNotFoundException e) {

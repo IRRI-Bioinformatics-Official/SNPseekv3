@@ -232,7 +232,7 @@
 										</div>
 										<zscript>
 	boolean isAccVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_VARIETY_BY_ACCESSION);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_VARIETY_BY_ACCESSION);
 	String visibleAccStr = String.valueOf(isAccVisible);
 </zscript>
 										<div class="form-row"
@@ -273,7 +273,7 @@
 										</div>
 										<zscript>
 	boolean isSubPopVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_VARIETY_BY_SUBPOPULATION);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_VARIETY_BY_SUBPOPULATION);
 	String visibleSubPopStr = String.valueOf(isSubPopVisible);
 </zscript>
 										<div class="form-row"
@@ -316,7 +316,7 @@
 										</div>
 										<zscript>
 	boolean isAssayVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_VARIETY_BY_ASSAYID);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_VARIETY_BY_ASSAYID);
 	String visibleAssayStr = String.valueOf(isAssayVisible);
 </zscript>
 										<div class="form-row"
@@ -362,7 +362,7 @@
 										</div>
 										<zscript>
 	boolean isCountryVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.SEARCH_VARIETY_BY_COUNTRY);
+			.showItem(org.irri.portal.properties.ApplicationConstants.SEARCH_VARIETY_BY_COUNTRY);
 	String visibleCountryStr = String.valueOf(isCountryVisible);
 </zscript>
 										<div class="form-row"

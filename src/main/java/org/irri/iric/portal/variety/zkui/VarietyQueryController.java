@@ -30,7 +30,6 @@ import org.irri.iric.ds.chado.domain.model.User;
 import org.irri.iric.ds.chado.domain.model.VGenotypeRun;
 import org.irri.iric.portal.AppContext;
 import org.irri.iric.portal.SimpleListModelExt;
-import org.irri.iric.portal.WebConstants;
 import org.irri.iric.portal.admin.WorkspaceFacade;
 import org.irri.iric.portal.admin.WorkspaceLoadLocal;
 import org.irri.iric.portal.dao.ListItemsDAO;
@@ -38,6 +37,7 @@ import org.irri.iric.portal.genotype.zkui.PopupBand;
 import org.irri.iric.portal.variety.VarietyFacade;
 import org.irri.iric.portal.variety.service.Data;
 import org.irri.iric.portal.zk.ListboxMessageBox;
+import org.irri.portal.properties.WebVariableConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -903,7 +903,7 @@ public class VarietyQueryController extends SelectorComposer<Component> {
 
 		if (user != null)
 			WorkspaceLoadLocal.writeListToUserList(txtboxListname.getValue(),
-					WebConstants.VARIETY_DIR + File.separator + getDataset(), setVarieties, user.getEmail());
+					WebVariableConstants.VARIETY_DIR + File.separator + getDataset(), setVarieties, user.getEmail());
 
 		workspace.addVarietyList(txtboxListname.getValue().trim(), new LinkedHashSet(varsresult), getDataset());
 

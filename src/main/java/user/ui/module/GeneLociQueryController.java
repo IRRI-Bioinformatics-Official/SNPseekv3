@@ -25,7 +25,6 @@ import org.irri.iric.ds.chado.domain.model.VLocusNotes;
 import org.irri.iric.ds.chado.domain.object.WebsiteQuery;
 import org.irri.iric.ds.utils.TextSearchOptions;
 import org.irri.iric.portal.AppContext;
-import org.irri.iric.portal.WebConstants;
 import org.irri.iric.portal.admin.WorkspaceFacade;
 import org.irri.iric.portal.admin.WorkspaceLoadLocal;
 import org.irri.iric.portal.dao.ListItemsDAO;
@@ -36,6 +35,7 @@ import org.irri.iric.portal.genomics.zkui.CvTermLocusCountGridRenderer;
 import org.irri.iric.portal.genomics.zkui.LocusListItemRenderer;
 import org.irri.iric.portal.genomics.zkui.MarkerAnnotationSorter;
 import org.irri.iric.portal.genomics.zkui.MarkerVarListItemRenderer;
+import org.irri.portal.properties.WebVariableConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -2176,7 +2176,7 @@ public class GeneLociQueryController extends SelectorComposer<Window> {
 
 			if (user != null)
 				WorkspaceLoadLocal.writeListToUserList(txtboxListname.getValue(),
-						WebConstants.LOCUS_DIR + File.separator, new LinkedHashSet(addLocuslist), user.getEmail());
+						WebVariableConstants.LOCUS_DIR + File.separator, new LinkedHashSet(addLocuslist), user.getEmail());
 
 			Notification.show("List " + txtboxListname.getValue() + " added to your List. Go to My List.");
 			List listNew = new ArrayList();

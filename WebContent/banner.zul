@@ -86,23 +86,23 @@
 
 							<zscript>
 	boolean isAllignmentVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_BROWSE_ALIGNMENT);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_BROWSE_ALIGNMENT);
 	boolean isGenomeVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_BROWSE_GENOME);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_BROWSE_GENOME);
 	boolean isGwasVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_BROWSE_GWAS);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_BROWSE_GWAS);
 	boolean isMdsVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_BROWSE_MDS);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_BROWSE_MDS);
 	boolean isPhylotreeVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_BROWSE_PHYLOTREE);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_BROWSE_PHYLOTREE);
 	boolean isTraitGenesVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_BROWSE_TRAITGENES);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_BROWSE_TRAITGENES);
 	boolean isOrderVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_ORDER_SEEDS);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_ORDER_SEEDS);
 	boolean isDownloadGenesVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_DOWNLOAD);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_DOWNLOAD);
 	boolean isHelpVisible = org.irri.iric.portal.AppContext
-			.showItem(org.irri.iric.portal.WebserverPropertyConstants.MENU_HELP);
+			.showItem(org.irri.portal.properties.ApplicationConstants.MENU_HELP);
 	final String visibleAllignmentStr = String.valueOf(isAllignmentVisible);
 	final String visibleGenomeStr = String.valueOf(isGenomeVisible);
 	final String visibleGwasStr = String.valueOf(isGwasVisible);

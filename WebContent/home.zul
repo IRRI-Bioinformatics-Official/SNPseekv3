@@ -255,12 +255,12 @@
 					<div sclass="stat-icon stat-icon-pink">
 						<label value="📈" style="font-size: 24px;" />
 					</div>
-					<label sclass="stat-label" value="Total Visits" />
+					<label sclass="stat-label" value="Total Visits (past 30days) " />
 					<separator height="8px" />
 					<label id="totalVisits" sclass="stat-value"  />
 					<separator height="4px" />
 					<label sclass="stat-description"
-						value="past 30 days" />
+						value="provided by Google Analytics" />
 				</div>
 			</div>
 

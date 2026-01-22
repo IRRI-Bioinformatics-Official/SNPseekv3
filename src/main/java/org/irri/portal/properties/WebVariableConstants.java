@@ -1,6 +1,6 @@
-package org.irri.iric.portal;
+package org.irri.portal.properties;
 
-public class WebConstants {
+public class WebVariableConstants {
 
 	public static final String VARIETY_DIR = "VARIETY";
 

@@ -16,21 +16,14 @@
 	<style src="assets/css/Process-Steps.css" />
 	<style src="assets/css/styles.css" />
 
-	<div xmlns:n="native">
+	<div xmlns:n="native" apply="org.irri.iric.portal.FooterController">
 		<n:footer class="footer-dark"
-			style="z-index:4000 !important; height:25px;left: 0px;">
-			<n:div class="text-center">
-				<n:label class="text-center" style="font-size: 12px;">
-					2014 International Rice Research Institute. Los
-					Banos, Laguna, Philippines. This site is under
-					development. We schedule maintenance every Monday,
-					8-9:00 GMT (4-5PM Manila) VERSION: 8.13.4
-					<n:br />
-				</n:label>
+			style="z-index:4000 !important; height:25px; left: 0px;">
+			<n:div class="text-center" style="font-size: 12px;">
+				© 2014-2026 International Rice Research Institute | Version 
+				<label id="appVersion" /> | Status
 			</n:div>
 		</n:footer>
-
 	</div>
-
 
 </zk>

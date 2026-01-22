@@ -32,7 +32,6 @@ import org.irri.iric.ds.chado.domain.impl.VarietyPlusPlusImpl;
 import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.ds.chado.domain.model.User;
 import org.irri.iric.portal.AppContext;
-import org.irri.iric.portal.WebConstants;
 import org.irri.iric.portal.admin.WorkspaceFacade;
 import org.irri.iric.portal.admin.WorkspaceLoadLocal;
 import org.irri.iric.portal.dao.ListItemsDAO;
@@ -45,6 +44,7 @@ import org.irri.iric.portal.gwas.GwasFacade;
 import org.irri.iric.portal.variety.VarietyFacade;
 import org.irri.iric.portal.variety.zkui.VarietyListItemRenderer;
 import org.irri.iric.portal.variety.zkui.VarietyPlusPlusComparator;
+import org.irri.portal.properties.WebVariableConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -1034,7 +1034,7 @@ public class GwasDisplayController extends SelectorComposer<Window> {
 
 			if (user != null)
 				WorkspaceLoadLocal.writeListToUserList(txtboxListnameGene.getValue(),
-						WebConstants.LOCUS_DIR + File.separator, new LinkedHashSet(addLocuslist), user.getEmail());
+						WebVariableConstants.LOCUS_DIR + File.separator, new LinkedHashSet(addLocuslist), user.getEmail());
 
 			workspace.addLocusList(txtboxListnameGene.getValue().trim(), new LinkedHashSet(addLocuslist));
 			txtboxListnameGene.setValue("");

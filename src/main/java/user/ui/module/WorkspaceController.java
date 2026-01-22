@@ -32,7 +32,6 @@ import org.irri.iric.ds.chado.domain.impl.MultiReferencePositionImplAllelePvalue
 import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.ds.chado.domain.model.User;
 import org.irri.iric.portal.AppContext;
-import org.irri.iric.portal.WebConstants;
 import org.irri.iric.portal.admin.SNPChrPositionListitemRenderer;
 import org.irri.iric.portal.admin.WorkspaceFacade;
 import org.irri.iric.portal.admin.WorkspaceLoadLocal;
@@ -45,6 +44,7 @@ import org.irri.iric.portal.variety.zkui.VarietyListItemRenderer;
 import org.irri.iric.portal.zk.CookieController;
 import org.irri.iric.portal.zk.ListboxMessageBox;
 import org.irri.iric.portal.zk.SessionController;
+import org.irri.portal.properties.WebVariableConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -804,7 +804,7 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 						if (radioVariety.isSelected()) {
 							WorkspaceLoadLocal.writeListToUserList(input.getListname(),
-									WebConstants.VARIETY_DIR + File.separator + input.getLst_dataset(),
+									WebVariableConstants.VARIETY_DIR + File.separator + input.getLst_dataset(),
 									input.getVarietySets(), user.getEmail());
 
 							listboxVarieties.setVisible(input.getListboxVarietySetVisible());
@@ -1696,13 +1696,13 @@ public class WorkspaceController extends SelectorComposer<Component> {
 	@Listen("onClick =#buttonDelete")
 	public void onbuttonDelete() {
 		if (radioVariety.isChecked()) {
-			deleteFile(listboxListnames.getSelectedItem().getValue(), WebConstants.VARIETY_DIR, user.getEmail());
+			deleteFile(listboxListnames.getSelectedItem().getValue(), WebVariableConstants.VARIETY_DIR, user.getEmail());
 		}
 		if (radioLocus.isChecked()) {
-			deleteFile(listboxListnames.getSelectedItem().getValue(), WebConstants.LOCUS_DIR, user.getEmail());
+			deleteFile(listboxListnames.getSelectedItem().getValue(), WebVariableConstants.LOCUS_DIR, user.getEmail());
 		}
 		if (radioSNP.isChecked()) {
-			deleteFile(listboxListnames.getSelectedItem().getValue(), WebConstants.SNP_DIR, user.getEmail());
+			deleteFile(listboxListnames.getSelectedItem().getValue(), WebVariableConstants.SNP_DIR, user.getEmail());
 		}
 	}
 
@@ -1710,10 +1710,10 @@ public class WorkspaceController extends SelectorComposer<Component> {
 
 		filename = listname;
 		
-		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebConstants.USER_DIR + File.separator
+		File directory = new File(AppContext.getFlatfilesDir() + File.separator + WebVariableConstants.USER_DIR + File.separator
 				+ email + File.separator + type);
 
-		if (type.equals(WebConstants.SNP_DIR)) {
+		if (type.equals(WebVariableConstants.SNP_DIR)) {
 			String[] parts = listname.split(":");
 			if (parts.length > 1) {
 				filename = parts[1];
@@ -1751,17 +1751,17 @@ public class WorkspaceController extends SelectorComposer<Component> {
 					public void onEvent(Messagebox.ClickEvent event) {
 						if (event.getButton() == Messagebox.Button.YES) {
 							if (fileToDelete[0] != null && fileToDelete[0].delete()) {
-								if (type.equals(WebConstants.VARIETY_DIR)) {
+								if (type.equals(WebVariableConstants.VARIETY_DIR)) {
 									workspace.deleteVarietyList(listname);
 									Events.postEvent("onClick", radioVariety, null);
 								}
 								
-								if (type.equals(WebConstants.SNP_DIR)) {
+								if (type.equals(WebVariableConstants.SNP_DIR)) {
 									workspace.deleteSNPList(chromosome, filename);
 									Events.postEvent("onClick", radioSNP, null);
 								}
 								
-								if (type.equals(WebConstants.LOCUS_DIR)) {
+								if (type.equals(WebVariableConstants.LOCUS_DIR)) {
 									workspace.deleteLocusList(listname);
 									Events.postEvent("onClick", radioLocus, null);
 								}
