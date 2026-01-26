@@ -112,7 +112,7 @@ public class AppContext {
 	};
 
 	public static enum WEBSERVER {
-		LOCALHOST, SCIENCE_CLOUD, BRS
+		LOCALHOST, SCIENCE_CLOUD, BRS, ONE_K_ONE, TWENTY_K
 	};
 
 	public static enum OS {
@@ -287,7 +287,24 @@ public class AppContext {
 	public static String getAppVersion() {
 		return configProp.get(ConfigConstants.VERSION).toString();
 	}
-
+	
+	public static String getGooglePropertyId() {
+		return webProp.get(ApplicationConstants.GOOGLE_PROPERTY_ID).toString();
+	}
+	
+	public static String getGoogleAnalyticsId() {
+		return webProp.get(ApplicationConstants.GOOGLE_ANALYTICS).toString();
+	}
+	
+	public static String getCookiePath() {
+		return webProp.get(ApplicationConstants.COOKIE_PATH).toString();
+	}
+	
+	public static boolean isEnableGoogleAnalytics() {
+		boolean enableGA = Boolean.parseBoolean(webProp.get(ApplicationConstants.GOOGLE_ANALYTICS_ENABLED).toString());
+		return enableGA;
+	}
+	
 	public static boolean isOracle() {
 		// return rdms==AppContext.RDMS.ORACLE;
 		return false;
@@ -3019,5 +3036,7 @@ public class AppContext {
 		}
 		return value;
 	}
+
+	
 
 }

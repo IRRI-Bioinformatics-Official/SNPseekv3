@@ -7,20 +7,69 @@
 
 		<n:script src="assets/js/Collapsible-Sidebar.js" />
 		<n:script src="assets/js/Material-Text-Input.js" />
-		<!-- Google tag (gtag.js) -->
-			<n:script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-6DY1MFCGZH"></n:script>
-			<n:script>
-			  window.dataLayer = window.dataLayer || [];
-			  function gtag(){dataLayer.push(arguments);}
-			  gtag('js', new Date());
-			
-			  gtag('config', 'G-6DY1MFCGZH');
-			  
-			  gtag('event', 'page_view', {
-				  'page_path': '/OrderContent.zul' 
-				});
-			  
-			</n:script>
+		
+		<zscript><![CDATA[
+	    String gaId = org.irri.iric.portal.AppContext.getGoogleAnalyticsId();
+	    String cookiePath = org.irri.iric.portal.AppContext.getCookiePath();
+	    boolean enableAnalytics = org.irri.iric.portal.AppContext.isEnableGoogleAnalytics();
+	    
+	    String currentPage = "Order";  // Change per page
+	    
+	    org.irri.iric.portal.AppContext.debug("Google Analytics ID: " + gaId);
+	    org.irri.iric.portal.AppContext.debug("Google Analytics ENABLED: " + enableAnalytics);
+		]]></zscript>
+	
+		<zk if="${enableAnalytics}">
+		    <script type="text/javascript">
+		        var gaTrackingId = '${gaId}';
+		        var pageName = '${currentPage}';
+		        var cookiePath = '${cookiePath}';
+		        
+		        console.log("=== Google Analytics Initializing ===");
+		        console.log("GA ID: " + gaTrackingId);
+		        console.log("Page: " + window.location.pathname);
+		        
+		        // Load GA script
+		        var s = document.createElement('script');
+		        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaTrackingId;
+		        s.async = true;  // Changed to true - recommended by Google
+		        s.onload = function() {
+		            console.log("✓ GA script loaded successfully");
+		        };
+		        document.head.appendChild(s);
+		        
+		        // Initialize dataLayer
+		        window.dataLayer = window.dataLayer || [];
+		        function gtag(){dataLayer.push(arguments);}
+		        window.gtag = gtag;
+		        
+		        gtag('js', new Date());
+		        
+		        // Configure GA
+		        gtag('config', gaTrackingId, {
+		            'page_path': window.location.pathname,  // Dynamic path
+		            'cookie_path': cookiePath,                   // Your app subdirectory
+		            'cookie_flags': 'SameSite=None;Secure'
+		        });
+		        
+		        // Send page view
+		        gtag('event', 'page_view', {
+		        	'page_title': pageName,
+		            'page_location': window.location.href,
+		            'page_path': window.location.pathname
+		        });
+		        
+		        console.log("✓ Google Analytics initialized");
+		        console.log("====================================");
+		    </script>
+		</zk>
+		
+		<zk unless="${enableAnalytics}">
+		    <script type="text/javascript">
+		        console.log("Google Analytics is disabled");
+		    </script>
+		</zk>
+		
 		<style src="assets/bootstrap/css/bootstrap.min.css" />
 		<style
 			src="https://fonts.googleapis.com/css?family=Nunito+Sans" />
