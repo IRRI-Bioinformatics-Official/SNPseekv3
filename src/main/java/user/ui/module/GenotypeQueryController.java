@@ -889,6 +889,12 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	@Wire
 	private Groupbox summary_result_grp;
 
+	private String gaTrackingId;
+	
+	private String experiment;
+	
+	public boolean enableAnalytics;
+
 	public void openPopup() {
 		winPopup.setVisible(true);
 		winPopup.doPopup();
@@ -910,6 +916,19 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		Session session = Sessions.getCurrent();
 		GenotypeSearchContent sc = (GenotypeSearchContent) session.getAttribute(SessionConstants.GENOTYPE_QUERY);
+		
+		gaTrackingId = System.getenv("GOOGLE_TRACKING_ID");
+		
+		AppContext.debug("GA_TRACKING_ID=" + gaTrackingId);
+		
+		experiment = AppContext.getHostname();
+		
+		
+		session.setAttribute("experiment", experiment);
+		session.setAttribute("enableAnalytics", true);
+		enableAnalytics = true;
+		session.setAttribute("gaTrackingId", gaTrackingId);
+		session.setAttribute("experiment", AppContext.getHostname());
 
 		comp.setAttribute("$composer", this);
 
@@ -933,9 +952,8 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		lst_organism = new ArrayList();
 
-		Session sess = Sessions.getCurrent();
-		user = (User) sess.getAttribute(SessionConstants.USER_CREDENTIAL);
-		contentProp = (Properties) sess.getAttribute(SessionConstants.CONTENT_MANAGER);
+		user = (User) session.getAttribute(SessionConstants.USER_CREDENTIAL);
+		contentProp = (Properties) session.getAttribute(SessionConstants.CONTENT_MANAGER);
 
 		// Initialize Default organism Onload
 

@@ -31,7 +31,6 @@ import user.ui.module.util.constants.SessionConstants;
  */
 public class HomeQueryController extends SelectorComposer<Div> {
 
-	private static final String GA_ID = "GOOGLE_ANALYTICS_PROPERTY_ID";
 	private User user;
 	private Properties contentProp;
 
@@ -109,7 +108,7 @@ public class HomeQueryController extends SelectorComposer<Div> {
 			providerDiv_asti.setVisible(true);
 		// Google Analytics 
 		
-		String propertyId = System.getenv(GA_ID); // e.g., "1234
+		String propertyId = AppContext.getGooglePropertyId(); // e.g., "1234
 		
 		GoogleAnalyticsService service = new GoogleAnalyticsService(propertyId, "ga-credentials.json");
         

@@ -1,0 +1,14 @@
+webserver=<webserver_label>
+compiletype=<compile_type>
+os=<linux_or_windows>
+dockerize=<false_or_true>
+version=<version_number>
+
+google.analytics.id=<google_analytics_id>
+google.enabled=<true_or_false>
+
+# Example values:
+#webserver=localhost, aws,awsdev,vmirri, pollux, beanstalk, beanstalkdev
+#compiletype=prod, dev,test
+#os=windows,linux
+#dockerize=true, falsex

@@ -30,6 +30,14 @@ public class ApplicationConstants {
 	
 	public static final String LEGACY_URL = "legacyUrl";
 	
+	public static final String GOOGLE_ANALYTICS = "google.analytics.id";
+
+	public static final String GOOGLE_ANALYTICS_ENABLED = "google.enabled";
+
+	public static final String COOKIE_PATH = "cookie.path";
+
+	public static final String GOOGLE_PROPERTY_ID = "google.property.id";
+	
 	
 	// 
 	
