@@ -9,7 +9,9 @@
 		<style src="assets/fonts/fontawesome-all.min.css" />
 		<n:script src="https://www.google.com/recaptcha/api.js" async="async" defer="defer"></n:script>
 
-
+		  <zscript><![CDATA[
+		        String recaptchaSiteKey = System.getenv("RECAPTCHA_SITE_KEY");
+		    ]]></zscript>
 		<n:script>
 		  <![CDATA[
 			  function afterValidate(response) {
@@ -42,7 +44,7 @@
 
 		<div
 			style="margin-top:150px;width:80%;margin-left:auto;margin-right:auto;"
-			apply="user.ui.module.RegisterController">
+			apply="user.ui.module.RegisterController" >
 			<n:div class="container">
 				<n:div class="card shadow-lg o-hidden border-0 my-5">
 					<n:div class="card-body p-0">
@@ -101,10 +103,11 @@
 									<!-- reCAPTCHA widget -->
 									<n:div class="form-group">
 										<label value="Recaptcha: " />
+										
 										<div>
 											<n:div id="recaptcha"
 												class="g-recaptcha"
-												data-sitekey="RECAPTCHA_SITE_KEY_PLACEHOLDER"
+												data-sitekey="${recaptchaSiteKey}"
 												data-callback="afterValidate" />
 
 										</div>

@@ -38,7 +38,11 @@
 			async="async" defer="defer">
 		</n:script>
 
-
+		<zscript><![CDATA[
+		        String recaptchaSiteKey = System.getenv("RECAPTCHA_SITE_KEY");
+		    ]]></zscript>
+		    
+		    
 		<n:script>
 			
 			<![CDATA[
@@ -144,7 +148,7 @@
 											<div>
 												<n:div id="recaptcha"
 													class="g-recaptcha"
-													data-sitekey="RECAPTCHA_SITE_KEY_PLACEHOLDER"
+													data-sitekey="${recaptchaSiteKey}"
 													data-callback="afterValidate" />
 
 												<div id="recaptchaDiv"
