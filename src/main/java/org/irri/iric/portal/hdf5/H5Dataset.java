@@ -224,8 +224,11 @@ public class H5Dataset implements SnpsStringDAO {
 				// varids[icount]=itVarid.next().intValue()-varid_offset;
 				if (mapSampleId2Idx == null || mapSampleId2Idx.isEmpty())
 					varids[icount] = itVarid.next().intValue() - varid_offset;
-				else
-					varids[icount] = mapSampleId2Idx.get(itVarid.next().intValue() - varid_offset).intValue();
+				else {
+//					Integer value = itVarid.next().intValue();
+					varids[icount] = mapSampleId2Idx.get(itVarid.next()).intValue();
+					
+				}
 				icount++;
 			}
 			log.info("H5 querying " + varids.length + " vars " + this.filename + " " + posidxstartend.length
