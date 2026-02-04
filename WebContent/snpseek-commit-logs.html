@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNPSeek v3 - Commit History</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: transparent;
+        }
+        
+        header {
+            background-color: #2d6e4e;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 1.6em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        header p {
+            opacity: 0.95;
+            font-size: 0.95em;
+            font-weight: 300;
+        }
+        
+        .commits-section {
+            padding: 25px 30px;
+        }
+        
+        .month-group {
+            margin-bottom: 30px;
+        }
+        
+        .month-header {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2d6e4e;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #2d6e4e;
+        }
+        
+        .commit-item {
+            padding: 15px 18px;
+            margin-bottom: 12px;
+            background-color: #fafafa;
+            border-left: 4px solid #4a9d6f;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .commit-item:hover {
+            background-color: #f0f7f4;
+            border-left-color: #2d6e4e;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background-color: #2d6e4e;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .commit-title {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #2d6e4e;
+            margin-bottom: 8px;
+        }
+        
+        .commit-changes {
+            list-style: none;
+            margin-top: 10px;
+        }
+        
+        .commit-changes li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+            color: #586069;
+        }
+        
+        .commit-changes li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #4a9d6f;
+            font-weight: bold;
+        }
+        
+        .commit-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 12px;
+            font-size: 0.9em;
+            color: #586069;
+        }
+        
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .author:before {
+            content: "👤";
+        }
+        
+        .date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .date:before {
+            content: "📅";
+        }
+        
+        footer {
+            background-color: #2d6e4e;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            border-top: none;
+        }
+        
+        footer p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            
+            header h1 {
+                font-size: 1.5em;
+            }
+            
+            .commits-section {
+                padding: 15px;
+            }
+            
+            .commit-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SNPSeek v3 - Commit History</h1>
+            <p>Development Timeline & Release Notes</p>
+        </header>
+        
+        <div class="commits-section">
+            <!-- February 2026 -->
+            <div class="month-group">
+                <h2 class="month-header">February 2026</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.17.0</span>
+                    <div class="commit-title">Chat Widget & Version Update</div>
+                    <ul class="commit-changes">
+                        <li>Add chat widget with improved visibility</li>
+                        <li>Update version to 3.17.0</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Feb 4, 2026</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- January 2026 -->
+            <div class="month-group">
+                <h2 class="month-header">January 2026</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.4</span>
+                    <div class="commit-title">reCAPTCHA Integration Update</div>
+                    <ul class="commit-changes">
+                        <li>Update reCAPTCHA integration to use environment variable for site key</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 30, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.3</span>
+                    <div class="commit-title">H5Dataset Improvements</div>
+                    <ul class="commit-changes">
+                        <li>Update H5Dataset.java for improved variable ID mapping</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 30, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.2b</span>
+                    <div class="commit-title">Localhost Configuration</div>
+                    <ul class="commit-changes">
+                        <li>More properties for localhost</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 26, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.2</span>
+                    <div class="commit-title">Google Analytics Integration</div>
+                    <ul class="commit-changes">
+                        <li>Implement Google Analytics integration with dynamic tracking ID</li>
+                        <li>Cookie path configuration</li>
+                        <li>Added config property file</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 26, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">Documentation Update</div>
+                    <ul class="commit-changes">
+                        <li>Clarify environment variable setup in README</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">lhbarboza-cgiar</span>
+                        <span class="date">Jan 22, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.1</span>
+                    <div class="commit-title">Link Fixes</div>
+                    <ul class="commit-changes">
+                        <li>FIXED: Link for jbrowse, jbrowse2 and trait genes</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 22, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.0</span>
+                    <div class="commit-title">AWS Deprecation & Version Footer</div>
+                    <ul class="commit-changes">
+                        <li>Changed labeling of constants</li>
+                        <li>Removed AWS related method, marked as deprecated</li>
+                        <li>Added version number in the footer</li>
+                        <li>Update total visits</li>
+                        <li>Removed AWS libraries and deprecating related methods</li>
+                        <li>Update total visits getting from Google Analytics</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 22, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.15.0</span>
+                    <div class="commit-title">Configurable Provider Section</div>
+                    <ul class="commit-changes">
+                        <li>Add provider.type property to control which provider section displays</li>
+                        <li>Support switching between ASTI COARE and BRS providers</li>
+                        <li>Make provider URLs, logos, and text configurable through properties</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 21, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.14.0</span>
+                    <div class="commit-title">Major Configuration & UI Updates</div>
+                    <ul class="commit-changes">
+                        <li>Added missing brapi-docs folder</li>
+                        <li>Removed Hdf5 libraries from classpath</li>
+                        <li>Update list of servers from code base</li>
+                        <li>Removed hard coded embedded URLs for jbrowse, jbrowse2 and traitgenes</li>
+                        <li>Update reading of hdf5 libraries to look for it from TOMCAT LIB first</li>
+                        <li>Update landing page (added quick links)</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 21, 2026</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- December 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">December 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.13.0</span>
+                    <div class="commit-title">Exploratory UI & Bug Fixes</div>
+                    <ul class="commit-changes">
+                        <li>Added exploratory new UI</li>
+                        <li>Added new folder and shell scripts</li>
+                        <li>Bug fix for null pointer exception</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Dec 26, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- October 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">October 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.12.9</span>
+                    <div class="commit-title">Dataset & Web Service Updates</div>
+                    <ul class="commit-changes">
+                        <li>Added azucena, IR64</li>
+                        <li>Fixed WS endpoint</li>
+                        <li>Update libraries to fix web service</li>
+                        <li>Update uploadDataset.sh script</li>
+                        <li>POM: Removed old libraries</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Oct 20, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.12.3 - v3.12.8</span>
+                    <div class="commit-title">Multiple Fixes & Feature Additions</div>
+                    <ul class="commit-changes">
+                        <li>Fixed: Report Bug feature</li>
+                        <li>Added: Scripts to load dataset and reference genome</li>
+                        <li>Fixed: Typo</li>
+                        <li>Update: Display info on the homepage (number of datasets and total visits)</li>
+                        <li>Fixed: Delete function on SNPs and Locus on MyList</li>
+                        <li>Fixed: Sort feature in genotype result list</li>
+                        <li>Added: Search by list from Variety with phenotype value</li>
+                        <li>Fixed: Filter feature on genotype result</li>
+                        <li>Fixed: Genotype result with phenotype value</li>
+                        <li>Fixed: Removed previous search results in Search by Gene Loci</li>
+                        <li>Fixed: Search by plant trait</li>
+                        <li>Add: Link to new manual</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Oct 8, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- August 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">August 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.12.0</span>
+                    <div class="commit-title">Dataset Download & Query Improvements</div>
+                    <ul class="commit-changes">
+                        <li>Add page for other datasets download</li>
+                        <li>Update legacy link</li>
+                        <li>Fixed querying multiple dataset using list</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Aug 14, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- July 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">July 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.9.2</span>
+                    <div class="commit-title">Variety Search & Download Enhancements</div>
+                    <ul class="commit-changes">
+                        <li>Add findVarietyByNamesWithSpace usecase</li>
+                        <li>Update script to download by region (not using Jobs by SNPSeek)</li>
+                        <li>Change FAQ.zul in banner.zul</li>
+                        <li>Upon adding to list, default selected to newly added list</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jul 16, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.9.0</span>
+                    <div class="commit-title">Health Check & Backend Improvements</div>
+                    <ul class="commit-changes">
+                        <li>Moved some classes to the backend</li>
+                        <li>Added health check Servlet</li>
+                        <li>Increases timeout to give more time for processes to finish</li>
+                        <li>Bug fixed regarding accessing external website</li>
+                        <li>Added reading of VGene to local files</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jul 2, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- June 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">June 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.8.1</span>
+                    <div class="commit-title">HDF5 Environment Variable Support</div>
+                    <ul class="commit-changes">
+                        <li>Added scanning and loading logic for newly introduced HDF5 environment variable</li>
+                        <li>Updated legacy system link to point to the AWS dev-sized environment</li>
+                        <li>Put scanning of newly added hdf5 environment variable</li>
+                        <li>Update link of legacy to aws dev size</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jun 25, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">Documentation Updates</div>
+                    <ul class="commit-changes">
+                        <li>Multiple README.md updates</li>
+                        <li>Create README.md</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">lhbarboza-cgiar</span>
+                        <span class="date">Jun 23, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.8.0</span>
+                    <div class="commit-title">Version 3.8.0 Release</div>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jun 23, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2020 -->
+            <div class="month-group">
+                <h2 class="month-header">2020</h2>
+                
+                <div class="commit-item">
+                    <div class="commit-title">September 4, 2020</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: (Galaxy Tab) Removed IP address of galaxy instance in the display</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">July 22, 2020</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: (Seed Ordering) Changed seed ordering link from snp-seek to irri.org seed resources link</li>
+                        <li>UPDATE: (Genotype Search) Removed the first line in the CSV downloadable version in search genotype</li>
+                        <li>FIXED: (Haplotype Tab) Haplotype Viewer for other organism</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">June 24, 2020</div>
+                    <ul class="commit-changes">
+                        <li>FIXED: (Haplotype View) Update geno_heatmap.R to address issue of randomness for every refresh of page in haplotype viewer</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">June 4, 2020</div>
+                    <ul class="commit-changes">
+                        <li>FIXED: Genotype Search query using user's variety and locus list</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">May 13, 2020</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: (Report Bugs) Added scanning multiple submitted images for virus</li>
+                        <li>ADD: FAQ page</li>
+                        <li>ADDED: (Sequence Download) Pop up message informing user about the 3k repository as alternative for bulk download</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">April 22, 2020</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: (Bug Report) Added send/post/add multiple images</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">March 31, 2020</div>
+                    <ul class="commit-changes">
+                        <li>ADDED: (Bug report) Updated the link use by SNP-seek</li>
+                        <li>UPDATED: (Gene Loci Search) Fixed Search by Gene Set/Networks Using Users' list (locus)</li>
+                        <li>FIXED: (Galaxy Tab) Resolved exception when no workflow is selected in Galaxy download tab under Genotype Search</li>
+                        <li>ADDED: (Search Genotype) Enable users to select multiple dataset in queries</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">March 24, 2020</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: (Search Genotype) Limit selection to Nipponbare</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">March 17, 2020</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: A docker image containing 3kFiltered dataset is deployed publicly in docker hub. This image is built on top of postgresql docker image</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">February 13, 2020</div>
+                    <ul class="commit-changes">
+                        <li>Deployed SNP-seek (version 5.4.0) with the ff. updates</li>
+                        <li>UPDATE: Removed "all" option of variety selection in download section</li>
+                        <li>ADDED: ZK Charts license Agreement for development</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">January 27, 2020</div>
+                    <ul class="commit-changes">
+                        <li>BUG FIXED: "Add Filter" in genotype results</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 2019 -->
+            <div class="month-group">
+                <h2 class="month-header">2019</h2>
+                
+                <div class="commit-item">
+                    <div class="commit-title">December 18, 2019</div>
+                    <ul class="commit-changes">
+                        <li>ADDED: "Open Source License Agreement" file in the project</li>
+                        <li>ADDED: A pop-up disclaimer message before downloading a sequence</li>
+                        <li>BUG FIXED: URL object in galaxyFacade class that is use to refer to downloads in galaxy</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">November 12, 2019</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Fixed Download link for bulk files</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">October 28, 2019</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Removed unused files</li>
+                        <li>ADDED: License file to Development Docs and in the menu</li>
+                        <li>ADDED: New folder for Documentations</li>
+                        <li>REMOVED: ZK charts in project that is publicly accessed or for redistribution purposes. Requiring external developers to get a license for ZK charts if they want to include charts</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">October 21, 2019</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Changed link of "Report Bugs" page</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">October 1, 2019</div>
+                    <ul class="commit-changes">
+                        <li>BUG FIXED: Searched genotype using Locus MyList</li>
+                        <li>BUG FIXED: Genotype search using NONSYNONYMOUS and a list from user</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">September 5, 2019</div>
+                    <ul class="commit-changes">
+                        <li>NEW: SNP-seek is now using HTTPS</li>
+                        <li>UPDATE: Improve SNP effect tab user interface</li>
+                        <li>UPDATE: Chromosomes now sorted</li>
+                        <li>BUG FIXED: Error when querying genotype directly using non-synonymous option</li>
+                        <li>BUG FIXED: Empty MDS plot view in the results of Genotype Query</li>
+                        <li>BUG FIXED: Empty SNP effect table</li>
+                        <li>BUG FIXED: Haplotype view error</li>
+                        <li>BUG FIXED: Download CSV file does not have Snp effect info</li>
+                        <li>BUG FIXED: Bug regarding downloading a big dataset</li>
+                        <li>BUG FIXED: Displaying of manhattan plot in GWAS tab</li>
+                        <li>BUG FIXED: Bugs in download page caused by the merging</li>
+                        <li>BUG FIXED: Bugs in "Add Filter" feature in SNP genotype page (SNP seek)</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">June 3, 2019</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Added Disclaimer note in the contactUS page</li>
+                        <li>BUG FIXED: Manhattan plot not displaying due to NullException when selecting SNP -log list</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">May 20, 2019</div>
+                    <ul class="commit-changes">
+                        <li>BUG FIXED: Resolve upload in MyList by updating jars used</li>
+                        <li>UPDATE: Merge remote-tracking branch 'origin/temp-with-galaxy' into SnpSeekMavenProj. Resolved conflicting jars</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">May 16, 2019</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Added exttab, galaxy pages. Exttab moved the tabpanels into a separate zul, allowing to be displayed in new window on right click of tabs</li>
+                        <li>UPDATE: Galaxy submit long running computations into a galaxy instance using blend4j, bioblend and jython. Uses python library included in WEB-INF/lib/Lib</li>
+                        <li>UPDATE: Right clickable tabs, Galaxy tab, vcf2fasta in galaxy-dev</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">May 7, 2019</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Change naming convention in property files</li>
+                        <li>UPDATE: Dockerfile to use updated docker image for the portal</li>
+                        <li>BUG FIXED: NullPointerException due to adding of filters</li>
+                        <li>ADDED: "dataset" Attribute to VariantAlignmentTableArraysImpl class</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 2018 -->
+            <div class="month-group">
+                <h2 class="month-header">2018</h2>
+                
+                <div class="commit-item">
+                    <div class="commit-title">December 5, 2018</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Database schema has changed. ADDED: 'dataset' (String) in SnpAllVars object to make it more unique aside from retrieving VarId alone</li>
+                        <li>UPDATE: Changed Mapping Map(BigDecimal, StockSample) to Map(String, Map(BigDecimal, StockSample)) to display multiple dataset with similar samples</li>
+                        <li>UPDATE: ListItemsDAOAllImpl - remove if statement that handles one dataset. Instead implemented it by retrieval by Set regardless how many dataset</li>
+                        <li>UPDATE: Bug Fixed in displaying multiple dataset with similar samples</li>
+                        <li>ADDED: Dataset variable to IndelStringAllVarsImpl class and a new Mapping variable Variety to Dataset variable</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">November 6, 2018</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Project converted to a Maven project</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">October 16, 2018</div>
+                    <ul class="commit-changes">
+                        <li>ADDED: Legacy Web Services and usecases. GetAllCOTerms, GetCOTerm, GetAllCOTerms given a variety, Get Record by Variety and CO Term</li>
+                        <li>FIXED: "Download Error Message" in bulk download</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">October 10, 2018</div>
+                    <ul class="commit-changes">
+                        <li>FIXED: MDS PLOT error. snp-seek.irri.org/_variety.zul?irisid=allmds returns error 500</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">September 11, 2018</div>
+                    <ul class="commit-changes">
+                        <li>ADDED: "OS" tag to config file for setting values for OPERATING SYSTEM. This is to determine what HDF5 libraries are to be loaded</li>
+                        <li>ADDED: defaultOrganism in the webserver config file to set initial value for organism</li>
+                        <li>FIXED: Nullpointer for BigListBox in SNP Genotype tab</li>
+                        <li>ADDED: dockerfile. This dockerfile deploys precompiled JAVA codes of snpseek portal to docker</li>
+                        <li>FIXED: NULL Pointer Exception blast servername</li>
+                        <li>ADDED: filter for chr String, filtering whole word "Chromosome"</li>
+                        <li>UPDATE: Vscaddolds organism to retrieve name in getName method instead of getting the uniquename</li>
+                        <li>FIXED: "Processing icon" that locks the screen even an exception was thrown</li>
+                        <li>FIXED: Null pointer exception in GenotypeWS</li>
+                        <li>ADDED: New citation in the main page</li>
+                        <li>ADDED: Info in the page regarding why other reference genomes are missing</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">August 1, 2018</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Home Page. Added "How to Cite SNP seek"</li>
+                        <li>FIXED: BAM and VCF Download in the Download Page</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">July 16, 2018</div>
+                    <ul class="commit-changes">
+                        <li>UPDATE: Publication page content. Page format of this page was also changed</li>
+                        <li>FIXED: BrAPI web services VAllStockBasicpropDaoImpl</li>
+                        <li>ADDED: findVarietyByNamesLike and findVarietyById</li>
+                        <li>FIXED: findVarietiesByDataset. If all is selected, All varAllStock</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">July 5, 2018</div>
+                    <ul class="commit-changes">
+                        <li>BrAPI web services: Fix applied to usecases like germplasmPUI, findVarietyByNamesLike when input dataset is set to "all"</li>
+                        <li>BrAPI web services: Implemented usecases findVAllstockBasicpropByNamesLikeDataset and findAllVAllstockBasicprops</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">June 20, 2018</div>
+                    <ul class="commit-changes">
+                        <li>Added option to phenotype list (in Variety Tab) to viewed in legacy terms or as CO Terms</li>
+                        <li>Removed case sensitivity to List Combo boxes e.g. Chromosome, Locus in Genotype Search and Sequence download page. And Designation, Accession, Assay Id in variety search</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">May 16, 2018</div>
+                    <ul class="commit-changes">
+                        <li>Deployed new user-interface for SNP-Seek</li>
+                        <li>Added "download as CSV" button to download GWAS results in CSV file format</li>
+                        <li>Added Confirmation message after a successful creation of user defined list in Variety Search</li>
+                        <li>Implemented findAllVariety which accepts a set of dataset and return a set of varieties</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">February 3, 2018</div>
+                    <ul class="commit-changes">
+                        <li>Implemented an email service using AWS SES mailer to send seed orders</li>
+                        <li>Set SNP Seek portal to use configuration files to toggle portal components' visibility</li>
+                        <li>Developed new schema to easily add new datasets</li>
+                        <li>Independent selection of dataset and SNP set</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 2017 -->
+            <div class="month-group">
+                <h2 class="month-header">2017</h2>
+                
+                <div class="commit-item">
+                    <div class="commit-title">December 1, 2017</div>
+                    <ul class="commit-changes">
+                        <li>Added page for seed orders from IRRI Genebank</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">August 1, 2017</div>
+                    <ul class="commit-changes">
+                        <li>New feature to cluster genotypes and display in haplotype viewer</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">March 6, 2017</div>
+                    <ul class="commit-changes">
+                        <li>RDBMS migrated to PostgreSQL in AWS-RDS</li>
+                        <li>Trait genes browser (all chromosomes viewer/ideogram)</li>
+                        <li>Four (MH63, ZS97, N22, IR8) new reference genomes/cdna/cds/pep made available for BLAST search</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 2016 -->
+            <div class="month-group">
+                <h2 class="month-header">2016</h2>
+                
+                <div class="commit-item">
+                    <div class="commit-title">December 12, 2016</div>
+                    <ul class="commit-changes">
+                        <li>Query gene loci by SNP list annotates the markers and genes from various sources</li>
+                        <li>Genotype similarity search with any of the varieties</li>
+                        <li>Search and highlight variety or variety list in MDS plot</li>
+                        <li>Make MDS points proportional to phenotype value</li>
+                        <li>Submit locus list/gene set to enrichment/network analysis sites</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">September 19, 2016</div>
+                    <ul class="commit-changes">
+                        <li>URL changed to http://snp-seek.irri.org</li>
+                        <li>HDRA varieties added with phenotype data from GRIMS</li>
+                        <li>Option to use either 3kRGP, HDRA or both datasets</li>
+                        <li>Web services documentation made public</li>
+                        <li>Alternate sequence download using GATK tool</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">May 16, 2016</div>
+                    <ul class="commit-changes">
+                        <li>Option to query SNP set to either (All 32M SNPs in previous version, Base 18M, Filtered 4.8M or Core 404k)</li>
+                        <li>Subpopulations renamed: trop1->trop, trop2->subtrop</li>
+                        <li>Result for SNP Effect program on MSU7 gene loci</li>
+                        <li>More SNP annotations in Locus query by SNP List (promoters, RiceNet and PRIN gene interactions)</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">March 23, 2016</div>
+                    <ul class="commit-changes">
+                        <li>Increase QNP query length to 5mb region, or lists with 1000 gene loci, or 500k SNP positions (not displayed but for download only)</li>
+                        <li>Query and match the 3k varieties using genotypes (SNP list with allele column)</li>
+                        <li>Matching option for missing alleles</li>
+                        <li>Long downloads are run in the background</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">February 4, 2016</div>
+                    <ul class="commit-changes">
+                        <li>Search genes using gene names/symbols/accessions</li>
+                        <li>Added TO/PO ontology (from Oryzabase) and QTARO trait genes annotation to SNP lists</li>
+                        <li>Gene information page and external links</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 2015 -->
+            <div class="month-group">
+                <h2 class="month-header">2015</h2>
+                
+                <div class="commit-item">
+                    <div class="commit-title">December 30, 2015</div>
+                    <ul class="commit-changes">
+                        <li>New homepage icons</li>
+                        <li>Support for multiple reference genomes (Nipponbare, 9311, IR64-21, Kasalath, DJ123)</li>
+                        <li>Display alleles in all 5 reference genomes in SNP query</li>
+                        <li>Display other reference genomes and gene models in JBrowse</li>
+                        <li>Display pairwise alignments between any of the 5 reference genomes</li>
+                        <li>Variety phenotypes are mapped and can be queried by Rice Crop Ontology (C0_320) and Plant trait Ontology (TO)</li>
+                        <li>Locus query for SNP lists returns genes for 3 Nipponbare gene models, QTARO and Gramene QTLs</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">October 26, 2015</div>
+                    <ul class="commit-changes">
+                        <li>In addition to MSU7, gene loci now includes RAP and our merged MSU7, RAP and FGenesh++ gene models. Loci from any of the three are merged if they have >50% overlap on the CDS</li>
+                        <li>Query gene loci by Gene Ontology terms</li>
+                        <li>Query gene loci by Traits (QTARO) and Trait and Plant Ontologies (from TO, PO using Oryzabase)</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">September 29, 2015</div>
+                    <ul class="commit-changes">
+                        <li>Using updated SNPs/Indel data with 3024 varieties</li>
+                        <li>Updated subpopulations</li>
+                        <li>Download links for BAM and VCF from Amazon S3</li>
+                        <li>New JBrowse tracks for BAM, VCF, Trait loci, Gene models</li>
+                        <li>Option to include Indels in query</li>
+                        <li>Option to display phenotype value in genotype table</li>
+                        <li>Generate alternate sequence from the VCF files</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">June 2, 2015</div>
+                    <ul class="commit-changes">
+                        <li>Download links for FastQ and FastQC reports</li>
+                        <li>Allele frequency calculation on SNP Query results</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">May 4, 2015</div>
+                    <ul class="commit-changes">
+                        <li>SNP Query using SNP list with multiple contigs/chromosomes in a list</li>
+                        <li>SNP Query using Gene Loci list</li>
+                        <li>Transitive closure is used for Loci search by Gene Ontology term</li>
+                        <li>Added Loci search by sequence using BLAST on locus, cds, protein and 3kbp-upstream sequences for all 5 reference genomes</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">April 13, 2015</div>
+                    <ul class="commit-changes">
+                        <li>Allow filtering of genotype table by ALLELE value, variety and mismatch</li>
+                        <li>Allow sorting of genotype table by ALLELE value, variety and mismatch</li>
+                        <li>SNP Genotype track in JBrowse is updated after filtering and sorting operations</li>
+                        <li>Gene loci search by SNP list supports multiple contigs/chromosomes in a list</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">March 30, 2015</div>
+                    <ul class="commit-changes">
+                        <li>Added search Gene loci by region and SNP list</li>
+                        <li>Added search Gene loci by sequence using Blast on Nipponbare cds, cdna and proteins</li>
+                        <li>Added search Genomic region by sequence using Blast on Nipponbare, IR64-21, 9311, DJ123 and Kasalat genomes</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">March 12, 2015</div>
+                    <ul class="commit-changes">
+                        <li>Added search Gene loci by gene function</li>
+                        <li>Create gene locus list from Loci Search result and through My Lists editor</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">March 3, 2015</div>
+                    <ul class="commit-changes">
+                        <li>Added options to include, exclude or highlight non-synonymous/synonymous SNPs</li>
+                        <li>Highlight slice acceptor and splice donor SNPs</li>
+                        <li>Query length for Core SNPs limited to 1Mbp, and All SNPs to 50kbp to avoid Out of Memory Error and crashing the server</li>
+                    </ul>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">February 16, 2015</div>
+                    <ul class="commit-changes">
+                        <li>Country of origin is updated (from GRIMS passport field ori_country to country_origin)</li>
+                        <li>Added option to Include, Highlight or Exclude Synonymous SNPs</li>
+                        <li>Genotype table is revised from ZK Grid to use ZK Biglistbox for fast rendering of long regions</li>
+                        <li>Added Alignment Tab panel to display, sort, or export Genotype data as Multiple Sequence Alignments (in preparation to display Indels)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>SNPSeek v3 - IRRI Bioinformatics | Generated on February 4, 2026</p>
+        </footer>
+    </div>
+</body>
+</html>

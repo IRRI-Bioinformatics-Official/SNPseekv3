@@ -21,7 +21,7 @@
 			style="z-index:4000 !important; height:25px; left: 0px;">
 			<n:div class="text-center" style="font-size: 12px;">
 				© 2014-2026 International Rice Research Institute | Version 
-				<label id="appVersion" /> | Status
+				<label id="appVersion" /> | <n:a href="_update.zul">Release History</n:a>
 			</n:div>
 		</n:footer>
 	</div>

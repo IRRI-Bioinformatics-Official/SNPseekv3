@@ -79,8 +79,10 @@
 								</menupopup>
 							</menu>
 							 -->
-							<menuitem label="Pricing" popup="pp1"
+							 <menuitem label="Updates" href="_update.zul" style="font-weight: bold;"/>
+							<!-- <menuitem label="Pricing" popup="pp1"
 								 />
+								  -->
 
 						
 
@@ -180,7 +182,7 @@
 										src="/images/iric/bug-32.ico" label="Report bugs"
 										href="_bugs.zul" />
 									<menuitem
-										src="/images/iric/about.png" label="Publications/Updates"
+										src="/images/iric/about.png" label="Publications"
 										href="_about.zul" />
 									<menuitem
 										src="/images/iric/about.png" label="FAQs" href="_faq.zul" />

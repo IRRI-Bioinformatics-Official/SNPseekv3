@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNPSeek v3 - Commit History</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+        }
+        
+        header {
+            background-color: #2d6e4e14;
+            color: #2d6e4e;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        header p {
+            opacity: 0.95;
+            font-size: 1.05em;
+            font-weight: 300;
+        }
+        
+        .commits-section {
+            padding: 30px;
+        }
+        
+        .month-group {
+            margin-bottom: 40px;
+        }
+        
+        .month-header {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2d6e4e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2d6e4e;
+        }
+        
+        .commit-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            background-color: #fafafa;
+            border-left: 4px solid #4a9d6f;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .commit-item:hover {
+            background-color: #f0f7f4;
+            border-left-color: #2d6e4e;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background-color: #2d6e4e;
+            color: white;
+            padding: 5px 14px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .commit-title {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #2d6e4e;
+            margin-bottom: 10px;
+        }
+        
+        .commit-changes {
+            list-style: none;
+            margin-top: 10px;
+        }
+        
+        .commit-changes li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+            color: #586069;
+        }
+        
+        .commit-changes li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #4a9d6f;
+            font-weight: bold;
+        }
+        
+        .commit-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 12px;
+            font-size: 0.9em;
+            color: #586069;
+        }
+        
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .author:before {
+            content: "👤";
+        }
+        
+        .date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .date:before {
+            content: "📅";
+        }
+        
+        footer {
+            background-color: #2d6e4e;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            border-top: none;
+        }
+        
+        footer p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            
+            header h1 {
+                font-size: 1.5em;
+            }
+            
+            .commits-section {
+                padding: 15px;
+            }
+            
+            .commit-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SNPSeek v3 - Commit History</h1>
+            <p>Development Timeline & Release Notes</p>
+        </header>
+        
+        <div class="commits-section">
+            <!-- February 2026 -->
+            <div class="month-group">
+                <h2 class="month-header">February 2026</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.17.1</span>
+                    <div class="commit-title">Updates History Logs and Publication</div>
+                    <ul class="commit-changes">
+                        <li>add view commit history in footer</li>
+                        <li>Updated history logs</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Feb 4, 2026</span>
+                    </div>
+                </div>
+                <div class="commit-item">
+                    <span class="version-badge">v3.17.0</span>
+                    <div class="commit-title">Chat Widget & Version Update</div>
+                    <ul class="commit-changes">
+                        <li>Add chat widget with improved visibility</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Feb 4, 2026</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- January 2026 -->
+            <div class="month-group">
+                <h2 class="month-header">January 2026</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.4</span>
+                    <div class="commit-title">reCAPTCHA Integration Update</div>
+                    <ul class="commit-changes">
+                        <li>Update reCAPTCHA integration to use environment variable for site key</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 30, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.3</span>
+                    <div class="commit-title">H5Dataset Improvements</div>
+                    <ul class="commit-changes">
+                        <li>Update H5Dataset.java for improved variable ID mapping</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 30, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.2b</span>
+                    <div class="commit-title">Localhost Configuration</div>
+                    <ul class="commit-changes">
+                        <li>More properties for localhost</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 26, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.2</span>
+                    <div class="commit-title">Google Analytics Integration</div>
+                    <ul class="commit-changes">
+                        <li>Implement Google Analytics integration with dynamic tracking ID</li>
+                        <li>Cookie path configuration</li>
+                        <li>Added config property file</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 26, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">Documentation Update</div>
+                    <ul class="commit-changes">
+                        <li>Clarify environment variable setup in README</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">lhbarboza-cgiar</span>
+                        <span class="date">Jan 22, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.1</span>
+                    <div class="commit-title">Link Fixes</div>
+                    <ul class="commit-changes">
+                        <li>FIXED: Link for jbrowse, jbrowse2 and trait genes</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 22, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.16.0</span>
+                    <div class="commit-title">AWS Deprecation & Version Footer</div>
+                    <ul class="commit-changes">
+                        <li>Changed labeling of constants</li>
+                        <li>Removed AWS related method, marked as deprecated</li>
+                        <li>Added version number in the footer</li>
+                        <li>Update total visits</li>
+                        <li>Removed AWS libraries and deprecating related methods</li>
+                        <li>Update total visits getting from Google Analytics</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 22, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.15.0</span>
+                    <div class="commit-title">Configurable Provider Section</div>
+                    <ul class="commit-changes">
+                        <li>Add provider.type property to control which provider section displays</li>
+                        <li>Support switching between ASTI COARE and BRS providers</li>
+                        <li>Make provider URLs, logos, and text configurable through properties</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 21, 2026</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.14.0</span>
+                    <div class="commit-title">Major Configuration & UI Updates</div>
+                    <ul class="commit-changes">
+                        <li>Added missing brapi-docs folder</li>
+                        <li>Removed Hdf5 libraries from classpath</li>
+                        <li>Update list of servers from code base</li>
+                        <li>Removed hard coded embedded URLs for jbrowse, jbrowse2 and traitgenes</li>
+                        <li>Update reading of hdf5 libraries to look for it from TOMCAT LIB first</li>
+                        <li>Update landing page (added quick links)</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jan 21, 2026</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- December 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">December 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.13.0</span>
+                    <div class="commit-title">Exploratory UI & Bug Fixes</div>
+                    <ul class="commit-changes">
+                        <li>Added exploratory new UI</li>
+                        <li>Added new folder and shell scripts</li>
+                        <li>Bug fix for null pointer exception</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Dec 26, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- October 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">October 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.12.9</span>
+                    <div class="commit-title">Dataset & Web Service Updates</div>
+                    <ul class="commit-changes">
+                        <li>Added azucena, IR64</li>
+                        <li>Fixed WS endpoint</li>
+                        <li>Update libraries to fix web service</li>
+                        <li>Update uploadDataset.sh script</li>
+                        <li>POM: Removed old libraries</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Oct 20, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.12.3 - v3.12.8</span>
+                    <div class="commit-title">Multiple Fixes & Feature Additions</div>
+                    <ul class="commit-changes">
+                        <li>Fixed: Report Bug feature</li>
+                        <li>Added: Scripts to load dataset and reference genome</li>
+                        <li>Fixed: Typo</li>
+                        <li>Update: Display info on the homepage (number of datasets and total visits)</li>
+                        <li>Fixed: Delete function on SNPs and Locus on MyList</li>
+                        <li>Fixed: Sort feature in genotype result list</li>
+                        <li>Added: Search by list from Variety with phenotype value</li>
+                        <li>Fixed: Filter feature on genotype result</li>
+                        <li>Fixed: Genotype result with phenotype value</li>
+                        <li>Fixed: Removed previous search results in Search by Gene Loci</li>
+                        <li>Fixed: Search by plant trait</li>
+                        <li>Add: Link to new manual</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Oct 8, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- August 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">August 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.12.0</span>
+                    <div class="commit-title">Dataset Download & Query Improvements</div>
+                    <ul class="commit-changes">
+                        <li>Add page for other datasets download</li>
+                        <li>Update legacy link</li>
+                        <li>Fixed querying multiple dataset using list</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Aug 14, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- July 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">July 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.9.2</span>
+                    <div class="commit-title">Variety Search & Download Enhancements</div>
+                    <ul class="commit-changes">
+                        <li>Add findVarietyByNamesWithSpace usecase</li>
+                        <li>Update script to download by region (not using Jobs by SNPSeek)</li>
+                        <li>Change FAQ.zul in banner.zul</li>
+                        <li>Upon adding to list, default selected to newly added list</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jul 16, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.9.0</span>
+                    <div class="commit-title">Health Check & Backend Improvements</div>
+                    <ul class="commit-changes">
+                        <li>Moved some classes to the backend</li>
+                        <li>Added health check Servlet</li>
+                        <li>Increases timeout to give more time for processes to finish</li>
+                        <li>Bug fixed regarding accessing external website</li>
+                        <li>Added reading of VGene to local files</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jul 2, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- June 2025 -->
+            <div class="month-group">
+                <h2 class="month-header">June 2025</h2>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.8.1</span>
+                    <div class="commit-title">HDF5 Environment Variable Support</div>
+                    <ul class="commit-changes">
+                        <li>Added scanning and loading logic for newly introduced HDF5 environment variable</li>
+                        <li>Updated legacy system link to point to the AWS dev-sized environment</li>
+                        <li>Put scanning of newly added hdf5 environment variable</li>
+                        <li>Update link of legacy to aws dev size</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jun 25, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <div class="commit-title">Documentation Updates</div>
+                    <ul class="commit-changes">
+                        <li>Multiple README.md updates</li>
+                        <li>Create README.md</li>
+                    </ul>
+                    <div class="commit-meta">
+                        <span class="author">lhbarboza-cgiar</span>
+                        <span class="date">Jun 23, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="commit-item">
+                    <span class="version-badge">v3.8.0</span>
+                    <div class="commit-title">Version 3.8.0 Release</div>
+                    <div class="commit-meta">
+                        <span class="author">Barboza</span>
+                        <span class="date">Jun 23, 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>SNPSeek v3 - IRRI Bioinformatics | Generated on February 4, 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
