@@ -8,6 +8,11 @@
 	    String cookiePath = org.irri.iric.portal.AppContext.getCookiePath();
 	    boolean enableAnalytics = org.irri.iric.portal.AppContext.isEnableGoogleAnalytics();
 	    
+	    // Add chatbot configuration
+	    boolean enableChatbot = org.irri.iric.portal.AppContext.isEnableChatbot();
+	    String chatbotApiUrl = org.irri.iric.portal.AppContext.getChatbotApiUrl();
+	    
+	    
 	    String currentPage = "HOME";  // Change per page
 	    
 	    org.irri.iric.portal.AppContext.debug("Google Analytics ID: " + gaId);
@@ -85,6 +90,7 @@
     </south>
 </borderlayout>
 	 <!-- Add the chat widget at the bottom -->
+	<zk if="${enableChatbot}">
     <html>
         <![CDATA[
             <!-- Chat Widget Styles -->
@@ -442,7 +448,7 @@
             <!-- Chat Widget JavaScript -->
             <script>
                 (function() {
-                    const API_URL = 'https://brs-snpseek.duckdns.org/api/chat'; 
+                    const API_URL = '${chatbotApiUrl}'; 
                     
                     const toggleBtn = document.getElementById('chat-toggle-btn');
                     const closeBtn = document.getElementById('close-chat-btn');
@@ -540,5 +546,6 @@
             </script>
         ]]>
     </html>
+    </zk>
 
 </zk>

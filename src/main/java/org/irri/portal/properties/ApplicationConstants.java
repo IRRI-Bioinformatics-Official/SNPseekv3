@@ -38,6 +38,11 @@ public class ApplicationConstants {
 
 	public static final String GOOGLE_PROPERTY_ID = "google.property.id";
 	
+
+	public static final String CHATBOT_ENABLED = "chatbot.enabled";
+	
+	public static final String CHATBOT_SERVER_URL = "chatbot.api.url";
+
 	
 	// 
 	
@@ -116,6 +121,7 @@ public class ApplicationConstants {
 	public static final String DEFAULT_VARIANT_SET = "defaultVariantset";
 	
 	public static final String DEFAULT_CHR2SRC_FEATURE_ID_OFFSET = "chr2srcfeatureidOffset";
+
 
 
 

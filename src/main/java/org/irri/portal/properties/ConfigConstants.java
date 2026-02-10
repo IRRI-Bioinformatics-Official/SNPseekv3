@@ -14,6 +14,8 @@ public class ConfigConstants {
 	
 	public static final Object VERSION = "version";
 
+	public static final Object CHATBOT_ENABLED = null;
+
 	
 
 	

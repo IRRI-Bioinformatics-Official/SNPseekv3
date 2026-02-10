@@ -309,6 +309,14 @@ public class AppContext {
 		// return rdms==AppContext.RDMS.ORACLE;
 		return false;
 	}
+	
+	public static boolean isEnableChatbot() {
+	    return Boolean.parseBoolean(webProp.get(ApplicationConstants.CHATBOT_ENABLED).toString());
+	}
+
+	public static String getChatbotApiUrl() {
+	    return webProp.get(ApplicationConstants.CHATBOT_SERVER_URL).toString();
+	}
 
 	
 	public static String getDefaultSchema() {
