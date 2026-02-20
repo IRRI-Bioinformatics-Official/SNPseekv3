@@ -21,6 +21,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.irri.iric.ds.chado.dao.VGenotypeRunDAO;
+import org.irri.iric.ds.chado.dao.access.OrganismDAO;
+import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.ds.chado.domain.model.VGenotypeRun;
 //import org.codehaus.jackson.map.ObjectMapper;
 //import org.codehaus.jettison.json.JSONException;
@@ -52,6 +54,7 @@ public class GenotypeWS {
 	@Autowired
 	@Qualifier("GenotypeFacade")
 	private GenotypeFacade genotype;
+	
 	@Autowired
 	private WorkspaceFacade workspace;
 
@@ -66,12 +69,16 @@ public class GenotypeWS {
 
 	private Map<String, String> mapVarReplace = new HashMap();
 
+	private OrganismDAO organismDAO;
+
 	public GenotypeWS() {
 		super();
 		// TODO Auto-generated constructor stub
 		genotype = (GenotypeFacade) AppContext.checkBean(genotype, "GenotypeFacade");
 		variety = (VarietyFacade) AppContext.checkBean(variety, "VarietyFacade");
 		workspace = (WorkspaceFacade) AppContext.checkBean(workspace, "WorkspaceFacade");
+		organismDAO = (OrganismDAO) AppContext.checkBean(organismDAO, "OrganismDAO");
+		
 		AppContext.debug("GenotypeWS started");
 
 		// rename some variable names
@@ -251,7 +258,7 @@ public class GenotypeWS {
 	@Path("/gettable")
 	@GET
 	@Produces("application/json")
-	public Response getVariantByVarietyId(@DefaultValue("all") @QueryParam("varid") String sVarids,
+	public Response getVariantByVarietyId(@DefaultValue("9") @QueryParam("organismId") Integer organismId, @DefaultValue("all") @QueryParam("varid") String sVarids,
 			@QueryParam("chr") String sChr, @QueryParam("start") Long lStart, @QueryParam("end") Long lEnd,
 			@DefaultValue("true") @QueryParam("snp") boolean bSNP,
 			@DefaultValue("false") @QueryParam("indel") boolean bIndel,
@@ -298,7 +305,7 @@ public class GenotypeWS {
 
 		try {
 			VariantTable table = getVariantTable(colVarIds, sChr, lStart, lEnd, bSNP, bIndel, bCoreonly, bMismatchonly,
-					colPos, sSubpopulation, sLocus, bAlignIndels);
+					colPos, sSubpopulation, sLocus, bAlignIndels, organismDAO.getOrganismByID(organismId));
 			if (table == null)
 				throw new JSONException("VariantTable is null");
 
@@ -313,7 +320,7 @@ public class GenotypeWS {
 	@Path("/posttable")
 	@POST
 	@Produces("application/json")
-	public Response postVariantByVarietyId(@FormParam("varid") List<Long> lVarids, @FormParam("chr") String sChr,
+	public Response postVariantByVarietyId(@FormParam("organismId") Integer organismId, @FormParam("varid") List<Long> lVarids, @FormParam("chr") String sChr,
 			@FormParam("start") Long lStart, @FormParam("end") Long lEnd,
 			@DefaultValue("true") @FormParam("snp") boolean bSNP,
 			@DefaultValue("false") @FormParam("indel") boolean bIndel,
@@ -344,6 +351,8 @@ public class GenotypeWS {
 			}
 		}
 
+		Organism organism = organismDAO.getOrganismByID(organismId);
+		
 		Collection<BigDecimal> colPos = null;
 		if (lSnppos != null && !lSnppos.isEmpty()) {
 			Iterator<Long> itpos = lSnppos.iterator();
@@ -357,7 +366,7 @@ public class GenotypeWS {
 
 		try {
 			VariantTable table = getVariantTable(colVarIds, sChr, lStart, lEnd, bSNP, bIndel, bCoreonly, bMismatchonly,
-					colPos, sSubpopulation, sLocus, bAlignIndels);
+					colPos, sSubpopulation, sLocus, bAlignIndels, organism);
 
 			if (table == null)
 				throw new JSONException("VariantTable is null");
@@ -371,7 +380,7 @@ public class GenotypeWS {
 
 	private VariantTable getVariantTable(Collection colVarIds, String sChr, Long lStart, Long lEnd, boolean bSNP,
 			boolean bIndel, boolean bCoreonly, boolean bMismatchonly, Collection poslist, String sSubpopulation,
-			String sLocus, boolean bAlignIndels) throws Exception {
+			String sLocus, boolean bAlignIndels, Organism organism) throws Exception {
 
 		boolean showAllRefsAllele = false;
 		// GenotypeQueryParams params = new GenotypeQueryParams(colVarIds,sChr, lStart,
@@ -388,13 +397,16 @@ public class GenotypeWS {
 		Set sVar = new HashSet();
 		sVar.add("3k");
 		Set sRun = new HashSet();
-		sRun.add("3kfiltered");
+//		sRun.add("3kfiltered");
 
 		genotyperundao = (VGenotypeRunDAO) AppContext.checkBean(genotyperundao, "GenotypeRunPlatformDAO");
-		Set<VGenotypeRun> sRunTest = genotyperundao.findVGenotypeRunByVariantset("3kfiltered");
+		VGenotypeRun vrun = genotyperundao.findVGenotypeRunByGenotypeRunId(2);
+		sRun.add(vrun);
 
+		
+		
 		GenotypeQueryParams params = new GenotypeQueryParams(colVarIds, sChr, lStart, lEnd, bSNP, bIndel, sVS, sVar,
-				sRunTest, bMismatchonly, poslist, sSubpopulation, sLocus, bAlignIndels, showAllRefsAllele, null);
+				sRun, bMismatchonly, poslist, sSubpopulation, sLocus, bAlignIndels, showAllRefsAllele, organism);
 
 		params.setDataset(dataset);
 		VariantTableArray varianttable = new VariantAlignmentTableArraysImpl();
