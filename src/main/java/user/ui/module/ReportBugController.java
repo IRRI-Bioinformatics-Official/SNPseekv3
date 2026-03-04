@@ -105,7 +105,7 @@ public class ReportBugController extends SelectorComposer<Div> {
 		if (medias != null && medias.length > 0) {
 
 			int i = 1;
-			if (medias.length > 5) {
+			if (medias.length < 5) {
 				for (Media media : medias) {
 					String fileName = media.getName();
 

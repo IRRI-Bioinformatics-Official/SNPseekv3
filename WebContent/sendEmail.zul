@@ -158,6 +158,24 @@
 					<textbox id="txtBody" multiline="true"
 						placeholder="Write your message here…" hflex="1" height="200px" />
 				</vlayout>
+				<hlayout valign="middle" style="padding:3px;">
+					<hlayout width="100px">
+						<label sclass="name" value="Screenshots" />
+					</hlayout>
+
+					<vbox hflex="1">
+						<hlayout>
+							<fileupload id="uploadBtn" label="Attach"
+								upload="true, maxsize=10240, multiple=true" />
+							<textbox id="textboxTitle1"
+								Value="NOTE: Attachments will be scan for virus and malicious attacks. This may take a while."
+								readonly="true" hflex="1" />
+						</hlayout>
+						<vbox id="attachmentVb" />
+					</vbox>
+
+
+				</hlayout>
 			</vlayout>
 
 			<!-- Actions -->
