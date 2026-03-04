@@ -15,6 +15,9 @@ public class KeysPropertyConfig {
 
 	@Value("${smtp.from}")
 	private String from;
+	
+	@Value("${smtp.devEmail}")
+	private String developerEmail;
 
 	@Value("${smtp.fromName}")
 	private String fromName;
@@ -85,6 +88,16 @@ public class KeysPropertyConfig {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+	
+	
+
+	public String getDeveloperEmail() {
+		return developerEmail;
+	}
+
+	public void setDeveloperEmail(String developerEmail) {
+		this.developerEmail = developerEmail;
 	}
 
 	@PostConstruct

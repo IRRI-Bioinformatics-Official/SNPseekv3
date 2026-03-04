@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="Send Email" contentType="text/html;charset=UTF-8"?>
+
+<zk xmlns:h="http://www.w3.org/1999/xhtml">
+
+	<style>
+		:root { --teal: #1a9a8a; --teal-dark: #157a6e; --teal-light:
+		#e8f6f5; --text: #333; --muted: #777; --border: #e0e0e0;
+		--white: #fff; --radius: 6px; --shadow: 0 2px 8px
+		rgba(0,0,0,0.08); }
+
+		/* center the whole page content */ .email-page { display: flex;
+		flex-direction: column; align-items: center; padding: 40px 24px
+		60px; font-family: 'Roboto', Arial, sans-serif; color:
+		var(--text); width: 100%; box-sizing: border-box; }
+
+		/* heading block — same width as card */ .email-page-heading {
+		width: 760px; max-width: 760px; margin-bottom: 20px; }
+		.email-page-title { font-size: 22px; font-weight: 500; color:
+		var(--teal-dark); display: flex; align-items: center; gap: 10px;
+		margin: 0 0 4px; } .email-page-title-icon { width: 32px; height:
+		32px; background: var(--teal); border-radius: 8px; display:
+		inline-flex; align-items: center; justify-content: center;
+		color: #fff; font-size: 16px; } .email-page-sub { font-size:
+		13px; color: var(--muted); margin: 0; }
+
+		/* card — centered, wider */ .email-card { background:
+		var(--white); border: 1px solid var(--border); border-radius:
+		var(--radius); box-shadow: var(--shadow); width: 760px;
+		max-width: 760px; overflow: hidden; }
+
+		/* teal header strip */ .email-card-header { background:
+		linear-gradient(135deg, #1a9a8a 0%, #157a6e 100%); padding: 14px
+		28px; color: #fff; font-size: 14px; font-weight: 500;
+		letter-spacing: 0.02em; display: flex; align-items: center; gap:
+		8px; }
+
+		/* form body */ .email-form { padding: 28px 32px; }
+
+		/* field group */ .ef-group { margin-bottom: 20px; } .ef-label {
+		font-size: 12px; font-weight: 500; color: var(--muted);
+		text-transform: uppercase; letter-spacing: 0.06em;
+		margin-bottom: 7px; display: block; } .ef-required { color:
+		#e74c3c; margin-left: 2px; }
+
+		/* ZK textbox — full width, styled */ .ef-group .z-textbox {
+		width: 100% !important; border: 1px solid var(--border)
+		!important; border-radius: var(--radius) !important; font-size:
+		13px !important; color: var(--text) !important; padding: 9px
+		12px !important; font-family: 'Roboto', Arial, sans-serif
+		!important; background: #fafafa !important; box-shadow: none
+		!important; transition: border-color 0.2s, box-shadow 0.2s
+		!important; box-sizing: border-box !important; } .ef-group
+		.z-textbox:focus { border-color: var(--teal) !important;
+		background: #fff !important; outline: none !important;
+		box-shadow: 0 0 0 3px rgba(26,154,138,0.12) !important; }
+
+		/* two-column CC/BCC row */ .ef-row { display: flex; gap: 20px;
+		} .ef-row .ef-group { flex: 1; }
+
+		/* divider */ .ef-divider { height: 1px; background:
+		var(--border); margin: 4px 0 20px; }
+
+		/* HTML checkbox */ .ef-check .z-checkbox-content { font-family:
+		'Roboto', Arial, sans-serif !important; font-size: 13px
+		!important; color: var(--muted) !important; } .ef-check
+		.z-checkbox-checked .z-checkbox-box { background: var(--teal)
+		!important; border-color: var(--teal) !important; }
+
+		/* footer / action bar */ .email-form-footer { padding: 16px
+		32px; background: #f8f8f8; border-top: 1px solid var(--border);
+		display: flex; align-items: center; gap: 12px; }
+
+		.z-button.btn-send { background: var(--teal) !important; color:
+		#fff !important; border: none !important; border-radius:
+		var(--radius) !important; padding: 9px 32px !important;
+		font-size: 13px !important; font-weight: 500 !important; cursor:
+		pointer !important; font-family: 'Roboto', Arial, sans-serif
+		!important; } .z-button.btn-send:hover { background:
+		var(--teal-dark) !important; box-shadow: 0 3px 10px
+		rgba(26,154,138,0.3) !important; } .z-button.btn-clear {
+		background: #fff !important; color: var(--muted) !important;
+		border: 1px solid var(--border) !important; border-radius:
+		var(--radius) !important; padding: 9px 22px !important;
+		font-size: 13px !important; cursor: pointer !important;
+		font-family: 'Roboto', Arial, sans-serif !important; }
+		.z-button.btn-clear:hover { border-color: #aaa !important;
+		color: var(--text) !important; }
+
+		/* status messages */ .status-ok { padding: 8px 14px;
+		background: #eafaf1; border: 1px solid #a9dfbf; border-radius:
+		var(--radius); color: #1e8449; font-size: 12px; } .status-err {
+		padding: 8px 14px; background: #fdf3f2; border: 1px solid
+		#e07060; border-radius: var(--radius); color: #922b21;
+		font-size: 12px; } .status-info { padding: 8px 14px; background:
+		var(--teal-light); border: 1px solid #a0cfc9; border-radius:
+		var(--radius); color: var(--teal-dark); font-size: 12px; }
+	</style>
+
+	<vlayout sclass="email-page" style="width:100%;"
+		apply="org.irri.iric.portal.email.SendEmailController">
+
+		<!-- Page heading -->
+		<vlayout sclass="email-page-heading" style="width:760px;">
+			<hlayout sclass="email-page-title">
+				<h:span class="email-page-title-icon">✉</h:span>
+				Send Email
+			</hlayout>
+			<h:p class="email-page-sub">
+				Compose and send an email message.
+			</h:p>
+		</vlayout>
+
+		<!-- Centered wide card -->
+		<vlayout sclass="email-card" width="760px">
+
+			<hlayout sclass="email-card-header">✉ New Message</hlayout>
+
+			<vlayout sclass="email-form">
+
+				<!-- To -->
+				<vlayout sclass="ef-group">
+					<h:span class="ef-label">
+						To
+						<h:span class="ef-required">*</h:span>
+					</h:span>
+					<textbox id="txtTo"
+						placeholder="recipient@example.com" hflex="1" />
+				</vlayout>
+
+				<!-- Cc / Bcc -->
+				<vlayout sclass="ef-group">
+					<h:span class="ef-label">
+						Bcc (Add your email)
+					</h:span>
+					<textbox id="txtBcc" placeholder="bcc@example.com"
+						hflex="1" />
+				</vlayout>
+
+				<!-- Subject -->
+				<vlayout sclass="ef-group">
+					<h:span class="ef-label">
+						Subject
+						<h:span class="ef-required">*</h:span>
+					</h:span>
+					<textbox id="txtSubject" placeholder="Enter subject"
+						hflex="1" />
+				</vlayout>
+
+				<h:div class="ef-divider" />
+
+				<!-- Body -->
+				<vlayout sclass="ef-group">
+					<h:span class="ef-label">
+						Message
+						<h:span class="ef-required">*</h:span>
+					</h:span>
+					<textbox id="txtBody" multiline="true"
+						placeholder="Write your message here…" hflex="1" height="200px" />
+				</vlayout>
+			</vlayout>
+
+			<!-- Actions -->
+			<hlayout sclass="email-form-footer" spacing="12px">
+				<button id="btnSend" label="Send Message"
+					sclass="btn-send" />
+				<button id="btnClear" label="Clear" sclass="btn-clear" />
+				<label id="lblStatus" value="" visible="false" />
+			</hlayout>
+
+		</vlayout><!-- /.email-card -->
+
+	</vlayout><!-- /.email-page -->
+
+</zk>

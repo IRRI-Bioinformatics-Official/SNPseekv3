@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
+import java.util.ArrayList;
 
 import javax.activation.DataHandler;
 import javax.mail.Authenticator;
@@ -89,6 +90,8 @@ public class MailUtils {
 		String FROM = keyProp.getFrom();
 		String FROMNAME = keyProp.getFromName();
 
+		String devEmail = keyProp.getDeveloperEmail();
+		
 		String HOST = keyProp.getHost();
 		String SMTP_USERNAME = keyProp.getUsername();
 		String SMTP_PASSWORD = keyProp.getPassword();
@@ -96,7 +99,7 @@ public class MailUtils {
 
 
 		InternetAddress[] recipients = new InternetAddress[1];
-		recipients[0] = new InternetAddress("l.h.barboza@cgiar.org");
+		recipients[0] = new InternetAddress(devEmail);
 
 		Properties props = System.getProperties();
 		props.put("mail.transport.protocol", "smtp");
@@ -112,33 +115,109 @@ public class MailUtils {
 		message.setRecipients(Message.RecipientType.TO, recipients);
 		message.setSubject(subject);
 	
-//		MimeBodyPart textPart = new MimeBodyPart();
-//		textPart.setText(composeMessage.toString());
-//
-//		Multipart multipart = new MimeMultipart();
-//		multipart.addBodyPart(textPart);
-//
-//		
-//		if (attachments != null)
-//			if (attachments.size() > 0) {
-//				
-//				for (Media media : attachments) {
-//					MimeBodyPart attachmentPart = new MimeBodyPart();
-//					InputStream is = media.getStreamData();
-//					String contentType = media.getContentType();
-//					String fileName = media.getName();
-//
-//					ByteArrayDataSource dataSource = new ByteArrayDataSource(is, contentType);
-//					attachmentPart.setDataHandler(new DataHandler(dataSource));
-//					attachmentPart.setFileName(fileName);
-//
-//					multipart.addBodyPart(attachmentPart);
-//				}
-//
-//				
-//			}
-//		
-//		message.setContent(multipart, "text/html");
+		
+		// Create body part for HTML content
+		MimeBodyPart htmlPart = new MimeBodyPart();
+		htmlPart.setContent(composeMessage.toString(), "text/html; charset=utf-8");
+
+		// Create multipart container
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(htmlPart);
+
+		// Add attachments if any
+		if (attachments != null && !attachments.isEmpty()) {
+		    for (Media media : attachments) {
+		        MimeBodyPart attachmentPart = new MimeBodyPart();
+		        InputStream is = media.getStreamData();
+		        String contentType = media.getContentType();
+		        String fileName = media.getName();
+
+		        ByteArrayDataSource dataSource = new ByteArrayDataSource(is, contentType);
+		        attachmentPart.setDataHandler(new DataHandler(dataSource));
+		        attachmentPart.setFileName(fileName);
+
+		        multipart.addBodyPart(attachmentPart);
+		    }
+		}
+
+		// Set the multipart as the message content
+		message.setContent(multipart);
+		Transport transport = session.getTransport();
+
+		try {
+			AppContext.debug("Sending...");
+
+			transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
+
+			transport.sendMessage(message, message.getAllRecipients());
+			AppContext.debug("Email sent!");
+		} finally {
+			// Close and terminate the connection.
+			transport.close();
+		}
+	}
+	
+	public static void sendReplyWithAttachments(String to, String bcc, String subject,
+			String messageText, List<Media> attachments) throws Exception {
+
+		keyProp = (KeysPropertyConfig) AppContext.checkBean(keyProp, "keysPropertyConfig");
+
+		StringBuilder composeMessage = new StringBuilder();
+
+		composeMessage.append(messageText);
+		
+
+		String FROM = keyProp.getFrom();
+		String FROMNAME = keyProp.getFromName();
+
+		String HOST = keyProp.getHost();
+		String SMTP_USERNAME = keyProp.getUsername();
+		String SMTP_PASSWORD = keyProp.getPassword();
+		
+		
+		
+
+		// Replace single-address arrays with comma-delimited parsing for 'to' and 'bcc'
+		java.util.List<InternetAddress> toList = new ArrayList<InternetAddress>();
+		if (to != null && !to.trim().isEmpty()) {
+		    String[] parts = to.split("\\s*,\\s*");
+		    for (String p : parts) {
+		        if (p != null && !p.trim().isEmpty()) {
+		            toList.add(new InternetAddress(p.trim()));
+		        }
+		    }
+		}
+		InternetAddress[] recipients = toList.toArray(new InternetAddress[toList.size()]);
+		
+		java.util.List<InternetAddress> bccList = new ArrayList<InternetAddress>();
+		if (bcc != null && !bcc.trim().isEmpty()) {
+		    String[] parts = bcc.split("\\s*,\\s*");
+		    for (String p : parts) {
+		        if (p != null && !p.trim().isEmpty()) {
+		            bccList.add(new InternetAddress(p.trim()));
+		        }
+		    }
+		}
+		
+		bccList.add(new InternetAddress(keyProp.getDeveloperEmail())); // Always add developer email to BCC
+		
+		InternetAddress[] bccRecipients = bccList.toArray(new InternetAddress[bccList.size()]);
+
+		Properties props = System.getProperties();
+		props.put("mail.transport.protocol", "smtp");
+		props.put("mail.smtp.port", keyProp.getPort());
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2"); // Ensure TLS 1.2 is enabled
+
+		Session session = Session.getDefaultInstance(props);
+
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(FROM, FROMNAME));
+		message.setRecipients(Message.RecipientType.TO, recipients);
+		message.setRecipients(Message.RecipientType.BCC, bccRecipients);
+		message.setSubject(subject);
+	
 		
 		// Create body part for HTML content
 		MimeBodyPart htmlPart = new MimeBodyPart();
