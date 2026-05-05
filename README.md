@@ -8,7 +8,10 @@
 
 - [Features](#-features)
 - [Technologies Used](#-technologies-used)
-- [Environment Variable](#-environment-variable)
+- [Environment Variables](#-environment-variables)
+- [Configuration & Property Files](#-configuration--property-files)
+- [Required Project Dependency](#-required-project-dependency)
+- [How to Deploy](#-how-to-deploy)
 
 ---
 
@@ -35,10 +38,18 @@
 
 ## ⚙️ Environment Variables
 
-Before running the project, ensure the following environment variables are configured. These variables are required for authentication and third-party integration.
+Before running the project, ensure the following environment variables are configured. These variables are required for authentication, third-party integration, and database connectivity.
 
 ### Required Variables
 
+#### Database Configuration
+```yaml
+DB_URLS=jdbc:postgresql://<db-host>:5432/<db-name>
+DB_USERS=<database-username>
+DB_PASSWORDS=<database-password>
+```
+
+#### Application Configuration
 ```yaml
 HOSTNAME=<your-server-hostname>              # e.g., http://localhost:8080 or https://yourdomain.com
 RECAPTCHA_SECRET_KEY=<your-recaptcha-secret>
@@ -50,104 +61,96 @@ GOOGLE_OAUTH_CLIENT_SECRET=<your-google-client-secret>
 GOOGLE_ANALYTICS_PROPERTY_ID=<your-google-propertyid>
 ```
 
-### Configuration Methods
+---
 
-#### Option 1: Docker Compose (Recommended)
+## 🛠️ Configuration & Property Files
 
-Add the variables directly in your `docker-compose.yml`:
+The application uses a hierarchical property loading mechanism managed by `AppContext.java` to handle environment-specific settings.
 
-```yaml
-services:
-  tomcat:
-    image: tomcat:9.0
-    environment:
-      - HOSTNAME=http://localhost:8080
-      - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
-      - MICROSOFT_CLIENT_ID=${MICROSOFT_CLIENT_ID}
-      - MICROSOFT_TENANT_ID=${MICROSOFT_TENANT_ID}
-      - MICROSOFT_SECRET=${MICROSOFT_SECRET}
-      - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID}
-      - GOOGLE_OAUTH_CLIENT_SECRET=${GOOGLE_OAUTH_CLIENT_SECRET}
-      - GOOGLE_ANALYTICS_PROPERTY_ID=${GOOGLE_ANALYTICS_PROPERTY_ID}
-```
+### **1. Master Configuration: `config.properties`**
+Located in `src/main/resources/config.properties`, this is the first file loaded. It defines the environment type and determines which secondary property file to load.
 
-#### Option 2: Tomcat setenv.sh (Linux/Mac)
+**Key settings:**
+- `webserver`: Deployment target (e.g., `localhost`, `beanstalk`, `brs`).
+- `compiletype`: Environment type (`prod`, `dev`, `test`).
+- `os`: Operating system (`linux`, `windows`).
+- `dockerize`: Boolean flag for Docker environments (`true`/`false`).
 
-Create or edit `TOMCAT_HOME/bin/setenv.sh`:
+### **2. Environment-Specific Properties**
+`AppContext` dynamically loads a secondary property file based on the `webserver` value. These files contain paths for external tools, server-specific URLs, and UI feature toggles.
 
+- **Example**: If `webserver=brs`, it loads `src/main/resources/brs.properties`.
+- **Common Settings in these files**:
+    - `hostname`: Base URL of the application.
+    - `jbrowseDir` / `jbrowse2Dir`: URLs for JBrowse instances.
+    - `pathToLocalBlast`: Path to the BLAST+ binaries.
+    - `pathToR`: Path to the `Rscript` executable.
+    - `flatFileDir`: Directory for storing temporary and exported flat files.
+
+### **3. Database Properties: `db.properties`**
+Used for database credentials, typically mapped to environment variables:
+- `user=${DB_USERS}`
+- `password=${DB_PASSWORDS}`
+- `url=${DB_URLS}`
+
+### **4. How to Set a Customized Property File**
+To create and use a custom configuration:
+1.  **Create a new file**: Add `myenv.properties` to `src/main/resources/`.
+2.  **Define your settings**: Copy and modify entries from an existing file like `localhost.properties`.
+3.  **Update Master Config**: Set `webserver=myenv` in `config.properties`.
+4.  **Rebuild**: Run `mvn clean package` to include the new configuration in the WAR file.
+
+---
+
+## 📦 Required Project Dependency
+
+This project depends on the **SNPseek-Datasource** library for database access and data models.
+
+### **SNPseek-Datasource**
+- **Repository:** [SNPseek-Datasource](https://github.com/IRRI-Bioinformatics-Official/SNPseek-Datasource) (`SNPseek-Datasource`)
+- **Artifact:** `org.irri:snpseek-DS:3.10.1`
+
+**Installation:**
+Before building SNPseek, you must install the datasource library into your local Maven repository:
 ```bash
-#!/bin/bash
-export HOSTNAME="http://localhost:8080"
-export RECAPTCHA_SECRET_KEY="your-recaptcha-secret"
-export MICROSOFT_CLIENT_ID="your-azure-client-id"
-export MICROSOFT_TENANT_ID="your-azure-tenant-id"
-export MICROSOFT_SECRET="your-azure-secret"
-export GOOGLE_OAUTH_CLIENT_ID="your-google-client-id"
-export GOOGLE_OAUTH_CLIENT_SECRET="your-google-client-secret"
-export GOOGLE_ANALYTICS_PROPERTY_ID="your-google-propertyid"
+cd ../SNPseek-Datasource_JUL2025
+mvn clean install -DskipTests
 ```
 
-Make it executable:
+---
+
+## 🚀 How to Deploy
+
+### Prerequisites
+- **Java 15** (as specified in `pom.xml`)
+- **Maven 3.6+**
+- **Docker & Docker Compose** (for containerized deployment)
+- **Tomcat 8.5/9.0** (for manual deployment)
+
+### 1. Build the Project
+Run the following command in the project root to compile and generate the WAR file:
 ```bash
-chmod +x TOMCAT_HOME/bin/setenv.sh
+mvn clean package -DskipTests
 ```
+The generated WAR file will be located in `target/SNP-seekV3_clean-<version>.war`.
 
-#### Option 3: Tomcat setenv.bat (Windows)
+### 2. Deploy with Docker (Recommended)
+You can use the provided `Dockerfile` and `docker-compose.yaml` for a quick setup.
 
-Create or edit `TOMCAT_HOME/bin/setenv.bat`:
-
-```batch
-set HOSTNAME=http://localhost:8080
-set RECAPTCHA_SECRET_KEY=your-recaptcha-secret
-set MICROSOFT_CLIENT_ID=your-azure-client-id
-set MICROSOFT_TENANT_ID=your-azure-tenant-id
-set MICROSOFT_SECRET=your-azure-secret
-set GOOGLE_OAUTH_CLIENT_ID=your-google-client-id
-set GOOGLE_OAUTH_CLIENT_SECRET=your-google-client-secret
-set GOOGLE_ANALYTICS_PROPERTY_ID=your-google-propertyid
-```
-
-#### Option 4: System Environment Variables
-
-**Linux/Mac:**
+**Build the Docker Image:**
 ```bash
-# Add to ~/.bashrc or ~/.zshrc
-export HOSTNAME="http://localhost:8080"
-export RECAPTCHA_SECRET_KEY="your-recaptcha-secret"
-# ... (add all variables)
-
-# Reload
-source ~/.bashrc
+docker build -t snpseek-v3 .
 ```
 
-**Windows:**
-1. Open System Properties → Environment Variables
-2. Add each variable under "System variables" or "User variables"
-3. Restart Tomcat
-
-### Accessing Variables in Java
-
-In your `AppContext.java`:
-
-```java
-package org.irri.iric.portal;
-
-public class AppContext {
-    public static final String hostname = System.getenv("HOSTNAME");
-    
-    // Or with fallback
-    public static String getHostname() {
-        return System.getenv().getOrDefault("HOSTNAME", "http://localhost:8080");
-    }
-}
+**Run with Docker Compose:**
+Ensure your `.env` file or `docker-compose.yaml` has the required environment variables.
+```bash
+cd docker
+docker-compose up -d
 ```
 
-### Verification
-
-After configuration, verify the variables are loaded:
-
-```java
-System.out.println("HOSTNAME: " + System.getenv("HOSTNAME"));
-```
-
-Or check Tomcat logs on startup.
+### 3. Manual Deployment to Tomcat
+1.  Copy the generated `.war` file to your Tomcat `webapps` directory.
+2.  Rename it to `v3.war` if you want it accessible at `/v3`.
+3.  Configure environment variables in `setenv.sh` (Linux) or `setenv.bat` (Windows).
+4.  Start/Restart Tomcat.
