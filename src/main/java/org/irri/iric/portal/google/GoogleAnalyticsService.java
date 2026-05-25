@@ -66,6 +66,10 @@ public class GoogleAnalyticsService {
 	 */
 	public List<PageAnalytics> getPageViews(int daysAgo) throws IOException {
 		List<PageAnalytics> results = new ArrayList<>();
+		
+		if (propertyId == null || propertyId.trim().isEmpty()) {
+			return results;
+		}
 
 		// Create the client
 		try (BetaAnalyticsDataClient client = BetaAnalyticsDataClient.create(settings)) {
@@ -103,6 +107,10 @@ public class GoogleAnalyticsService {
 	 * Get total sessions for all pages
 	 */
 	public long getTotalSessions(int daysAgo) throws IOException {
+		
+		if (propertyId == null || propertyId.trim().isEmpty()) {
+			return 0;
+		}
 
 		try (BetaAnalyticsDataClient client = BetaAnalyticsDataClient.create(settings)) {
 

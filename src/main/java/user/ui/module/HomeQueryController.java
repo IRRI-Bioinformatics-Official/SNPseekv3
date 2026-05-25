@@ -108,21 +108,25 @@ public class HomeQueryController extends SelectorComposer<Div> {
 			providerDiv_asti.setVisible(true);
 		// Google Analytics 
 		
-		String propertyId = AppContext.getGooglePropertyId(); // e.g., "1234
-		
-		GoogleAnalyticsService service = new GoogleAnalyticsService(propertyId, "ga-credentials.json");
-        
-        try {
-            
-            long totalSessions = service.getTotalSessions(30);
-
-            totalVisits.setValue(String.valueOf(totalSessions));
-            
-            
-        } catch (IOException e) {
-            System.err.println("Error fetching analytics data: " + e.getMessage());
-            e.printStackTrace();
-        }
+		if (AppContext.isEnableGoogleAnalytics()) {
+			String propertyId = AppContext.getGooglePropertyId(); // e.g., "1234
+			
+			GoogleAnalyticsService service = new GoogleAnalyticsService(propertyId, "ga-credentials.json");
+	        
+	        try {
+	            
+	            long totalSessions = service.getTotalSessions(30);
+	
+	            totalVisits.setValue(String.valueOf(totalSessions));
+	            
+	            
+	        } catch (IOException e) {
+	            System.err.println("Error fetching analytics data: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+		} else {
+			totalVisits.setValue("0");
+		}
 
 		
 

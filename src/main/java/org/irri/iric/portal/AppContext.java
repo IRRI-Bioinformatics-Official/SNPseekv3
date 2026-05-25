@@ -68,7 +68,7 @@ import org.irri.iric.ds.chado.domain.StockSample;
 import org.irri.iric.ds.chado.domain.Variety;
 import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.ds.utils.DbUtils;
-import org.irri.iric.portal.galaxy.zkui.GalaxyCustomController;
+//import org.irri.iric.portal.galaxy.zkui.GalaxyCustomController;
 import org.irri.portal.properties.ApplicationConstants;
 import org.irri.portal.properties.ConfigConstants;
 //import org.irri.iric.portal.galaxy.zkui.DefaultGalaxyController;
@@ -112,7 +112,7 @@ public class AppContext {
 	};
 
 	public static enum WEBSERVER {
-		LOCALHOST, SCIENCE_CLOUD, BRS, ONE_K_ONE, TWENTY_K
+		LOCALHOST, SCIENCE_CLOUD, BRS, SCIENCE_CLOUD_1K1, TWENTY_K
 	};
 
 	public static enum OS {
@@ -227,10 +227,10 @@ public class AppContext {
 			InputStream isWebProp = AppContext.class
 					.getResourceAsStream("/" + configProp.getProperty(ConfigConstants.WEBSERVER) + ".properties");
 
-			webserver = WEBSERVER.valueOf(configProp.get(ConfigConstants.WEBSERVER).toString().toUpperCase());
-			operatingSytem = OS.valueOf(configProp.get(ConfigConstants.OPERATING_SYSTEM).toString().toUpperCase());
+			webserver = WEBSERVER.valueOf(configProp.getProperty(ConfigConstants.WEBSERVER, "LOCALHOST").toUpperCase());
+			operatingSytem = OS.valueOf(configProp.getProperty(ConfigConstants.OPERATING_SYSTEM, "LINUX").toUpperCase());
 
-			if (configProp.get(ConfigConstants.DOCKERIZE).toString().equals("true"))
+			if ("true".equals(configProp.getProperty(ConfigConstants.DOCKERIZE)))
 				dockerize = true;
 			else
 				dockerize = false;
@@ -263,7 +263,10 @@ public class AppContext {
 			e.printStackTrace();
 		}
 
-		webserver = (WEBSERVER) configProp.get(ConfigConstants.WEBSERVER);
+		String ws = configProp.getProperty(ConfigConstants.WEBSERVER);
+		if (ws != null) {
+			webserver = WEBSERVER.valueOf(ws.toUpperCase());
+		}
 	}
 
 	// ******************************** DEPLOYMENT-SPECIFIC SETTINGS (change
@@ -285,24 +288,26 @@ public class AppContext {
 	}
 	
 	public static String getAppVersion() {
-		return configProp.get(ConfigConstants.VERSION).toString();
+		return configProp.getProperty(ConfigConstants.VERSION, "");
 	}
 	
 	public static String getGooglePropertyId() {
-		return webProp.get(ApplicationConstants.GOOGLE_PROPERTY_ID).toString();
+		if (!isEnableGoogleAnalytics()) return "";
+		return webProp.getProperty(ApplicationConstants.GOOGLE_PROPERTY_ID, "");
 	}
 	
 	public static String getGoogleAnalyticsId() {
-		return webProp.get(ApplicationConstants.GOOGLE_ANALYTICS).toString();
+		if (!isEnableGoogleAnalytics()) return "";
+		return webProp.getProperty(ApplicationConstants.GOOGLE_ANALYTICS, "");
 	}
 	
 	public static String getCookiePath() {
-		return webProp.get(ApplicationConstants.COOKIE_PATH).toString();
+		return webProp.getProperty(ApplicationConstants.COOKIE_PATH, "/");
 	}
 	
 	public static boolean isEnableGoogleAnalytics() {
-		boolean enableGA = Boolean.parseBoolean(webProp.get(ApplicationConstants.GOOGLE_ANALYTICS_ENABLED).toString());
-		return enableGA;
+		String enableGA = webProp.getProperty(ApplicationConstants.GOOGLE_ANALYTICS_ENABLED);
+		return enableGA != null && Boolean.parseBoolean(enableGA);
 	}
 	
 	public static boolean isOracle() {
@@ -311,11 +316,13 @@ public class AppContext {
 	}
 	
 	public static boolean isEnableChatbot() {
-	    return Boolean.parseBoolean(webProp.get(ApplicationConstants.CHATBOT_ENABLED).toString());
+		String enabled = webProp.getProperty(ApplicationConstants.CHATBOT_ENABLED);
+		return enabled != null && Boolean.parseBoolean(enabled);
 	}
 
 	public static String getChatbotApiUrl() {
-	    return webProp.get(ApplicationConstants.CHATBOT_SERVER_URL).toString();
+		if (!isEnableChatbot()) return "";
+		return webProp.getProperty(ApplicationConstants.CHATBOT_SERVER_URL, "");
 	}
 
 	
@@ -511,15 +518,15 @@ public class AppContext {
 	 * 
 	 * @return
 	 */
-	public static String getJbrowse() {
+	public static String getJbrowseDir() {
 		logger.info("JBROWSE HOST DIR: " + webProp.getProperty(ApplicationConstants.JBROWSE_DIR));
 
 		String jbrowseDir = webProp.getProperty(ApplicationConstants.JBROWSE_DIR);
 
 		if (!jbrowseDir.equals("."))
-			jbrowseDir = "jbrowse";
+			return jbrowseDir;
 
-		return AppContext.getHostname() +"/"+ jbrowseDir;
+		return AppContext.getHostname() +"/jbrowse";
 
 	}
 
@@ -563,7 +570,7 @@ public class AppContext {
 		String embbededDir = webProp.getProperty(ApplicationConstants.EMBEDDED_SERVER);
 
 		if (app.equals("jbrowse"))
-			return getJbrowse();
+			return getJbrowseDir();
 		if (app.equals("ideogram"))
 			return getTraitGeneIdeogramUrl();
 
@@ -696,14 +703,14 @@ public class AppContext {
 	}
 
 	private static String galaxy_instance;
-	private static GalaxyCustomController galaxy_controller;
+//	private static GalaxyCustomController galaxy_controller;
 
 //	private static GalaxyCustomController galaxy_controller;
 //
-	public static void setGalaxyInstance(String i, GalaxyCustomController c) {
-		galaxy_instance = i;
-		galaxy_controller = c;
-	}
+//	public static void setGalaxyInstance(String i, GalaxyCustomController c) {
+//		galaxy_instance = i;
+//		galaxy_controller = c;
+//	}
 
 	public static String getGalaxyInstance() {
 		return galaxy_instance;
@@ -1425,7 +1432,7 @@ public class AppContext {
 //	}
 
 	public static String getDefaultDataset() {
-		return webProp.get(ApplicationConstants.DEFAULT_DATASET).toString(); // VarietyFacade.DATASET_SNPINDELV2_IUPAC;
+		return webProp.getProperty(ApplicationConstants.DEFAULT_DATASET, ""); // VarietyFacade.DATASET_SNPINDELV2_IUPAC;
 		// return "refset" ; //VarietyFacade.DATASET_DEFAULT;
 
 	}
@@ -1433,7 +1440,7 @@ public class AppContext {
 	public static int chr2srcfeatureidOffset() {
 		try {
 			return Integer
-					.parseInt(webProp.get(ApplicationConstants.DEFAULT_CHR2SRC_FEATURE_ID_OFFSET).toString());
+					.parseInt(webProp.getProperty(ApplicationConstants.DEFAULT_CHR2SRC_FEATURE_ID_OFFSET, "2"));
 		} catch (NumberFormatException ex) {
 			return 2;
 		}
@@ -1442,7 +1449,7 @@ public class AppContext {
 	}
 
 	public static String getDefaultVariantset() {
-		return webProp.get(ApplicationConstants.DEFAULT_VARIANT_SET).toString();
+		return webProp.getProperty(ApplicationConstants.DEFAULT_VARIANT_SET, "");
 	}
 
 	/**
