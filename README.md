@@ -7,32 +7,51 @@
 ## 📖 Table of Contents
 
 - [Features](#-features)
+- [Project Structure](#-project-structure)
 - [Technologies Used](#-technologies-used)
 - [Environment Variables](#-environment-variables)
 - [Configuration & Property Files](#-configuration--property-files)
+- [Database Setup](#-database-setup)
 - [Required Project Dependency](#-required-project-dependency)
 - [How to Deploy](#-how-to-deploy)
+- [API Documentation](#-api-documentation)
 
 ---
 
 ## 🔍 Features
 
-- 🔎 **SNP Search** by gene, chromosome position, or accession
-- 🧬 **Genotype Visualization** for multiple samples
-- 📦 **Downloadable SNP Datasets** in tabular format
-- 🧠 **BrAPI v2.1** Support for standardized API access and integration with bioinformatics tools
-- 📊 **R-based SNP Analysis** with PLINK support
-- 🐳 **Docker-based Deployment**
+- 🔎 **SNP Search** by gene, chromosome position, or accession.
+- 🧬 **Genotype Visualization** for multiple samples using an integrated viewer.
+- 📦 **Downloadable SNP Datasets** in tabular format with filtering options.
+- 🧠 **BrAPI v2.1** Support for standardized API access and integration with bioinformatics tools.
+- 📊 **R-based SNP Analysis** with PLINK support for advanced genomic studies.
+- 🐳 **Docker-based Deployment** for easy setup and scalability.
+- 🏥 **Health Monitoring** via dedicated health check endpoints.
+
+---
+
+## 📁 Project Structure
+
+- `src/main/java`: Backend source code (Spring, Jersey, ZK logic).
+  - `org.irri.iric.portal.ws.rest`: Jersey-based REST and BrAPI endpoints.
+  - `org.irri.iric.portal.*.zkui`: UI logic for the ZK Framework.
+  - `org.irri.iric.portal.config`: Programmatic configuration and property management.
+- `src/main/resources`: Configuration files, Spring XML contexts, and property templates.
+- `WebContent`: Web resources, including ZK ZUML (`.zul`) files, HTML, and assets.
+- `docker`: Containerization assets, including specialized Dockerfiles for PostgreSQL and Tomcat.
+- `docs`: Technical documentation and diagrams.
 
 ---
 
 ## 🛠️ Technologies Used
 
-- **Java** – Backend services
-- **PostgreSQL + Chado schema** – Genotype and metadata storage
-- **R + PLINK** – Backend SNP analysis scripts
-- **Docker** – Deployment and containerization
-- **GitHub Projects & Actions** – Version control and CI/CD
+- **Java 15** – Backend services and application logic.
+- **Spring Framework 5.3.38** – Dependency injection, security, and data management.
+- **ZK Framework** – Rich web interface using ZUML and AJAX.
+- **Jersey** – Implementation of RESTful web services and BrAPI.
+- **PostgreSQL + Chado schema** – Standardized genomic and metadata storage.
+- **R + PLINK** – Backend SNP analysis scripts.
+- **Docker** – Deployment and containerization.
 
 ---
 
@@ -87,18 +106,15 @@ Located in `src/main/resources/config.properties`, this is the first file loaded
     - `pathToR`: Path to the `Rscript` executable.
     - `flatFileDir`: Directory for storing temporary and exported flat files.
 
-### **3. Database Properties: `db.properties`**
-Used for database credentials, typically mapped to environment variables:
-- `user=${DB_USERS}`
-- `password=${DB_PASSWORDS}`
-- `url=${DB_URLS}`
+---
 
-### **4. How to Set a Customized Property File**
-To create and use a custom configuration:
-1.  **Create a new file**: Add `myenv.properties` to `src/main/resources/`.
-2.  **Define your settings**: Copy and modify entries from an existing file like `localhost.properties`.
-3.  **Update Master Config**: Set `webserver=myenv` in `config.properties`.
-4.  **Rebuild**: Run `mvn clean package` to include the new configuration in the WAR file.
+## 🗄️ Database Setup
+
+SNPseek uses a **PostgreSQL** database with a **Chado** schema. 
+
+- **Schema Scripts**: Initial schema definitions can be found in `docker/postgresDB/iric_schemaOnly.sql`.
+- **Dockerized DB**: The `docker/postgresDB/Dockerfile` can be used to build a database container pre-configured for SNPseek.
+- **Connection**: Ensure `DB_URLS`, `DB_USERS`, and `DB_PASSWORDS` match your database instance.
 
 ---
 
@@ -137,20 +153,43 @@ The generated WAR file will be located in `target/SNP-seekV3_clean-<version>.war
 ### 2. Deploy with Docker (Recommended)
 You can use the provided `Dockerfile` and `docker-compose.yaml` for a quick setup.
 
-**Build the Docker Image:**
+**Build the Docker Image Locally:**
 ```bash
 docker build -t snpseek-v3 .
-```
-
-**Run with Docker Compose:**
-Ensure your `.env` file or `docker-compose.yaml` has the required environment variables.
-```bash
 cd docker
 docker-compose up -d
 ```
+The application will be available at: [http://localhost/v3/](http://localhost/v3/) (Port 80)
+
+**Deploy Using Local Build (dockerv2):**
+For local development and specific architectures:
+```bash
+cd dockerv2
+# Build application and prepare WAR as described in README.Docker.md
+docker-compose up --build -d
+```
+The application will be available at: [http://localhost:8080/v3/](http://localhost:8080/v3/) (Port 8080)
+
+**Deploy Using Pre-built Private Images (dockerv2):**
+If you have access to the `IRRI-Bioinformatics-Official` private images, use the `dockerv2` setup.
+```bash
+cd dockerv2
+# Authenticate with ghcr.io (see README.Docker.md for details)
+docker-compose up -d
+```
+The application will be available at: [http://localhost:8080/v3/](http://localhost:8080/v3/)
 
 ### 3. Manual Deployment to Tomcat
 1.  Copy the generated `.war` file to your Tomcat `webapps` directory.
 2.  Rename it to `v3.war` if you want it accessible at `/v3`.
 3.  Configure environment variables in `setenv.sh` (Linux) or `setenv.bat` (Windows).
 4.  Start/Restart Tomcat.
+
+---
+
+## 📖 API Documentation
+
+SNPseek provides comprehensive API support:
+- **BrAPI v2.1**: Accessible at `/ws/brapi/v2`.
+- **Custom REST WS**: Located in the `org.irri.iric.portal.ws.rest` package, providing endpoints for varieties, genotypes, and genomics.
+- **Swagger**: API documentation files (`api-docs.json`) are available in the `WebContent/api-docs` directory.

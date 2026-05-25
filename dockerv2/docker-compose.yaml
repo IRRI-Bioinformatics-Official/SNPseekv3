@@ -1,0 +1,48 @@
+services:
+  tomcat:
+    build: ./tomcat
+    image: snpseek_tomcat:local
+    container_name: snpseek_tomcat
+    volumes:
+      - ./IRCStorage:/usr/local/tomcat/webapps/temp
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - postgresql
+      - r_seek
+    networks:
+      - snpseek_net
+    restart: always
+
+  postgresql:
+    build: ./postgresDB
+    image: snpseek_postgres:local
+    container_name: snpseek_postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "iric"
+      POSTGRES_USER: "${DB_USERNAME:-postgres}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:-user1234}"
+    networks:
+      - snpseek_net
+    restart: always
+
+  r_seek:
+    build: ./R
+    image: snpseek_r:local
+    container_name: snpseek_r
+    networks:
+      - snpseek_net
+    restart: always
+
+networks:
+  snpseek_net:
+    driver: bridge
+
+volumes:
+  pg_data:

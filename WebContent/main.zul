@@ -36,7 +36,7 @@
 			<n:body>
 				<div id="container" sclass="vertical">
 					<navbar id="navbar" orient="vertical"
-						style="margin: 0px 0;min-width: 85px;"
+						style="margin: 0px 0;min-width: 85px; height: 100%;"
 						collapsed="false">
 						<navitem id="dashboard" label="🏠  Dashboard"
 							class="nav-icon" />
@@ -70,7 +70,7 @@
 
 					</navbar>
 					<include id="contentInclude" mode="instant"
-						sclass="content" src="home.zul"  />
+						sclass="content" src="home.zul" style="height:100%;" />
 
 
 				</div>

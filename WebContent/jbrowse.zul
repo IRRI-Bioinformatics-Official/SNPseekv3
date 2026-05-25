@@ -6,7 +6,7 @@
 	    boolean enableAnalytics = org.irri.iric.portal.AppContext.isEnableGoogleAnalytics();
 	    
 	    String currentPage = "jbrowse";  // Change per page
-	    
+	    System.out.println("=== ZUL LOADED - VERSION 2 =JBROWSE==");
 	    org.irri.iric.portal.AppContext.debug("Google Analytics ID: " + gaId);
 	    org.irri.iric.portal.AppContext.debug("Google Analytics ENABLED: " + enableAnalytics);
 		]]></zscript>

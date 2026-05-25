@@ -1,4 +1,20 @@
 /target/
-/target/
 /.env
 /bin/
+
+# Claude Code working directory
+.claude/
+
+# Secrets and credentials — never commit these
+docker/.env
+src/main/resources/keys.properties
+src/main/resources/ga-credentials.json
+src/main/resources/config.properties
+**/setenv.sh
+**/setenv.bat
+/.apt_generated/
+/.apt_generated_tests/
+/CLAUDE.md
+/GEMINI.md
+IRCStorage/
+*.war

@@ -8,11 +8,11 @@ public class ConfigConstants {
 
 	public static final String PROPERTYFILE = "config.properties";
 
-	public static final Object OPERATING_SYSTEM = "os";
+	public static final String OPERATING_SYSTEM = "os";
 	
-	public static final Object DOCKERIZE = "dockerize";
+	public static final String DOCKERIZE = "dockerize";
 	
-	public static final Object VERSION = "version";
+	public static final String VERSION = "version";
 
 	public static final Object CHATBOT_ENABLED = null;
 

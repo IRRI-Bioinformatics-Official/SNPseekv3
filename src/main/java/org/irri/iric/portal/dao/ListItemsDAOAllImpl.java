@@ -305,7 +305,7 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 				throw new RuntimeException("germ==null");
 
 			//AppContext.info("Getting Variety StockSample");
-			mapId2Variety.put(germ.getStockSampleId(), germ);
+			mapId2Variety.put(germ.getVarietyId(), germ);
 			germcount++;
 
 			if (germ.getName() == null) {

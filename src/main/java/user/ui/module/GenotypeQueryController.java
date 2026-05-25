@@ -211,6 +211,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 	@Wire
 	private Label labelLocal;
+
 	@Wire
 	private Window genotypeWindow;
 
@@ -890,9 +891,9 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 	private Groupbox summary_result_grp;
 
 	private String gaTrackingId;
-	
+
 	private String experiment;
-	
+
 	public boolean enableAnalytics;
 
 	public void openPopup() {
@@ -916,14 +917,13 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 
 		Session session = Sessions.getCurrent();
 		GenotypeSearchContent sc = (GenotypeSearchContent) session.getAttribute(SessionConstants.GENOTYPE_QUERY);
-		
+
 		gaTrackingId = System.getenv("GOOGLE_TRACKING_ID");
-		
+
 		AppContext.debug("GA_TRACKING_ID=" + gaTrackingId);
-		
+
 		experiment = AppContext.getHostname();
-		
-		
+
 		session.setAttribute("experiment", experiment);
 		session.setAttribute("enableAnalytics", true);
 		enableAnalytics = true;
@@ -1247,6 +1247,12 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 			checkMultipleVarnames(comboVar2);
 		}
 
+	}
+
+	@Listen("onScroll = #sliderCuttreeThreshold")
+	public void onScrollCuttreeThresholdt() {
+		double curpos = sliderCuttreeThreshold.getCurposInDouble();
+		textboxCuttreeThreshold.setValue(String.format("%.2f", curpos));
 	}
 
 	@Listen("onClick = #buttonDownloadGroupMatrix")
@@ -4391,7 +4397,8 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 //			Session sess = Sessions.getCurrent();
 //			sess.setAttribute(SessionConstants.GENOTYPE_QUERY, sc);
 
-			closeDiv.setVisible(true);
+			if (closeDiv != null)
+				closeDiv.setVisible(true);
 			flipSearchBar();
 
 			layoutResultId.setVisible(true);
@@ -4777,7 +4784,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 				 * //"fmtDetailValue_Name":
 				 * "function(name) { return '<a target=\"variety\" href=\"_variety.zul?name='+name+'\">'+name+'</a>'; }"
 				 */
-				urljbrowse = AppContext.getJbrowse() + "/?" + chrpad + ":" + start + ".." + end + "&tracks="
+				urljbrowse = AppContext.getJbrowseDir() + "/?" + chrpad + ":" + start + ".." + end + "&tracks="
 						+ showTracks; // "SNP%20Genotyping" +
 										// "&addStores={%22url%22%3A{%22type%22%3A%22JBrowse%2FStore%2FSeqFeature%2FGFF3Variety%22%2C%22urlTemplate%22%3A%22"
 										// + urltemplate +
@@ -4816,7 +4823,7 @@ public class GenotypeQueryController extends SelectorComposer<Window> {
 				// for 2 varieties
 				// urljbrowse= AppContext.getHostname() + "/" + AppContext.getJbrowseDir() +
 				// "/?loc=" + chrpad + ":" + start + ".." + end +
-				urljbrowse = AppContext.getJbrowse() + "/?" + chrpad + ":" + start + ".." + end +
+				urljbrowse = AppContext.getJbrowseDir() + "/?" + chrpad + ":" + start + ".." + end +
 				// "&tracks=DNA,msu7gff,snp3k," + snp3kcore +
 				// "SNP%20Genotyping&addStores={%22url%22:{%22type%22:%22JBrowse/Store/SeqFeature/GFF3%22,%22urlTemplate%22:%22"
 				// + urltemplate

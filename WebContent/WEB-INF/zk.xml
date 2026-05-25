@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-	Created by ZK Studio
--->
-
 <zk>
     <device-config>
         <device-type>ajax</device-type>
         <timeout-uri>/timeout.zul</timeout-uri>
     </device-config>
-    
+
     <desktop-config>
-        <desktop-timeout>7200</desktop-timeout> <!-- 2 hours in SECONDS -->
+        <desktop-timeout>7200</desktop-timeout>
     </desktop-config>
-    
+
     <session-config>
         <timer-keep-alive>true</timer-keep-alive>
         <timeout-message>Your session has expired. Please refresh the page.</timeout-message>
     </session-config>
-    
+
     <client-config>
         <keep-alive>true</keep-alive>
     </client-config>
+
+    <!-- ADD THIS BLOCK -->
+    <library-property>
+        <name>org.zkoss.zk.ui.cacheable</name>
+        <value>false</value>
+    </library-property>
+
+    <library-property>
+        <name>org.zkoss.zk.ui.versionInfo.enabled</name>
+        <value>false</value>
+    </library-property>
+
 </zk>
