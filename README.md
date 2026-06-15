@@ -12,6 +12,7 @@
 - [Environment Variables](#-environment-variables)
 - [Configuration & Property Files](#-configuration--property-files)
 - [Database Setup](#-database-setup)
+- [HDF5 Manifest](#-hdf5-manifest)
 - [Required Project Dependency](#-required-project-dependency)
 - [How to Deploy](#-how-to-deploy)
 - [API Documentation](#-api-documentation)
@@ -118,6 +119,22 @@ SNPseek uses a **PostgreSQL** database with a **Chado** schema.
 
 ---
 
+## 🗂️ HDF5 Manifest
+
+SNPseek utilizes the HDF5 format to store and efficiently query large-scale genomic datasets. Below is a manifest of the primary HDF5 datasets (Variant Sets) available in the system:
+
+| Dataset | Description | Details |
+| :--- | :--- | :--- |
+| **3kall** | 32 million full 3K RG SNPs Dataset | 3kRG full set (32mio) biallelic & multiallelic SNP. Total SNPs: 32,064,217. Samples: 3024. |
+| **3kbase** | 18 million base SNP dataset | A Base SNP set of ~18 million SNPs was created from the ~29 million biallelic SNPs subset from the 32M full SNP set by removing SNPs with excess of heterozygous calls. |
+| **3kcore** | 404k CoreSNP dataset | Obtained from the filtered SNP set by applying two-step LD pruning: 1) 10kb window, R2 0.8; 2) 50 SNPs window, R2 0.8. |
+| **3kfiltered** | 4.8 million filtered SNP dataset | Obtained from the Base SNP set by applying: alternative allele frequency ≥ 0.01 and proportion of missing calls ≤ 0.2. |
+| **hdra** | High-density rice array (HDRA) | 1,568 diverse rice lines genotyped using a high-density rice array (HDRA) comprised of 700,000 SNPs. (DOI: 10.1038/ncomms10532) |
+| **rice_rp** | Rice RP Imputed Dataset | 4,591 combined samples from HDRA and 3kRG. Complete SNP calls obtained through imputation across unique genotypes. (DOI: 10.1038/s41467-018-05538-1) |
+| **baap** | Bengal and Assam Aus Panel (BAAP) | 299 cultivars with 2 million SNPs after imputation relative to the 3KRG 4.8M filtered dataset. (DOI: 10.3389/fpls.2018.01223) |
+
+---
+
 ## 📦 Required Project Dependency
 
 This project depends on the **SNPseek-Datasource** library for database access and data models.
@@ -164,8 +181,14 @@ The application will be available at: [http://localhost/v3/](http://localhost/v3
 **Deploy Using Local Build (dockerv2):**
 For local development and specific architectures:
 ```bash
+# 1. Build the application
+mvn clean package -DskipTests
+
+# 2. Prepare the artifacts
+cp target/SNP-seekV3_clean-*.war dockerv2/tomcat/snpseekv3.war
+
+# 3. Start the containers
 cd dockerv2
-# Build application and prepare WAR as described in README.Docker.md
 docker-compose up --build -d
 ```
 The application will be available at: [http://localhost:8080/v3/](http://localhost:8080/v3/) (Port 8080)
