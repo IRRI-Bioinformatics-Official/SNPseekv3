@@ -325,7 +325,58 @@ public class AppContext {
 		return webProp.getProperty(ApplicationConstants.CHATBOT_SERVER_URL, "");
 	}
 
-	
+	public static String getAboutTitle() {
+		return webProp.getProperty(ApplicationConstants.ABOUT_TITLE, "Rice SNP-seek Database");
+	}
+
+	public static String getAboutText() {
+		String defaultText = "This Rice SNPseek Database provides Genotype, Phenotype, and Variety Information for rice (Oryza sativa L.). "
+			+ "SNP genotyping data came from the 3,000 Rice Genomes Project. "
+			+ "Phenotype and passport data came from the International Rice Genebank Collection Information System (IRGCIS). "
+			+ "We are part of an ongoing effort by the International Rice Informatics Consortium (IRIC) to centralize rice research information and support gene-trait discovery.";
+		return webProp.getProperty(ApplicationConstants.ABOUT_TEXT, defaultText);
+	}
+
+	public static String getProviderLogo() {
+		return webProp.getProperty(ApplicationConstants.PROVIDER_LOGO, "");
+	}
+
+	public static String getProviderText() {
+		return webProp.getProperty(ApplicationConstants.PROVIDER_TEXT, "");
+	}
+
+	public static String getProviderLink() {
+		return webProp.getProperty(ApplicationConstants.PROVIDER_LINK, "#");
+	}
+
+	public static String getStatDatasetValueAnon() {
+		return webProp.getProperty(ApplicationConstants.STAT_DATASET_VALUE_ANON, "1");
+	}
+
+	public static String getStatDatasetValueUser() {
+		return webProp.getProperty(ApplicationConstants.STAT_DATASET_VALUE_USER, "1");
+	}
+
+	public static String getStatDatasetDesc() {
+		return webProp.getProperty(ApplicationConstants.STAT_DATASET_DESC, "3K Rice Genomes");
+	}
+
+	public static String getStatVarietiesValue() {
+		return webProp.getProperty(ApplicationConstants.STAT_VARIETIES_VALUE, "3,024");
+	}
+
+	public static String getStatVarietiesDesc() {
+		return webProp.getProperty(ApplicationConstants.STAT_VARIETIES_DESC, "From global collections");
+	}
+
+	public static String getStatSnpsValue() {
+		return webProp.getProperty(ApplicationConstants.STAT_SNPS_VALUE, "20M+");
+	}
+
+	public static String getStatSnpsDesc() {
+		return webProp.getProperty(ApplicationConstants.STAT_SNPS_DESC, "High-quality variants");
+	}
+
 	public static String getDefaultSchema() {
 		if (isPostgres())
 			return "public";

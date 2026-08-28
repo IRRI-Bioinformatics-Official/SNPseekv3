@@ -161,10 +161,11 @@ public class H5Dataset implements SnpsStringDAO {
 			int varids[] = new int[orderedVarids.size()];
 			int icount = 0;
 			while (itVarid.hasNext()) {
+				BigDecimal sampleId = itVarid.next();
 				if (mapSampleId2Idx == null || mapSampleId2Idx.isEmpty())
-					varids[icount] = itVarid.next().intValue() - varid_offset;
+					varids[icount] = sampleId.intValue() - varid_offset;
 				else
-					varids[icount] = mapSampleId2Idx.get(itVarid.next().intValue() - varid_offset).intValue();
+					varids[icount] = mapSampleId2Idx.get(sampleId).intValue();
 				icount++;
 			}
 			log.info("H5 querying " + varids.length + " vars " + this.filename + " " + posIdxs.length + " positions");

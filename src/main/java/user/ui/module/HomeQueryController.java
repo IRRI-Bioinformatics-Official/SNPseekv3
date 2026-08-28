@@ -19,6 +19,8 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Notification;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Html;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Window;
 
@@ -80,10 +82,37 @@ public class HomeQueryController extends SelectorComposer<Div> {
 	private Label totalVisits;
 	
 	@Wire
-	private Div providerDiv_asti;
+	private Label aboutTitle;
 	
 	@Wire
-	private Div providerDiv_brs;
+	private Html aboutText;
+	
+	@Wire
+	private Div providerDiv;
+	
+	@Wire
+	private Image providerLogo;
+	
+	@Wire
+	private Label providerText;
+	
+	@Wire
+	private A providerLink;
+
+	@Wire
+	private Label datasetDesc;
+
+	@Wire
+	private Label varietiesValue;
+
+	@Wire
+	private Label varietiesDesc;
+
+	@Wire
+	private Label snpsValue;
+
+	@Wire
+	private Label snpsDesc;
 
 	/**
 	 * Initializes Controller to Genotype Module (GenotypeContent.zul)
@@ -96,16 +125,40 @@ public class HomeQueryController extends SelectorComposer<Div> {
 		user = (User) sess.getAttribute(SessionConstants.USER_CREDENTIAL);
 		contentProp = (Properties) sess.getAttribute(SessionConstants.CONTENT_MANAGER);
 
-		dsNumber.setValue("1");
+		dsNumber.setValue(AppContext.getStatDatasetValueAnon());
+		datasetDesc.setValue(AppContext.getStatDatasetDesc());
+		varietiesValue.setValue(AppContext.getStatVarietiesValue());
+		varietiesDesc.setValue(AppContext.getStatVarietiesDesc());
+		snpsValue.setValue(AppContext.getStatSnpsValue());
+		snpsDesc.setValue(AppContext.getStatSnpsDesc());
 		setLabelFeaturesVisibility(true);
 		
-		providerDiv_asti.setVisible(false);
-		providerDiv_brs.setVisible(false);
+		// About section - property-driven per deployment
+		aboutTitle.setValue(AppContext.getAboutTitle());
+		aboutText.setContent(AppContext.getAboutText());
 		
-		if (AppContext.isBRS())
-			providerDiv_brs.setVisible(true);
-		else if (AppContext.isScienceCloud())
-			providerDiv_asti.setVisible(true);
+		String providerLogoSrc = AppContext.getProviderLogo();
+		String providerTextVal = AppContext.getProviderText();
+		String providerLinkHref = AppContext.getProviderLink();
+		
+		boolean hasProvider = (providerLogoSrc != null && !providerLogoSrc.isEmpty())
+			|| (providerTextVal != null && !providerTextVal.isEmpty());
+		providerDiv.setVisible(hasProvider);
+		if (hasProvider) {
+			if (providerLogoSrc != null && !providerLogoSrc.isEmpty()) {
+				providerLogo.setSrc(providerLogoSrc);
+				providerLogo.setVisible(true);
+			} else {
+				providerLogo.setVisible(false);
+			}
+			providerText.setValue(providerTextVal != null ? providerTextVal : "");
+			if (providerLinkHref != null && !providerLinkHref.equals("#")) {
+				providerLink.setHref(providerLinkHref);
+			} else {
+				providerLink.setHref("#");
+			}
+		}
+
 		// Google Analytics 
 		
 		if (AppContext.isEnableGoogleAnalytics()) {
@@ -133,7 +186,7 @@ public class HomeQueryController extends SelectorComposer<Div> {
 		Notification.show("Announcement", "info", comp, "overlap_after", 3000);
 
 		if (user != null) {
-			dsNumber.setValue("13");
+			dsNumber.setValue(AppContext.getStatDatasetValueUser());
 			setLabelFeaturesVisibility(false);
 		}
 

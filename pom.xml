@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SNP-seekV3_clean</groupId>
 	<artifactId>SNP-seekV3_clean</artifactId>
-	<version>3.18.1</version>
+	<version>3.18.7</version>
 	<packaging>war</packaging>
 
 
@@ -1406,6 +1406,14 @@
 			<name>BioJava's Git based legacy maven repo</name>
 			<url>https://github.com/biojava/maven-repo/raw/master/</url>
 		</repository>
+		  <repository>
+		      <id>ZK CE</id>
+		      <url>https://mavensync.zkoss.org/maven2</url>
+		    </repository>
+		   <repository>
+		      <id>ZK PE/EE Evaluation</id>
+		      <url>https://mavensync.zkoss.org/eval/</url>
+		    </repository>
 	</repositories>
 	<dependencyManagement>
 	  <dependencies>

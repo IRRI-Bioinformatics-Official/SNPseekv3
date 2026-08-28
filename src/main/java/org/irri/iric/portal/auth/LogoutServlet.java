@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.irri.iric.portal.AppContext;
+
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
@@ -14,6 +16,6 @@ public class LogoutServlet extends HttpServlet {
     request.getSession().invalidate();
 //    sess.removeAttribute(SessionConstants.CONTENT_MANAGER);
 //	sess.removeAttribute(SessionConstants.USER_CREDENTIAL);
-    response.sendRedirect("/index.zul");
+    response.sendRedirect(AppContext.getHostname() + "/index.zul");
   }
 }

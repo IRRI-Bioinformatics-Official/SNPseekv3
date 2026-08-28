@@ -769,8 +769,21 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 			AppContext.debug("using hasVarIDRange:" + params.hasVaridRange());
 
 			if (params.hasVarlist() || params.hasVaridRange()) {
-				snpstrSnpsAllele1AllvarsDAO = new H5Dataset(run.getLocation(), new H5ReadCharmatrix(),
-						listitemdao.getMapIdx2Sample(params)); // , run.getVaridOffset());
+				String locationH5Regular = AppContext.getFlatfilesDir() + run.getLocation();
+				File h5FileRegular = new File(locationH5Regular);
+				String locationH5Trans = AppContext.getFlatfilesDir() + run.getLocation().replace(".h5", "_trans.h5");
+				File h5FileTrans = new File(locationH5Trans);
+				AppContext.debug("File " + locationH5Regular + " exists=" + h5FileRegular.exists());
+				AppContext.debug("File " + locationH5Trans + " exists=" + h5FileTrans.exists());
+				if (h5FileRegular.exists()) {
+					snpstrSnpsAllele1AllvarsDAO = new H5Dataset(run.getLocation(), new H5ReadCharmatrix(),
+							listitemdao.getMapIdx2Sample(params));
+				} else if (h5FileTrans.exists()) {
+					snpstrSnpsAllele1AllvarsDAO = new H5Dataset(run.getLocation().replace(".h5", "_trans.h5"),
+							new H5ReadCharTransMatrix(), listitemdao.getMapIdx2Sample(params));
+				} else {
+					throw new RuntimeException("HDF5 file not found for dataset: " + run.getLocation());
+				}
 
 			} else {
 				String locationH5 = AppContext.getFlatfilesDir() + run.getLocation().replace(".h5", "_trans.h5");
@@ -779,8 +792,7 @@ public class SnpsStringHDF5nRDBMSHybridService implements VariantStringService {
 				AppContext.debug("File " + h5File.exists());
 				if (h5File.exists())
 					snpstrSnpsAllele1AllvarsDAO = new H5Dataset(run.getLocation().replace(".h5", "_trans.h5"),
-							new H5ReadCharTransMatrix(), listitemdao.getMapIdx2Sample(params)); // ,
-																								// run.getVaridOffset());
+							new H5ReadCharTransMatrix(), listitemdao.getMapIdx2Sample(params));
 				else
 					snpstrSnpsAllele1AllvarsDAO = new H5Dataset(run.getLocation(), new H5ReadCharmatrix(),
 							listitemdao.getMapIdx2Sample(params));

@@ -6,6 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.irri.iric.portal.AppContext;
+
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.Credential;
@@ -23,7 +25,7 @@ public class LoginCallbackServlet extends AbstractAuthorizationCodeCallbackServl
   @Override
   protected String getRedirectUri(HttpServletRequest request) {
     GenericUrl url = new GenericUrl(request.getRequestURL().toString());
-    url.setRawPath("/login-callback");
+    url.setRawPath(request.getContextPath() + "/login-callback");
     return url.build();
   }
 
@@ -35,7 +37,7 @@ public class LoginCallbackServlet extends AbstractAuthorizationCodeCallbackServl
   @Override
   protected void onSuccess(HttpServletRequest request, HttpServletResponse response, Credential credential)
       throws IOException {
-    response.sendRedirect("/profile");
+    response.sendRedirect(AppContext.getHostname() + "/profile");
   }
 
   @Override

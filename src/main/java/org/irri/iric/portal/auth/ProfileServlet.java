@@ -130,7 +130,7 @@ public class ProfileServlet extends HttpServlet {
 
 			}
 
-			response.sendRedirect("/index.zul");
+			response.sendRedirect(AppContext.getHostname() + "/index.zul");
 
 		} else {
 			response.getWriter().println("<a href=\"/login\">Login with Google</a>");

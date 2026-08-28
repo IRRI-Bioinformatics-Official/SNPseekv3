@@ -2,10 +2,12 @@ package org.irri.iric.portal.ws.rest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,12 +24,15 @@ import javax.ws.rs.core.Response;
 
 import org.irri.iric.ds.chado.dao.VGenotypeRunDAO;
 import org.irri.iric.ds.chado.dao.access.OrganismDAO;
+import org.irri.iric.ds.chado.domain.Position;
+import org.irri.iric.ds.chado.domain.StockSample;
 import org.irri.iric.ds.chado.domain.model.Organism;
 import org.irri.iric.ds.chado.domain.model.VGenotypeRun;
 //import org.codehaus.jackson.map.ObjectMapper;
 //import org.codehaus.jettison.json.JSONException;
 import org.irri.iric.portal.AppContext;
 import org.irri.iric.portal.admin.WorkspaceFacade;
+import org.irri.iric.portal.dao.ListItemsDAO;
 import org.irri.iric.portal.genotype.GenotypeFacade;
 import org.irri.iric.portal.genotype.GenotypeQueryParams;
 import org.irri.iric.portal.genotype.VariantStringData;
@@ -63,11 +68,16 @@ public class GenotypeWS {
 	private VGenotypeRunDAO genotyperundao;
 
 	@Autowired
+	@Qualifier("ListItems")
+	private ListItemsDAO lisitemdao;
+
+	@Autowired
 	private VarietyFacade variety;
 
 	private String dataset = VarietyFacade.DATASET_SNPINDELV2_IUPAC;
 
 	private Map<String, String> mapVarReplace = new HashMap();
+	private static final int GENO_VAR_CAP = 20000;
 
 	private OrganismDAO organismDAO;
 
@@ -101,15 +111,16 @@ public class GenotypeWS {
 	@GET
 	@Path("/variety")
 	@Produces("application/json")
-	public Response getVarieties() throws JSONException {
+	public Response getVarieties(
+			@DefaultValue("0")  @QueryParam("offset") int offset,
+			@DefaultValue("-1") @QueryParam("limit")  int limit)
+			throws JSONException {
 
 		try {
-			// Set vars = variety.getGermplasm(getDataset()) ;
-
 			List vars = variety.getVarietyNames(getDataset());
-
 			ObjectMapper mapper = new ObjectMapper();
-			return Response.status(200).entity(AppContext.replaceString(mapper.writeValueAsString(vars), mapVarReplace))
+			return Response.status(200).entity(AppContext.replaceString(
+					mapper.writeValueAsString(applyPage(vars, offset, limit)), mapVarReplace))
 					.build();
 		} catch (Exception ex) {
 			throw new JSONException(ex);
@@ -257,15 +268,18 @@ public class GenotypeWS {
 
 	@Path("/gettable")
 	@GET
-	@Produces("application/json")
-	public Response getVariantByVarietyId(@DefaultValue("9") @QueryParam("organismId") Integer organismId, @DefaultValue("all") @QueryParam("varid") String sVarids,
+	@Produces({ "application/json", "text/plain", "text/csv" })
+	public Response getVariantByVarietyId(@DefaultValue("9") @QueryParam("organismId") Integer organismId, @QueryParam("dataset") String dataset, @DefaultValue("all") @QueryParam("varid") String sVarids,
 			@QueryParam("chr") String sChr, @QueryParam("start") Long lStart, @QueryParam("end") Long lEnd,
 			@DefaultValue("true") @QueryParam("snp") boolean bSNP,
 			@DefaultValue("false") @QueryParam("indel") boolean bIndel,
 			@DefaultValue("false") @QueryParam("coreonly") boolean bCoreonly,
 			@DefaultValue("false") @QueryParam("mismatchonly") boolean bMismatchonly,
 			@QueryParam("poslist") String sSnppos, @QueryParam("subpopulation") String sSubpopulation,
-			@QueryParam("locus") String sLocus, @DefaultValue("false") @QueryParam("alignindels") boolean bAlignIndels)
+			@QueryParam("locus") String sLocus, @DefaultValue("false") @QueryParam("alignindels") boolean bAlignIndels,
+			@DefaultValue("-1") @QueryParam("varLimit") int varLimit,
+			@DefaultValue("0") @QueryParam("varOffset") int varOffset,
+			@DefaultValue("json") @QueryParam("format") String format)
 			throws JSONException {
 
 		// if(sChr==null) throw new JSONException("parameters chr is required");
@@ -305,11 +319,26 @@ public class GenotypeWS {
 
 		try {
 			VariantTable table = getVariantTable(colVarIds, sChr, lStart, lEnd, bSNP, bIndel, bCoreonly, bMismatchonly,
-					colPos, sSubpopulation, sLocus, bAlignIndels, organismDAO.getOrganismByID(organismId));
+					colPos, sSubpopulation, sLocus, bAlignIndels, organismDAO.getOrganismByID(organismId), dataset);
 			if (table == null)
 				throw new JSONException("VariantTable is null");
 
-			return Response.status(200).entity(new ObjectMapper().writeValueAsString(table)).build();
+			VariantTableArray tableArr = (VariantTableArray) table;
+			int effectiveLimit = (varLimit <= 0) ? GENO_VAR_CAP : varLimit;
+			int from = Math.max(0, varOffset);
+			int numVar = (tableArr.getVarid() != null) ? tableArr.getVarid().length : 0;
+			int to = Math.min(from + effectiveLimit, numVar);
+
+			if ("tsv".equalsIgnoreCase(format)) {
+				String tsv = buildTsv(tableArr, sVarids, from, to);
+				return Response.ok(tsv, "text/plain").build();
+			}
+			if ("csv".equalsIgnoreCase(format)) {
+				String csv = buildCsv(tableArr, dataset, from, to);
+				return Response.ok(csv, "text/csv").build();
+			}
+			return Response.status(200).entity(new ObjectMapper().writeValueAsString(
+					sliceVarieties(tableArr, varOffset, varLimit))).build();
 
 		} catch (Exception ex) {
 			throw new JSONException(ex);
@@ -320,14 +349,16 @@ public class GenotypeWS {
 	@Path("/posttable")
 	@POST
 	@Produces("application/json")
-	public Response postVariantByVarietyId(@FormParam("organismId") Integer organismId, @FormParam("varid") List<Long> lVarids, @FormParam("chr") String sChr,
+	public Response postVariantByVarietyId(@FormParam("organismId") Integer organismId, @FormParam("dataset") String dataset, @FormParam("varid") List<Long> lVarids, @FormParam("chr") String sChr,
 			@FormParam("start") Long lStart, @FormParam("end") Long lEnd,
 			@DefaultValue("true") @FormParam("snp") boolean bSNP,
 			@DefaultValue("false") @FormParam("indel") boolean bIndel,
 			@DefaultValue("false") @FormParam("coreonly") boolean bCoreonly,
 			@DefaultValue("false") @FormParam("mismatchonly") boolean bMismatchonly,
 			@FormParam("poslist") List<Long> lSnppos, @FormParam("subpopulation") String sSubpopulation,
-			@FormParam("locus") String sLocus, @DefaultValue("false") @FormParam("alignindel") boolean bAlignIndels)
+			@FormParam("locus") String sLocus, @DefaultValue("false") @FormParam("alignindel") boolean bAlignIndels,
+			@FormParam("varLimit") Integer varLimit,
+			@FormParam("varOffset") Integer varOffset)
 			throws JSONException {
 
 		if (sChr == null && sLocus == null && lSnppos.isEmpty())
@@ -345,20 +376,16 @@ public class GenotypeWS {
 
 		Collection<BigDecimal> colVarIds = null;
 		if (lVarids != null && !lVarids.isEmpty()) {
-			Iterator<Long> itvarids = lVarids.iterator();
-			while (itvarids.hasNext()) {
-				colVarIds.add(BigDecimal.valueOf(itvarids.next()));
-			}
+			colVarIds = new HashSet<>();
+			for (Long id : lVarids) colVarIds.add(BigDecimal.valueOf(id));
 		}
 
 		Organism organism = organismDAO.getOrganismByID(organismId);
-		
+
 		Collection<BigDecimal> colPos = null;
 		if (lSnppos != null && !lSnppos.isEmpty()) {
-			Iterator<Long> itpos = lSnppos.iterator();
-			while (itpos.hasNext()) {
-				colVarIds.add(BigDecimal.valueOf(itpos.next()));
-			}
+			colPos = new HashSet<>();
+			for (Long pos : lSnppos) colPos.add(BigDecimal.valueOf(pos));
 		}
 
 		AppContext.debug("params=" + colVarIds + " " + sChr + " " + lStart + " " + lEnd + " " + bSNP + " " + bIndel
@@ -366,21 +393,164 @@ public class GenotypeWS {
 
 		try {
 			VariantTable table = getVariantTable(colVarIds, sChr, lStart, lEnd, bSNP, bIndel, bCoreonly, bMismatchonly,
-					colPos, sSubpopulation, sLocus, bAlignIndels, organism);
+					colPos, sSubpopulation, sLocus, bAlignIndels, organism, dataset);
 
 			if (table == null)
 				throw new JSONException("VariantTable is null");
 
-			return Response.status(200).entity(new ObjectMapper().writeValueAsString(table)).build();
+			int effectiveVarLimit = (varLimit == null) ? -1 : varLimit;
+			int effectiveVarOffset = (varOffset == null) ? 0 : varOffset;
+			return Response.status(200).entity(new ObjectMapper().writeValueAsString(
+					sliceVarieties((VariantTableArray) table, effectiveVarOffset, effectiveVarLimit))).build();
 
 		} catch (Exception ex) {
 			throw new JSONException(ex);
 		}
 	}
 
+	private Map<String, Object> sliceVarieties(VariantTableArray table, int varOffset, int varLimit) {
+		Long[] allVarid = table.getVarid();
+		int total = (allVarid == null) ? 0 : allVarid.length;
+		int effectiveLimit = (varLimit <= 0) ? GENO_VAR_CAP : varLimit;
+		int from = Math.max(0, varOffset);
+		int to = Math.min(from + effectiveLimit, total);
+
+		Map<String, Object> tile = new LinkedHashMap<>();
+		tile.put("message", table.getMessage());
+		tile.put("position", table.getPosition());
+		tile.put("reference", table.getReference());
+		tile.put("contigs", table.getContigs());
+		tile.put("varOffset", from);
+		tile.put("varTotal", total);
+
+		if (from >= total || total == 0) {
+			tile.put("varid", new Long[0]);
+			tile.put("varname", new String[0]);
+			tile.put("varmismatch", new Double[0]);
+			tile.put("varalleles", new Object[0][]);
+		} else {
+			tile.put("varid", Arrays.copyOfRange(allVarid, from, to));
+			tile.put("varname", Arrays.copyOfRange(table.getVarname(), from, to));
+			tile.put("varmismatch", Arrays.copyOfRange(table.getVarmismatch(), from, to));
+			tile.put("varalleles", Arrays.copyOfRange(table.getVaralleles(), from, to));
+		}
+		return tile;
+	}
+
+	private List applyPage(List list, int offset, int limit) {
+		int total = list.size();
+		int effectiveLimit = (limit <= 0) ? GENO_VAR_CAP : limit;
+		int from = Math.max(0, offset);
+		if (from >= total) return new ArrayList();
+		int to = Math.min(from + effectiveLimit, total);
+		return list.subList(from, to);
+	}
+
+	private String buildTsv(VariantTable table, String sVarids, int from, int to) {
+		VariantTableArray arr = (VariantTableArray) table;
+		Long[]     varids    = arr.getVarid();      // [variety_idx]
+		String[]   varnames  = arr.getVarname();    // [variety_idx]
+		Position[] positions = arr.getPosition();   // [pos_idx]
+		Object[][] alleles   = arr.getVaralleles(); // [variety_idx][pos_idx]
+
+		int numPositions = (positions != null) ? positions.length : 0;
+
+		String chr = (positions != null && numPositions > 0 && positions[0] != null)
+				? positions[0].getContig() : "";
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("VarietyName\tChr");
+		for (int p = 0; p < numPositions; p++)
+			sb.append('\t').append(positions[p] != null ? positions[p].getPosition() : "");
+		sb.append('\n');
+
+		for (int v = from; v < to; v++) {
+			String label = (varnames != null && v < varnames.length && varnames[v] != null)
+					? varnames[v] : String.valueOf(varids[v]);
+			sb.append(label).append('\t').append(chr);
+			for (int p = 0; p < numPositions; p++) {
+				Object a = (alleles != null && v < alleles.length && alleles[v] != null && p < alleles[v].length)
+						? alleles[v][p] : null;
+				sb.append('\t').append(a != null ? a : ".");
+			}
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
+
+	private String buildCsv(VariantTable table, String dataset, int from, int to) {
+		VariantTableArray arr = (VariantTableArray) table;
+		Long[]     varids    = arr.getVarid();      // [variety_idx]
+		String[]   varnames  = arr.getVarname();    // [variety_idx]
+		Position[] positions = arr.getPosition();   // [pos_idx]
+		Object[][] alleles   = arr.getVaralleles(); // [variety_idx][pos_idx]
+		Double[]   mismatch  = arr.getVarmismatch(); // [variety_idx]
+		String[]   reference = arr.getReference();  // [pos_idx]
+
+		int numPositions = (positions != null) ? positions.length : 0;
+
+		lisitemdao = (ListItemsDAO) AppContext.checkBean(lisitemdao, "ListItems");
+		Map<BigDecimal, StockSample> sampleMap = (lisitemdao != null && dataset != null)
+				? lisitemdao.getMapId2Sample(dataset) : null;
+
+		StringBuilder sb = new StringBuilder();
+
+		// Row 1: header with chromosomal positions
+		sb.append("JAPONICA NIPPONBARE POSITIONS,ASSAY ID,ACCESSION,SUBPOPULATION,MISMATCH");
+		for (int p = 0; p < numPositions; p++)
+			sb.append(',').append(positions[p] != null ? positions[p].getPosition() : "");
+		sb.append('\n');
+
+		// Row 2: reference alleles
+		sb.append("JAPONICA NIPPONBARE ALLELES,,,,");
+		for (int p = 0; p < numPositions; p++)
+			sb.append(',').append(reference != null && p < reference.length && reference[p] != null ? reference[p] : "");
+		sb.append('\n');
+
+		// Data rows: one per variety
+		for (int v = from; v < to; v++) {
+			String varname = (varnames != null && v < varnames.length && varnames[v] != null) ? varnames[v] : "";
+			String assay = "";
+			String accession = "";
+			String subpop = "";
+			if (sampleMap != null && varids != null && v < varids.length) {
+				StockSample ss = sampleMap.get(BigDecimal.valueOf(varids[v]));
+				if (ss != null) {
+					if (ss.getAssay() != null) assay = ss.getAssay();
+					if (ss.getAccession() != null) accession = ss.getAccession();
+					if (ss.getSubpopulation() != null) subpop = ss.getSubpopulation();
+				}
+			}
+			double miss = (mismatch != null && v < mismatch.length && mismatch[v] != null) ? mismatch[v] : 0.0;
+
+			sb.append(csvQuote(varname));
+			sb.append(',').append(csvQuote(assay));
+			sb.append(',').append(csvQuote(accession));
+			sb.append(',').append(csvQuote(subpop));
+			sb.append(',').append(miss);
+			for (int p = 0; p < numPositions; p++) {
+				Object a = (alleles != null && v < alleles.length && alleles[v] != null && p < alleles[v].length)
+						? alleles[v][p] : null;
+				sb.append(',').append(a != null ? a : "");
+			}
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
+
+	private String csvQuote(String value) {
+		if (value == null || value.isEmpty()) return "";
+		if (value.contains(",") || value.contains("\"") || value.contains("\n"))
+			return "\"" + value.replace("\"", "\"\"") + "\"";
+		return value;
+	}
+
 	private VariantTable getVariantTable(Collection colVarIds, String sChr, Long lStart, Long lEnd, boolean bSNP,
 			boolean bIndel, boolean bCoreonly, boolean bMismatchonly, Collection poslist, String sSubpopulation,
-			String sLocus, boolean bAlignIndels, Organism organism) throws Exception {
+			String sLocus, boolean bAlignIndels, Organism organism, String dataset) throws Exception {
+
+		if (organism == null)
+			throw new Exception("No organism found for the given organismId");
 
 		boolean showAllRefsAllele = false;
 		// GenotypeQueryParams params = new GenotypeQueryParams(colVarIds,sChr, lStart,
@@ -395,13 +565,16 @@ public class GenotypeWS {
 		else
 			sVS.add("3kfiltered");
 		Set sVar = new HashSet();
-		sVar.add("3k");
+		sVar.add(dataset);
 		Set sRun = new HashSet();
 //		sRun.add("3kfiltered");
 
 		genotyperundao = (VGenotypeRunDAO) AppContext.checkBean(genotyperundao, "GenotypeRunPlatformDAO");
-		VGenotypeRun vrun = genotyperundao.findVGenotypeRunByGenotypeRunId(2);
-		sRun.add(vrun);
+		Set<VGenotypeRun> vrun = genotyperundao.findVGenotypeRunByVariantset(dataset);
+		VGenotypeRun first = vrun.stream().findFirst().orElse(null);
+		if (first == null)
+			throw new Exception("No genotype run found for dataset: " + dataset);
+		sRun.add(first);
 
 		
 		

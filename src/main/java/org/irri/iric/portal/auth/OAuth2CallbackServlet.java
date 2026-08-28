@@ -163,7 +163,7 @@ public class OAuth2CallbackServlet extends HttpServlet {
 					"An error occurred while attempting to log in to your CGIAR account.");
 		}
 
-		response.sendRedirect("/index.zul");
+		response.sendRedirect(AppContext.getHostname() + "/index.zul");
 
 	}
 

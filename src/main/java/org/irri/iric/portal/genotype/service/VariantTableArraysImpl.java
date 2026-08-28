@@ -74,8 +74,9 @@ public class VariantTableArraysImpl implements VariantTable {
 			Map<BigDecimal, StockSample> mapVarid2Sample = MapDs.get(snpstr.getDataset());
 
 			varmismatch[varcount] = snpstr.getMismatch().doubleValue();
-			varnames[varcount] = mapVarid2Sample.get(snpstr.getVar()).getName();
-			varids[varcount] = snpstr.getVar().longValue();
+			StockSample ss = mapVarid2Sample.get(snpstr.getVar());
+			varnames[varcount] = ss.getName();
+			varids[varcount] = ss.getVarietyId().longValue();
 			dataset[varcount] = snpstr.getDataset();
 			allelestring[varcount] = IndelStringHDF5nRDBMSHybridService.createVarietyString(snpstr, data);
 			varcount++;

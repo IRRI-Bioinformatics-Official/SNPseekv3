@@ -221,10 +221,10 @@
 					<label sclass="stat-label"
 						value="Dataset Available" />
 					<separator height="8px" />
-					<label id="dsNumber" sclass="stat-value" value="1" />
-					<separator height="4px" />
-					<label sclass="stat-description"
-						value="3K Rice Genomes" />
+				<label id="dsNumber" sclass="stat-value" value="1" />
+				<separator height="4px" />
+				<label id="datasetDesc" sclass="stat-description"
+					value="3K Rice Genomes" />
 				</div>
 
 				<div sclass="stat-card">
@@ -233,10 +233,10 @@
 					</div>
 					<label sclass="stat-label" value="Rice Varieties" />
 					<separator height="8px" />
-					<label sclass="stat-value" value="3,024" />
-					<separator height="4px" />
-					<label sclass="stat-description"
-						value="From global collections" />
+				<label id="varietiesValue" sclass="stat-value" value="3,024" />
+				<separator height="4px" />
+				<label id="varietiesDesc" sclass="stat-description"
+					value="From global collections" />
 				</div>
 
 				<div sclass="stat-card">
@@ -245,10 +245,10 @@
 					</div>
 					<label sclass="stat-label" value="SNP Markers" />
 					<separator height="8px" />
-					<label sclass="stat-value" value="20M+" />
-					<separator height="4px" />
-					<label sclass="stat-description"
-						value="High-quality variants" />
+				<label id="snpsValue" sclass="stat-value" value="20M+" />
+				<separator height="4px" />
+				<label id="snpsDesc" sclass="stat-description"
+					value="High-quality variants" />
 				</div>
 
 				<div sclass="stat-card">
@@ -268,60 +268,20 @@
 
 
 			<div sclass="hero-banner">
-				<label sclass="hero-title"
-					style="color: #ffffff; font-weight: bold;" value="🌾About" />
+				<label id="aboutTitle" sclass="hero-title"
+					style="color: #ffffff; font-weight: bold;" value="About" />
 				<separator height="16px" />
 
-				<html sclass="hero-text" style="color: #f1f5f9;">
-					This Rice SNPseek Database provides Genotype,
-					Phenotype, and Variety Information for rice (Oryza
-					sativa L.). SNP genotyping data (called against
-					<a href="#"
-						style="color: #fef9c3; font-weight: bold; text-decoration: none;">
-						Nipponbare reference
-						Os-Nipponbare-Reference-IRGSP-1.0
-					</a>
-					) came from
-					<a href="#"
-						style="color: #fef9c3; font-weight: bold; text-decoration: none;">
-						3,000 Rice Genomes
-					</a>
-					Project. Phenotype and passport data for the 3,000
-					rice varieties came from the International Rice
-					Genebank Collection Information System (
-					<a href="#"
-						style="color: #fef9c3; font-weight: bold; text-decoration: none;">
-						IRGCIS
-					</a>
-					). We are part of an ongoing effort by the
-					International Rice Informatics Consortium (
-					<a href="#"
-						style="color: #fef9c3; font-weight: bold; text-decoration: none;">
-						IRIC
-					</a>
-					) to centralize rice research information and
-					support gene-trait discovery.
-				</html>
+				<html id="aboutText" sclass="hero-text" style="color: #f1f5f9;"
+					content="" />
 
-				<!-- Powered by COARE -->
+				<!-- Powered by (property-driven per deployment) -->
 				<div id="providerDiv" sclass="powered-by-coare">
-					<!-- OPTION A -->
-					<div id="providerDiv_asti">
-						Powered by:
-						<a href="https://asti.dost.gov.ph/coare/"
-							target="_blank">
-							<image src="assets/img/COARE_2.png"
-								height="44px" />
-							<span class="coare-text">COARE</span>
-						</a>
-					</div>
-					<!-- OPTION B -->
-					<div id="providerDiv_brs">
-						<span class="powered-label">
-							Mirror provided by CGIAR Breeding Resources
-							Services
-						</span>
-					</div>
+					<a id="providerLink" href="#" target="_blank"
+						style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+						<image id="providerLogo" height="44px" style="display: none;" />
+						<label id="providerText" sclass="coare-text" />
+					</a>
 				</div>
 
 			</div>

@@ -43,8 +43,35 @@ public class ApplicationConstants {
 	
 	public static final String CHATBOT_SERVER_URL = "chatbot.api.url";
 
+	// ABOUT SECTION (per-deployment configurable)
 	
-	// 
+	public static final String ABOUT_TITLE = "about.title";
+	
+	public static final String ABOUT_TEXT = "about.text";
+
+	public static final String PROVIDER_LOGO = "provider.logo";
+
+	public static final String PROVIDER_TEXT = "provider.text";
+
+	public static final String PROVIDER_LINK = "provider.link";
+
+	// STAT CARDS (per-deployment configurable)
+
+	public static final String STAT_DATASET_VALUE_ANON = "stat.dataset.value.anon";
+
+	public static final String STAT_DATASET_VALUE_USER = "stat.dataset.value.user";
+
+	public static final String STAT_DATASET_DESC = "stat.dataset.desc";
+
+	public static final String STAT_VARIETIES_VALUE = "stat.varieties.value";
+
+	public static final String STAT_VARIETIES_DESC = "stat.varieties.desc";
+
+	public static final String STAT_SNPS_VALUE = "stat.snps.value";
+
+	public static final String STAT_SNPS_DESC = "stat.snps.desc";
+
+	//
 	
 	public static final String SHOW_GENOTYPE_SNP_EFFECT = "showGenotypeSnpEffect";
 	

@@ -33,7 +33,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller("GenomicsWebService")
 @Path("/genomics")
 public class GenomicsWS {
-	
+
+	private static final int LOCUS_LIST_CAP = 500;
+
 	@Autowired
 	private GenomicsFacade genomics;
 	@Autowired
@@ -82,25 +84,28 @@ public class GenomicsWS {
 	  @Path("/gene/osnippo/{contig}")
 	  @Produces("application/json")
 	  @ResponseBody
-	  public Response getGeneByRegion(@PathParam("contig") String contig, @QueryParam("start") long start,  @QueryParam("end") long end, 
-			  @DefaultValue("msu7only") @QueryParam("model") String model ) throws JSONException {
-		  
+	  public Response getGeneByRegion(@PathParam("contig") String contig, @QueryParam("start") long start,  @QueryParam("end") long end,
+			  @DefaultValue("msu7only") @QueryParam("model") String model,
+			  @DefaultValue("-1") @QueryParam("limit") int limit) throws JSONException {
+
 		  try {
-			  
+
 			  List listloc=new ArrayList();
 			  Iterator itLoci =  genomics.getLociByRegion(contig, start, end, AppContext.getDefaultOrganism(), model).iterator();
 			  while(itLoci.hasNext()) {
 				  listloc.add( new LocusRegionWS((MergedLoci)itLoci.next()));
 			  }
-			  
-		
+
+			  int cap = (limit <= 0) ? LOCUS_LIST_CAP : Math.min(limit, LOCUS_LIST_CAP);
+			  if (cap < listloc.size()) listloc = listloc.subList(0, cap);
+
 			  ObjectMapper mapper = new ObjectMapper();
 			  return Response.status(200).entity( AppContext.replaceString(mapper.writeValueAsString(listloc), mapVarReplace )).build();
 		  } catch(Exception ex)
 		  {
 			  throw new JSONException(ex);
 		  }
-		
+
 	  }
 	  
 	  @GET

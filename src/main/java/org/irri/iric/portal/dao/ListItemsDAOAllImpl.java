@@ -427,7 +427,7 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 			if (germ == null)
 				throw new RuntimeException("germ==null");
 
-			mapId2Variety.put(germ.getStockSampleId(), germ);
+			mapId2Variety.put(germ.getVarietyId(), germ);
 			germcount++;
 
 			if (germ.getAssay() == null) {
@@ -1609,14 +1609,13 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 		sampledao = (StockSampleDAO) AppContext.checkBean(sampledao, "StockSampleDAO");
 		Set samples = null;
 		if (params.hasVarlist()) {
-			//samples = sampledao.getSamplesById(new HashSet(params.getColVarIds()));
-			samples = sampledao.getSamplesBySampleIdInDataset(new HashSet(params.getDataset()), new HashSet(params.getColVarIds()));
+			samples = sampledao.getSamplesByStock(new HashSet(params.getColVarIds()), new HashSet(params.getDataset()));
 		} else if (params.hasVaridRange()) {
 			Integer varidstartend[] = params.getVaridStartEnd();
 			Set setVarids = new HashSet();
 			for (int i = varidstartend[0]; i <= varidstartend[1]; i++)
 				setVarids.add(BigDecimal.valueOf(i));
-			samples = sampledao.getSamplesBySampleIdInDataset(params.getDataset(), setVarids);
+			samples = sampledao.getSamplesByStock(setVarids, params.getDataset());
 		} else {
 			samples = sampledao.getSamples(params.getDataset());
 		}
@@ -1626,7 +1625,7 @@ public class ListItemsDAOAllImpl implements ListItemsDAO {
 			Iterator itSample = samples.iterator();
 			while (itSample.hasNext()) {
 				StockSample s = (StockSample) itSample.next();
-				mapIdx2Sample.put(s.getHdf5Index() + 1, s.getStockSampleId());
+				mapIdx2Sample.put(s.getHdf5Index() + 1, s.getVarietyId());
 			}
 		}
 		return mapIdx2Sample;

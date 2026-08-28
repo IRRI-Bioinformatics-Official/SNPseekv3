@@ -242,7 +242,7 @@ public class VariantAlignmentTableArraysImpl implements VariantTableArray {
 				if (ss != null) {
 					// AppContext.debug(snpstr.getDataset() + " DS: " + snpstr.getVar());
 					varnames[varcount] = ss.getName() + "::[" + ss.getAssay() + "]";
-					varids[varcount] = snpstr.getVar().longValue();
+					varids[varcount] = ss.getVarietyId().longValue();
 					dataset[varcount] = snpstr.getDataset();
 
 					// AppContext.debug( snpstr.getClass() + " " + snpstr.toString() );
