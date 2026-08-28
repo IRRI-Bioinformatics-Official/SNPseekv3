@@ -1,15 +1,25 @@
-tomcatserver=/usr/share/tomcat9/webapps
-hostname=http://snpseekv3-beta-env2-tomcat.eba-h2yvxumx.ap-southeast-1.elasticbeanstalk.com/
-hostdir=.
-jbrowseDir=http://snpseekv3-beta-env2-tomcat.eba-h2yvxumx.ap-southeast-1.elasticbeanstalk.com/jbrowse
-embeddedDir=http://snpseekv3-beta-env2-tomcat.eba-h2yvxumx.ap-southeast-1.elasticbeanstalk.com/jbrowse
-jbrowse2Dir=http://snpseekv3-beta-env2-tomcat.eba-h2yvxumx.ap-southeast-1.elasticbeanstalk.com/jbrowse2
-pathToLocalBlast=/mnt/efs/blast/blast/ncbi-blast-2.2.30+/bin/
-pathToLocalBlastData=/mnt/efs/blastdb/
-pathToR=/usr/bin/Rscript
-blastserver=https://snp-seek.irri.org
-recaptcha=/IRCStorage/iric-portal-files/snp-seek-a2082ae982eb.json
-flatFileDir=/IRCStorage/iric-portal-files/
+tomcatserver=<your-tomcat-webapps-path>
+hostname=http\://localhost\:5555
+legacyUrl=http\://localhost\:5555
+hostdir=/iric-portal/
+jbrowseDir=jbrowse
+embeddedDir=jbrowse
+jbrowse2Dir=jbrowse2
+pathToLocalBlast=<your-blast-bin-path>
+pathToLocalBlastData=<your-blastdata-path>
+pathToR=<your-rscript-path>
+blastserver=/iric-portal-dev
+flatFileDir=<your-flatfiles-path>
+
+#GOOGLE ANALYTICS
+google.property.id=<insert_property_id_here>
+google.analytics.id=<insert_analytics_id_here>
+google.enabled=false
+cookie.path=/
+
+#CHAT_BOT
+chatbot.enabled=false
+chatbot.api.url=https://brs-snpseek.duckdns.org/api/chat
 
 showGenotypeSnpEffect=true
 showGenotypeJbrowse=true
@@ -45,13 +55,13 @@ menuDownload=true
 menuHelp=true
 
 defaultOrganismId=9
-defaultOrganismName=Japonica nipponbare
 defaultDataset=3k
 defaultVariantset=3kfiltered
+
 chr2srcfeatureidOffset=2
 
 # ABOUT SECTION
-about.title=Rice SNP-seek Database
+about.title=Rice SNP-seek Database (Dev)
 about.text=This Rice SNPseek Database provides Genotype, Phenotype, and Variety Information for rice (Oryza sativa L.). SNP genotyping data (called against Nipponbare reference Os-Nipponbare-Reference-IRGSP-1.0) came from 3,000 Rice Genomes Project. Phenotype and passport data for the 3,000 rice varieties came from the International Rice Genebank Collection Information System (IRGCIS). We are part of an ongoing effort by the International Rice Informatics Consortium (IRIC) to centralize rice research information and support gene-trait discovery.
 provider.logo=assets/img/COARE_2.png
 provider.text=COARE

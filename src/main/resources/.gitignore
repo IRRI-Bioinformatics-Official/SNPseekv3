@@ -1,4 +1,5 @@
 /iric_prod_crud-dao-context.xml
+/iric_prod_crud-dao.properties
 /IpAddrreses.properties
 /keys.properties
 /asti.properties
@@ -20,3 +21,12 @@
 /science_cloud_1k1.properties
 /science_cloud_20k.properties
 /science_cloud_v3.properties
+
+# Personal dev config variants — each developer keeps their own untracked copy
+/localhost-*.properties
+/localhost_*.properties
+
+# Deployment configs that may contain environment-specific values
+/science_cloud_*.properties
+/beanstalk-*.properties
+/beanstalk_*.properties
