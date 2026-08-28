@@ -254,8 +254,8 @@ public class JobsFacadeGalaxyImpl implements  JobsFacade {
 		/*
 		 * AWSCredentials credentials = null; try { //credentials = new
 		 * ProfileCredentialsProvider("default").getCredentials();
-		 * credentials = new BasicAWSCredentials("AKIAJTSYRQSBGDGLRPRA",
-		 * "O0gUyUXT6375ZP/UXAU4sh+dURVOSDpCXCQXZdGn"); } catch (Exception
+		 * credentials = new BasicAWSCredentials("<AWS_ACCESS_KEY_ID>",
+		 * "<AWS_SECRET_ACCESS_KEY>"); } catch (Exception
 		 * e) { throw new AmazonClientException(
 		 * "Cannot load the credentials from the credential profiles file. "
 		 * +
