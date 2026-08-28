@@ -18,3 +18,9 @@ src/main/resources/config.properties
 /GEMINI.md
 IRCStorage/
 *.war
+
+# EB environment config — contains DB/OAuth/API secrets; use 04_commands.config.template
+WebContent/.ebextensions/04_commands.config
+# Backup copies of ebextensions — not needed in version control
+WebContent/bak_ebextensions/
+WebContent/ebextensions_bak/

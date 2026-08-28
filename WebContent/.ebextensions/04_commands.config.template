@@ -1,0 +1,22 @@
+# AWS Elastic Beanstalk environment variables — SECRETS
+# Copy this file to 04_commands.config and fill in real values.
+# 04_commands.config is gitignored; never commit the filled-in version.
+
+commands:
+  create_env_vars:
+    command: "source /etc/profile"
+    ignoreErrors: true
+
+option_settings:
+  aws:elasticbeanstalk:application:environment:
+    JAVA_OPTS: "-Xms1024m -Xmx4096m -XX:+UseG1GC"
+    DB_USERNAME: "<insert-db-username>"
+    DB_PASSWORD: "<insert-db-password>"
+    DB_URL: "jdbc:postgresql://<insert-rds-host>:5432/iric"
+    RECAPTCHA_SECRET_KEY: "<insert-recaptcha-secret-key>"
+    MICROSOFT_CLIENT_ID: "<insert-microsoft-client-id>"
+    MICROSOFT_TENANT_ID: "<insert-microsoft-tenant-id>"
+    MICROSOFT_SECRET: "<insert-microsoft-client-secret>"
+    GOOGLE_OAUTH_CLIENT_ID: "<insert-google-oauth-client-id>"
+    GOOGLE_OAUTH_CLIENT_SECRET: "<insert-google-oauth-client-secret>"
+    HDF5_NATIVE_LIB_PATH: "<insert-hdf5-lib-path>"
